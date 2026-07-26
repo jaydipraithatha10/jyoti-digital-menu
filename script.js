@@ -382,20 +382,26 @@ function openCart() {
         total += amount;
 
         html += `
-        <div class="cart-item">
+<div class="cart-item">
 
-            <h4>${index + 1}. ${item.product}</h4>
+    <div>
 
-            <p>${item.weight}</p>
+        <h4>${index + 1}. ${item.product}</h4>
 
-            <p>
-                Qty : ${item.qty}
-                × ₹${item.price}
-                = ₹${amount}
-            </p>
+        <p>${item.weight}</p>
 
-        </div>
-        `;
+        <p>Qty : ${item.qty} × ₹${item.price}</p>
+
+        <strong>₹${amount}</strong>
+
+    </div>
+
+    <button class="remove-btn" onclick="removeItem(${index})">
+        🗑️
+    </button>
+
+</div>
+`;
 
     });
 
