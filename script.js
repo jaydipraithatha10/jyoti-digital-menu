@@ -70,8 +70,12 @@ async function loadCategories() {
 async function toggleCategory(categoryId, card) {
 
     document.querySelectorAll(".category-card").forEach(item => {
-        item.classList.remove("active");
-    });
+    item.classList.remove("active");
+    item.querySelector("span:last-child").innerHTML = "▼";
+});
+
+card.classList.add("active");
+card.querySelector("span:last-child").innerHTML = "▲";
 
     card.classList.add("active");
 
