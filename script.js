@@ -436,3 +436,92 @@ function closeCart() {
     document.getElementById("cartPopup").style.display = "none";
 
 }
+// ================= CLEAR CART =================
+
+function clearCart() {
+
+    if (!confirm("Clear Cart?")) return;
+
+    cart = [];
+
+    updateCart();
+
+    const cartItems = document.getElementById("cartItems");
+    const grandTotal = document.getElementById("grandTotal");
+
+    if (cartItems) {
+        cartItems.innerHTML = "<p>Your Cart is Empty</p>";
+    }
+
+    if (grandTotal) {
+        grandTotal.innerText = "0";
+    }
+
+}
+
+// ================= REMOVE ITEM =================
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+    openCart();
+
+}
+
+// ================= WHATSAPP ORDER =================
+
+function sendWhatsAppOrder() {
+
+    if (cart.length === 0) {
+
+        alert("Cart is Empty");
+
+        return;
+
+    }
+
+    let msg = "🛒 *Jyoti Gruh Udhyog Order*%0A%0A";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+
+        total += amount;
+
+        msg +=
+        "*" + (index + 1) + ".* " + item.product +
+        "%0AWeight : " + item.weight +
+        "%0AQty : " + item.qty +
+        "%0APrice : ₹" + item.price +
+        "%0AAmount : ₹" + amount +
+        "%0A--------------------%0A";
+
+    });
+
+    msg += "%0A*Grand Total : ₹" + total + "*";
+
+    window.open(
+        "https://wa.me/919712149344?text=" + msg,
+        "_blank"
+    );
+
+}
+
+// ================= CLOSE POPUP ON OUTSIDE CLICK =================
+
+window.onclick = function(e) {
+
+    const popup = document.getElementById("cartPopup");
+
+    if (e.target === popup) {
+
+        closeCart();
+
+    }
+
+};
