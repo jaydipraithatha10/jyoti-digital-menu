@@ -108,13 +108,17 @@ async function toggleCategory(categoryId, card) {
         if (String(catId) !== String(categoryId)) continue;
 
         html += `
-            <div class="subcategory-card"
-                 onclick="toggleSubCategory('${categoryId}','${subId}', this)">
-                ${subName}
-            </div>
+<div class="subcategory-card"
+     onclick="toggleSubCategory('${categoryId}','${subId}', this)">
 
-            <div id="product-${subId}" class="product-list"></div>
-        `;
+    <span>${subName}</span>
+
+    <span>›</span>
+
+</div>
+
+<div id="product-${subId}" class="product-list"></div>
+`;
     }
 
     container.innerHTML = html;
