@@ -352,3 +352,97 @@ function updateCart() {
     if (total) total.innerText = totalAmount;
 
 }
+// ================= WHATSAPP ORDER =================
+
+function sendWhatsAppOrder() {
+
+    if (cart.length === 0) {
+
+        alert("Cart is Empty");
+
+        return;
+
+    }
+
+    let message = "🛒 *Jyoti Gruh Udhyog Order*%0A%0A";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+
+        total += amount;
+
+        message +=
+            (index + 1) + ". " +
+            item.product +
+            "%0AWeight : " + item.weight +
+            "%0AQty : " + item.qty +
+            "%0APrice : ₹" + item.price +
+            "%0AAmount : ₹" + amount +
+            "%0A%0A";
+
+    });
+
+    message += "*Total : ₹" + total + "*";
+
+    window.open(
+        "https://wa.me/919712149344?text=" + message,
+        "_blank"
+    );
+
+}
+
+
+// ================= CLEAR CART =================
+
+function clearCart() {
+
+    if (!confirm("Clear Cart?")) return;
+
+    cart = [];
+
+    updateCart();
+
+}
+
+
+// ================= VIEW CART =================
+
+function viewCart() {
+
+    if (cart.length === 0) {
+
+        alert("Cart is Empty");
+
+        return;
+
+    }
+
+    let text = "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        const amount = item.qty * item.price;
+
+        total += amount;
+
+        text +=
+            item.product +
+            " (" + item.weight + ")" +
+            "\nQty : " + item.qty +
+            "\n₹" + item.price +
+            " x " + item.qty +
+            " = ₹" + amount +
+            "\n\n";
+
+    });
+
+    text += "Total : ₹" + total;
+
+    alert(text);
+
+}
