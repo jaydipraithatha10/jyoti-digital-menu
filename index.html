@@ -1,132 +1,98 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jyoti Gruh Udhyog</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jyoti Gruh Udhyog</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-body{
-    background:#f5f5f5;
-}
+    <link rel="stylesheet" href="style.css">
 
-.header{
-    background:#ffffff;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.logo{
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-h1{
-    margin-top:10px;
-    color:#0b6b32;
-    font-size:28px;
-}
-
-.location{
-    color:#666;
-    margin-top:5px;
-}
-
-.tagline{
-    margin-top:10px;
-    color:#ff6600;
-    font-weight:bold;
-}
-
-.mobile{
-    margin-top:10px;
-    color:#111;
-    font-size:18px;
-    font-weight:bold;
-}
-
-.search{
-    padding:15px;
-}
-
-.search input{
-    width:100%;
-    padding:14px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    font-size:16px;
-}
-
-.categories{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    padding:15px;
-}
-
-.category{
-    background:#0b6b32;
-    color:white;
-    padding:18px;
-    border-radius:12px;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-}
-</style>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<div class="header">
+<header class="header">
 
-<img src="logo.png" class="logo">
+    <div class="top">
 
-<h1>Jyoti Gruh Udhyog</h1>
+        <img src="logo.png" class="logo">
 
-<div class="location">📍 Rajkot</div>
+        <div class="company">
 
-<div class="tagline">
-🥨 100+ Variety of Snacks Under One Roof
+            <h1>JYOTI</h1>
+
+            <h2>GRUH UDHYOG</h2>
+
+            <p class="city">
+                Rajkot
+            </p>
+
+            <p class="tagline">
+                100+ Variety of Snacks Under One Roof
+            </p>
+
+            <a href="tel:+919712149344" class="phone">
+                📞 +91 97121 49344
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<section class="search-section">
+
+<input
+type="text"
+id="search"
+placeholder="Search Products...">
+
+</section>
+
+<section id="categories" class="categories">
+
+<!-- Google Sheet Categories -->
+
+</section>
+
+<section id="products" class="products">
+
+<!-- Products -->
+
+</section>
+
+<div class="cart-bar">
+
+<div>
+
+🛒 Cart
+
+<span id="cartCount">
+0
+</span>
+
 </div>
 
-<div class="mobile">
-📞 +91 97121 49344
-</div>
+<div>
+
+₹<span id="cartTotal">
+0
+</span>
 
 </div>
 
-<div class="search">
-<input type="text" placeholder="Search Products...">
-</div>
+<button id="viewCart">
 
-<div class="categories">
+View Cart
 
-<div class="category">Khakhra</div>
-
-<div class="category">Namkeen</div>
-
-<div class="category">Pickles</div>
-
-<div class="category">Dry Fruits</div>
-
-<div class="category">Papad</div>
-
-<div class="category">Sweet</div>
+</button>
 
 </div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
