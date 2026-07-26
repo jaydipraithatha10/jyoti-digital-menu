@@ -85,7 +85,7 @@ async function toggleCategory(categoryId, element) {
         html += `
             <div class="subcategory-card"
                  onclick="loadProducts('${categoryId}','${subId}', this)">
-                ▶ ${subName}
+                ${subName}
             </div>
 
             <div id="product-${subId}" class="product-list"></div>
