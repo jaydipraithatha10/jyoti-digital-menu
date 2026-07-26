@@ -125,3 +125,34 @@ async function toggleCategory(categoryId, card) {
     }
 
 }
+// ================= TOGGLE SUB CATEGORY =================
+
+function toggleSubCategory(categoryId, subCategoryId, card) {
+
+    // બધા SubCategory Active Remove
+    document.querySelectorAll(".subcategory-card").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Click થયેલી SubCategory Active
+    card.classList.add("active");
+
+    // બીજા બધા Product List બંધ કરો
+    document.querySelectorAll(".product-list").forEach(list => {
+        if (list.id !== "product-" + subCategoryId) {
+            list.innerHTML = "";
+        }
+    });
+
+    const container = document.getElementById("product-" + subCategoryId);
+
+    // જો ખુલ્લું હોય તો બંધ કરો
+    if (container.innerHTML.trim() !== "") {
+        container.innerHTML = "";
+        return;
+    }
+
+    // Products Load કરો
+    loadProducts(categoryId, subCategoryId);
+
+}
