@@ -362,7 +362,7 @@ function openCart() {
     const cartItems = document.getElementById("cartItems");
     const grandTotal = document.getElementById("grandTotal");
 
-    popup.style.display = "flex";
+    popup.classList.add("show");
 
     if (cart.length === 0) {
 
@@ -414,7 +414,7 @@ function openCart() {
 
 function closeCart() {
 
-    document.getElementById("cartPopup").style.display = "none";
+    document.getElementById("cartPopup").classList.remove("show");
 
 }
 // ================= CLEAR CART =================
