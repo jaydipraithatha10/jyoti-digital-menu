@@ -69,3 +69,80 @@ async function loadCategories() {
     }
 
 }
+
+// ================= TOGGLE CATEGORY =================
+
+async function toggleCategory(categoryId, card){
+
+    // બધા Category Active Remove
+    document.querySelectorAll(".category-card").forEach(item=>{
+        item.classList.remove("active");
+    });
+
+    // Click થયેલ Category Active
+    card.classList.add("active");
+
+    // બીજા બધા બંધ
+    document.querySelectorAll(".sub-list").forEach(list=>{
+        if(list.id!="sub-"+categoryId){
+            list.innerHTML="";
+        }
+    });
+
+    const container=document.getElementById("sub-"+categoryId);
+
+    // પહેલેથી ખુલ્લું હોય તો બંધ કરો
+    if(container.innerHTML!=""){
+        container.innerHTML="";
+        return;
+    }
+
+    const response=await fetch(SUBCATEGORY_CSV);
+
+    const csv=await response.text();
+
+    const rows=csv.trim().split("\n");
+
+    let html="";
+
+    for(let i=1;i<rows.length;i++){
+
+        const cols=rows[i].split(",");
+
+        const subId=cols[0].trim();
+
+        const catId=cols[1].trim();
+
+        const subName=cols[2].trim();
+
+        const status=cols[3].trim().toLowerCase();
+
+        if(status!="active") continue;
+
+        if(catId!=categoryId) continue;
+
+        html+=`
+
+        <div class="subcategory-card"
+             onclick="toggleSubCategory('${categoryId}','${subId}',this)">
+
+            ${subName}
+
+        </div>
+
+        <div id="product-${subId}" class="product-list"></div>
+
+        `;
+
+    }
+
+    container.innerHTML=html;
+
+    // જો SubCategory ન હોય
+    if(html==""){
+
+        loadProducts(categoryId,"",container);
+
+    }
+
+}
