@@ -418,45 +418,41 @@ body{
    PRODUCT CARD
 =================================== */
 
+/* ===================================
+   PREMIUM PRODUCT CARD
+=================================== */
+
 .product-card{
-
-    background:#ffffff;
-
-    border-radius:18px;
-
-    padding:18px;
-
-    margin-top:14px;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
-    border:1px solid #eeeeee;
-
+    background:#fff;
+    border-radius:22px;
+    padding:22px;
+    margin-top:18px;
+    border:2px solid #f3f3f3;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
     transition:.3s;
-
 }
 
 .product-card:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 8px 18px rgba(0,0,0,.12);
-
+    transform:translateY(-4px);
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+    border-color:#FFD700;
 }
+
+
 
 
 /* ===================================
    PRODUCT NAME
 =================================== */
 
-
 .product-name{
-    font-size:20px;
+    font-size:22px;
     font-weight:700;
     color:#222;
-    line-height:28px;
+    line-height:30px;
     text-align:center;
 }
+
 
 .product-weight{
     margin-top:6px;
@@ -466,11 +462,11 @@ body{
 }
 
 .product-price{
-    margin-top:10px;
-    font-size:24px;
+    margin-top:12px;
+    text-align:center;
+    font-size:32px;
     font-weight:700;
     color:#8B0000;
-    text-align:center;
 }
 
 
