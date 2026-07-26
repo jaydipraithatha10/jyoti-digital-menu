@@ -104,3 +104,103 @@ async function loadCategories() {
     }
 
 }
+// ================= TOGGLE CATEGORY =================
+
+async function toggleCategory(categoryId, card) {
+
+    document.querySelectorAll(".category-card").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    card.classList.add("active");
+
+    document.querySelectorAll(".sub-list").forEach(list => {
+        if (list.id !== "sub-" + categoryId) {
+            list.innerHTML = "";
+        }
+    });
+
+    const container = document.getElementById("sub-" + categoryId);
+
+    if (container.innerHTML.trim() !== "") {
+        container.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch(SUBCATEGORY_CSV);
+    const csv = await response.text();
+
+    const rows = parseCSV(csv);
+
+    let html = "";
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const subId = rows[i][0];
+        const catId = rows[i][1];
+        const subName = rows[i][2];
+        const status = rows[i][3].toLowerCase();
+
+        if (status !== "active") continue;
+
+        if (String(catId) !== String(categoryId)) continue;
+
+        html += `
+        <div class="subcategory-card"
+             onclick="toggleSubCategory('${categoryId}','${subId}',this)">
+
+            <span>${subName}</span>
+
+            <span>▶</span>
+
+        </div>
+
+        <div id="product-${subId}" class="product-list"></div>
+        `;
+    }
+
+    if (html === "") {
+
+        loadProducts(categoryId, "");
+
+    } else {
+
+        container.innerHTML = html;
+
+    }
+
+}
+
+// ================= TOGGLE SUB CATEGORY =================
+
+function toggleSubCategory(categoryId, subCategoryId, card) {
+
+    document.querySelectorAll(".subcategory-card").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    card.classList.add("active");
+
+    document.querySelectorAll(".product-list").forEach(list => {
+
+        if (list.id !== "product-" + subCategoryId) {
+
+            list.innerHTML = "";
+
+        }
+
+    });
+
+    const container = document.getElementById("product-" + subCategoryId);
+
+    if (container.innerHTML.trim() !== "") {
+
+        container.innerHTML = "";
+
+        return;
+
+    }
+
+    loadProducts(categoryId, subCategoryId);
+
+}
