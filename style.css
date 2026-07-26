@@ -515,55 +515,62 @@ body{
 
 .qty-box{
     display:flex;
-    justify-content:center;
     align-items:center;
-    width:170px;
-    height:55px;
+    justify-content:space-between;
+    width:180px;
+    height:58px;
     margin:20px auto;
-    background:#ffffff;
-    border:2px solid #FFD700;
+    padding:0 10px;
+    background:#fff;
+    border:3px solid #FFD700;
     border-radius:50px;
     box-shadow:0 5px 15px rgba(0,0,0,.12);
-    overflow:hidden;
 }
 
 .qty-btn{
-    width:50px;
-    height:50px;
+    width:40px;
+    height:40px;
     border:none;
-    outline:none;
-    background:transparent;
-    font-size:28px;
+    background:#8B0000;
+    color:#fff;
+    border-radius:50%;
+    font-size:26px;
     font-weight:700;
-    font-family:'Poppins',sans-serif;
     cursor:pointer;
-    transition:.25s;
-}
-
-.qty-btn:first-child{
-    color:#E53935;
-}
-
-.qty-btn:last-child{
-    color:#2E7D32;
+    transition:.2s;
 }
 
 .qty-btn:hover{
-    transform:scale(1.15);
+    transform:scale(1.08);
 }
+
+.qty-btn:first-child{
+    background:#D32F2F;
+}
+
+.qty-btn:last-child{
+    background:#2E7D32;
+}
+
+.qty{
+    font-size:30px;
+    font-weight:700;
+    color:#222;
+    min-width:40px;
+    text-align:center;
+}
+
+
+
+
+
+
 
 .qty-btn:active{
     transform:scale(.92);
 }
 
-.qty{
-    flex:1;
-    text-align:center;
-    font-size:30px;
-    font-weight:700;
-    color:#222;
-    user-select:none;
-}
+
 
 
 
