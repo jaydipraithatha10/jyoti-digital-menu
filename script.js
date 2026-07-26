@@ -146,3 +146,122 @@ async function toggleCategory(categoryId, card){
     }
 
 }
+// ================= SUB CATEGORY =================
+
+function toggleSubCategory(categoryId, subCategoryId, card) {
+
+    // બધા SubCategory Active Remove
+    document.querySelectorAll(".subcategory-card").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Click થયેલી SubCategory Active
+    card.classList.add("active");
+
+    // બીજા બધા Product List બંધ
+    document.querySelectorAll(".product-list").forEach(list => {
+        if (list.id != "product-" + subCategoryId) {
+            list.innerHTML = "";
+        }
+    });
+
+    loadProducts(categoryId, subCategoryId);
+
+}
+
+
+// ================= LOAD PRODUCTS =================
+
+async function loadProducts(categoryId, subCategoryId) {
+
+    let container;
+
+    if (subCategoryId == "") {
+
+        container = document.getElementById("sub-" + categoryId);
+
+    } else {
+
+        container = document.getElementById("product-" + subCategoryId);
+
+    }
+
+    // જો ખુલ્લું હોય તો બંધ કરો
+    if (container.innerHTML.trim() != "" && subCategoryId == "") {
+        return;
+    }
+
+    const response = await fetch(PRODUCT_CSV);
+
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n");
+
+    let html = "";
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const cols = rows[i].split(",");
+
+        const catId = cols[1].trim();
+
+        const subId = cols[2].trim();
+
+        const product = cols[3].trim();
+
+        const weight = cols[4].trim();
+
+        const price = cols[5].trim();
+
+        const status = cols[6].trim().toLowerCase();
+
+        if (status != "active") continue;
+
+        if (subCategoryId != "") {
+
+            if (subId != subCategoryId) continue;
+
+        } else {
+
+            if (catId != categoryId) continue;
+
+        }
+
+        html += `
+        <div class="product-card">
+
+            <div class="product-name">${product}</div>
+
+            <div class="product-weight">${weight}</div>
+
+            <div class="product-price">₹ ${price}</div>
+
+            <div class="qty-box">
+
+                <button onclick="changeQty(this,-1)">-</button>
+
+                <span class="qty">0</span>
+
+                <button onclick="changeQty(this,1)">+</button>
+
+            </div>
+
+            <button class="add-cart-btn"
+                onclick="addToCart('${product}','${weight}','${price}',this)">
+                Add to Cart
+            </button>
+
+        </div>
+        `;
+
+    }
+
+    if (html == "") {
+
+        html = "<p>No Products Found</p>";
+
+    }
+
+    container.innerHTML = html;
+
+}
