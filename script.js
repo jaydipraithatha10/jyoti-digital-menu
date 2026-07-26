@@ -300,3 +300,42 @@ function addToCart(product, weight, price, btn) {
     alert(product + " added to cart");
 
 }
+// ================= UPDATE CART =================
+
+function updateCart() {
+
+    let totalQty = 0;
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+
+        totalQty += item.qty;
+        totalAmount += item.qty * item.price;
+
+    });
+
+    const cartCount = document.getElementById("cart-count");
+    const cartTotal = document.getElementById("cart-total");
+
+    if (cartCount) {
+        cartCount.innerText = totalQty;
+    }
+
+    if (cartTotal) {
+        cartTotal.innerText = "₹ " + totalAmount;
+    }
+
+    // Cart Bar Show / Hide
+    const cartBar = document.getElementById("cart-bar");
+
+    if (cartBar) {
+
+        if (cart.length > 0) {
+            cartBar.style.display = "flex";
+        } else {
+            cartBar.style.display = "none";
+        }
+
+    }
+
+}
