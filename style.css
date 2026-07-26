@@ -756,3 +756,38 @@ cursor:pointer;
     transform:scale(.96);
 
 }
+.cart-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    position:fixed;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    background:#8B0000;
+
+    padding:15px 20px;
+
+    box-sizing:border-box;
+
+    z-index:999;
+
+}
+
+.cart-info{
+
+    color:#fff;
+
+    font-size:22px;
+
+    font-weight:600;
+
+}
