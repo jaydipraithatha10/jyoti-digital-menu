@@ -711,3 +711,9 @@ font-size:16px;
 font-weight:600;
 cursor:pointer;
 }
+.subcategory-card.active{
+    background:#8B0000;
+    color:#FFD700;
+    border:3px solid #FFD700;
+    transition:0.3s;
+}
