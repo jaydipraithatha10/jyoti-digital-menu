@@ -100,3 +100,68 @@ async function toggleCategory(categoryId, element) {
     }
 
 }
+async function loadProducts(categoryId, subCategoryId, target) {
+
+    let container;
+
+    if (subCategoryId === "") {
+        container = target;
+    } else {
+        container = document.getElementById("product-" + subCategoryId);
+    }
+
+    // જો ખુલ્લું હોય તો બંધ કરો
+    if (container.innerHTML.trim() !== "") {
+        container.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch(PRODUCT_CSV);
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n");
+
+    let html = "";
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const cols = rows[i].split(",");
+
+        const catId = cols[1].trim();
+        const subId = cols[2].trim();
+        const product = cols[3].trim();
+        const weight = cols[4].trim();
+        const price = cols[5].trim();
+        const status = cols[6].trim().toLowerCase();
+
+        if (status !== "active") continue;
+
+        // Sub Category હોય તો
+        if (subCategoryId !== "") {
+
+            if (subId !== subCategoryId) continue;
+
+        } else {
+
+            // સીધા Category Products
+            if (catId !== categoryId) continue;
+
+        }
+
+        html += `
+            <div class="product-card">
+                <div class="product-name">${product}</div>
+                <div class="product-weight">${weight}</div>
+                <div class="product-price">₹ ${price}</div>
+            </div>
+        `;
+
+    }
+
+    if (html === "") {
+        html = "<p>No Products Found</p>";
+    }
+
+    container.innerHTML = html;
+
+}
