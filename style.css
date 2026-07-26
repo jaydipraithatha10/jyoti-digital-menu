@@ -449,48 +449,28 @@ body{
    PRODUCT NAME
 =================================== */
 
+
 .product-name{
-
     font-size:20px;
-
     font-weight:700;
-
     color:#222;
-
     line-height:28px;
-
+    text-align:center;
 }
-
-
-/* ===================================
-   PRODUCT WEIGHT
-=================================== */
 
 .product-weight{
-
     margin-top:6px;
-
     font-size:15px;
-
     color:#777;
-
+    text-align:center;
 }
 
-
-/* ===================================
-   PRODUCT PRICE
-=================================== */
-
 .product-price{
-
     margin-top:10px;
-
     font-size:24px;
-
     font-weight:700;
-
     color:#8B0000;
-
+    text-align:center;
 }
 
 
