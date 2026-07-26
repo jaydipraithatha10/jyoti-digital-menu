@@ -503,63 +503,47 @@ body{
    QUANTITY BOX
 =================================== */
 
-.qty-box{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-top:18px;
-
+.qty-btn{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    transition:.25s;
 }
 
-.qty-btn{
+.qty-btn:first-child{
+    background:#d32f2f;
+}
 
-    width:42px;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#8B0000;
-
-    color:#ffffff;
-
-    font-size:22px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+.qty-btn:last-child{
+    background:#2e7d32;
 }
 
 .qty-btn:hover{
+    transform:scale(1.08);
+}
 
-    background:#A00000;
-
+.qty-btn:active{
+    transform:scale(.92);
 }
 
 .qty{
-
-    min-width:35px;
-
+    min-width:45px;
     text-align:center;
-
-    font-size:20px;
-
+    font-size:28px;
     font-weight:700;
-
     color:#333;
-
 }
+
+
+
+
+
 
 
 /* ===================================
