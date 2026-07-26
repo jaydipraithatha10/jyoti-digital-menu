@@ -165,3 +165,29 @@ async function loadProducts(categoryId, subCategoryId, target) {
     container.innerHTML = html;
 
 }
+html += `
+<div class="product-card">
+
+    <div class="product-name">${product}</div>
+
+    <div class="product-weight">${weight}</div>
+
+    <div class="product-price">₹ ${price}</div>
+
+    <div class="qty-box">
+
+        <button onclick="changeQty(this,-1)">-</button>
+
+        <span class="qty">0</span>
+
+        <button onclick="changeQty(this,1)">+</button>
+
+    </div>
+
+    <button class="add-cart-btn"
+        onclick="addToCart('${product}','${weight}','${price}',this)">
+        Add to Cart
+    </button>
+
+</div>
+`;
