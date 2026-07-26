@@ -237,9 +237,9 @@ async function loadProducts(categoryId, subCategoryId) {
             </div>
 
             <button class="add-cart-btn"
-                onclick="addToCart('${product}','${weight}','${price}',this)">
-                Add to Cart
-            </button>
+onclick="addToCart('${product}','${weight}','${price}',this)">
+🛒 Add to Cart
+</button>
 
         </div>
         `;
