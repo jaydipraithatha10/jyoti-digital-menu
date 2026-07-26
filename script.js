@@ -515,3 +515,55 @@ function sendWhatsAppOrder() {
     );
 
 }
+function openCart() {
+
+    const popup = document.getElementById("cartPopup");
+    const cartItems = document.getElementById("cartItems");
+    const grandTotal = document.getElementById("grandTotal");
+
+    popup.style.display = "block";
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = "<p>Your Cart is Empty</p>";
+        grandTotal.innerText = "0";
+        return;
+
+    }
+
+    let html = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+        total += amount;
+
+        html += `
+            <div class="cart-item">
+
+                <h4>${item.product}</h4>
+
+                <p>${item.weight}</p>
+
+                <p>
+                    Qty : ${item.qty}
+                    × ₹${item.price}
+                    = ₹${amount}
+                </p>
+
+            </div>
+        `;
+
+    });
+
+    cartItems.innerHTML = html;
+    grandTotal.innerText = total;
+
+}
+
+function closeCart() {
+
+    document.getElementById("cartPopup").style.display = "none";
+
+}
