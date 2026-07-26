@@ -240,3 +240,63 @@ async function loadProducts(categoryId, subCategoryId) {
     container.innerHTML = html;
 
 }
+// ================= QUANTITY =================
+
+function changeQty(btn, value) {
+
+    const qtySpan = btn.parentElement.querySelector(".qty");
+
+    let qty = parseInt(qtySpan.innerText);
+
+    qty += value;
+
+    if (qty < 0) qty = 0;
+
+    qtySpan.innerText = qty;
+
+}
+
+
+// ================= CART =================
+
+let cart = [];
+
+function addToCart(product, weight, price, btn) {
+
+    const qty = parseInt(
+        btn.parentElement.querySelector(".qty").innerText
+    );
+
+    if (qty === 0) {
+        alert("Please select quantity");
+        return;
+    }
+
+    const existing = cart.find(item =>
+        item.product === product &&
+        item.weight === weight
+    );
+
+    if (existing) {
+
+        existing.qty += qty;
+
+    } else {
+
+        cart.push({
+            product: product,
+            weight: weight,
+            price: Number(price),
+            qty: qty
+        });
+
+    }
+
+    // Quantity Reset
+    btn.parentElement.querySelector(".qty").innerText = "0";
+
+    updateCart();
+
+    alert(product + " added to cart");
+
+}
