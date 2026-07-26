@@ -112,3 +112,67 @@ async function loadSubCategories(categoryId) {
     }
 
 }
+async function loadProducts(categoryId, subCategoryId) {
+
+    const container = document.getElementById("products");
+
+    container.innerHTML = "Loading...";
+
+    const response = await fetch(PRODUCT_CSV);
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n");
+
+    container.innerHTML = "";
+
+    let found = false;
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const cols = rows[i].split(",");
+
+        const id = cols[0].trim();
+        const catId = cols[1].trim();
+        const subId = cols[2].trim();
+        const product = cols[3].trim();
+        const weight = cols[4].trim();
+        const price = cols[5].trim();
+        const status = cols[6].trim().toLowerCase();
+
+        if (status !== "active") continue;
+
+        // જો Sub Category પસંદ કરી હોય
+        if (subCategoryId !== "") {
+
+            if (subId !== subCategoryId) continue;
+
+        } else {
+
+            // જો Sub Category ન હોય તો Category પ્રમાણે બતાવો
+            if (catId !== categoryId) continue;
+
+        }
+
+        found = true;
+
+        const card = document.createElement("div");
+
+        card.className = "product-card";
+
+        card.innerHTML = `
+            <h3>${product}</h3>
+            <p>${weight}</p>
+            <h4>₹ ${price}</h4>
+        `;
+
+        container.appendChild(card);
+
+    }
+
+    if (!found) {
+
+        container.innerHTML = "<p>No Products Found</p>";
+
+    }
+
+}
