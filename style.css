@@ -717,3 +717,42 @@ cursor:pointer;
     border:3px solid #FFD700;
     transition:0.3s;
 }
+/* ===== View Cart Button ===== */
+
+.cart-bar button{
+
+    background:#FFD700;
+
+    color:#800000;
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:30px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+
+}
+
+.cart-bar button:hover{
+
+    background:#FFC107;
+
+    transform:scale(1.05);
+
+}
+
+.cart-bar button:active{
+
+    transform:scale(.96);
+
+}
