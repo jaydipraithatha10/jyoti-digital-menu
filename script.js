@@ -88,9 +88,11 @@ card.querySelector("span:last-child").innerHTML = "▲";
     const container = document.getElementById("sub-" + categoryId);
 
     if (container.innerHTML.trim() !== "") {
-        container.innerHTML = "";
-        return;
-    }
+    container.innerHTML = "";
+    card.classList.remove("active");
+    card.querySelector("span:last-child").innerHTML = "▼";
+    return;
+}
 
     const response = await fetch(SUBCATEGORY_CSV);
     const csv = await response.text();
