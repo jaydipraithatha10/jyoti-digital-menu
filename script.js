@@ -46,3 +46,57 @@ async function loadCategories() {
     }
 
 }
+async function toggleCategory(categoryId, element) {
+
+    // બીજા બધા ખુલેલા Category બંધ કરો
+    document.querySelectorAll(".sub-list").forEach(div => {
+        if (div.id !== "sub-" + categoryId) {
+            div.innerHTML = "";
+        }
+    });
+
+    const container = document.getElementById("sub-" + categoryId);
+
+    // જો પહેલેથી ખુલેલું હોય તો બંધ કરો
+    if (container.innerHTML.trim() !== "") {
+        container.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch(SUBCATEGORY_CSV);
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n");
+
+    let html = "";
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const cols = rows[i].split(",");
+
+        const subId = cols[0].trim();
+        const catId = cols[1].trim();
+        const subName = cols[2].trim();
+        const status = cols[3].trim().toLowerCase();
+
+        if (status !== "active") continue;
+        if (catId !== categoryId) continue;
+
+        html += `
+            <div class="subcategory-card"
+                 onclick="loadProducts('${categoryId}','${subId}', this)">
+                ▶ ${subName}
+            </div>
+
+            <div id="product-${subId}" class="product-list"></div>
+        `;
+    }
+
+    container.innerHTML = html;
+
+    // જો Sub Category ન હોય તો સીધા Products બતાવો
+    if (html === "") {
+        loadProducts(categoryId, "", container);
+    }
+
+}
