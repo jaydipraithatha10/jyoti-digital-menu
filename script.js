@@ -55,3 +55,57 @@ async function loadCategories() {
     }
 
 }
+async function loadSubCategories(categoryId) {
+
+    const container = document.getElementById("subcategories");
+    container.innerHTML = "Loading...";
+
+    const response = await fetch(SUBCATEGORY_CSV);
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n");
+
+    container.innerHTML = "";
+
+    let hasSubCategory = false;
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const cols = rows[i].split(",");
+
+        const subId = cols[0].trim();
+        const catId = cols[1].trim();
+        const subName = cols[2].trim();
+        const status = cols[3].trim().toLowerCase();
+
+        if (status !== "active") continue;
+        if (catId !== categoryId) continue;
+
+        hasSubCategory = true;
+
+        const card = document.createElement("div");
+        card.className = "category-card";
+        card.innerHTML = `<div class="category-name">${subName}</div>`;
+
+        card.onclick = () => {
+
+            document.querySelectorAll("#subcategories .category-card")
+                .forEach(c => c.classList.remove("active"));
+
+            card.classList.add("active");
+
+            loadProducts(categoryId, subId);
+
+        };
+
+        container.appendChild(card);
+
+    }
+
+    // જો Sub Category ન હોય તો સીધા Products બતાવો
+    if (!hasSubCategory) {
+        container.innerHTML = "";
+        loadProducts(categoryId, "");
+    }
+
+}
