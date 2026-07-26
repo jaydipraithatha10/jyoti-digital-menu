@@ -339,3 +339,91 @@ function updateCart() {
     }
 
 }
+// ================= VIEW CART =================
+
+function viewCart() {
+
+    if (cart.length === 0) {
+        alert("Cart is Empty");
+        return;
+    }
+
+    let text = "🛒 Jyoti Gruh Udhyog Order\n\n";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+        total += amount;
+
+        text +=
+            (index + 1) + ". " + item.product +
+            "\nWeight : " + item.weight +
+            "\nQty : " + item.qty +
+            "\nPrice : ₹" + item.price +
+            "\nAmount : ₹" + amount +
+            "\n\n";
+
+    });
+
+    text += "------------------------\n";
+    text += "Total : ₹" + total;
+
+    alert(text);
+
+}
+
+
+// ================= CLEAR CART =================
+
+function clearCart() {
+
+    if (!confirm("Clear Cart?")) return;
+
+    cart = [];
+
+    updateCart();
+
+}
+
+
+// ================= WHATSAPP ORDER =================
+
+function sendWhatsAppOrder() {
+
+    if (cart.length === 0) {
+
+        alert("Cart is Empty");
+
+        return;
+
+    }
+
+    let msg = "🛒 *Jyoti Gruh Udhyog Order*%0A%0A";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+
+        total += amount;
+
+        msg +=
+            "*" + (index + 1) + ".* " + item.product +
+            "%0AWeight : " + item.weight +
+            "%0AQty : " + item.qty +
+            "%0APrice : ₹" + item.price +
+            "%0AAmount : ₹" + amount +
+            "%0A%0A";
+
+    });
+
+    msg += "*Total Amount : ₹" + total + "*";
+
+    window.open(
+        "https://wa.me/919712149344?text=" + msg,
+        "_blank"
+    );
+
+}
