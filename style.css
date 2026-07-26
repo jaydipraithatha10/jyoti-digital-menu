@@ -1114,3 +1114,218 @@ body{
     animation:popupUp .3s ease;
 
 }
+/* ===================================
+   LOADER
+=================================== */
+
+.loader{
+
+    display:none;
+
+    text-align:center;
+
+    padding:30px 20px;
+
+    color:#8B0000;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+
+/* ===================================
+   FOOTER
+=================================== */
+
+footer{
+
+    margin:30px 0 90px;
+
+    text-align:center;
+
+    color:#777;
+
+    font-size:14px;
+
+    line-height:24px;
+
+}
+
+footer b{
+
+    color:#8B0000;
+
+}
+
+
+/* ===================================
+   SCROLLBAR
+=================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f3f3f3;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#8B0000;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#5B0000;
+
+}
+
+
+/* ===================================
+   FADE ANIMATION
+=================================== */
+
+.fade-in{
+
+    animation:fadeIn .35s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* ===================================
+   MOBILE RESPONSIVE
+=================================== */
+
+@media(max-width:768px){
+
+    .top-header{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .logo-box{
+
+        margin-bottom:12px;
+
+    }
+
+    .company-info h1{
+
+        font-size:28px;
+
+    }
+
+    .company-info h2{
+
+        font-size:17px;
+
+        letter-spacing:2px;
+
+    }
+
+    .category-card{
+
+        padding:16px;
+
+    }
+
+    .subcategory-card{
+
+        padding:14px;
+
+        font-size:17px;
+
+    }
+
+    .product-card{
+
+        padding:16px;
+
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .company-info h1{
+
+        font-size:24px;
+
+    }
+
+    .company-info h2{
+
+        font-size:15px;
+
+    }
+
+    .product-name{
+
+        font-size:18px;
+
+    }
+
+    .product-price{
+
+        font-size:22px;
+
+    }
+
+    .qty-btn{
+
+        width:38px;
+
+        height:38px;
+
+        font-size:20px;
+
+    }
+
+    .add-cart-btn{
+
+        font-size:16px;
+
+        padding:12px;
+
+    }
+
+}
+
+
+/* ===================================
+   END
+=================================== */
