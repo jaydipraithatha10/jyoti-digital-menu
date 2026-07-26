@@ -34,7 +34,7 @@ async function loadCategories() {
         item.className = "category-item";
 
         item.innerHTML = `
-            <div class="category-card" onclick="toggleCategory('${id}', this)">
+            <div class="category-card"onclick="loadProducts('${categoryId}','${subId}', this)"
                 ${name}
             </div>
 
@@ -100,6 +100,11 @@ async function toggleCategory(categoryId, element) {
     }
 
 }
+document.querySelectorAll(".subcategory-card").forEach(card => {
+    card.classList.remove("active");
+});
+
+target.classList.add("active");
 async function loadProducts(categoryId, subCategoryId, target) {
 
     let container;
