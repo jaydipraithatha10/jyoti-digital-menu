@@ -597,39 +597,36 @@ body{
    ADD TO CART BUTTON
 =================================== */
 
+/* ===================================
+   PREMIUM ADD TO CART BUTTON
+=================================== */
+
 .add-cart-btn{
-
     width:100%;
-
-    margin-top:18px;
-
-    padding:14px;
-
+    margin-top:20px;
+    padding:16px;
     border:none;
-
-    border-radius:12px;
-
-    background:#FFD700;
-
+    border-radius:15px;
+    background:linear-gradient(135deg,#FFD700,#FFC107);
     color:#6A0000;
-
-    font-size:17px;
-
+    font-size:19px;
     font-weight:700;
-
+    font-family:'Poppins',sans-serif;
     cursor:pointer;
-
-    transition:.3s;
-
+    box-shadow:0 6px 15px rgba(255,193,7,.35);
+    transition:.25s;
 }
 
 .add-cart-btn:hover{
-
-    background:#8B0000;
-
-    color:#FFD700;
-
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(255,193,7,.45);
 }
+
+.add-cart-btn:active{
+    transform:scale(.97);
+}
+
+
 
 
 /* ===================================
