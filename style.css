@@ -1438,6 +1438,36 @@ footer b{
 #whatsappOrder:hover{
     transform:translateY(-2px);
 }
-/* ===================================
+
+/* ===.qty-controls{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#fff8dc;
+    border:2px solid #FFD700;
+    border-radius:30px;
+    padding:6px 12px;
+    margin:8px 0;
+}
+
+.qty-controls button{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#8B0000;
+    color:#fff;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.qty-controls span{
+    min-width:20px;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    color:#8B0000;
+}================================
    END
 =================================== */
