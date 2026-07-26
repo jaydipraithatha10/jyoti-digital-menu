@@ -191,3 +191,40 @@ html += `
 
 </div>
 `;
+function changeQty(btn,value){
+
+    const qtySpan=btn.parentElement.querySelector(".qty");
+
+    let qty=parseInt(qtySpan.innerText);
+
+    qty+=value;
+
+    if(qty<0) qty=0;
+
+    qtySpan.innerText=qty;
+
+}
+
+function addToCart(product,weight,price,btn){
+
+    const qty=parseInt(
+        btn.parentElement.querySelector(".qty").innerText
+    );
+
+    if(qty===0){
+
+        alert("Please select quantity");
+
+        return;
+
+    }
+
+    alert(
+        qty+" x "+product+
+        "\nWeight : "+weight+
+        "\nPrice : ₹"+price
+    );
+
+    // આગળના સ્ટેપમાં અહીં Cart માં Save કરીશું
+
+}
