@@ -307,3 +307,132 @@ function changeQty(btn, value) {
     qty.innerText = count;
 
 }
+// ================= ADD TO CART =================
+
+function addToCart(product, weight, price, btn) {
+
+    const qty = parseInt(
+        btn.parentElement.querySelector(".qty").innerText
+    );
+
+    if (qty <= 0) {
+        alert("Please select quantity");
+        return;
+    }
+
+    const existing = cart.find(item =>
+        item.product === product &&
+        item.weight === weight
+    );
+
+    if (existing) {
+
+        existing.qty += qty;
+
+    } else {
+
+        cart.push({
+            product: product,
+            weight: weight,
+            price: Number(price),
+            qty: qty
+        });
+
+    }
+
+    btn.parentElement.querySelector(".qty").innerText = "0";
+
+    updateCart();
+
+    alert(product + " added to cart");
+
+}
+
+// ================= UPDATE CART =================
+
+function updateCart() {
+
+    let totalQty = 0;
+    let totalAmount = 0;
+
+    cart.forEach(item => {
+
+        totalQty += item.qty;
+        totalAmount += item.qty * item.price;
+
+    });
+
+    document.getElementById("cart-count").innerText = totalQty;
+    document.getElementById("cart-total").innerText = "₹ " + totalAmount;
+
+    const cartBar = document.getElementById("cart-bar");
+
+    if (cart.length > 0) {
+
+        cartBar.style.display = "flex";
+
+    } else {
+
+        cartBar.style.display = "none";
+
+    }
+
+}
+
+// ================= OPEN CART =================
+
+function openCart() {
+
+    const popup = document.getElementById("cartPopup");
+    const cartItems = document.getElementById("cartItems");
+    const grandTotal = document.getElementById("grandTotal");
+
+    popup.style.display = "flex";
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = "<p>Your Cart is Empty</p>";
+        grandTotal.innerText = "0";
+        return;
+
+    }
+
+    let html = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+
+        total += amount;
+
+        html += `
+        <div class="cart-item">
+
+            <h4>${index + 1}. ${item.product}</h4>
+
+            <p>${item.weight}</p>
+
+            <p>
+                Qty : ${item.qty}
+                × ₹${item.price}
+                = ₹${amount}
+            </p>
+
+        </div>
+        `;
+
+    });
+
+    cartItems.innerHTML = html;
+    grandTotal.innerText = total;
+
+}
+
+// ================= CLOSE CART =================
+
+function closeCart() {
+
+    document.getElementById("cartPopup").style.display = "none";
+
+}
