@@ -616,15 +616,19 @@ footer b{
 
 .subcategory-card{
     width:92%;
+    height:70px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     background:#fff;
     border-radius:18px;
-    padding:18px;
-    margin:10px 0;
-    text-align:center;
-    font-size:22px;
+    margin:10px auto;
+    font-size:20px;
     font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
-    cursor:pointer;
 }
 
 
