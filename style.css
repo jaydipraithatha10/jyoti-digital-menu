@@ -505,17 +505,29 @@ body{
 
 /* ===== Premium Quantity Box ===== */
 
+/* ===================================
+   PREMIUM QUANTITY BOX
+=================================== */
+
+.qty-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+    margin-top:20px;
+}
+
 .qty-btn{
-    width:45px;
-    height:45px;
+    width:48px;
+    height:48px;
     border:none;
     border-radius:50%;
-    color:#fff;
+    cursor:pointer;
     font-size:28px;
     font-weight:700;
-    cursor:pointer;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    color:#fff;
     transition:.25s;
+    box-shadow:0 5px 12px rgba(0,0,0,.18);
 }
 
 .qty-btn:first-child{
@@ -531,16 +543,17 @@ body{
 }
 
 .qty-btn:active{
-    transform:scale(.92);
+    transform:scale(.95);
 }
 
 .qty{
-    min-width:45px;
+    min-width:40px;
     text-align:center;
-    font-size:28px;
+    font-size:30px;
     font-weight:700;
-    color:#333;
+    color:#222;
 }
+
 
 
 
