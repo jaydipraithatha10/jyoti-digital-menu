@@ -12,8 +12,6 @@ async function loadCategories() {
 
     const container = document.getElementById("categories");
 
-    container.innerHTML = "Loading...";
-
     const response = await fetch(CATEGORY_CSV);
     const csv = await response.text();
 
@@ -31,149 +29,19 @@ async function loadCategories() {
 
         if (status !== "active") continue;
 
-        const card = document.createElement("div");
+        const item = document.createElement("div");
 
-        card.className = "category-card";
+        item.className = "category-item";
 
-        card.innerHTML = `
-            <div class="category-name">${name}</div>
+        item.innerHTML = `
+            <div class="category-card" onclick="toggleCategory('${id}', this)">
+                ${name}
+            </div>
+
+            <div id="sub-${id}" class="sub-list"></div>
         `;
 
-        card.onclick = () => {
-
-            document.querySelectorAll("#categories .category-card")
-                .forEach(c => c.classList.remove("active"));
-
-            card.classList.add("active");
-
-            loadSubCategories(id);
-
-        };
-
-        container.appendChild(card);
-
-    }
-
-}
-async function loadSubCategories(categoryId) {
-
-    const container = document.getElementById("subcategories");
-    container.innerHTML = "Loading...";
-
-    const response = await fetch(SUBCATEGORY_CSV);
-    const csv = await response.text();
-
-    const rows = csv.trim().split("\n");
-
-    container.innerHTML = "";
-
-    let hasSubCategory = false;
-
-    for (let i = 1; i < rows.length; i++) {
-
-        const cols = rows[i].split(",");
-
-        const subId = cols[0].trim();
-        const catId = cols[1].trim();
-        const subName = cols[2].trim();
-        const status = cols[3].trim().toLowerCase();
-
-        if (status !== "active") continue;
-        if (catId !== categoryId) continue;
-
-        hasSubCategory = true;
-
-        const card = document.createElement("div");
-        card.className = "category-card";
-        card.innerHTML = `<div class="category-name">${subName}</div>`;
-
-        card.onclick = () => {
-
-            document.querySelectorAll("#subcategories .category-card")
-                .forEach(c => c.classList.remove("active"));
-
-            card.classList.add("active");
-
-            loadProducts(categoryId, subId);
-
-        };
-
-        container.appendChild(card);
-
-    }
-
-    // જો Sub Category ન હોય તો સીધા Products બતાવો
-    if (!hasSubCategory) {
-        container.innerHTML = "";
-        loadProducts(categoryId, "");
-    }
-
-}
-async function loadProducts(categoryId, subCategoryId = "") {
-
-    const container = document.getElementById("products");
-    container.innerHTML = "Loading...";
-
-    try {
-
-        const response = await fetch(PRODUCT_CSV);
-        const csv = await response.text();
-
-        const rows = csv.trim().split("\n");
-
-        container.innerHTML = "";
-
-        let found = false;
-
-        for (let i = 1; i < rows.length; i++) {
-
-            const cols = rows[i].split(",");
-
-            const productCategoryId = cols[1].trim();
-            const productSubCategoryId = cols[2].trim();
-            const productName = cols[3].trim();
-            const weight = cols[4].trim();
-            const price = cols[5].trim();
-            const status = cols[6].trim().toLowerCase();
-
-            if (status !== "active") continue;
-
-            // જો Sub Category પસંદ હોય
-            if (subCategoryId !== "") {
-
-                if (productSubCategoryId !== subCategoryId) continue;
-
-            } else {
-
-                // સીધું Category પ્રમાણે
-                if (productCategoryId !== categoryId) continue;
-
-            }
-
-            found = true;
-
-            const card = document.createElement("div");
-
-            card.className = "product-card";
-
-            card.innerHTML = `
-                <h3>${productName}</h3>
-                <p>${weight}</p>
-                <h4>₹ ${price}</h4>
-            `;
-
-            container.appendChild(card);
-
-        }
-
-        if (!found) {
-            container.innerHTML = "<p>No Products Found</p>";
-        }
-
-    } catch (error) {
-
-        console.error(error);
-        container.innerHTML = "<p>Unable to load products.</p>";
+        container.appendChild(item);
 
     }
 
