@@ -45,12 +45,13 @@ async function loadCategories() {
         item.className = "category-item";
 
         item.innerHTML = `
-            <div class="category-card">
-                ${name}
-            </div>
+<div class="category-card">
+    <span>${name}</span>
+    <span>▼</span>
+</div>
 
-            <div id="sub-${id}" class="sub-list"></div>
-        `;
+<div id="sub-${id}" class="sub-list"></div>
+`;
 
         item.querySelector(".category-card").onclick = function () {
             toggleCategory(id, this);
