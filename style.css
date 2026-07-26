@@ -613,23 +613,30 @@ footer b{
 }
 
 .subcategory-card{
+    width:80%;
+    margin:10px auto;
     background:#ffffff;
-    border:1px solid #e6e6e6;
-    border-radius:10px;
+    border:1px solid #ddd;
+    border-radius:12px;
     padding:12px 15px;
-    margin:8px 0;
-    cursor:pointer;
+    text-align:center;
     font-weight:600;
-    transition:.3s;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.subcategory-card:hover{
+    background:#f8f8f8;
 }
 
 .subcategory-card:hover{
     background:#f7f7f7;
 }
 
-.product-list{
-    margin-left:18px;
-    margin-bottom:12px;
+.sub-list{
+    width:100%;
+    text-align:center;
+    margin-top:10px;
 }
 
 .product-card{
