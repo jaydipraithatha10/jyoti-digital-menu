@@ -17,50 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ================= CSV PARSER =================
 
-function parseCSV(text) {
-
-    const rows = [];
-    let row = [];
-    let value = "";
-    let insideQuote = false;
-
-    for (let i = 0; i < text.length; i++) {
-
-        const ch = text[i];
-
-        if (ch === '"') {
-            insideQuote = !insideQuote;
-        }
-
-        else if (ch === "," && !insideQuote) {
-            row.push(value.trim());
-            value = "";
-        }
-
-        else if ((ch === "\n" || ch === "\r") && !insideQuote) {
-
-            if (value !== "" || row.length) {
-                row.push(value.trim());
-                rows.push(row);
-            }
-
-            row = [];
-            value = "";
-        }
-
-        else {
-            value += ch;
-        }
-
-    }
-
-    if (value !== "" || row.length) {
-        row.push(value.trim());
-        rows.push(row);
-    }
-
-    return rows;
-
+  function parseCSV(csv) {
+    return csv
+        .trim()
+        .split(/\r?\n/)
+        .map(row => row.split(",").map(col => col.trim()));
 }
 
 // ================= LOAD CATEGORY =================
