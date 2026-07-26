@@ -1,70 +1,42 @@
-
-const CATEGORY_API = "YOUR_CATEGORY_JSON_URL";
-const PRODUCT_API = "YOUR_PRODUCT_JSON_URL";
-
-const categoryContainer = document.getElementById("categories");
-const productContainer = document.getElementById("products");
-
-let categories = [];
-let products = [];
+const CATEGORY_CSV =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/pub?gid=2013716827&single=true&output=csv";
 
 async function loadCategories() {
 
-    const response = await fetch(CATEGORY_API);
+    const response = await fetch(CATEGORY_CSV);
+    const csv = await response.text();
 
-    categories = await response.json();
+    const rows = csv.trim().split("\n");
 
-    categoryContainer.innerHTML = "";
+    const container = document.getElementById("categories");
+    container.innerHTML = "";
 
-    categories.forEach(category=>{
+    for (let i = 1; i < rows.length; i++) {
 
-        categoryContainer.innerHTML += `
-            <div class="category-card"
-                 onclick="loadProducts(${category.id})">
+        const cols = rows[i].split(",");
 
-                ${category.name}
+        const id = cols[0].trim();
+        const name = cols[1].trim();
 
-            </div>
+        const card = document.createElement("div");
+        card.className = "category-card";
+        card.dataset.id = id;
+
+        card.innerHTML = `
+            <div class="category-name">${name}</div>
         `;
 
-    });
+        card.onclick = () => {
+            document.querySelectorAll(".category-card").forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
 
+            console.log("Selected Category:", id, name);
+
+            // આગળ અહીં Products Load કરવાના છે
+        };
+
+        container.appendChild(card);
+    }
 }
 
-async function loadProducts(categoryId){
-
-    const response = await fetch(PRODUCT_API);
-
-    products = await response.json();
-
-    const filter = products.filter(p=>p.category_id==categoryId);
-
-    productContainer.innerHTML="";
-
-    filter.forEach(product=>{
-
-        productContainer.innerHTML+=`
-
-        <div class="product-card">
-
-            <div class="product-name">
-                ${product.name}
-            </div>
-
-            <div class="product-weight">
-                ${product.weight}
-            </div>
-
-            <div class="product-price">
-                ₹${product.price}
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-loadCategories();
+document.addEventListener("DOMContentLoaded", loadCategories);
