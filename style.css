@@ -322,16 +322,12 @@ body{
 /* ===================================
    SUB CATEGORY
 =================================== */
-
 .sub-list{
-
-    display:none;
-
+    display:block;
     margin-top:12px;
-
     padding-left:10px;
-
 }
+
 
 .sub-list.show{
 
