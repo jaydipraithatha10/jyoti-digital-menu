@@ -394,11 +394,8 @@ body{
 =================================== */
 
 .product-list{
-
-    display:none;
-
+    display:block;
     margin-top:12px;
-
 }
 
 .product-list.show{
