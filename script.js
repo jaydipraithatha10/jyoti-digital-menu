@@ -18,57 +18,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ================= LOAD CATEGORIES =================
 
-async function loadCategories() {
+async function loadProducts(categoryId, subCategoryId) {
 
-    const container = document.getElementById("categories");
+    let container;
 
-    container.innerHTML = "";
+    if (subCategoryId === "") {
+        container = document.getElementById("sub-" + categoryId);
+    } else {
+        container = document.getElementById("product-" + subCategoryId);
+    }
 
-    const response = await fetch(CATEGORY_CSV);
-
+    const response = await fetch(PRODUCT_CSV);
     const csv = await response.text();
 
     const rows = csv.trim().split("\n");
+
+    let html = "";
 
     for (let i = 1; i < rows.length; i++) {
 
         const cols = rows[i].split(",");
 
-        const id = cols[0].trim();
+        const catId = cols[1].trim();
+        const subId = cols[2].trim();
+        const product = cols[3].trim();
+        const weight = cols[4].trim();
+        const price = cols[5].trim();
+        const status = cols[6].trim().toLowerCase();
 
-        const name = cols[1].trim();
+        if (status !== "active") continue;
 
-        const status = cols[2].trim().toLowerCase();
+        // Sub Category પ્રમાણે Filter
+        if (subCategoryId !== "") {
 
-        if (status != "active") continue;
+            if (String(subId) !== String(subCategoryId)) continue;
 
-        const div = document.createElement("div");
+        } else {
 
-        div.className = "category-item";
+            if (String(catId) !== String(categoryId)) continue;
 
-        div.innerHTML = `
+        }
 
-            <div class="category-card">
+        html += `
+        <div class="product-card">
 
-                ${name}
+            <div class="product-name">${product}</div>
 
+            <div class="product-weight">${weight}</div>
+
+            <div class="product-price">₹ ${price}</div>
+
+            <div class="qty-box">
+                <button onclick="changeQty(this,-1)">−</button>
+
+                <span class="qty">0</span>
+
+                <button onclick="changeQty(this,1)">+</button>
             </div>
 
-            <div id="sub-${id}" class="sub-list"></div>
+            <button class="add-cart-btn"
+                onclick="addToCart('${product}','${weight}','${price}',this)">
+                Add to Cart
+            </button>
 
-        `;
-
-        div.querySelector(".category-card").onclick = function(){
-
-            toggleCategory(id,this);
-
-        };
-
-        container.appendChild(div);
-
+        </div>`;
     }
 
+    if (html === "") {
+        html = `<p style="text-align:center;padding:20px;">No Products Found</p>`;
+    }
+
+    container.innerHTML = html;
 }
+
+        
 
 // ================= TOGGLE CATEGORY =================
 
