@@ -451,6 +451,21 @@ function removeItem(index) {
     openCart();
 
 }
+// ================= CHANGE CART QTY =================
+
+function changeCartQty(index, change) {
+
+    cart[index].qty += change;
+
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+    }
+
+    updateCart();
+
+    openCart();
+
+}
 
 // ================= WHATSAPP ORDER =================
 
