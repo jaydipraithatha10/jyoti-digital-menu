@@ -204,3 +204,106 @@ function toggleSubCategory(categoryId, subCategoryId, card) {
     loadProducts(categoryId, subCategoryId);
 
 }
+// ================= LOAD PRODUCTS =================
+
+async function loadProducts(categoryId, subCategoryId) {
+
+    let container;
+
+    if (subCategoryId === "") {
+        container = document.getElementById("sub-" + categoryId);
+    } else {
+        container = document.getElementById("product-" + subCategoryId);
+    }
+
+    const response = await fetch(PRODUCT_CSV);
+    const csv = await response.text();
+
+    const rows = parseCSV(csv);
+
+    let html = "";
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const catId = rows[i][1];
+        const subId = rows[i][2];
+        const product = rows[i][3];
+        const weight = rows[i][4];
+        const price = rows[i][5];
+        const status = rows[i][6].toLowerCase();
+
+        if (status !== "active") continue;
+
+        if (subCategoryId === "") {
+
+            if (String(catId) !== String(categoryId)) continue;
+
+        } else {
+
+            if (String(subId) !== String(subCategoryId)) continue;
+
+        }
+
+        html += `
+        <div class="product-card">
+
+            <div class="product-name">
+                ${product}
+            </div>
+
+            <div class="product-weight">
+                ${weight}
+            </div>
+
+            <div class="product-price">
+                ₹ ${price}
+            </div>
+
+            <div class="qty-box">
+
+                <button onclick="changeQty(this,-1)">−</button>
+
+                <span class="qty">0</span>
+
+                <button onclick="changeQty(this,1)">+</button>
+
+            </div>
+
+            <button class="add-cart-btn"
+                onclick="addToCart('${product}','${weight}','${price}',this)">
+                Add to Cart
+            </button>
+
+        </div>
+        `;
+    }
+
+    if (html === "") {
+
+        html = `
+        <div class="no-product">
+            No Products Found
+        </div>
+        `;
+
+    }
+
+    container.innerHTML = html;
+
+}
+
+// ================= CHANGE QUANTITY =================
+
+function changeQty(btn, value) {
+
+    const qty = btn.parentElement.querySelector(".qty");
+
+    let count = parseInt(qty.innerText);
+
+    count += value;
+
+    if (count < 0) count = 0;
+
+    qty.innerText = count;
+
+}
