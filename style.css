@@ -1468,6 +1468,44 @@ footer b{
     font-size:18px;
     font-weight:700;
     color:#8B0000;
-}================================
+}
+.qty-controls{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#FFF8DC;
+    border:2px solid #FFD700;
+    border-radius:30px;
+    padding:6px 10px;
+    margin-top:8px;
+}
+
+.qty-controls button{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#8B0000;
+    color:#fff;
+    font-size:22px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.qty-controls button:hover{
+    background:#6d0000;
+}
+
+.qty-controls span{
+    min-width:22px;
+    text-align:center;
+    font-size:18px;
+    font-weight:700;
+    color:#8B0000;
+}
+================================
    END
 =================================== */
