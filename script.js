@@ -510,6 +510,11 @@ function sendWhatsAppOrder() {
         "_blank"
     );
 
+cart = [];
+
+updateCart();
+
+closeCart();
 }
 
 // ================= CLOSE POPUP ON OUTSIDE CLICK =================
