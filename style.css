@@ -231,3 +231,182 @@ body{
     font-weight:700;
 
 }
+/* ===================================
+   CATEGORY SECTION
+=================================== */
+
+.categories{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    padding:0 18px 20px;
+
+}
+
+
+/* ===================================
+   CATEGORY CARD
+=================================== */
+
+.category-item{
+
+    width:100%;
+
+}
+
+.category-card{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    border:2px solid transparent;
+
+    transition:.3s;
+
+}
+
+.category-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+
+}
+
+.category-card.active{
+
+    background:#8B0000;
+
+    color:#FFD700;
+
+    border-color:#FFD700;
+
+}
+
+.category-name{
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.category-arrow{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+
+/* ===================================
+   SUB CATEGORY
+=================================== */
+
+.sub-list{
+
+    display:none;
+
+    margin-top:12px;
+
+    padding-left:10px;
+
+}
+
+.sub-list.show{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+/* ===================================
+   SUB CATEGORY CARD
+=================================== */
+
+.subcategory-card{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-radius:16px;
+
+    padding:16px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    border:2px solid #eeeeee;
+
+    transition:.3s;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.subcategory-card:hover{
+
+    background:#FFF8DC;
+
+    border-color:#FFD700;
+
+}
+
+.subcategory-card.active{
+
+    background:#8B0000;
+
+    color:#FFD700;
+
+    border-color:#FFD700;
+
+}
+
+
+/* ===================================
+   PRODUCT CONTAINER
+=================================== */
+
+.product-list{
+
+    display:none;
+
+    margin-top:12px;
+
+}
+
+.product-list.show{
+
+    display:block;
+
+}
