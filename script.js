@@ -390,8 +390,12 @@ function openCart() {
 
         <p>${item.weight}</p>
 
-        <p>Qty : ${item.qty} × ₹${item.price}</p>
-
+        
+<div class="qty-controls">
+    <button onclick="changeCartQty(${index},-1)">−</button>
+    <span>${item.qty}</span>
+    <button onclick="changeCartQty(${index},1)">+</button>
+</div>
         <strong>₹${amount}</strong>
 
     </div>
