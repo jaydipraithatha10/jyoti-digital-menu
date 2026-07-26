@@ -34,7 +34,8 @@ async function loadCategories() {
         item.className = "category-item";
 
         item.innerHTML = `
-            <div class="category-card"onclick="loadProducts('${categoryId}','${subId}', this)"
+            <div class="category-card"
+onclick="loadProducts('${categoryId}','${subId}', this)"
                 ${name}
             </div>
 
