@@ -307,11 +307,19 @@ function addToCart(product, weight, price, btn) {
 
     }
 
-    btn.parentElement.querySelector(".qty").innerText = "0";
+  btn.parentElement.querySelector(".qty").innerText = "0";
 
-    updateCart();
+updateCart();
 
-    alert(product + " added to cart");
+btn.innerHTML = "✅ Added";
+btn.style.background = "#2E7D32";
+btn.style.color = "#fff";
+
+setTimeout(() => {
+    btn.innerHTML = "🛒 Add to Cart";
+    btn.style.background = "";
+    btn.style.color = "";
+}, 1500);
 
 }
 
