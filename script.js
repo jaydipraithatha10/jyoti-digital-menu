@@ -55,3 +55,123 @@ async function loadData(){
     products = parseCSV(await proRes.text());
 
 }
+// ================= RENDER CATEGORY =================
+
+function renderCategories(){
+
+    const container = document.getElementById("categories");
+
+    container.innerHTML = "";
+
+    for(let i=1;i<categories.length;i++){
+
+        const id = categories[i][0];
+        const name = categories[i][1];
+        const status = categories[i][2].toLowerCase();
+
+        if(status !== "active") continue;
+
+        container.innerHTML += `
+
+<div class="category-item">
+
+    <div class="category-card"
+         data-id="${id}"
+         data-name="${name.toLowerCase()}"
+         onclick="toggleCategory('${id}',this)">
+
+        <span>${name}</span>
+
+        <span>▼</span>
+
+    </div>
+
+    <div id="sub-${id}" class="sub-list"></div>
+
+</div>
+
+`;
+
+    }
+
+}
+
+// ================= CATEGORY =================
+
+function toggleCategory(categoryId,card){
+
+    const container = document.getElementById("sub-"+categoryId);
+
+    if(container.innerHTML !== ""){
+
+        container.innerHTML="";
+
+        card.classList.remove("active");
+
+        card.querySelector("span:last-child").innerHTML="▼";
+
+        return;
+
+    }
+
+    document.querySelectorAll(".category-card").forEach(c=>{
+
+        c.classList.remove("active");
+
+        c.querySelector("span:last-child").innerHTML="▼";
+
+    });
+
+    document.querySelectorAll(".sub-list").forEach(s=>{
+
+        s.innerHTML="";
+
+    });
+
+    card.classList.add("active");
+
+    card.querySelector("span:last-child").innerHTML="▲";
+
+    let html="";
+
+    for(let i=1;i<subcategories.length;i++){
+
+        const subId=subcategories[i][0];
+        const catId=subcategories[i][1];
+        const subName=subcategories[i][2];
+        const status=subcategories[i][3].toLowerCase();
+
+        if(status!=="active") continue;
+
+        if(catId!=categoryId) continue;
+
+        html += `
+
+<div class="subcategory-card"
+     data-id="${subId}"
+     data-name="${subName.toLowerCase()}"
+     onclick="toggleSubCategory('${categoryId}','${subId}',this)">
+
+<span>${subName}</span>
+
+<span>▶</span>
+
+</div>
+
+<div id="product-${subId}" class="product-list"></div>
+
+`;
+
+    }
+
+    if(html===""){
+
+        loadProducts(categoryId,"");
+
+    }else{
+
+        container.innerHTML=html;
+
+    }
+
+}
