@@ -533,3 +533,75 @@ window.onclick=function(e){
     }
 
 };
+// ================= SMART SEARCH =================
+
+function searchProducts() {
+
+    const keyword = document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    if (keyword === "") {
+
+        document.getElementById("noProducts").style.display = "none";
+
+        renderCategories();
+
+        return;
+    }
+
+    const container = document.getElementById("categories");
+
+    container.innerHTML = "";
+
+    let found = false;
+
+    for (let i = 1; i < products.length; i++) {
+
+        const product = products[i][3];
+        const weight = products[i][4];
+        const price = products[i][5];
+        const status = products[i][6].toLowerCase();
+
+        if (status !== "active") continue;
+
+        if (!product.toLowerCase().includes(keyword)) continue;
+
+        found = true;
+
+        container.innerHTML += `
+
+<div class="product-card">
+
+    <div class="product-name">${product}</div>
+
+    <div class="product-weight">${weight}</div>
+
+    <div class="product-price">₹ ${price}</div>
+
+    <div class="qty-box">
+
+        <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+
+        <span class="qty">0</span>
+
+        <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+
+    </div>
+
+    <button class="add-cart-btn"
+        onclick="addToCart('${product}','${weight}','${price}',this)">
+        🛒 Add to Cart
+    </button>
+
+</div>
+
+`;
+
+    }
+
+    document.getElementById("noProducts").style.display =
+        found ? "none" : "block";
+}
