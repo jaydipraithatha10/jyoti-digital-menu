@@ -13,6 +13,10 @@ let cart = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
+
+    document
+        .getElementById("searchInput")
+        .addEventListener("input", searchProducts);
 });
 
 // ================= CSV PARSER =================
