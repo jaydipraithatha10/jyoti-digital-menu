@@ -44,6 +44,7 @@ async function loadCategories() {
     const csv = await response.text();
 
     const rows = parseCSV(csv);
+allCategories = rows;
 
     for (let i = 1; i < rows.length; i++) {
 
