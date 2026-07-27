@@ -541,6 +541,7 @@ window.onclick = function(e) {
     }
 
 };
+
 function searchProducts() {
 
     const keyword = document
@@ -549,37 +550,58 @@ function searchProducts() {
         .trim()
         .toLowerCase();
 
+    // જો Search ખાલી હોય
+    if (keyword === "") {
+
+        document.querySelectorAll(".category-item").forEach(item => {
+            item.style.display = "";
+        });
+
+        document.querySelectorAll(".subcategory-card").forEach(item => {
+            item.style.display = "";
+        });
+
+        document.querySelectorAll(".product-card").forEach(item => {
+            item.style.display = "";
+        });
+
+        return;
+    }
+
     // Category Search
-    document.querySelectorAll(".category-item").forEach(category => {
+    document.querySelectorAll(".category-card").forEach(card => {
 
-        const card = category.querySelector(".category-card");
+        const name = card.dataset.name || "";
 
-        const name = card.dataset.name;
-
-        if (keyword === "" || name.includes(keyword)) {
-
-            category.style.display = "";
-
-        } else {
-
-            category.style.display = "none";
-
-        }
+        card.parentElement.style.display =
+            name.includes(keyword) ? "" : "none";
 
     });
 
-// SubCategory Search
-document.querySelectorAll(".subcategory-card").forEach(sub => {
+    // SubCategory Search
+    document.querySelectorAll(".subcategory-card").forEach(card => {
 
-    const name = sub.dataset.name || "";
+        const name = card.dataset.name || "";
 
-    if (keyword === "" || name.includes(keyword)) {
-        sub.style.display = "";
-    } else {
-        sub.style.display = "none";
-    }
+        card.style.display =
+            name.includes(keyword) ? "" : "none";
 
-});
+    });
+
+    // Product Search
+    document.querySelectorAll(".product-card").forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        card.style.display =
+            text.includes(keyword) ? "" : "none";
+
+    });
+
+}
+    
+
+
 
     // Product Search (જે ખુલેલા Products છે)
     document.querySelectorAll(".product-card").forEach(card => {
