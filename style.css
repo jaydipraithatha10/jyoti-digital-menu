@@ -1574,6 +1574,47 @@ footer b{
 #cart-bar button:hover{
     transform:scale(1.05);
 }
+
+/* ===== View Cart Bar ===== */
+
+.cart-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:linear-gradient(135deg,#7B1113,#A61C1C);
+    color:#fff;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-sizing:border-box;
+    border-top:3px solid #FFD700;
+    box-shadow:0 -5px 20px rgba(0,0,0,.25);
+    z-index:999;
+}
+
+.cart-info{
+    font-size:17px;
+    font-weight:600;
+}
+
+.cart-bar button{
+    background:#FFD700;
+    color:#7B1113;
+    border:none;
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.cart-bar button:hover{
+    transform:scale(1.05);
+    background:#FFE55C;
+}
 ==========================
    END
 =================================== */
