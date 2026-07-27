@@ -175,3 +175,99 @@ function toggleCategory(categoryId,card){
     }
 
 }
+// ================= SUB CATEGORY =================
+
+function toggleSubCategory(categoryId, subCategoryId, card) {
+
+    document.querySelectorAll(".subcategory-card").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    card.classList.add("active");
+
+    document.querySelectorAll(".product-list").forEach(list => {
+        if (list.id !== "product-" + subCategoryId) {
+            list.innerHTML = "";
+        }
+    });
+
+    const container = document.getElementById("product-" + subCategoryId);
+
+    if (container.innerHTML !== "") {
+        container.innerHTML = "";
+        return;
+    }
+
+    loadProducts(categoryId, subCategoryId);
+
+}
+
+// ================= LOAD PRODUCTS =================
+
+function loadProducts(categoryId, subCategoryId) {
+
+    let container;
+
+    if (subCategoryId === "") {
+        container = document.getElementById("sub-" + categoryId);
+    } else {
+        container = document.getElementById("product-" + subCategoryId);
+    }
+
+    let html = "";
+
+    for (let i = 1; i < products.length; i++) {
+
+        const catId = products[i][1];
+        const subId = products[i][2];
+        const product = products[i][3];
+        const weight = products[i][4];
+        const price = products[i][5];
+        const status = products[i][6].toLowerCase();
+
+        if (status !== "active") continue;
+
+        if (subCategoryId === "") {
+            if (catId != categoryId) continue;
+        } else {
+            if (subId != subCategoryId) continue;
+        }
+
+        html += `
+
+<div class="product-card">
+
+    <div class="product-name">${product}</div>
+
+    <div class="product-weight">${weight}</div>
+
+    <div class="product-price">₹ ${price}</div>
+
+    <div class="qty-box">
+
+        <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+
+        <span class="qty">0</span>
+
+        <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+
+    </div>
+
+    <button class="add-cart-btn"
+        onclick="addToCart('${product}','${weight}','${price}',this)">
+        🛒 Add to Cart
+    </button>
+
+</div>
+
+`;
+
+    }
+
+    if (html === "") {
+        html = `<div class="no-product">No Products Found</div>`;
+    }
+
+    container.innerHTML = html;
+
+}
