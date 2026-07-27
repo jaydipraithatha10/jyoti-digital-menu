@@ -561,6 +561,22 @@ function searchProducts() {
         }
 
     });
+// SubCategory Search
+document.querySelectorAll(".subcategory-card").forEach(sub => {
+
+    const name = sub.dataset.name;
+
+    if (keyword === "" || name.includes(keyword)) {
+
+        sub.style.display = "";
+
+    } else {
+
+        sub.style.display = "none";
+
+    }
+
+});
 
     // Product Search (જે ખુલેલા Products છે)
     document.querySelectorAll(".product-card").forEach(card => {
