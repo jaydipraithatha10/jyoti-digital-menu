@@ -534,3 +534,23 @@ window.onclick = function(e) {
     }
 
 };
+function searchProducts() {
+
+    const keyword = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    document.querySelectorAll(".product-card").forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        if (text.includes(keyword)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+}
