@@ -566,7 +566,19 @@ function searchProducts() {
 
         if (status !== "active") continue;
 
-        if (!product.toLowerCase().includes(keyword)) continue;
+        const catId = products[i][1];
+const subId = products[i][2];
+
+const category = categories.find(c => c[0] == catId)?.[1] || "";
+const subcategory = subcategories.find(s => s[0] == subId)?.[2] || "";
+
+const searchText = (
+    product + " " +
+    category + " " +
+    subcategory
+).toLowerCase();
+
+if (!searchText.includes(keyword)) continue;
 
         found = true;
 
