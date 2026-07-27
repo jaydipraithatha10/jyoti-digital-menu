@@ -54,7 +54,8 @@ async function loadCategories() {
         <div class="category-item">
 
             <div class="category-card"
-                 onclick="toggleCategory('${id}',this)">
+     data-name="${name.toLowerCase()}"
+     onclick="toggleCategory('${id}',this)">
 
                 <span>${name}</span>
 
