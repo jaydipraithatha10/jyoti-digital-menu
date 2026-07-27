@@ -53,16 +53,16 @@ async function loadCategories() {
         container.innerHTML += `
         <div class="category-item">
 
-            <div class="subcategory-card"
-     data-name="${subName.toLowerCase()}"
-     onclick="toggleSubCategory('${categoryId}','${subId}',this)">
+            
+<div class="category-card"
+     data-name="${name.toLowerCase()}"
+     onclick="toggleCategory('${id}',this)">
 
-                <span>${name}</span>
+    <span>${name}</span>
 
-                <span>▼</span>
+    <span>▼</span>
 
-            </div>
-
+</div>
             <div id="sub-${id}" class="sub-list"></div>
 
         </div>
