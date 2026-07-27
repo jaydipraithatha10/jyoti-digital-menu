@@ -603,14 +603,4 @@ function searchProducts() {
 
 
 
-    // Product Search (જે ખુલેલા Products છે)
-    document.querySelectorAll(".product-card").forEach(card => {
-
-        const text = card.innerText.toLowerCase();
-
-        card.style.display =
-            text.includes(keyword) ? "" : "none";
-
-    });
-
-}
+    
