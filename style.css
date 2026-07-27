@@ -299,3 +299,168 @@ body{
 .product-list.show{
     display:block;
 }
+/* ===================================
+   PRODUCT LIST
+=================================== */
+
+.products{
+    padding:0 18px 110px;
+}
+
+/* ===================================
+   PRODUCT CARD
+=================================== */
+
+.product-card{
+    background:#fff;
+    border:2px solid #f2f2f2;
+    border-radius:22px;
+    padding:22px;
+    margin-top:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-4px);
+    border-color:#FFD700;
+    box-shadow:0 12px 28px rgba(0,0,0,.14);
+}
+
+/* ===================================
+   PRODUCT NAME
+=================================== */
+
+.product-name{
+    font-size:22px;
+    font-weight:700;
+    color:#222;
+    text-align:center;
+    line-height:30px;
+}
+
+/* ===================================
+   PRODUCT WEIGHT
+=================================== */
+
+.product-weight{
+    margin-top:8px;
+    text-align:center;
+    font-size:15px;
+    color:#777;
+}
+
+/* ===================================
+   PRODUCT PRICE
+=================================== */
+
+.product-price{
+    margin-top:12px;
+    text-align:center;
+    font-size:34px;
+    font-weight:700;
+    color:#8B0000;
+}
+
+/* ===================================
+   STOCK BADGE
+=================================== */
+
+.stock{
+    display:inline-block;
+    margin:12px auto 0;
+    padding:6px 14px;
+    background:#E8F5E9;
+    color:#2E7D32;
+    border-radius:25px;
+    font-size:13px;
+    font-weight:600;
+}
+
+/* ===================================
+   QUANTITY BOX
+=================================== */
+
+.qty-box{
+    width:180px;
+    height:58px;
+    margin:22px auto;
+    padding:0 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#fff;
+    border:3px solid #FFD700;
+    border-radius:40px;
+    box-shadow:0 5px 15px rgba(0,0,0,.10);
+}
+
+/* ===================================
+   QUANTITY BUTTON
+=================================== */
+
+.qty-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#8B0000;
+    color:#fff;
+    font-size:24px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.qty-btn:hover{
+    transform:scale(1.08);
+}
+
+.qty-btn:first-child{
+    background:#D32F2F;
+}
+
+.qty-btn:last-child{
+    background:#2E7D32;
+}
+
+/* ===================================
+   QUANTITY VALUE
+=================================== */
+
+.qty{
+    min-width:40px;
+    text-align:center;
+    font-size:28px;
+    font-weight:700;
+    color:#222;
+}
+
+/* ===================================
+   ADD TO CART BUTTON
+=================================== */
+
+.add-cart-btn{
+    width:100%;
+    margin-top:20px;
+    padding:16px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#FFD700,#FFC107);
+    color:#6A0000;
+    font-size:18px;
+    font-weight:700;
+    font-family:'Poppins',sans-serif;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 6px 15px rgba(255,193,7,.35);
+}
+
+.add-cart-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 22px rgba(255,193,7,.45);
+}
+
+.add-cart-btn:active{
+    transform:scale(.97);
+}
