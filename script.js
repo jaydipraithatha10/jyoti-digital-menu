@@ -540,17 +540,35 @@ function searchProducts() {
     const keyword = document
         .getElementById("searchInput")
         .value
+        .trim()
         .toLowerCase();
 
+    // Category Search
+    document.querySelectorAll(".category-item").forEach(category => {
+
+        const card = category.querySelector(".category-card");
+
+        const name = card.dataset.name;
+
+        if (keyword === "" || name.includes(keyword)) {
+
+            category.style.display = "";
+
+        } else {
+
+            category.style.display = "none";
+
+        }
+
+    });
+
+    // Product Search (જે ખુલેલા Products છે)
     document.querySelectorAll(".product-card").forEach(card => {
 
         const text = card.innerText.toLowerCase();
 
-        if (text.includes(keyword)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
-        }
+        card.style.display =
+            text.includes(keyword) ? "" : "none";
 
     });
 
