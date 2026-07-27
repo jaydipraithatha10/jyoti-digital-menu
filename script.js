@@ -198,6 +198,7 @@ async function loadProducts(categoryId, subCategoryId) {
 
     const rows = parseCSV(csv);
 
+allProducts = rows;
     let html = "";
 
     for (let i = 1; i < rows.length; i++) {
