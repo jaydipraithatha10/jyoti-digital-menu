@@ -375,3 +375,161 @@ function updateCart(){
     cartBar.style.display = cart.length ? "flex" : "none";
 
 }
+// ================= OPEN CART =================
+
+function openCart() {
+
+    const popup = document.getElementById("cartPopup");
+    const cartItems = document.getElementById("cartItems");
+    const grandTotal = document.getElementById("grandTotal");
+
+    popup.classList.add("show");
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = "<p>Your Cart is Empty</p>";
+        grandTotal.innerText = "₹ 0";
+        return;
+
+    }
+
+    let html = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const amount = item.qty * item.price;
+        total += amount;
+
+        html += `
+
+<div class="cart-item">
+
+<div>
+
+<h4>${index+1}. ${item.product}</h4>
+
+<p>${item.weight}</p>
+
+<div class="qty-controls">
+
+<button onclick="changeCartQty(${index},-1)">−</button>
+
+<span>${item.qty}</span>
+
+<button onclick="changeCartQty(${index},1)">+</button>
+
+</div>
+
+<strong>₹${amount}</strong>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeItem(${index})">🗑️</button>
+
+</div>
+
+`;
+
+    });
+
+    cartItems.innerHTML = html;
+    grandTotal.innerText = "₹ " + total;
+
+}
+
+// ================= CLOSE CART =================
+
+function closeCart(){
+
+    document.getElementById("cartPopup").classList.remove("show");
+
+}
+
+// ================= REMOVE ITEM =================
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+
+    openCart();
+
+}
+
+// ================= CHANGE CART QTY =================
+
+function changeCartQty(index,change){
+
+    cart[index].qty += change;
+
+    if(cart[index].qty<=0){
+
+        cart.splice(index,1);
+
+    }
+
+    updateCart();
+
+    openCart();
+
+}
+
+// ================= WHATSAPP =================
+
+function sendWhatsAppOrder(){
+
+    if(cart.length===0){
+
+        alert("Cart is Empty");
+
+        return;
+
+    }
+
+    let msg="🛒 *Jyoti Gruh Udhyog Order*%0A%0A";
+
+    let total=0;
+
+    cart.forEach((item,index)=>{
+
+        const amount=item.qty*item.price;
+
+        total+=amount;
+
+        msg +=
+"*"+(index+1)+".* "+item.product+
+"%0AWeight : "+item.weight+
+"%0AQty : "+item.qty+
+"%0APrice : ₹"+item.price+
+"%0AAmount : ₹"+amount+
+"%0A--------------------%0A";
+
+    });
+
+    msg += "%0A*Grand Total : ₹"+total+"*";
+
+    window.open(
+"https://wa.me/919712149344?text="+msg,
+"_blank"
+);
+
+    cart=[];
+
+    updateCart();
+
+    closeCart();
+
+}
+
+window.onclick=function(e){
+
+    if(e.target===document.getElementById("cartPopup")){
+
+        closeCart();
+
+    }
+
+};
