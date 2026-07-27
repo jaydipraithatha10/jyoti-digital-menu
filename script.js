@@ -119,8 +119,8 @@ card.querySelector("span:last-child").innerHTML = "▲";
 
         html += `
         <div class="subcategory-card"
-             onclick="toggleSubCategory('${categoryId}','${subId}',this)">
-
+     data-name="${subName.toLowerCase()}"
+     onclick="toggleSubCategory('${categoryId}','${subId}',this)">
             <span>${subName}</span>
 
             <span>▶</span>
