@@ -108,6 +108,7 @@ card.querySelector("span:last-child").innerHTML = "▲";
 
     const rows = parseCSV(csv);
 
+allSubCategories = rows;
     let html = "";
 
     for (let i = 1; i < rows.length; i++) {
