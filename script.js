@@ -11,6 +11,9 @@ const PRODUCT_CSV =
 
 let cart = [];
 
+let allCategories = [];
+let allSubCategories = [];
+let allProducts = [];
 document.addEventListener("DOMContentLoaded", () => {
     loadCategories();
 
