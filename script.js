@@ -519,6 +519,13 @@ function sendWhatsAppOrder(){
     closeCart();
 
 }
+function showPopup(){
+    document.getElementById("customPopup").classList.add("show");
+}
+
+function closePopup(){
+    document.getElementById("customPopup").classList.remove("show");
+}
 
 window.onclick=function(e){
 
