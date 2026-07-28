@@ -1756,3 +1756,11 @@ html, body {
     margin-bottom: 0;
     padding-bottom: 25px;
 }
+body{
+    display:flex;
+    flex-direction:column;
+}
+
+.footer{
+    margin-top:auto;
+}
