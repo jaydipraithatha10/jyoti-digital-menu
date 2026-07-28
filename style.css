@@ -1744,3 +1744,15 @@ footer b{
     font-size:28px;
     color:#8B0000;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #f5f5f5;
+}
+
+.footer {
+    margin-bottom: 0;
+    padding-bottom: 25px;
+}
