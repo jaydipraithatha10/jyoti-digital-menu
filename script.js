@@ -295,18 +295,9 @@ function addToCart(product, weight, price, btn){
     );
 
     if(qty <= 0){
-
-        function showPopup(){
-    document.getElementById("customPopup").classList.add("show");
+    showPopup();
+    return;
 }
-
-function closePopup(){
-    document.getElementById("customPopup").classList.remove("show");
-}
-
-        return;
-
-    }
 
     const existing = cart.find(item =>
         item.product === product &&
