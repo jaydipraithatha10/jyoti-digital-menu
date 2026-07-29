@@ -319,6 +319,11 @@ body{
 
 }
 
+.category-card span:last-of-type{
+    font-size:30px;
+    font-weight:bold;
+    color:#444;
+}
 .category-arrow{
 
     font-size:22px;
