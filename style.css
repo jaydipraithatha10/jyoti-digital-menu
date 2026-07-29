@@ -257,17 +257,35 @@ body{
     width:100%;
 
 }
-.category-card{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    background:#fff;
-    border-radius:22px;
-    padding:18px 20px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-    margin-bottom:20px;
-}
 
+.category-card{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    border:2px solid transparent;
+
+    transition:.3s;
+    gap:12px;
+    min-height:120px;
+    padding:18px 20px;
+
+}
 
 .category-card:hover{
 
