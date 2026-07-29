@@ -304,13 +304,14 @@ body{
     border-color:#FFD700;
 
 }
-
 .category-card span:first-of-type{
-    font-size:20px;
+    flex:1;
+    font-size:24px;
     font-weight:700;
     color:#222;
-    flex:1;
+    line-height:1.2;
 }
+
 .category-name{
 
     font-size:20px;
@@ -331,14 +332,15 @@ body{
     font-weight:bold;
 
 }
-
 .category-image{
-    width:100px;
-    height:100px;
+    width:95px;
+    height:95px;
     object-fit:cover;
     border-radius:15px;
+    margin-right:15px;
     flex-shrink:0;
 }
+
 
 /* ===================================
    SUB CATEGORY
