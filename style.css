@@ -354,11 +354,14 @@ body{
 }
 
 .subcategory-card{
+    background:#fff;
+    border-radius:16px;
+    padding:12px 16px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
     display:flex;
     align-items:center;
-    gap:10px;
-    padding:8px 12px;
-    min-height:65px;
+    gap:12px;
+    margin-top:10px;
 }
 
 .subcategory-card:hover{
