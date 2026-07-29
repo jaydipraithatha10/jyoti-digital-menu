@@ -76,15 +76,17 @@ const image = categories[i][3];
 <div class="category-item">
 
     <div class="category-card"
-         data-id="${id}"
-         data-name="${name.toLowerCase()}"
-         onclick="toggleCategory('${id}',this)">
+     data-id="${id}"
+     data-name="${name.toLowerCase()}"
+     onclick="toggleCategory('${id}',this)">
 
-        <span>${name}</span>
+    <img src="${image}" class="category-image" alt="${name}">
 
-        <span>▼</span>
+    <span>${name}</span>
 
-    </div>
+    <span>▼</span>
+
+</div>
 
     <div id="sub-${id}" class="sub-list"></div>
 
