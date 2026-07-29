@@ -160,3 +160,87 @@ body{
     color:#8B0000;
     font-weight:700;
 }
+/* ===================================
+   PART 2 - PREMIUM CATEGORY
+=================================== */
+
+.categories{
+    padding:0 18px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.category-item{
+    width:100%;
+}
+
+/* Category Card */
+
+.category-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    width:100%;
+    min-height:105px;
+    padding:16px 18px;
+    background:#fff;
+    border:2px solid transparent;
+    border-radius:22px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.30s;
+}
+
+.category-card:hover{
+    transform:translateY(-3px);
+    border-color:#FFD700;
+    box-shadow:0 12px 24px rgba(0,0,0,.14);
+}
+
+.category-card.active{
+    background:linear-gradient(135deg,#7B1113,#A61C1C);
+    border-color:#FFD700;
+}
+
+/* Category Image */
+
+.category-image{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:18px;
+    border:2px solid #F1F1F1;
+    flex-shrink:0;
+}
+
+.category-card.active .category-image{
+    border-color:#FFD700;
+}
+
+/* Category Name */
+
+.category-name{
+    flex:1;
+    font-size:23px;
+    font-weight:700;
+    color:#222;
+}
+
+.category-card.active .category-name{
+    color:#FFD700;
+}
+
+/* Arrow */
+
+.category-arrow{
+    font-size:24px;
+    font-weight:700;
+    color:#555;
+    transition:.30s;
+}
+
+.category-card.active .category-arrow{
+    color:#FFD700;
+    transform:rotate(180deg);
+}
