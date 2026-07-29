@@ -307,7 +307,7 @@ body{
 .category-card span:first-of-type{
     flex:1;
     font-size:20px;
-    font-weight:700;
+    font-weight:500;
     color:#222;
     white-space:nowrap;
     overflow:hidden;
@@ -329,7 +329,7 @@ body{
 }
 .category-arrow{
 
-    font-size:22px;
+    font-size:20px;
 
     font-weight:bold;
 
