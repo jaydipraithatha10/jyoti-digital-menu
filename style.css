@@ -409,6 +409,19 @@ body{
 
 }
 
+.subcategory-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.subcategory-image{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:12px;
+    flex-shrink:0;
+}
 
 /* ===================================
    PRODUCT CONTAINER
