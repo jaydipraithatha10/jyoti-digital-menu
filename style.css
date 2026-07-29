@@ -305,10 +305,13 @@ body{
 
 }
 .category-card span:first-of-type{
-    font-size:22px;
-    font-weight:700;
     flex:1;
-    line-height:1.2;
+    font-size:20px;
+    font-weight:700;
+    color:#222;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .category-name{
