@@ -80,8 +80,11 @@ const image = categories[i][3];
      data-name="${name.toLowerCase()}"
      onclick="toggleCategory('${id}',this)">
 
-    <img src="${image}" class="category-image" alt="${name}">
-
+    
+<img src="${image || 'placeholder.png'}"
+     class="category-image"
+     alt="${name}"
+     onerror="this.src='placeholder.png'">
     <span>${name}</span>
 
     <span>▼</span>
