@@ -1,5 +1,5 @@
 /* ===================================
-   PART 1 - RESET & BODY
+   PART 1 - RESET + HEADER + SEARCH
 =================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -16,7 +16,7 @@ html{
 
 body{
     font-family:'Poppins',sans-serif;
-    background:#F6F6F6;
+    background:#F7F7F7;
     color:#333;
     overflow-x:hidden;
 }
@@ -26,33 +26,34 @@ body{
 =================================== */
 
 .header{
-    background:linear-gradient(135deg,#650000,#980000);
-    color:#fff;
-    border-bottom-left-radius:28px;
-    border-bottom-right-radius:28px;
-    box-shadow:0 8px 24px rgba(0,0,0,.22);
+    background:linear-gradient(135deg,#6D0000,#9E0000);
+    border-bottom-left-radius:35px;
+    border-bottom-right-radius:35px;
+    box-shadow:0 10px 25px rgba(0,0,0,.20);
     overflow:hidden;
 }
 
 .header-overlay{
-    padding:22px 18px;
+    padding:20px;
 }
 
 .top-header{
     display:flex;
     align-items:center;
-    gap:18px;
+    gap:16px;
 }
 
+/* Logo */
+
 .logo-box{
-    width:90px;
-    height:90px;
+    width:105px;
+    height:105px;
     border-radius:50%;
     background:#fff;
-    border:4px solid #FFD700;
+    border:5px solid #FFD700;
     overflow:hidden;
     flex-shrink:0;
-    box-shadow:0 4px 15px rgba(0,0,0,.18);
+    box-shadow:0 5px 18px rgba(0,0,0,.20);
 }
 
 .logo{
@@ -61,52 +62,60 @@ body{
     object-fit:cover;
 }
 
+/* Company */
+
 .company-info{
     flex:1;
 }
 
 .company-info h1{
     font-family:'Cinzel',serif;
-    font-size:32px;
+    font-size:40px;
     color:#FFD700;
-    line-height:1.1;
+    line-height:1;
 }
 
 .company-info h2{
+    margin-top:6px;
     font-family:'Cinzel',serif;
-    font-size:18px;
-    letter-spacing:3px;
-    margin-top:3px;
+    font-size:20px;
+    color:#fff;
+    letter-spacing:2px;
 }
 
 .location{
     margin-top:10px;
-    color:#FFE9A5;
-    font-size:15px;
+    font-size:16px;
+    color:#FFE7A0;
 }
 
 .tagline{
     margin-top:8px;
-    line-height:24px;
-    font-size:14px;
     color:#fff;
+    font-size:15px;
+    line-height:24px;
 }
 
+/* Call Button */
+
 .call-btn{
-    display:inline-block;
-    margin-top:15px;
-    padding:11px 22px;
-    background:#FFD700;
+    display:block;
+    margin-top:18px;
+    width:100%;
+    text-align:center;
+    padding:14px;
+    background:linear-gradient(135deg,#FFD700,#FFC107);
     color:#650000;
-    border-radius:30px;
-    text-decoration:none;
+    font-size:22px;
     font-weight:700;
-    transition:.3s;
+    text-decoration:none;
+    border-radius:40px;
+    box-shadow:0 6px 18px rgba(255,193,7,.35);
+    transition:.25s;
 }
 
 .call-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 6px 16px rgba(255,215,0,.35);
 }
 
 /* ===================================
@@ -114,23 +123,23 @@ body{
 =================================== */
 
 .search-section{
-    padding:20px 18px;
+    padding:22px 18px;
 }
 
 .search-box{
     background:#fff;
-    border-radius:18px;
+    border-radius:20px;
+    border:2px solid #F1F1F1;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
     overflow:hidden;
-    border:2px solid #eee;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
 .search-box input{
     width:100%;
-    padding:16px 18px;
     border:none;
     outline:none;
-    font-size:16px;
+    padding:18px;
+    font-size:17px;
     background:transparent;
 }
 
