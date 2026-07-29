@@ -158,9 +158,14 @@ const image = subcategories[i][4];
      data-name="${subName.toLowerCase()}"
      onclick="toggleSubCategory('${categoryId}','${subId}',this)">
 
-<span>${subName}</span>
+    <img src="${image || 'placeholder.png'}"
+         class="subcategory-image"
+         alt="${subName}"
+         onerror="this.src='placeholder.png'">
 
-<span>▶</span>
+    <span>${subName}</span>
+
+    <span>▶</span>
 
 </div>
 
