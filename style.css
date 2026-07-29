@@ -16,7 +16,7 @@ html{
 
 body{
     font-family:'Poppins',sans-serif;
-    background:#f5f5f5;
+    background:#F6F6F6;
     color:#333;
     overflow-x:hidden;
 }
@@ -26,16 +26,16 @@ body{
 =================================== */
 
 .header{
-    background:linear-gradient(135deg,#5B0000,#8B0000);
+    background:linear-gradient(135deg,#650000,#980000);
     color:#fff;
     border-bottom-left-radius:28px;
     border-bottom-right-radius:28px;
+    box-shadow:0 8px 24px rgba(0,0,0,.22);
     overflow:hidden;
-    box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
 .header-overlay{
-    padding:22px;
+    padding:22px 18px;
 }
 
 .top-header{
@@ -52,6 +52,7 @@ body{
     border:4px solid #FFD700;
     overflow:hidden;
     flex-shrink:0;
+    box-shadow:0 4px 15px rgba(0,0,0,.18);
 }
 
 .logo{
@@ -66,36 +67,46 @@ body{
 
 .company-info h1{
     font-family:'Cinzel',serif;
-    color:#FFD700;
     font-size:32px;
+    color:#FFD700;
+    line-height:1.1;
 }
 
 .company-info h2{
     font-family:'Cinzel',serif;
     font-size:18px;
     letter-spacing:3px;
+    margin-top:3px;
 }
 
 .location{
-    margin-top:8px;
-    color:#FFE8A3;
+    margin-top:10px;
+    color:#FFE9A5;
+    font-size:15px;
 }
 
 .tagline{
-    margin-top:10px;
+    margin-top:8px;
     line-height:24px;
-    font-size:15px;
+    font-size:14px;
+    color:#fff;
 }
 
 .call-btn{
     display:inline-block;
     margin-top:15px;
+    padding:11px 22px;
     background:#FFD700;
-    color:#5B0000;
-    text-decoration:none;
-    padding:12px 22px;
+    color:#650000;
     border-radius:30px;
+    text-decoration:none;
     font-weight:700;
+    transition:.3s;
+}
+
+.call-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(255,215,0,.35);
 }
 
 /* ===================================
@@ -103,26 +114,32 @@ body{
 =================================== */
 
 .search-section{
-    padding:18px;
+    padding:20px 18px;
 }
 
 .search-box{
     background:#fff;
-    border-radius:16px;
+    border-radius:18px;
     overflow:hidden;
-    box-shadow:0 4px 12px rgba(0,0,0,.10);
+    border:2px solid #eee;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
 .search-box input{
     width:100%;
+    padding:16px 18px;
     border:none;
     outline:none;
-    padding:16px;
     font-size:16px;
+    background:transparent;
+}
+
+.search-box input::placeholder{
+    color:#999;
 }
 
 /* ===================================
-   PART 2 - SECTION TITLE
+   SECTION TITLE
 =================================== */
 
 .section-title{
@@ -133,176 +150,4 @@ body{
     font-size:24px;
     color:#8B0000;
     font-weight:700;
-}
-
-/* ===================================
-   CATEGORY SECTION
-=================================== */
-
-.categories{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    padding:0 18px 22px;
-}
-
-.category-item{
-    width:100%;
-}
-
-/* ===================================
-   CATEGORY CARD
-=================================== */
-
-.category-card{
-    width:100%;
-    min-height:115px;
-    background:#fff;
-    border:2px solid transparent;
-    border-radius:20px;
-    padding:18px;
-    display:flex;
-    align-items:center;
-    gap:16px;
-    cursor:pointer;
-    transition:.3s;
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-
-.category-card:hover{
-    transform:translateY(-3px);
-    border-color:#FFD700;
-    box-shadow:0 10px 22px rgba(0,0,0,.15);
-}
-
-.category-card.active{
-    background:linear-gradient(135deg,#7B1113,#A61C1C);
-    color:#FFD700;
-    border-color:#FFD700;
-}
-
-.category-image{
-    width:85px;
-    height:85px;
-    border-radius:16px;
-    object-fit:cover;
-    flex-shrink:0;
-    border:2px solid #f2f2f2;
-}
-
-.category-card.active .category-image{
-    border-color:#FFD700;
-}
-
-.category-name{
-    flex:1;
-    font-size:21px;
-    font-weight:700;
-}
-
-.category-arrow{
-    font-size:26px;
-    font-weight:bold;
-    transition:.3s;
-}
-
-.category-card.active .category-arrow{
-    transform:rotate(180deg);
-}
-
-/* ===================================
-   SUB CATEGORY CONTAINER
-=================================== */
-
-.sub-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    margin-top:12px;
-}
-/* ===================================
-   PART 3 - PREMIUM SUB CATEGORY
-=================================== */
-
-.sub-list{
-    display:none;
-    margin-top:12px;
-    padding-left:10px;
-}
-
-.sub-list.show{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-/* ---------- Sub Category Card ---------- */
-
-.subcategory-card{
-    width:100%;
-    min-height:88px;
-    background:#ffffff;
-    border:2px solid #f2f2f2;
-    border-radius:18px;
-    padding:14px 16px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    cursor:pointer;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    transition:.30s;
-}
-
-.subcategory-card:hover{
-    transform:translateY(-2px);
-    border-color:#FFD700;
-    box-shadow:0 8px 18px rgba(0,0,0,.12);
-}
-
-.subcategory-card.active{
-    background:linear-gradient(135deg,#7B1113,#A61C1C);
-    color:#FFD700;
-    border-color:#FFD700;
-}
-
-/* ---------- Image ---------- */
-
-.subcategory-image{
-    width:60px;
-    height:60px;
-    border-radius:14px;
-    object-fit:cover;
-    flex-shrink:0;
-    border:2px solid #eeeeee;
-}
-
-.subcategory-card.active .subcategory-image{
-    border-color:#FFD700;
-}
-
-/* ---------- Name ---------- */
-
-.subcategory-name{
-    flex:1;
-    font-size:18px;
-    font-weight:700;
-    color:#222;
-}
-
-.subcategory-card.active .subcategory-name{
-    color:#FFD700;
-}
-
-/* ---------- Arrow ---------- */
-
-.subcategory-arrow{
-    font-size:22px;
-    font-weight:700;
-    color:#8B0000;
-    transition:.30s;
-}
-
-.subcategory-card.active .subcategory-arrow{
-    color:#FFD700;
-    transform:rotate(90deg);
 }
