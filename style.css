@@ -372,12 +372,18 @@ body{
     border-color:#FFD700;
 }
 
-.category-image,
-.subcategory-image{
-    width:80px;
-    height:80px;
+.category-image{
+    width:85px;
+    height:85px;
     object-fit:cover;
     border-radius:14px;
+}
+
+.subcategory-image{
+    width:55px;
+    height:55px;
+    object-fit:cover;
+    border-radius:10px;
 }
 
 .category-item{
