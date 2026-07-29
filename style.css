@@ -234,3 +234,86 @@ body{
     flex-direction:column;
     gap:10px;
 }
+/* ===================================
+   PART 3 - SUB CATEGORY
+=================================== */
+
+.sub-list{
+    display:none;
+    margin-top:12px;
+    padding-left:16px;
+}
+
+.sub-list.show{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+/* Sub Category Card */
+
+.subcategory-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#ffffff;
+    border:2px solid #eeeeee;
+    border-radius:15px;
+    padding:14px 16px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 3px 10px rgba(0,0,0,.06);
+}
+
+.subcategory-card:hover{
+    transform:translateX(4px);
+    box-shadow:0 6px 14px rgba(0,0,0,.10);
+}
+
+.subcategory-card.active{
+    background:#FFF8E1;
+    border-color:#FFD700;
+}
+
+/* Sub Category Image */
+
+.subcategory-image{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:12px;
+    border:2px solid #f2f2f2;
+    background:#fff;
+    flex-shrink:0;
+}
+
+.subcategory-card.active .subcategory-image{
+    border-color:#FFD700;
+}
+
+/* Sub Category Name */
+
+.subcategory-name{
+    flex:1;
+    font-size:18px;
+    font-weight:600;
+    color:#333;
+}
+
+.subcategory-card.active .subcategory-name{
+    color:#7b1113;
+}
+
+/* Arrow */
+
+.subcategory-arrow{
+    font-size:18px;
+    font-weight:bold;
+    color:#666;
+    transition:.3s;
+}
+
+.subcategory-card.active .subcategory-arrow{
+    color:#7b1113;
+    transform:translateX(4px);
+}
