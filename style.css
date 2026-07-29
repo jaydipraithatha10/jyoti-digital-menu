@@ -321,6 +321,13 @@ body{
 
 }
 
+.category-image{
+    width:100px;
+    height:100px;
+    object-fit:cover;
+    border-radius:15px;
+    flex-shrink:0;
+}
 
 /* ===================================
    SUB CATEGORY
