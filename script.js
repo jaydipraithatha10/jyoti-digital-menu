@@ -146,6 +146,7 @@ function toggleCategory(categoryId,card){
         const subName=subcategories[i][2];
         const status=subcategories[i][3].toLowerCase();
 
+const image = subcategories[i][4];
         if(status!=="active") continue;
 
         if(catId!=categoryId) continue;
