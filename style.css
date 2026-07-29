@@ -684,3 +684,232 @@ body{
 #whatsappOrder:hover{
     transform:translateY(-2px);
 }
+/* ===================================
+   FOOTER
+=================================== */
+
+html,
+body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    overflow-x:hidden;
+    background:#f5f5f5;
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+}
+
+.footer{
+    margin:40px 0 0;
+    margin-top:auto;
+    margin-bottom:0;
+    padding:25px 20px;
+    padding-bottom:25px;
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+    color:#fff;
+    text-align:center;
+    border-top-left-radius:25px;
+    border-top-right-radius:25px;
+    box-shadow:0 -5px 15px rgba(0,0,0,.20);
+}
+
+.footer p{
+    margin:8px 0;
+    font-size:15px;
+    line-height:24px;
+}
+
+.footer strong{
+    color:#FFD700;
+}
+
+/* ===================================
+   CUSTOM POPUP
+=================================== */
+
+.custom-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(5px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.custom-popup.show{
+    display:flex;
+}
+
+.popup-box{
+    width:90%;
+    max-width:330px;
+    background:#fff;
+    border-radius:22px;
+    padding:25px;
+    text-align:center;
+    border:3px solid #FFD700;
+    animation:popup .25s ease;
+}
+
+.popup-icon{
+    font-size:55px;
+}
+
+.popup-box h3{
+    margin:15px 0 8px;
+    color:#8B0000;
+    font-size:24px;
+}
+
+.popup-box p{
+    color:#666;
+    line-height:24px;
+    margin-bottom:22px;
+}
+
+.popup-box button{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:30px;
+    background:#8B0000;
+    color:#FFD700;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+@keyframes popup{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ===================================
+   CART QTY CONTROLS
+=================================== */
+
+.qty-controls{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin:12px 0;
+}
+
+.cart-qty-btn{
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:12px;
+    background:#8B0000;
+    color:#FFD700;
+    font-size:28px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.cart-qty-btn:hover{
+    transform:scale(1.05);
+}
+
+.cart-qty{
+    min-width:26px;
+    text-align:center;
+    font-size:24px;
+    font-weight:700;
+    color:#222;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media(max-width:768px){
+
+    .top-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-box{
+        margin-bottom:12px;
+    }
+
+    .company-info h1{
+        font-size:28px;
+    }
+
+    .company-info h2{
+        font-size:17px;
+        letter-spacing:2px;
+    }
+
+    .category-card{
+        padding:16px;
+    }
+
+    .subcategory-card{
+        padding:14px;
+    }
+
+    .product-card{
+        padding:16px;
+    }
+}
+
+@media(max-width:480px){
+
+    .company-info h1{
+        font-size:24px;
+    }
+
+    .company-info h2{
+        font-size:15px;
+    }
+
+    .product-name{
+        font-size:18px;
+    }
+
+    .product-price{
+        font-size:22px;
+    }
+
+    .qty-btn{
+        width:38px;
+        height:38px;
+        font-size:20px;
+    }
+
+    .add-cart-btn{
+        padding:12px;
+        font-size:16px;
+    }
+
+    .cart-bar{
+        padding:12px 14px;
+    }
+
+    .cart-info{
+        font-size:16px;
+    }
+
+    .cart-bar button{
+        padding:10px 16px;
+        font-size:15px;
+    }
+}
