@@ -305,6 +305,12 @@ body{
 
 }
 
+.category-card span:first-of-type{
+    font-size:34px;
+    font-weight:700;
+    color:#222;
+    flex:1;
+}
 .category-name{
 
     font-size:20px;
