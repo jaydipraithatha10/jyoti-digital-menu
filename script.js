@@ -247,6 +247,10 @@ function loadProducts(categoryId, subCategoryId) {
         html += `
 
 <div class="product-card">
+<img class="product-image"
+     src="${image}"
+     alt="${product}"
+     onerror="this.src='placeholder.png'">
 
     <div class="product-name">${product}</div>
 
