@@ -235,6 +235,7 @@ function loadProducts(categoryId, subCategoryId) {
         const weight = products[i][4];
         const price = products[i][5];
         const status = products[i][6].toLowerCase();
+const image = products[i][7];
 
         if (status !== "active") continue;
 
