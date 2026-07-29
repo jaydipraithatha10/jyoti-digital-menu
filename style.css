@@ -429,3 +429,126 @@
 #whatsappOrder:hover{
     background:#1EBE5D;
 }
+/* ===================================
+   PART 4 - FOOTER / POPUP / RESPONSIVE
+=================================== */
+
+/* ---------- Footer ---------- */
+
+.footer{
+    margin-top:40px;
+    padding:30px 20px;
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+    color:#fff;
+    text-align:center;
+    border-top-left-radius:25px;
+    border-top-right-radius:25px;
+    box-shadow:0 -5px 18px rgba(0,0,0,.20);
+}
+
+.footer p{
+    margin:8px 0;
+    line-height:24px;
+    font-size:15px;
+}
+
+.footer strong{
+    color:#FFD700;
+}
+
+/* ---------- Premium Popup ---------- */
+
+.custom-popup{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(5px);
+    z-index:99999;
+}
+
+.custom-popup.show{
+    display:flex;
+}
+
+.popup-box{
+    width:90%;
+    max-width:340px;
+    background:#fff;
+    border:3px solid #FFD700;
+    border-radius:22px;
+    padding:25px;
+    text-align:center;
+    animation:popupScale .25s ease;
+}
+
+.popup-icon{
+    font-size:55px;
+}
+
+.popup-box h3{
+    margin:15px 0 10px;
+    color:#8B0000;
+    font-size:24px;
+}
+
+.popup-box p{
+    color:#666;
+    line-height:24px;
+    margin-bottom:20px;
+}
+
+.popup-box button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:30px;
+    background:#8B0000;
+    color:#FFD700;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+@keyframes popupScale{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ---------- Loader ---------- */
+
+.loader{
+    display:none;
+    text-align:center;
+    padding:35px;
+    color:#8B0000;
+    font-size:18px;
+    font-weight:700;
+}
+
+/* ---------- Fade ---------- */
+
+.fade-in{
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ----------
