@@ -68,6 +68,7 @@ function renderCategories(){
         const name = categories[i][1];
         const status = categories[i][2].toLowerCase();
 
+const image = categories[i][3];
         if(status !== "active") continue;
 
         container.innerHTML += `
