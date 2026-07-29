@@ -257,13 +257,17 @@ body{
     width:100%;
 
 }
-
 .category-card{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:15px;
+    background:#fff;
+    border-radius:22px;
     padding:18px 20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    margin-bottom:20px;
 }
+
 
 .category-card:hover{
 
