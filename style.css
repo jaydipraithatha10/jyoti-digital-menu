@@ -220,3 +220,89 @@ body{
     gap:10px;
     margin-top:12px;
 }
+/* ===================================
+   PART 3 - PREMIUM SUB CATEGORY
+=================================== */
+
+.sub-list{
+    display:none;
+    margin-top:12px;
+    padding-left:10px;
+}
+
+.sub-list.show{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+/* ---------- Sub Category Card ---------- */
+
+.subcategory-card{
+    width:100%;
+    min-height:88px;
+    background:#ffffff;
+    border:2px solid #f2f2f2;
+    border-radius:18px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.30s;
+}
+
+.subcategory-card:hover{
+    transform:translateY(-2px);
+    border-color:#FFD700;
+    box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+
+.subcategory-card.active{
+    background:linear-gradient(135deg,#7B1113,#A61C1C);
+    color:#FFD700;
+    border-color:#FFD700;
+}
+
+/* ---------- Image ---------- */
+
+.subcategory-image{
+    width:60px;
+    height:60px;
+    border-radius:14px;
+    object-fit:cover;
+    flex-shrink:0;
+    border:2px solid #eeeeee;
+}
+
+.subcategory-card.active .subcategory-image{
+    border-color:#FFD700;
+}
+
+/* ---------- Name ---------- */
+
+.subcategory-name{
+    flex:1;
+    font-size:18px;
+    font-weight:700;
+    color:#222;
+}
+
+.subcategory-card.active .subcategory-name{
+    color:#FFD700;
+}
+
+/* ---------- Arrow ---------- */
+
+.subcategory-arrow{
+    font-size:22px;
+    font-weight:700;
+    color:#8B0000;
+    transition:.30s;
+}
+
+.subcategory-card.active .subcategory-arrow{
+    color:#FFD700;
+    transform:rotate(90deg);
+}
