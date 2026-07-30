@@ -613,10 +613,14 @@ if (!searchText.includes(keyword)) continue;
 
         found = true;
 
-
-        container.innerHTML += `
+container.innerHTML += `
 
 <div class="product-card">
+
+    <img class="product-image"
+         src="${image}"
+         alt="${product}"
+         onerror="this.src='placeholder.png'">
 
     <div class="product-name">${product}</div>
 
@@ -625,13 +629,9 @@ if (!searchText.includes(keyword)) continue;
     <div class="product-price">₹ ${price}</div>
 
     <div class="qty-box">
-
         <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
-
         <span class="qty">0</span>
-
         <button class="qty-btn" onclick="changeQty(this,1)">+</button>
-
     </div>
 
     <button class="add-cart-btn"
@@ -640,8 +640,8 @@ if (!searchText.includes(keyword)) continue;
     </button>
 
 </div>
-
 `;
+        
 
     }
 
