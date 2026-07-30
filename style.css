@@ -288,6 +288,14 @@ body{
     font-weight:bold;
     color:inherit;
 }
+.subcategory-name{
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+}
+
 /* ===================================
    PRODUCT CONTAINER
 =================================== */
