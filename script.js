@@ -612,10 +612,7 @@ if (!searchText.includes(keyword)) continue;
         found = true;
 
 
-        container.innerHTML += <img class="product-image"
-     src="${image}"
-     alt="${product}"
-     onerror="this.src='placeholder.png'">`
+        container.innerHTML += `
 
 <div class="product-card">
 
