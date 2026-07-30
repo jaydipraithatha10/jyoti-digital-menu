@@ -248,6 +248,7 @@ body{
     background:#fff;
     margin:12px 0;
     transition:0.3s;
+    min-height:95px;
 }
 
 .subcategory-card:hover{
@@ -295,6 +296,7 @@ body{
     font-weight:600;
     color:inherit;
     text-align:left;
+    line-height:1.3;
 }
 
 .subcategory-arrow{
