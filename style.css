@@ -442,3 +442,192 @@ body{
 .add-cart-btn:active{
     transform:scale(.97);
 }
+/* ================= CART ================= */
+
+.cart-bar,
+#cart-bar{
+    position:fixed;
+    left:0;
+    bottom:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    background:linear-gradient(135deg,#7B1113,#A61C1C);
+    color:#fff;
+    border-top:3px solid #FFD700;
+    box-shadow:0 -5px 20px rgba(0,0,0,.25);
+    z-index:999;
+}
+
+.cart-info{
+    font-size:17px;
+    font-weight:600;
+}
+
+.cart-info span{
+    color:#FFD700;
+}
+
+.cart-bar button,
+#cart-bar button{
+    border:none;
+    background:#FFD700;
+    color:#7B1113;
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.cart-popup{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:-100%;
+    width:100%;
+    max-height:90vh;
+    background:#fff;
+    border-radius:25px 25px 0 0;
+    overflow-y:auto;
+    transition:.35s;
+    z-index:1000;
+    padding:20px;
+}
+
+.cart-popup.show{
+    bottom:0;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    margin-bottom:15px;
+    background:#fff;
+    border-radius:18px;
+    border:2px solid #f3f3f3;
+    box-shadow:0 5px 12px rgba(0,0,0,.08);
+}
+
+.cart-summary{
+    margin-top:20px;
+    padding:18px;
+    background:#FFF8DC;
+    border:2px solid #FFD700;
+    border-radius:18px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    margin-top:auto;
+    padding:25px 20px;
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+    color:#fff;
+    text-align:center;
+    border-top-left-radius:25px;
+    border-top-right-radius:25px;
+}
+
+.footer strong{
+    color:#FFD700;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+.top-header{
+    flex-direction:column;
+    text-align:center;
+}
+
+.company-info h1{
+    font-size:28px;
+}
+
+.company-info h2{
+    font-size:17px;
+}
+
+.product-list{
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.product-image{
+    height:130px;
+}
+
+}
+
+@media (max-width:480px){
+
+.product-list{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.product-card{
+    padding:12px;
+}
+
+.product-image{
+    height:110px;
+}
+
+.product-name{
+    font-size:15px;
+}
+
+.product-price{
+    font-size:18px;
+}
+
+.qty-box{
+    width:150px;
+}
+
+}
+
+/* ================= DESKTOP ================= */
+
+@media (min-width:1024px){
+
+.header-overlay,
+.search-section,
+.section-title,
+.categories,
+.products{
+    max-width:1500px;
+    margin:auto;
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
+
+.sub-list.show{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+/* Products */
+.product-list{
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.product-image{
+    height:220px;
+}
+
+}
