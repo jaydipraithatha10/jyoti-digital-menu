@@ -243,7 +243,6 @@ body{
     border:2px solid transparent;
     border-radius:20px;
     min-height:95px;
-    padding:12px 18px;
     display:flex;
     align-items:center;
     justify-content:space-between;
