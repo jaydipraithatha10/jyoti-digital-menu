@@ -1158,3 +1158,19 @@ body {
 }
 
 }
+/* Products - 2 per row */
+
+.product-list.show{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.product-card{
+    width:100%;
+    margin:0;
+}
+
+.product-image{
+    height:260px;
+}
