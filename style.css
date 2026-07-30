@@ -258,7 +258,7 @@ body{
 .subcategory-card.active{
     background:#8B0000;
     color:#FFD700;
-    border-color:#FFD700;
+    border:2px solid #FFD700;
 }
 
 .category-image{
