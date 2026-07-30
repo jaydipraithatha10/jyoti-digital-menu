@@ -318,9 +318,10 @@ body {
 
 .product-list{
     display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
+    grid-template-columns:1fr;
+    gap:16px;
     padding:12px;
+    justify-items:center;
 }
 
 
@@ -413,9 +414,8 @@ body {
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:12px;
     width:100%;
-    max-width:350px;
+    max-width:360px;
     margin:0 auto;
 }
 
