@@ -1,8 +1,7 @@
 /* ===================================
    GOOGLE FONT
 =================================== */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
 /* ===================================
    RESET
 =================================== */
@@ -15,12 +14,10 @@
 html{
     scroll-behavior:smooth;
 }
-
 body{
-    font-family:'Poppins',sans-serif;
-    background:#f5f5f5;
-    color:#333;
+    font-family: 'Outfit', sans-serif;
 }
+
 
 /* ===================================
    HEADER
