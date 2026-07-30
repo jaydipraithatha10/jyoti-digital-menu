@@ -297,6 +297,12 @@ body{
     text-align:left;
 }
 
+.subcategory-arrow{
+    font-size:20px;
+    font-weight:600;
+    margin-left:auto;
+    transition:transform 0.3s ease;
+}
 /* ===================================
    PRODUCT CONTAINER
 =================================== */
