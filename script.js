@@ -81,13 +81,18 @@ const image = categories[i][3];
      onclick="toggleCategory('${id}',this)">
 
     
-<img src="${image || 'placeholder.png'}"
-     class="category-image"
-     alt="${name}"
-     onerror="this.src='placeholder.png'">
-    <span>${name}</span>
+<div class="category-content">
 
-    <span>▼</span>
+    <img src="${image || 'placeholder.png'}"
+         class="category-image"
+         alt="${name}"
+         onerror="this.src='placeholder.png'">
+
+    <div class="category-name">${name}</div>
+
+</div>
+
+<span class="category-arrow">▼</span>
 
 </div>
 
