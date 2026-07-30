@@ -223,3 +223,73 @@ body{
 .category-card.active .category-arrow{
     color:#FFD700;
 }
+/* ===================================
+   SUB CATEGORY
+=================================== */
+
+.sub-list{
+    display:block;
+    margin-top:10px;
+    padding-left:10px;
+}
+
+.subcategory-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px 16px;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    cursor:pointer;
+    transition:.25s;
+    margin-bottom:12px;
+}
+
+.subcategory-card:hover{
+    background:#FFF8DC;
+    border-color:#FFD700;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+.subcategory-card.active{
+    background:#8B0000;
+    border:2px solid #FFD700;
+}
+
+.subcategory-image{
+    width:65px;
+    height:65px;
+    border-radius:16px;
+    object-fit:cover;
+    flex-shrink:0;
+}
+
+.subcategory-name{
+    flex:1;
+    font-size:16px;
+    font-weight:600;
+    color:#222;
+    line-height:1.3;
+    word-break:break-word;
+}
+
+.subcategory-card.active .subcategory-name{
+    color:#FFD700;
+}
+
+.subcategory-arrow{
+    margin-left:15px;
+    font-size:22px;
+    color:#8B0000;
+    transition:.25s;
+}
+
+.subcategory-card:hover .subcategory-arrow{
+    transform:translateX(3px);
+}
+
+.subcategory-card.active .subcategory-arrow{
+    color:#FFD700;
+}
