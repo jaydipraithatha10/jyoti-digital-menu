@@ -343,11 +343,12 @@ body{
 =================================== */
 
 .product-name{
-    font-size:22px;
-    font-weight:700;
-    color:#222;
-    line-height:30px;
-    text-align:center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2f2f2f;
+    line-height: 1.35;
+    letter-spacing: -0.2px;
+    margin-bottom: 4px;
 }
 
 .product-weight{
