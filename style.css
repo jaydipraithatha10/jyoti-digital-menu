@@ -263,6 +263,12 @@ body{
     background:#8B0000;
     color:#FFD700;
     border:2px solid #FFD700;
+    box-shadow:0 10px 25px rgba(139,0,0,.30);
+}
+
+.subcategory-card.active .subcategory-name,
+.subcategory-card.active .subcategory-arrow{
+    color:#FFD700;
 }
 
 .category-image{
