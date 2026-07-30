@@ -252,9 +252,7 @@ const image = products[i][7];
         html += `
 
 <div class="product-card">
-<img class="product-image"
-     src="${image}"
-     onerror="this.src='placeholder.png'">
+
 
 <img class="product-image"
      src="${image}"
