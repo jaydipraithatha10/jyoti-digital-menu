@@ -587,6 +587,7 @@ function searchProducts() {
         const price = products[i][5];
         const status = products[i][6].toLowerCase();
 
+const image = products[i][7];
         if (status !== "active") continue;
 
         const catId = products[i][1];
