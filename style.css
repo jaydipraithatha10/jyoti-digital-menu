@@ -278,9 +278,9 @@ body{
 .subcategory-card span:first-of-type{
     flex:1;
     text-align:left;
-    font-size:18px;
-    font-weight:700;
-    color:#222;
+    font-size:16px;
+    font-weight:600;
+    color:inherit;
 }
 
 .subcategory-card span:last-of-type{
