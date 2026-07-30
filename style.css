@@ -227,6 +227,19 @@ body{
    SUB CATEGORY
 =================================== */
 
+.subcategory-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    border-radius:22px;
+    padding:16px 20px;
+    margin:14px 0;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+
 .sub-list{
     display:block;
     margin-top:10px;
