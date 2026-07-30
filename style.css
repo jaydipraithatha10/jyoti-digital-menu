@@ -337,6 +337,24 @@ body{
     flex:1;
     gap:12px;
 }
+.subcategory-card{
+    transition:all .25s ease;
+}
+
+.subcategory-card:hover{
+    transform:translateY(-2px);
+    background:#FFF8DC;
+    border-color:#FFD700;
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+.subcategory-arrow{
+    transition:transform .25s ease;
+}
+
+.subcategory-card:hover .subcategory-arrow{
+    transform:translateX(3px);
+}
 
 /* ===================================
    PRODUCT CONTAINER
