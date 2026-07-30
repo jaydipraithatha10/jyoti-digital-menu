@@ -570,14 +570,19 @@ function searchProducts() {
 
     if (keyword === "") {
 
-        document.getElementById("noProducts").style.display = "none";
+    document.getElementById("searchResults").style.display = "none";
+    document.getElementById("categories").style.display = "block";
+    document.getElementById("noProducts").style.display = "none";
 
-        renderCategories();
+    renderCategories();
 
-        return;
-    }
+    return;
+}
 
-    const container = document.getElementById("categories");
+    const container = document.getElementById("searchResults");
+
+document.getElementById("searchResults").style.display = "grid";
+document.getElementById("categories").style.display = "none";
 
     container.innerHTML = "";
 
