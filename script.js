@@ -610,6 +610,10 @@ const searchText = (
 if (!searchText.includes(keyword)) continue;
 
         found = true;
+<img class="product-image"
+     src="${image}"
+     alt="${product}"
+     onerror="this.src='placeholder.png'">
 
         container.innerHTML += `
 
