@@ -307,15 +307,16 @@ body{
     color:inherit;
 }
 
+
 .subcategory-name{
     flex:1;
     font-size:16px;
     font-weight:600;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    color:#222;
+    text-align:left;
+    line-height:1.3;
+    margin-left:12px;
 }
-
 .subcategory-arrow{
     margin-left:auto;
     font-size:22px;
