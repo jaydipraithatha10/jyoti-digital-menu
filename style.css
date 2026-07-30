@@ -328,6 +328,7 @@ body {
     min-width:0;
     box-sizing:border-box;
     overflow:hidden;
+    padding:10px;
 }
 
 .product-image{
