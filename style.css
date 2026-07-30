@@ -303,6 +303,13 @@ body{
     margin-left:auto;
     transition:transform 0.3s ease;
 }
+
+.subcategory-content{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex:1;
+}
 /* ===================================
    PRODUCT CONTAINER
 =================================== */
