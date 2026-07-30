@@ -284,8 +284,8 @@ body{
 }
 
 .category-image{
-    width:85px;
-    height:85px;
+    width:65px;
+    height:65px;
     object-fit:cover;
     border-radius:14px;
 }
