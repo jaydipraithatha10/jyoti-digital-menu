@@ -317,12 +317,17 @@ body{
     line-height:1.3;
     margin-left:12px;
 }
+
 .subcategory-arrow{
     margin-left:auto;
-    font-size:22px;
+    font-size:20px;
+    font-weight:700;
+    color:inherit;
     flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
-
 .subcategory-content{
     display:flex;
     align-items:center;
