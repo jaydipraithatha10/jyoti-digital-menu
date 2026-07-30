@@ -296,11 +296,7 @@ body{
     font-weight:bold;
     color:inherit;
 }
-.subcategory-card{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
+
 
 .subcategory-name{
     flex:1;
