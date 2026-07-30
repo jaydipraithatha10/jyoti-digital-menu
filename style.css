@@ -180,6 +180,8 @@ body{
     background:#8B0000;
     color:#FFD700;
     border-color:#FFD700;
+    min-height:90px;
+    padding:8px 16px;
 }
 
 
