@@ -1,12 +1,4 @@
-/* ===================================
-   GOOGLE FONT
-=================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
-
-/* ===================================
-   RESET
-=================================== */
 
 *{
     margin:0;
@@ -22,14 +14,12 @@ body{
     font-family:'Outfit',sans-serif;
     display:flex;
     flex-direction:column;
+    margin:0;
+    padding:0;
     min-height:100%;
     overflow-x:hidden;
     background:#f5f5f5;
 }
-
-/* ===================================
-   HEADER
-=================================== */
 
 .header{
     background:linear-gradient(135deg,#5B0000,#8B0000);
@@ -101,17 +91,13 @@ body{
 .call-btn{
     display:inline-block;
     margin-top:15px;
-    padding:10px 20px;
-    border-radius:30px;
     background:#FFD700;
     color:#6A0000;
     text-decoration:none;
+    padding:10px 20px;
+    border-radius:30px;
     font-weight:700;
 }
-
-/* ===================================
-   SEARCH
-=================================== */
 
 .search-section{
     padding:18px;
@@ -133,163 +119,15 @@ body{
     font-size:16px;
 }
 
-/* ===================================
-   SECTION TITLE
-=================================== */
-
 .section-title{
     padding:0 18px 15px;
+    font-size:16px;
+    font-weight:600;
+    color:#2f2f2f;
 }
 
 .section-title h3{
     color:#8B0000;
     font-size:22px;
     font-weight:700;
-}
-/* ===================================
-   CATEGORY
-=================================== */
-
-.categories{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    padding:0 18px 20px;
-}
-
-.category-item{
-    width:100%;
-    margin-bottom:14px;
-}
-
-.category-card{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:#fff;
-    border:2px solid transparent;
-    border-radius:20px;
-    min-height:95px;
-    padding:12px 18px;
-    cursor:pointer;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-    transition:.25s;
-}
-
-.category-card:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,.15);
-}
-
-.category-card.active{
-    background:#8B0000;
-    border-color:#FFD700;
-    color:#FFD700;
-}
-
-.category-content{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    flex:1;
-}
-
-.category-image{
-    width:65px;
-    height:65px;
-    border-radius:14px;
-    object-fit:cover;
-    flex-shrink:0;
-}
-
-.category-name{
-    font-size:16px;
-    font-weight:600;
-    color:#222;
-    line-height:1.3;
-}
-
-.category-card.active .category-name{
-    color:#FFD700;
-}
-
-.category-arrow{
-    font-size:22px;
-    margin-left:15px;
-    color:inherit;
-    transition:.25s;
-}
-
-.category-card.active .category-arrow{
-    color:#FFD700;
-}
-/* ===================================
-   SUB CATEGORY
-=================================== */
-
-.sub-list{
-    display:block;
-    margin-top:10px;
-    padding-left:10px;
-}
-
-.subcategory-card{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:12px 16px;
-    background:#fff;
-    border-radius:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-    cursor:pointer;
-    transition:.25s;
-    margin-bottom:12px;
-}
-
-.subcategory-card:hover{
-    background:#FFF8DC;
-    border-color:#FFD700;
-    transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,.15);
-}
-
-.subcategory-card.active{
-    background:#8B0000;
-    border:2px solid #FFD700;
-}
-
-.subcategory-image{
-    width:65px;
-    height:65px;
-    border-radius:16px;
-    object-fit:cover;
-    flex-shrink:0;
-}
-
-.subcategory-name{
-    flex:1;
-    font-size:16px;
-    font-weight:600;
-    color:#222;
-    line-height:1.3;
-    word-break:break-word;
-}
-
-.subcategory-card.active .subcategory-name{
-    color:#FFD700;
-}
-
-.subcategory-arrow{
-    margin-left:15px;
-    font-size:22px;
-    color:#8B0000;
-    transition:.25s;
-}
-
-.subcategory-card:hover .subcategory-arrow{
-    transform:translateX(3px);
-}
-
-.subcategory-card.active .subcategory-arrow{
-    color:#FFD700;
 }
