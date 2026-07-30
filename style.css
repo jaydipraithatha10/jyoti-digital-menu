@@ -414,6 +414,9 @@ body {
     flex-direction:column;
     align-items:center;
     padding:12px;
+    width:100%;
+    max-width:350px;
+    margin:0 auto;
 }
 
 .product-name{
