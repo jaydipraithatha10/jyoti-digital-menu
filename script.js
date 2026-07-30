@@ -156,14 +156,12 @@ const image = subcategories[i][4];
 
         if(catId!=categoryId) continue;
 
-        html += `
-
+        
+html += `
 <div class="subcategory-card"
      data-id="${subId}"
      data-name="${subName.toLowerCase()}"
      onclick="toggleSubCategory('${categoryId}','${subId}',this)">
-
-    <div class="subcategory-content">
 
     <img src="${image || 'placeholder.png'}"
          class="subcategory-image"
@@ -172,14 +170,11 @@ const image = subcategories[i][4];
 
     <div class="subcategory-name">${subName}</div>
 
-</div>
-
-<span class="subcategory-arrow">▶</span>
+    <div class="subcategory-arrow">▶</div>
 
 </div>
 
 <div id="product-${subId}" class="product-list"></div>
-
 `;
 
     }
