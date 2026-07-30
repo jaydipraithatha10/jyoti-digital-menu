@@ -239,16 +239,13 @@ body{
 =================================== */
 
 .subcategory-card{
-    background:#fff;
-    border:2px solid transparent;
-    border-radius:20px;
-    min-height:95px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    gap:14px;
+    padding:12px 16px;
+    background:#fff;
+    border-radius:20px;
     box-shadow:0 4px 12px rgba(0,0,0,.08);
-    cursor:pointer;
-    padding 12px 14px;
 }
 
 
