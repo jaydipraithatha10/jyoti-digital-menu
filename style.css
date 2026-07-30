@@ -1010,3 +1010,151 @@ body {
     font-size: 15px;
   }
 }
+/* =========================
+   DESKTOP RESPONSIVE
+=========================*/
+
+@media (min-width:1024px){
+
+.container,
+.search-section,
+.section-title,
+.categories,
+.products{
+    width:95%;
+    max-width:1500px;
+    margin:auto;
+}
+
+.header-overlay{
+    max-width:1500px;
+    margin:auto;
+    padding:35px 20px;
+}
+
+.top-header{
+    align-items:center;
+}
+
+.logo-box{
+    width:120px;
+    height:120px;
+}
+
+.company-info h1{
+    font-size:46px;
+}
+
+.company-info h2{
+    font-size:24px;
+}
+
+.location{
+    font-size:18px;
+}
+
+.tagline{
+    font-size:17px;
+}
+
+.call-btn{
+    font-size:18px;
+    padding:14px 30px;
+}
+
+.search-box input{
+    font-size:18px;
+}
+
+.section-title h3{
+    font-size:30px;
+}
+
+/* Category */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
+
+.category-item{
+    margin:0;
+}
+
+.category-card{
+    min-height:110px;
+}
+
+.category-image{
+    width:90px;
+    height:90px;
+}
+
+.category-name{
+    font-size:20px;
+}
+
+.category-arrow{
+    font-size:28px;
+}
+
+/* Subcategory */
+
+.sub-list.show{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.subcategory-card{
+    min-height:100px;
+}
+
+.subcategory-image{
+    width:80px;
+    height:80px;
+}
+
+.subcategory-name{
+    font-size:19px;
+}
+
+/* Products */
+
+.product-list.show{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.product-card{
+    margin:0;
+    height:100%;
+}
+
+.product-image{
+    height:260px;
+}
+
+.product-name{
+    font-size:20px;
+}
+
+.product-weight{
+    font-size:16px;
+}
+
+.product-price{
+    font-size:28px;
+}
+
+.qty-box{
+    width:200px;
+}
+
+.footer{
+    margin-top:70px;
+}
+
+}
