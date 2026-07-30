@@ -1180,12 +1180,7 @@ body {
 }
 @media (min-width:1024px){
 
-#categories{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:25px;
-    width:100%;
-}
+
 
 .category-item{
     width:100%;
