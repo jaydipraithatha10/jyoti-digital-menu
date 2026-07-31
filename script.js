@@ -426,3 +426,105 @@ function updateCart() {
         cart.length ? "flex" : "none";
 
 }
+// ================= SMART SEARCH =================
+
+function searchProducts() {
+
+    const keyword = document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const searchResults = document.getElementById("searchResults");
+    const categoriesDiv = document.getElementById("categories");
+    const noProducts = document.getElementById("noProducts");
+
+    if (keyword === "") {
+
+        searchResults.style.display = "none";
+        categoriesDiv.style.display = "flex";
+        noProducts.style.display = "none";
+
+        renderCategories();
+
+        return;
+    }
+
+    searchResults.style.display = "grid";
+    categoriesDiv.style.display = "none";
+
+    let html = "";
+    let found = false;
+
+    for (let i = 1; i < products.length; i++) {
+
+        const catId = products[i][1];
+        const subId = products[i][2];
+        const product = products[i][3];
+        const weight = products[i][4];
+        const price = products[i][5];
+        const status = products[i][6].toLowerCase();
+        const image = products[i][7];
+
+        if (status !== "active") continue;
+
+        const category =
+            categories.find(c => c[0] == catId)?.[1] || "";
+
+        const subcategory =
+            subcategories.find(s => s[0] == subId)?.[2] || "";
+
+        const text = (
+            product + " " +
+            category + " " +
+            subcategory
+        ).toLowerCase();
+
+        if (!text.includes(keyword)) continue;
+
+        found = true;
+
+        html += `
+
+<div class="product-card">
+
+<img
+loading="lazy"
+decoding="async"
+class="product-image"
+src="${image}"
+alt="${product}"
+onerror="this.src='placeholder.png'">
+
+<div class="product-name">${product}</div>
+
+<div class="product-weight">${weight}</div>
+
+<div class="product-price">₹ ${price}</div>
+
+<div class="qty-box">
+
+<button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+
+<span class="qty">0</span>
+
+<button class="qty-btn" onclick="changeQty(this,1)">+</button>
+
+</div>
+
+<button class="add-cart-btn"
+onclick="addToCart('${product}','${weight}','${price}',this)">
+🛒 Add to Cart
+</button>
+
+</div>
+
+`;
+    }
+
+    searchResults.innerHTML = html;
+
+    noProducts.style.display = found ? "none" : "block";
+
+}
