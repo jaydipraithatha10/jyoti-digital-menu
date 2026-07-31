@@ -1,0 +1,170 @@
+/* ==========================================
+   Jyoti Gruh Udhyog
+   Mobile First Design
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+:root{
+
+    --primary:#6B4226;
+    --secondary:#9C6B30;
+    --bg:#F8F5F0;
+    --white:#ffffff;
+    --text:#222;
+    --shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    padding-top:80px;
+
+    padding-bottom:80px;
+
+}
+
+/* =========================
+   Header
+========================= */
+
+.header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:80px;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:10px 15px;
+
+    box-shadow:var(--shadow);
+
+    z-index:999;
+
+}
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.logo{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+}
+
+.shop-info h2{
+
+    font-size:20px;
+
+    color:var(--primary);
+
+}
+
+.shop-info p{
+
+    font-size:13px;
+
+    color:#777;
+
+}
+
+/* Right Side */
+
+.header-right{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.icon-btn,
+
+.cart-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-decoration:none;
+
+    position:relative;
+
+}
+
+#cartCount{
+
+    position:absolute;
+
+    top:-5px;
+
+    right:-5px;
+
+    width:18px;
+
+    height:18px;
+
+    background:red;
+
+    color:#fff;
+
+    border-radius:50%;
+
+    font-size:11px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
