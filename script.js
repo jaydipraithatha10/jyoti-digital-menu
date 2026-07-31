@@ -184,7 +184,7 @@ html += `
         loadProducts(categoryId,"");
 
     }else{
-
+         productCache[key] = html;
         container.innerHTML=html;
 
     }
@@ -221,6 +221,12 @@ function toggleSubCategory(categoryId, subCategoryId, card) {
 
 function loadProducts(categoryId, subCategoryId) {
 
+const key = categoryId + "_" + subCategoryId;
+
+if (productCache[key]) {
+    container.innerHTML = productCache[key];
+    return;
+}
     let container;
 
     if (subCategoryId === "") {
