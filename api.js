@@ -139,7 +139,7 @@ onclick="location.href='products.html?sub=${row[0]}'">
      alt="${row[2]}"
      loading="lazy"
      decoding="async"
-     onerror="this.src='logo.png'">
+     onerror="this.src='placeholder.png'">
 
 <h3>${row[2]}</h3>
 
