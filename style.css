@@ -270,3 +270,150 @@ body{
 .category-card span:last-of-type{
     margin-left:8px;
 }
+/* ===================================
+   SUB CATEGORY
+=================================== */
+
+.sub-list{
+    display:block;
+    margin-top:12px;
+    padding-left:10px;
+}
+
+.sub-list.show{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.subcategory-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    min-height:85px;
+    padding:14px 16px;
+    margin-top:8px;
+    background:#fff;
+    border:2px solid #f3f3f3;
+    border-radius:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    transition:.25s;
+}
+
+.subcategory-card:hover{
+    background:#FFF8DC;
+    border-color:#FFD700;
+}
+
+.subcategory-card.active{
+    background:#8B0000;
+    color:#FFD700;
+    border-color:#FFD700;
+}
+
+.subcategory-image{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:12px;
+    flex-shrink:0;
+}
+
+.subcategory-card span:first-of-type{
+    flex:1;
+    font-size:18px;
+    font-weight:700;
+    color:#222;
+}
+
+.subcategory-card.active span:first-of-type{
+    color:#FFD700;
+}
+
+.subcategory-card span:last-of-type{
+    font-size:22px;
+    font-weight:bold;
+}
+
+
+/* ===================================
+   PRODUCT SECTION
+=================================== */
+
+.products{
+    padding:0 18px 100px;
+}
+
+.product-list{
+    display:block;
+    margin-top:12px;
+}
+
+.product-list.show{
+    display:block;
+}
+
+
+/* ===================================
+   PRODUCT CARD
+=================================== */
+
+.product-card{
+    background:#fff;
+    border:2px solid #f3f3f3;
+    border-radius:22px;
+    padding:22px;
+    margin-top:18px;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-4px);
+    border-color:#FFD700;
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+}
+
+.product-image{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:18px;
+    margin-bottom:18px;
+    display:block;
+}
+
+.product-name{
+    font-size:22px;
+    font-weight:700;
+    text-align:center;
+    color:#222;
+    line-height:30px;
+}
+
+.product-weight{
+    margin-top:8px;
+    text-align:center;
+    font-size:15px;
+    color:#777;
+}
+
+.product-price{
+    margin-top:14px;
+    text-align:center;
+    font-size:32px;
+    font-weight:700;
+    color:#8B0000;
+}
+
+.stock{
+    display:inline-block;
+    margin-top:12px;
+    padding:6px 14px;
+    border-radius:20px;
+    background:#E8F5E9;
+    color:#2E7D32;
+    font-size:13px;
+    font-weight:600;
+}
