@@ -335,3 +335,260 @@ body{
     gap:15px;
 
 }
+/* ===========================
+   Category Card
+=========================== */
+
+.category-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.category-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.category-card img{
+
+    width:100%;
+
+    aspect-ratio:1/1;
+
+    object-fit:cover;
+
+}
+
+.category-card h3{
+
+    text-align:center;
+
+    padding:12px;
+
+    color:var(--primary);
+
+    font-size:17px;
+
+}
+
+
+/* ===========================
+   Product Card
+=========================== */
+
+.product-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+    padding:12px;
+
+}
+
+.product-card img{
+
+    width:100%;
+
+    aspect-ratio:1/1;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+}
+
+.product-card h3{
+
+    margin-top:10px;
+
+    color:var(--primary);
+
+    font-size:17px;
+
+}
+
+.product-card p{
+
+    color:#666;
+
+    margin:6px 0;
+
+}
+
+.product-card h4{
+
+    font-size:22px;
+
+    color:#000;
+
+    margin-bottom:12px;
+
+}
+
+.product-card button{
+
+    width:100%;
+
+    height:46px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+}
+
+.product-card button:active{
+
+    transform:scale(.98);
+
+}
+
+
+/* ===========================
+   Cart Item
+=========================== */
+
+.cart-item{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.cart-item h3{
+
+    color:var(--primary);
+
+}
+
+.cart-item p{
+
+    margin:6px 0;
+
+}
+
+.cart-item div{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:10px;
+
+}
+
+.cart-item button{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+/* ===========================
+   Grand Total
+=========================== */
+
+.total-box{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-top:20px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.total-box h2{
+
+    color:var(--primary);
+
+    margin-bottom:15px;
+
+}
+
+.place-order{
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#25D366;
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+}
+
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(min-width:768px){
+
+    body{
+
+        max-width:500px;
+
+        margin:auto;
+
+    }
+
+    .grid{
+
+        grid-template-columns:repeat(3,1fr);
+
+    }
+
+}
