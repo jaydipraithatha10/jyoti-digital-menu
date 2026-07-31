@@ -76,3 +76,262 @@ async function loadData(){
     });
 
 }
+// ================= RENDER CATEGORY =================
+
+function renderCategories() {
+
+    const container = document.getElementById("categories");
+    container.innerHTML = "";
+
+    for (let i = 1; i < categories.length; i++) {
+
+        const id = categories[i][0];
+        const name = categories[i][1];
+        const status = categories[i][2].toLowerCase();
+        const image = categories[i][3];
+
+        if (status !== "active") continue;
+
+        container.innerHTML += `
+<div class="category-item">
+
+    <div class="category-card"
+         data-id="${id}"
+         data-name="${name.toLowerCase()}"
+         onclick="toggleCategory('${id}',this)">
+
+        <div class="category-content">
+
+            <img
+                loading="lazy"
+                decoding="async"
+                class="product-image"
+                src="${image}"
+                alt="${name}"
+                onerror="this.src='placeholder.png'">
+
+            <div class="category-name">${name}</div>
+
+        </div>
+
+        <span class="category-arrow">▼</span>
+
+    </div>
+
+    <div id="sub-${id}" class="sub-list"></div>
+
+</div>`;
+    }
+}
+
+// ================= CATEGORY =================
+
+function toggleCategory(categoryId, card) {
+
+    const container = document.getElementById("sub-" + categoryId);
+
+    if (container.innerHTML !== "") {
+
+        container.innerHTML = "";
+
+        card.classList.remove("active");
+
+        card.querySelector(".category-arrow").innerHTML = "▼";
+
+        return;
+    }
+
+    document.querySelectorAll(".category-card").forEach(c => {
+
+        c.classList.remove("active");
+
+        c.querySelector(".category-arrow").innerHTML = "▼";
+
+    });
+
+    document.querySelectorAll(".sub-list").forEach(s => {
+
+        s.innerHTML = "";
+
+    });
+
+    card.classList.add("active");
+
+    card.querySelector(".category-arrow").innerHTML = "▲";
+
+    let html = "";
+
+    for (let i = 1; i < subcategories.length; i++) {
+
+        const subId = subcategories[i][0];
+        const catId = subcategories[i][1];
+        const subName = subcategories[i][2];
+        const status = subcategories[i][3].toLowerCase();
+        const image = subcategories[i][4];
+
+        if (status !== "active") continue;
+        if (catId != categoryId) continue;
+
+        html += `
+<div class="subcategory-card"
+     onclick="toggleSubCategory('${categoryId}','${subId}',this)">
+
+    <img
+        loading="lazy"
+        decoding="async"
+        class="product-image"
+        src="${image}"
+        alt="${subName}"
+        onerror="this.src='placeholder.png'">
+
+    <div class="subcategory-name">${subName}</div>
+
+    <div class="subcategory-arrow">▶</div>
+
+</div>
+
+<div id="product-${subId}" class="product-list"></div>`;
+    }
+
+    if (html === "") {
+
+        loadProducts(categoryId, "");
+
+    } else {
+
+        container.innerHTML = html;
+
+    }
+}
+
+// ================= SUB CATEGORY =================
+
+function toggleSubCategory(categoryId, subCategoryId, card) {
+
+    document.querySelectorAll(".subcategory-card").forEach(item => {
+
+        item.classList.remove("active");
+
+    });
+
+    card.classList.add("active");
+
+    document.querySelectorAll(".product-list").forEach(list => {
+
+        if (list.id !== "product-" + subCategoryId) {
+
+            list.innerHTML = "";
+
+        }
+
+    });
+
+    const container = document.getElementById("product-" + subCategoryId);
+
+    if (container.innerHTML !== "") {
+
+        container.innerHTML = "";
+
+        return;
+    }
+
+    loadProducts(categoryId, subCategoryId);
+
+}
+
+// ================= LOAD PRODUCTS =================
+
+function loadProducts(categoryId, subCategoryId) {
+
+    let container;
+
+    if (subCategoryId === "") {
+
+        container = document.getElementById("sub-" + categoryId);
+
+    } else {
+
+        container = document.getElementById("product-" + subCategoryId);
+
+    }
+
+    const key = categoryId + "_" + subCategoryId;
+
+    if (productCache[key]) {
+
+        container.innerHTML = productCache[key];
+
+        return;
+
+    }
+
+    let html = "";
+
+    for (let i = 1; i < products.length; i++) {
+
+        const catId = products[i][1];
+        const subId = products[i][2];
+        const product = products[i][3];
+        const weight = products[i][4];
+        const price = products[i][5];
+        const status = products[i][6].toLowerCase();
+        const image = products[i][7];
+
+        if (status !== "active") continue;
+
+        if (subCategoryId === "") {
+
+            if (catId != categoryId) continue;
+
+        } else {
+
+            if (subId != subCategoryId) continue;
+
+        }
+
+        html += `
+<div class="product-card">
+
+<img
+loading="lazy"
+decoding="async"
+class="product-image"
+src="${image}"
+alt="${product}"
+onerror="this.src='placeholder.png'">
+
+<div class="product-name">${product}</div>
+
+<div class="product-weight">${weight}</div>
+
+<div class="product-price">₹ ${price}</div>
+
+<div class="qty-box">
+
+<button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+
+<span class="qty">0</span>
+
+<button class="qty-btn" onclick="changeQty(this,1)">+</button>
+
+</div>
+
+<button class="add-cart-btn"
+onclick="addToCart('${product}','${weight}','${price}',this)">
+🛒 Add to Cart
+</button>
+
+</div>`;
+    }
+
+    if (html === "") {
+
+        html = `<div class="no-product">No Products Found</div>`;
+
+    }
+
+    productCache[key] = html;
+
+    container.innerHTML = html;
+
+}
