@@ -465,3 +465,227 @@ body{
     color:inherit;
 
 }
+/* ===================================
+   PRODUCT CONTAINER
+=================================== */
+
+.product-list{
+
+    display:block;
+
+    margin-top:12px;
+
+}
+
+.product-list.show{
+
+    display:block;
+
+}
+
+
+/* ===================================
+   PRODUCT SECTION
+=================================== */
+
+.products{
+
+    padding:0 18px 100px;
+
+}
+
+
+/* ===================================
+   PRODUCT CARD
+=================================== */
+
+.product-card{
+
+    background:#fff;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    margin-top:18px;
+
+    border:2px solid #f3f3f3;
+
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.product-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+
+    border-color:#FFD700;
+
+}
+
+
+/* ===================================
+   PRODUCT NAME
+=================================== */
+
+.product-name{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#222;
+
+    line-height:30px;
+
+    text-align:center;
+
+}
+
+.product-weight{
+
+    margin-top:6px;
+
+    font-size:15px;
+
+    color:#777;
+
+    text-align:center;
+
+}
+
+.product-price{
+
+    margin-top:12px;
+
+    text-align:center;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:#8B0000;
+
+}
+
+
+/* ===================================
+   STOCK BADGE
+=================================== */
+
+.stock{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    background:#E8F5E9;
+
+    color:#2E7D32;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+/* ===================================
+   QUANTITY BOX
+=================================== */
+
+.qty-box{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    width:180px;
+
+    height:58px;
+
+    margin:20px auto;
+
+    padding:0 10px;
+
+    background:#fff;
+
+    border:3px solid #FFD700;
+
+    border-radius:50px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+
+}
+
+.qty-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    background:#8B0000;
+
+    color:#fff;
+
+    border-radius:50%;
+
+    font-size:26px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.qty-btn:hover{
+
+    transform:scale(1.08);
+
+}
+
+.qty-btn:first-child{
+
+    background:#D32F2F;
+
+}
+
+.qty-btn:last-child{
+
+    background:#2E7D32;
+
+}
+
+.qty{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#222;
+
+    min-width:40px;
+
+    text-align:center;
+
+}
+
+.qty-btn:active{
+
+    transform:scale(.92);
+
+}
