@@ -584,3 +584,146 @@ body{
         opacity:1;
     }
 }
+/* ===================================
+   CART POPUP
+=================================== */
+
+.cart-popup{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:-100%;
+    width:100%;
+    max-height:90vh;
+    padding:20px;
+    background:#fff;
+    border-radius:25px 25px 0 0;
+    box-shadow:0 -8px 30px rgba(0,0,0,.25);
+    overflow-y:auto;
+    transition:.35s ease;
+    z-index:1000;
+}
+
+.cart-popup.show{
+    bottom:0;
+    animation:popupUp .3s ease;
+}
+
+/* ===================================
+   CART HEADER
+=================================== */
+
+.cart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.cart-header h2{
+    color:#8B0000;
+    font-size:24px;
+    font-weight:700;
+}
+
+.cart-header button{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#8B0000;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* ===================================
+   CART ITEMS
+=================================== */
+
+.cart-items{
+    margin-bottom:20px;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:16px;
+    margin-bottom:15px;
+    background:#fff;
+    border:2px solid #f3f3f3;
+    border-radius:18px;
+    box-shadow:0 5px 12px rgba(0,0,0,.08);
+}
+
+.cart-summary{
+    margin-top:20px;
+    padding:18px;
+    background:#FFF8DC;
+    border:2px solid #FFD700;
+    border-radius:18px;
+}
+
+.cart-summary h3{
+    display:flex;
+    justify-content:space-between;
+    color:#8B0000;
+}
+
+/* ===================================
+   WHATSAPP BUTTON
+=================================== */
+
+#whatsappOrder{
+    width:100%;
+    margin-top:20px;
+    padding:16px;
+    border:none;
+    border-radius:15px;
+    background:#25D366;
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 6px 15px rgba(37,211,102,.35);
+}
+
+#whatsappOrder:hover{
+    transform:translateY(-2px);
+}
+
+/* ===================================
+   FOOTER
+=================================== */
+
+.footer{
+    margin-top:auto;
+    padding:25px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+    color:#fff;
+    border-top-left-radius:25px;
+    border-top-right-radius:25px;
+}
+
+.footer strong{
+    color:#FFD700;
+}
+
+/* ===================================
+   POPUP ANIMATION
+=================================== */
+
+@keyframes popupUp{
+    from{
+        transform:translateY(80px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
