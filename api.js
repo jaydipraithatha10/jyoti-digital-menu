@@ -267,3 +267,159 @@ async function loadProducts(){
     });
 
 }
+// ==============================
+// Add To Cart
+// ==============================
+
+function addToCart(id,name,weight,price){
+
+    let cart = getCart();
+
+    const item = cart.find(p => p.id == id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+
+            id:id,
+            name:name,
+            weight:weight,
+            price:price,
+            qty:1
+
+        });
+
+    }
+
+    saveCart(cart);
+
+    updateCartCount();
+
+    alert("Product Added Successfully");
+
+}
+
+
+// ==============================
+// Remove From Cart
+// ==============================
+
+function removeFromCart(id){
+
+    let cart = getCart();
+
+    cart = cart.filter(item => item.id != id);
+
+    saveCart(cart);
+
+    updateCartCount();
+
+    loadCart();
+
+}
+
+
+// ==============================
+// Change Quantity
+// ==============================
+
+function changeQty(id,type){
+
+    let cart = getCart();
+
+    const item = cart.find(x=>x.id==id);
+
+    if(!item) return;
+
+    if(type=="plus"){
+
+        item.qty++;
+
+    }else{
+
+        item.qty--;
+
+    }
+
+    if(item.qty<=0){
+
+        cart = cart.filter(x=>x.id!=id);
+
+    }
+
+    saveCart(cart);
+
+    updateCartCount();
+
+    loadCart();
+
+}
+
+
+// ==============================
+// Load Cart
+// ==============================
+
+function loadCart(){
+
+    const list = document.getElementById("cartList");
+
+    const totalBox = document.getElementById("grandTotal");
+
+    if(!list) return;
+
+    const cart = getCart();
+
+    list.innerHTML = "";
+
+    let grandTotal = 0;
+
+    cart.forEach(item=>{
+
+        const total = item.price * item.qty;
+
+        grandTotal += total;
+
+        list.innerHTML += `
+
+<div class="cart-item">
+
+<h3>${item.name}</h3>
+
+<p>${item.weight}</p>
+
+<p>₹${item.price} × ${item.qty} = ₹${total}</p>
+
+<div>
+
+<button onclick="changeQty('${item.id}','minus')">-</button>
+
+<button>${item.qty}</button>
+
+<button onclick="changeQty('${item.id}','plus')">+</button>
+
+<button onclick="removeFromCart('${item.id}')">
+
+🗑️
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    if(totalBox){
+
+        totalBox.innerHTML = "₹"+grandTotal;
+
+    }
+
+}
