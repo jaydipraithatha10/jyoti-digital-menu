@@ -1642,3 +1642,185 @@ body{
     }
 
 }
+/* ===================================
+   CART QUANTITY CONTROLS
+=================================== */
+
+.cart-qty-btn:hover{
+
+    transform:scale(1.05);
+
+}
+
+.qty-controls{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin:12px 0;
+
+}
+
+.cart-qty-btn{
+
+    width:44px;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#8B0000;
+
+    color:#FFD700;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+}
+
+.cart-qty{
+
+    min-width:26px;
+
+    text-align:center;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.cart-item strong{
+
+    display:block;
+
+    margin-top:12px;
+
+    font-size:28px;
+
+    color:#8B0000;
+
+}
+
+
+/* ===================================
+   BODY & FOOTER
+=================================== */
+
+html,
+body{
+
+    margin:0;
+
+    padding:0;
+
+    min-height:100%;
+
+    overflow-x:hidden;
+
+    background:#f5f5f5;
+
+}
+
+body{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.footer{
+
+    margin-top:auto;
+
+    margin-bottom:0;
+
+    padding-bottom:25px;
+
+}
+
+
+/* ===================================
+   PREMIUM SUB CATEGORY
+=================================== */
+
+.subcategory-card{
+
+    min-height:85px;
+
+    padding:12px 16px;
+
+    border-radius:18px;
+
+}
+
+.subcategory-image{
+
+    width:60px;
+
+    height:60px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+}
+
+.subcategory-card span:first-of-type{
+
+    flex:1;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.subcategory-card span:last-of-type{
+
+    font-size:26px;
+
+    font-weight:bold;
+
+}
+
+
+/* ===================================
+   SEARCH GAP
+=================================== */
+
+.search-box{
+
+    margin-bottom:20px;
+
+}
+
+
+/* ===================================
+   CATEGORY GAP
+=================================== */
+
+.category-item{
+
+    margin-bottom:14px;
+
+}
