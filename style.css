@@ -245,7 +245,7 @@ body{
 
 .category-name{
     flex:1;
-    font-size:12px;
+    font-size:15px;
     font-weight:500;
     color:#222;
     line-height:1.4;
@@ -256,8 +256,8 @@ body{
 }
 
 .category-arrow{
-    font-size:20px;
-    margin-left:28px;
+    font-size:28px;
+    margin-left:auto;
     color:inherit;
     flex-shrink:0;
 }
