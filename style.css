@@ -53,3 +53,72 @@
     font-size:24px;
     font-weight:700;
 }
+.header{
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius:30px;
+    overflow:hidden;
+    padding:25px 20px 35px;
+}
+
+.top-header{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.logo-box{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    overflow:hidden;
+    background:#fff;
+    border:5px solid #FFD700;
+    margin-bottom:20px;
+}
+
+.logo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.company-info h1{
+    margin:0;
+    font-size:48px;
+    color:#FFD700;
+    font-family:'Cinzel',serif;
+}
+
+.company-info h2{
+    margin:8px 0;
+    font-size:24px;
+    color:#fff;
+    letter-spacing:6px;
+}
+
+.tagline{
+    margin:15px 0;
+    color:#fff;
+    font-size:18px;
+    line-height:28px;
+}
+
+.location{
+    color:#FFD700;
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+.call-btn{
+    display:inline-block;
+    background:#FFD700;
+    color:#6A0000;
+    padding:15px 35px;
+    border-radius:40px;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:700;
+}
