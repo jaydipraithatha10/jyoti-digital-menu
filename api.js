@@ -154,3 +154,97 @@ document.addEventListener("DOMContentLoaded",()=>{
     loadSubCategories();
 
 });
+
+// =========================
+// Products URL
+// =========================
+
+const productURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/pub?gid=0&single=true&output=csv";
+
+
+// =========================
+// Load Products
+// =========================
+
+async function loadProducts(){
+
+    const subId = getParam("sub");
+
+    const categoryId = getParam("category");
+
+    const list = document.getElementById("productList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(productURL);
+
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const catId = row[1];
+        const subCategoryId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = row[5];
+        const status = row[6];
+        const image = row[7];
+
+        if(status.trim().toLowerCase()!="active")
+            return;
+
+        if(subId){
+
+            if(subCategoryId!=subId)
+                return;
+
+        }else if(categoryId){
+
+            if(catId!=categoryId)
+                return;
+
+        }
+
+        list.innerHTML += `
+
+<div class="product-card">
+
+    <img src="${image}"
+         alt="${product}"
+         loading="lazy"
+         decoding="async">
+
+    <h3>${product}</h3>
+
+    <p>${weight}</p>
+
+    <h4>₹${price}</h4>
+
+    <button onclick="addToCart('${id}')">
+
+        🛒 Add To Cart
+
+    </button>
+
+</div>
+
+`;
+
+    });
+
+}
+
+
+// =========================
+// Auto Load Products
+// =========================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    loadProducts();
+
+});
