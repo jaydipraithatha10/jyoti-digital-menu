@@ -54,9 +54,11 @@ async function loadCategories(){
         if(row[3].trim().toLowerCase()!="active")
             return;
 
-        list.innerHTML += `
+        
+list.innerHTML += `
 
-<div class="category-card">
+<div class="category-card"
+     onclick="location.href='category.html?id=${row[0]}'">
 
     <img src="${row[2]}" alt="${row[1]}">
 
@@ -65,7 +67,6 @@ async function loadCategories(){
 </div>
 
 `;
-
     });
 
 }
