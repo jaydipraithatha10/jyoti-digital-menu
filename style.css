@@ -689,3 +689,232 @@ body{
     transform:scale(.92);
 
 }
+/* ===================================
+   ADD TO CART BUTTON
+=================================== */
+
+.add-cart-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:linear-gradient(135deg,#FFD700,#FFC107);
+
+    color:#6A0000;
+
+    font-size:19px;
+
+    font-weight:700;
+
+    font-family:'Poppins',sans-serif;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 15px rgba(255,193,7,.35);
+
+    transition:.25s;
+
+}
+
+.add-cart-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(255,193,7,.45);
+
+}
+
+.add-cart-btn:active{
+
+    transform:scale(.97);
+
+}
+
+
+/* ===================================
+   NO PRODUCTS
+=================================== */
+
+.no-products{
+
+    display:none;
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    color:#777;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+
+/* ===================================
+   CART BAR
+=================================== */
+
+.cart-bar{
+
+    position:fixed;
+
+    left:0;
+
+    bottom:0;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 18px;
+
+    background:linear-gradient(135deg,#5B0000,#8B0000);
+
+    color:#ffffff;
+
+    box-shadow:0 -5px 18px rgba(0,0,0,.25);
+
+    z-index:999;
+
+    animation:cartSlide .35s ease;
+
+}
+
+
+/* ===================================
+   CART INFO
+=================================== */
+
+.cart-info{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#ffffff;
+
+}
+
+.cart-info span{
+
+    color:#FFD700;
+
+    font-weight:700;
+
+}
+
+
+/* ===================================
+   VIEW CART BUTTON
+=================================== */
+
+.cart-bar button{
+
+    border:none;
+
+    outline:none;
+
+    background:linear-gradient(135deg,#FFD700,#FFC107);
+
+    color:#6A0000;
+
+    padding:14px 24px;
+
+    border-radius:35px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    font-family:'Poppins',sans-serif;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 15px rgba(255,193,7,.35);
+
+    transition:.25s;
+
+}
+
+.cart-bar button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 20px rgba(255,193,7,.45);
+
+}
+
+.cart-bar button:active{
+
+    transform:scale(.96);
+
+}
+
+
+/* ===================================
+   CART BADGE
+=================================== */
+
+.cart-count{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-width:28px;
+
+    height:28px;
+
+    margin-right:6px;
+
+    border-radius:50%;
+
+    background:#FFD700;
+
+    color:#6A0000;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+
+/* ===================================
+   CART ANIMATION
+=================================== */
+
+@keyframes cartSlide{
+
+    from{
+
+        transform:translateY(100%);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:translateY(0);
+
+        opacity:1;
+
+    }
+
+}
