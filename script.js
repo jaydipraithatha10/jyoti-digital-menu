@@ -308,10 +308,11 @@ const image = products[i][7];
     }
 
     if (html === "") {
-        html = `<div class="no-product">No Products Found</div>`;
-    }
+    html = `<div class="no-product">No Products Found</div>`;
+}
 
-    container.innerHTML = html;
+productCache[key] = html;
+container.innerHTML = html;
 
 }
 // ================= CHANGE QTY =================
