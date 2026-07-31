@@ -213,6 +213,35 @@ body{
     flex-shrink:0;
 }
 
+.category-content{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex:1;
+}
+
+.category-content img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
+    flex-shrink:0;
+}
+
+.category-name{
+    flex:1;
+    font-size:22px;
+    font-weight:700;
+    color:#222;
+}
+
+.category-arrow{
+    width:30px;
+    text-align:center;
+    font-size:24px;
+    margin-left:auto;
+    flex-shrink:0;
+}
 
 
 
