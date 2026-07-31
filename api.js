@@ -136,8 +136,10 @@ async function loadSubCategories(){
 onclick="location.href='products.html?sub=${row[0]}'">
 
 <img src="${row[4]}"
-loading="lazy"
-decoding="async">
+     alt="${row[2]}"
+     loading="lazy"
+     decoding="async"
+     onerror="this.src='logo.png'">
 
 <h3>${row[2]}</h3>
 
