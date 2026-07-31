@@ -83,10 +83,13 @@ const image = categories[i][3];
     
 <div class="category-content">
 
-    <img src="${image || 'placeholder.png'}"
-         class="category-image"
-         alt="${name}"
-         onerror="this.src='placeholder.png'">
+    <img
+    loading="lazy"
+    decoding="async"
+    class="product-image"
+    src="${image}"
+    alt="${product}"
+    onerror="this.src='placeholder.png'">
 
     <div class="category-name">${name}</div>
 
@@ -163,10 +166,13 @@ html += `
      data-name="${subName.toLowerCase()}"
      onclick="toggleSubCategory('${categoryId}','${subId}',this)">
 
-    <img src="${image || 'placeholder.png'}"
-         class="subcategory-image"
-         alt="${subName}"
-         onerror="this.src='placeholder.png'">
+    <img
+    loading="lazy"
+    decoding="async"
+    class="product-image"
+    src="${image}"
+    alt="${product}"
+    onerror="this.src='placeholder.png'">
 
     <div class="subcategory-name">${subName}</div>
 
@@ -258,12 +264,14 @@ const image = products[i][7];
         html += `
 
 <div class="product-card">
+<img
+    loading="lazy"
+    decoding="async"
+    class="product-image"
+    src="${image}"
+    alt="${product}"
+    onerror="this.src='placeholder.png'">
 
-
-<img class="product-image"
-     src="${image}"
-     alt="${product}"
-     onerror="this.src='placeholder.png'">
 
     <div class="product-name">${product}</div>
 
