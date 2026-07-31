@@ -137,21 +137,8 @@ body{
     gap:18px;
 }
 
-.category-card{
 
-    background:#fff;
 
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:0 6px 15px rgba(0,0,0,.08);
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
 
 .category-card:hover{
 
@@ -159,26 +146,27 @@ body{
 
 }
 
+.category-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
 .category-card img{
-
     width:100%;
-
     aspect-ratio:1/1;
-
     object-fit:cover;
-
 }
 
 .category-card h3{
-
-    padding:15px;
-
+    padding:12px;
+    margin:0;
     text-align:center;
-
+    font-size:22px;
     color:#6B4226;
-
-    font-size:20px;
-
+    font-weight:700;
 }
 
 
