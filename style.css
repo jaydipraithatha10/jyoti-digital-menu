@@ -1839,3 +1839,26 @@ body{
     margin-bottom:14px;
 
 }
+/* Product Image */
+.product-image{
+    width:100%;
+    max-width:120px;
+    height:120px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto;
+}
+
+/* Sub Category Image */
+.subcategory-card .product-image{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+}
+
+/* Category Image */
+.category-card .product-image{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+}
