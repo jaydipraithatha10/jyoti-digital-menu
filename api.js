@@ -107,3 +107,163 @@ function updateCartCount(){
     }
 
 }
+// ==============================
+// Load Categories
+// ==============================
+
+async function loadCategories(){
+
+    const list = document.getElementById("categoryList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(categoryURL);
+
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const name = row[1];
+        const image = row[2];
+        const status = row[3];
+
+        if(status.toLowerCase()!="active")
+            return;
+
+        list.innerHTML += `
+
+<div class="category-card"
+onclick="location.href='category.html?id=${id}'">
+
+    <img src="${image}" alt="${name}" loading="lazy">
+
+    <h3>${name}</h3>
+
+</div>
+
+`;
+
+    });
+
+}
+
+
+// ==============================
+// Load Sub Categories
+// ==============================
+
+async function loadSubCategories(){
+
+    const categoryId = getParam("id");
+
+    const list = document.getElementById("subCategoryList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(subCategoryURL);
+
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const catId = row[1];
+        const name = row[2];
+        const image = row[3];
+        const status = row[4];
+
+        if(status.toLowerCase()!="active")
+            return;
+
+        if(catId!=categoryId)
+            return;
+
+        list.innerHTML += `
+
+<div class="category-card"
+onclick="location.href='subcategory.html?id=${id}'">
+
+    <img src="${image}" alt="${name}" loading="lazy">
+
+    <h3>${name}</h3>
+
+</div>
+
+`;
+
+    });
+
+}
+
+
+// ==============================
+// Load Products
+// ==============================
+
+async function loadProducts(){
+
+    const subCategoryId = getParam("id");
+
+    const list = document.getElementById("productList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(productURL);
+
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const subId = row[1];
+        const product = row[2];
+        const weight = row[3];
+        const price = row[4];
+        const status = row[5];
+
+        if(status.toLowerCase()!="active")
+            return;
+
+        if(subId!=subCategoryId)
+            return;
+
+        list.innerHTML += `
+
+<div class="product-card">
+
+    <img src="product.png"
+         alt="${product}"
+         loading="lazy">
+
+    <h3>${product}</h3>
+
+    <p>${weight}</p>
+
+    <h4>₹${price}</h4>
+
+    <button
+        onclick="addToCart(
+        '${id}',
+        '${product}',
+        '${weight}',
+        ${price}
+        )">
+
+        🛒 Add To Cart
+
+    </button>
+
+</div>
+
+`;
+
+    });
+
+}
