@@ -110,3 +110,46 @@ body{
 #searchBox::placeholder{
     color:#999;
 }
+  
+
+/* ==========================
+   Categories
+========================== */
+
+.category-section{
+    padding:20px;
+}
+
+.category-section h2{
+    font-size:28px;
+    color:#6B4226;
+    margin-bottom:18px;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.category-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.category-card img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+}
+
+.category-card h3{
+    text-align:center;
+    padding:15px;
+    color:#6B4226;
+    font-size:18px;
+}
