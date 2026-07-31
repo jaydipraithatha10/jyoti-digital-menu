@@ -231,3 +231,237 @@ body{
     font-weight:700;
 
 }
+/* ===================================
+   CATEGORY SECTION
+=================================== */
+
+.categories{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    padding:0 18px 20px;
+
+}
+
+
+/* ===================================
+   CATEGORY CARD
+=================================== */
+
+.category-item{
+
+    width:100%;
+
+}
+
+
+
+.category-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+
+}
+
+.category-card.active{
+
+    background:#8B0000;
+
+    color:#FFD700;
+
+    border-color:#FFD700;
+
+}
+
+.category-card span:first-of-type{
+
+    flex:1;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+.category-card span:last-of-type{
+
+    width:24px;
+
+    text-align:right;
+
+    font-size:18px;
+
+    margin-left:8px;
+
+}
+
+.category-card{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:16px;
+
+    border-radius:20px;
+
+    background:#fff;
+
+}
+
+.category-content{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex:1;
+
+}
+
+.category-image,
+.category-content img{
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+    flex-shrink:0;
+
+}
+
+.category-name{
+
+    flex:1;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+.category-arrow{
+
+    font-size:24px;
+
+    margin-left:auto;
+
+}
+
+
+/* ===================================
+   SUB CATEGORY
+=================================== */
+
+.sub-list{
+
+    display:block;
+
+    margin-top:10px;
+
+    padding-left:10px;
+
+}
+
+.sub-list.show{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.subcategory-card{
+
+    background:#fff;
+
+    border-radius:16px;
+
+    padding:12px 16px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:10px;
+
+}
+
+.subcategory-card:hover{
+
+    background:#FFF8DC;
+
+    border-color:#FFD700;
+
+}
+
+.subcategory-card.active{
+
+    background:#8B0000;
+
+    color:#FFD700;
+
+    border-color:#FFD700;
+
+}
+
+.subcategory-image{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+}
+
+.subcategory-card{
+
+    margin-top:8px;
+
+}
+
+.subcategory-card span:first-of-type{
+
+    flex:1;
+
+    text-align:left;
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+.subcategory-card span:last-of-type{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:inherit;
+
+}
