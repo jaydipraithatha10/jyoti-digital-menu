@@ -438,6 +438,13 @@ body{
 
 }
 
+.subcategory-card img,
+.subcategory-card .product-image{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+    flex-shrink:0;
+}
 .subcategory-card{
 
     margin-top:8px;
@@ -570,6 +577,14 @@ body{
 
     color:#8B0000;
 
+}
+.product-card img,
+.product-card .product-image{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 10px;
 }
 
 
