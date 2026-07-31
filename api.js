@@ -51,25 +51,28 @@ async function loadCategories(){
 
     rows.slice(1).forEach(row=>{
 
-        if(row[3].trim().toLowerCase()!="active")
+        if(row[2].trim().toLowerCase() !== "active")
             return;
 
-        
-list.innerHTML += `
+        list.innerHTML += `
 
 <div class="category-card"
-     onclick="location.href='category.html?id=${row[0]}'">
+onclick="location.href='category.html?id=${row[0]}'">
 
-    <img src="${row[2]}" alt="${row[1]}">
+    <img src="${row[3]}" alt="${row[1]}">
 
     <h3>${row[1]}</h3>
 
 </div>
 
 `;
+
     });
 
 }
+
+        
+
 
 
 // =========================
