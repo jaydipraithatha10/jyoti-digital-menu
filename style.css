@@ -1,9 +1,23 @@
-<main>
+/* ===========================
+   Banner
+=========================== */
 
-    <section class="banner">
+.banner{
 
-        <img src="banner.jpg" alt="Banner">
+    padding:15px;
 
-    </section>
+}
 
-</main>
+.banner img{
+
+    width:100%;
+
+    height:auto;
+
+    display:block;
+
+    border-radius:20px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
