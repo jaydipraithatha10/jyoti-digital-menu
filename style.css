@@ -1,3 +1,57 @@
+
+
+body{
+    margin:0;
+    background:#F8F5F0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.header{
+
+    background:#fff;
+
+    text-align:center;
+
+    padding:20px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.logo{
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+}
+
+.header h1{
+
+    margin:15px 0 8px;
+
+    font-size:36px;
+
+    color:#6B4226;
+
+}
+
+.header p{
+
+    margin:0;
+
+    font-size:18px;
+
+    color:#666;
+
+}
+
+
+
 /* ===========================
    Banner
 =========================== */
