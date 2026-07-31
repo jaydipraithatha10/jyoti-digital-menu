@@ -227,13 +227,20 @@ function toggleSubCategory(categoryId, subCategoryId, card) {
 
 function loadProducts(categoryId, subCategoryId) {
 
+let container;
+
+if (subCategoryId === "") {
+    container = document.getElementById("sub-" + categoryId);
+} else {
+    container = document.getElementById("product-" + subCategoryId);
+}
+
 const key = categoryId + "_" + subCategoryId;
 
 if (productCache[key]) {
     container.innerHTML = productCache[key];
     return;
 }
-    let container;
 
     if (subCategoryId === "") {
         container = document.getElementById("sub-" + categoryId);
