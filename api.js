@@ -344,10 +344,18 @@ function changeQty(id, change){
 // =========================
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadProducts();
-    updateCartButton();
-});
 
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+});
 function updateCartButton(){
 
     const btn = document.getElementById("viewCartBtn");
