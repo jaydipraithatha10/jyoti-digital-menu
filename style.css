@@ -315,5 +315,24 @@ body{
 }
 
 
+.view-cart-btn{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    right:20px;
+    height:55px;
+    background:#6B4226;
+    color:#fff;
+    border-radius:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+    font-weight:bold;
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+    cursor:pointer;
+    z-index:999;
+}
+
 
 
