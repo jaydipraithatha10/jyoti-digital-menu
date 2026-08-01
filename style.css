@@ -162,15 +162,13 @@ body{
 }
 
 .category-card h3{
-    margin:15px 10px;
-    text-align:center;
-    color:#6B4226;
-    font-size:22px;
+    font-size:20px;      /* પહેલા 28px કે 32px હોય તો ઓછું કરો */
     font-weight:700;
-    min-height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    line-height:1.2;
+    margin:18px 10px;
+    white-space:nowrap;  /* એક જ લાઇન */
+    overflow:hidden;
+    text-overflow:ellipsis; /* લાંબું હોય તો ... */
 }
 
 
