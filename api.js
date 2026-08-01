@@ -55,20 +55,17 @@ async function loadCategories(){
             return;
 
         list.innerHTML += `
+<div class="category-card" onclick="openCategory('${row[0]}')">
 
-<div class="category-card"
-
-onclick="openCategory('${row[0]}')"
     <img src="${row[3]}"
-     alt="${row[1]}"
-     loading="lazy"
-     decoding="async"
-     onerror="this.src='placeholder.png'">
+         alt="${row[1]}"
+         loading="lazy"
+         decoding="async"
+         onerror="this.src='placeholder.png'">
 
     <h3>${row[1]}</h3>
 
 </div>
-
 `;
 
     });
