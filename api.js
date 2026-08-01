@@ -262,6 +262,25 @@ async function loadProducts(){
 
 }
 
+function addToCart(id){
+
+    const item = cart.find(p => p.id == id);
+
+    if(item){
+        item.qty++;
+    }else{
+        cart.push({
+            id:id,
+            qty:1
+        });
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+}
+
 
 // =========================
 // Auto Load Products
