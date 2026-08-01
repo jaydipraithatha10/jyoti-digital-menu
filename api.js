@@ -315,3 +315,92 @@ onclick="changeQty('${id}',1)">
     });
 
 }
+// ======================================
+// PART 2B
+// CART FUNCTIONS
+// ======================================
+
+function addToCart(id){
+
+    const item = cart.find(p => p.id == id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    updateCartButton();
+
+}
+
+function changeQty(id,change){
+
+    const item = cart.find(p => p.id == id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty <= 0){
+
+        cart = cart.filter(p => p.id != id);
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+}
+
+// ======================================
+// FLOATING CART
+// ======================================
+
+function updateCartButton(){
+
+    const btn =
+    document.getElementById("viewCartBtn");
+
+    const count =
+    document.getElementById("cartCount");
+
+    if(!btn || !count) return;
+
+    const total = cart.reduce(
+
+        (sum,item)=>sum+item.qty,
+
+        0
+
+    );
+
+    if(total==0){
+
+        btn.style.display="none";
+
+    }else{
+
+        btn.style.display="flex";
+
+        count.innerText=total;
+
+    }
+
+}
