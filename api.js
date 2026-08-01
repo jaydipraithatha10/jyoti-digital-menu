@@ -230,13 +230,11 @@ async function loadProducts(){
         }
 
         list.innerHTML += `
-
-<div class="category-card">
+<div class="product-card">
 
     <img src="${image}"
          alt="${product}"
          loading="lazy"
-         decoding="async"
          onerror="this.src='placeholder.png'">
 
     <h3 class="product-name">${product}</h3>
@@ -250,7 +248,6 @@ async function loadProducts(){
     </button>
 
 </div>
-
 `;
 
     });
