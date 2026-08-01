@@ -52,60 +52,56 @@ body{
    Banner
 =========================== */
 
-.banner{
-
-    padding:15px;
-
-}
-
-.banner img{
-
-    width:100%;
-
-    height:auto;
-
+.hero-banner{
+    width:92%;
     display:block;
-
-    border-radius:20px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-
+    margin:20px auto;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
+
+.hero-banner img{
+    width:100%;
+    display:block;
+    border-radius:22px;
+}
+
+
    
 /* Search */
 
-.search-section{
-    padding:20px;
-}
 
 .search-box{
+    width:88%;
+    margin:25px auto;
+    background:#fff;
+    border-radius:50px;
     display:flex;
     align-items:center;
-    background:#fff;
-    border-radius:18px;
-    padding:0 18px;
-    height:58px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    padding:16px 22px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:20px;
+    background:transparent;
 }
 
 .search-icon{
-    font-size:22px;
-    margin-right:12px;
-    color:#6B4226;
+    font-size:28px;
+    margin-right:15px;
 }
 
-#searchBox{
-    flex:1;
-    border:none;
-    outline:none;
-    background:transparent;
-    font-size:17px;
-    color:#333;
-}
 
-#searchBox::placeholder{
-    color:#999;
-}
+
+
+
+
+
   
 
 /* ==========================
