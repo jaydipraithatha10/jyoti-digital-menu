@@ -364,3 +364,51 @@ function updateCartButton(){
         count.innerText = total;
     }
 }
+
+async function loadCart(){
+
+    const list = document.getElementById("cartList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(productURL);
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    cart.forEach(item=>{
+
+        const row = rows.find(r => r[0] == item.id);
+
+        if(!row) return;
+
+        const product = row[3];
+        const weight = row[4];
+        const price = row[5];
+        const image = row[7];
+
+        list.innerHTML += `
+
+<div class="cart-item">
+
+    <img src="${image}">
+
+    <div class="cart-info">
+
+        <h3>${product}</h3>
+
+        <p>${weight}</p>
+
+        <div class="cart-price">
+            ₹${price}
+        </div>
+
+    </div>
+
+</div>
+
+`;
+
+    });
+
+}
