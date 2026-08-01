@@ -466,7 +466,7 @@ async function orderWhatsApp(){
 
     });
 
-    const mobile = "91XXXXXXXXXX"; // અહીં તમારો WhatsApp નંબર
+    const mobile = "919712149344"; // અહીં તમારો WhatsApp નંબર
 
     window.open(
         `https://wa.me/${mobile}?text=${message}`,
