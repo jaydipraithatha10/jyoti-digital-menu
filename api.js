@@ -5,7 +5,6 @@
 // CART
 // =========================
 localStorage.removeItem("cart");
-location.reload();
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function saveCart() {
