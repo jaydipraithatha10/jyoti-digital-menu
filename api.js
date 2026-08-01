@@ -494,34 +494,27 @@ async function orderWhatsApp(){
     let grandTotal = 0;
 
     let message =
-`🙏 *Jyoti Gruh Udhyog*
+`🛒 *Jyoti Gruh Udhyog Order*
 
-🛒 *નવો ઓર્ડર*
-
-----------------------------
+--------------------------------
 
 `;
 
     cart.forEach(item=>{
-    
-        let grandTotal = 0;
 
-cart.forEach(item => {
+        const row = rows.find(r => r[0] == item.id);
 
-    const row = rows.find(r => r[0] == item.id);
+        if(!row) return;
 
-    if(!row) return;
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
 
-    const product = row[3];
-    const weight = row[4];
-    const price = Number(row[5]);
+        const total = price * item.qty;
 
-    const total = price * item.qty;
+        grandTotal += total;
 
-    grandTotal += total;
-
-    message +=
-
+        message +=
 `📦 ${product}
 ⚖️ ${weight}
 
@@ -529,42 +522,43 @@ Qty : ${item.qty}
 Price : ₹${price}
 Total : ₹${total}
 
-------------------------
+--------------------------------
 
 `;
 
-});
-message +=
+    });
 
+    message +=
 `💰 Grand Total : ₹${grandTotal}
 
-🙏 આભાર.
-`;
-    
+🙏 Thank You`;
 
-setTimeout(()=>{
+    const mobile = "919712149344";
 
-const done = confirm(
+    window.open(
+        `https://wa.me/${mobile}?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
 
-"શું તમે તમારો ઓર્ડર પૂર્ણ કરી દીધો છે?"
+    setTimeout(()=>{
 
-);
+        const done = confirm("શું તમે તમારો ઓર્ડર પૂર્ણ કરી દીધો છે?");
 
-if(done){
+        if(done){
 
-cart=[];
+            cart = [];
 
-saveCart();
+            saveCart();
 
-updateCartButton();
+            updateCartButton();
 
-loadCart();
+            loadCart();
 
-alert("🙏 આભાર.\nતમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
+            alert("🙏 આભાર.\nતમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
 
-}
+        }
 
-},1500);
+    },1500);
 
 }
 
