@@ -633,7 +633,10 @@ async function orderWhatsApp(){
         "_blank"
     );
 
-    setTimeout(()=>{
+    
+document.addEventListener("visibilitychange", function(){
+
+    if(document.visibilityState === "visible" && cart.length > 0){
 
         if(confirm("શું તમે તમારો ઓર્ડર પૂર્ણ કરી દીધો છે?")){
 
@@ -641,16 +644,17 @@ async function orderWhatsApp(){
 
             saveCart();
 
-            updateCartButton();
-
             loadCart();
 
-            alert("🙏 આભાર.\nતમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
+            updateCartButton();
+
+            alert("🙏 આભાર. તમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
 
         }
 
-    },1000);
+    }
 
+}, { once:true });
 }
 
 // ======================================
