@@ -267,6 +267,7 @@ async function loadProducts(){
     updateCartButton();
 
 }
+
 function addToCart(id){
 
     const item = cart.find(p => p.id == id);
@@ -283,10 +284,41 @@ function addToCart(id){
     saveCart();
     updateCartButton();
 
-    console.log(cart); // Test માટે
+    updateProductButton(id);
+
 }
 
+function updateProductButton(id){
 
+    const box = document.getElementById("cart-" + id);
+
+    if(!box) return;
+
+    const item = cart.find(p => p.id == id);
+
+    if(!item){
+
+        box.innerHTML = `
+        <button class="cart-btn" onclick="addToCart('${id}')">
+            + Add
+        </button>
+        `;
+
+        return;
+    }
+
+    box.innerHTML = `
+    <div class="qty-control">
+
+        <button onclick="changeQty('${id}',-1)">−</button>
+
+        <span>${item.qty}</span>
+
+        <button onclick="changeQty('${id}',1)">+</button>
+
+    </div>
+    `;
+}
 // =========================
 // Auto Load Products
 // =========================
