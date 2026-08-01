@@ -185,22 +185,23 @@ body{
     background:#fff;
     border-radius:22px;
     overflow:hidden;
-    text-align:center;
     box-shadow:0 10px 25px rgba(0,0,0,.12);
+    text-align:center;
+    min-height:360px;   /* Category card જેટલી */
 }
 
 .product-card img{
     width:100%;
-    aspect-ratio:1/1;
+    height:200px;       /* Category image જેટલી */
     object-fit:cover;
 }
 
 .product-card h3{
-    font-size:24px;
+    font-size:20px;
     color:#6b3f24;
-    margin:16px 10px 8px;
     font-weight:700;
-    min-height:58px;
+    margin:12px;
+    min-height:50px;
 }
 
 .product-card p{
