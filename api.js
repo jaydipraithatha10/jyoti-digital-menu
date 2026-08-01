@@ -276,9 +276,9 @@ function addToCart(id){
     }
 
     saveCart();
-
     updateCartButton();
 
+    console.log(cart); // Test માટે
 }
 
 
