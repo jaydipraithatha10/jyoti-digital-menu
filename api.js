@@ -59,12 +59,11 @@ async function loadCategories(){
 <div class="category-card"
 
 onclick="openCategory('${row[0]}')"
-    
-<img src="${row[3]}"
+    <img src="${row[3]}"
      alt="${row[1]}"
      loading="lazy"
-     decoding="async"
-     onerror="this.src='placeholder.png'">
+     decoding="async">
+
     <h3>${row[1]}</h3>
 
 </div>
