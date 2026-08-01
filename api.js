@@ -231,24 +231,22 @@ async function loadProducts(){
 
         list.innerHTML += `
 
-<div class="product-card">
-         
+<div class="category-card">
+
     <img src="${image}"
-     alt="${product}"
-     loading="lazy"
-     decoding="async"
-     onerror="this.src='placeholder.png'">
+         alt="${product}"
+         loading="lazy"
+         decoding="async"
+         onerror="this.src='placeholder.png'">
 
-    <h3>${product}</h3>
+    <h3 class="product-name">${product}</h3>
 
-    <p>${weight}</p>
+    <p class="product-weight">${weight}</p>
 
-    <h4>₹${price}</h4>
+    <h4 class="product-price">₹${price}</h4>
 
-    <button onclick="addToCart('${id}')">
-
+    <button class="cart-btn" onclick="addToCart('${id}')">
         🛒 Add To Cart
-
     </button>
 
 </div>
