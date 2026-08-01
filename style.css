@@ -233,6 +233,34 @@ body{
 }
 
 
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:20px 18px 10px;
+}
+
+.back-btn{
+    background:#6B4226;
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    padding:10px 18px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.back-btn:hover{
+    background:#8a5634;
+}
+
+.page-header .section-title{
+    margin:0;
+    font-size:34px;
+    color:#6B4226;
+}
 
 
 
