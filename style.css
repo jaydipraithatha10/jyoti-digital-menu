@@ -192,10 +192,10 @@ body{
 }
 
 .product-card h3{
-    font-size:18px;
     margin:12px;
+    min-height:52px;
+    font-size:18px;
     color:#6B4226;
-    min-height:48px;
 }
 
 .product-card p{
@@ -206,9 +206,8 @@ body{
 .product-card h4{
     margin:8px 12px;
     font-size:22px;
-    color:#000;
+    font-weight:700;
 }
-
 
 .product-card button{
     width:calc(100% - 24px);
