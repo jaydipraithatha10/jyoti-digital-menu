@@ -251,10 +251,14 @@ async function loadProducts(){
 
     <h4 class="product-price">₹${price}</h4>
 
+    
+<div class="cart-action" id="cart-${id}">
+
     <button class="cart-btn" onclick="addToCart('${id}')">
-        🛒 Add To Cart
+        + Add
     </button>
 
+</div>
 </div>
 `;
 
