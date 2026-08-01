@@ -404,3 +404,169 @@ function updateCartButton(){
     }
 
 }
+
+// ======================================
+// PART 3
+// CART PAGE
+// ======================================
+
+async function loadCart(){
+
+    const list =
+    document.getElementById("cartList");
+
+    if(!list) return;
+
+    const csv =
+    await fetchCSV(productURL);
+
+    const rows =
+    csvToArray(csv);
+
+    list.innerHTML="";
+
+    let grandTotal=0;
+
+    if(cart.length==0){
+
+        list.innerHTML=`
+
+<div class="empty-cart">
+
+<h2>🛒 Cart is Empty</h2>
+
+<p>કૃપા કરીને Products ઉમેરો.</p>
+
+</div>
+
+`;
+
+        return;
+
+    }
+
+    cart.forEach(item=>{
+
+        const row =
+        rows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const product=row[3];
+        const weight=row[4];
+        const price=Number(row[5]);
+        const image=row[7];
+
+        const total=
+        price*item.qty;
+
+        grandTotal+=total;
+
+        list.innerHTML+=`
+
+<div class="cart-item">
+
+<img src="${image}"
+onerror="this.src='placeholder.png'">
+
+<div class="cart-info">
+
+<h3>${product}</h3>
+
+<p>${weight}</p>
+
+<div class="cart-price">
+
+₹${price} × ${item.qty}
+
+=
+
+₹${total}
+
+</div>
+
+<div class="qty-box">
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',-1);loadCart();">
+
+−
+
+</button>
+
+<span class="qty-number">
+
+${item.qty}
+
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',1);loadCart();">
+
++
+
+</button>
+
+</div>
+
+<button class="remove-btn"
+
+onclick="removeCartItem('${item.id}')">
+
+🗑 Remove
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    list.innerHTML+=`
+
+<div class="cart-total">
+
+<h2>
+
+Grand Total
+
+</h2>
+
+<div class="total-price">
+
+₹${grandTotal}
+
+</div>
+
+<button class="whatsapp-btn"
+
+onclick="orderWhatsApp()">
+
+📲 Order on WhatsApp
+
+</button>
+
+</div>
+
+`;
+
+}
+
+// ======================================
+// REMOVE ITEM
+// ======================================
+
+function removeCartItem(id){
+
+    cart = cart.filter(item=>item.id!=id);
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+}
