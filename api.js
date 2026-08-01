@@ -152,3 +152,149 @@ onerror="this.src='placeholder.png'">
     });
 
 }
+
+// ===========================================
+// PART 2
+// PRODUCTS
+// ===========================================
+
+async function loadProducts(){
+
+    const list = document.getElementById("productList");
+
+    if(!list) return;
+
+    const subId = getParam("sub");
+    const categoryId = getParam("category");
+
+    const csv = await fetchCSV(productURL);
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const catId = row[1];
+        const subCatId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const status = row[6];
+        const image = row[7];
+
+        if(status.trim().toLowerCase()!="active") return;
+
+        if(subId && subCatId!=subId) return;
+        if(categoryId && !subId && catId!=categoryId) return;
+
+        const item = cart.find(p=>p.id==id);
+        const qty = item ? item.qty : 0;
+
+        list.innerHTML += `
+
+<div class="product-card">
+
+    <img src="${image}"
+         loading="lazy"
+         onerror="this.src='placeholder.png'">
+
+    <h3 class="product-name">${product}</h3>
+
+    <p class="product-weight">${weight}</p>
+
+    <h4 class="product-price">₹${price}</h4>
+
+    <div id="cart-${id}">
+
+        ${
+            qty==0 ?
+
+            `<button class="cart-btn"
+            onclick="addToCart('${id}')">
+
+            + Add
+
+            </button>`
+
+            :
+
+            `<div class="qty-control">
+
+                <button onclick="changeQty('${id}',-1)">
+                −
+                </button>
+
+                <span>${qty}</span>
+
+                <button onclick="changeQty('${id}',1)">
+                +
+                </button>
+
+            </div>`
+        }
+
+    </div>
+
+</div>
+
+`;
+
+    });
+
+}
+
+// ===========================================
+// ADD TO CART
+// ===========================================
+
+function addToCart(id){
+
+    const item = cart.find(p=>p.id==id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    updateCartButton();
+
+}
+
+// ===========================================
+// CHANGE QTY
+// ===========================================
+
+function changeQty(id,change){
+
+    const item = cart.find(p=>p.id==id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty<=0){
+
+        cart = cart.filter(p=>p.id!=id);
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    updateCartButton();
+
+}
