@@ -570,3 +570,103 @@ function removeCartItem(id){
     loadCart();
 
 }
+
+// ======================================
+// PART 4
+// WHATSAPP + AUTO LOAD
+// ======================================
+
+async function orderWhatsApp(){
+
+    const csv = await fetchCSV(productURL);
+
+    const rows = csvToArray(csv);
+
+    let grandTotal = 0;
+
+    let message =
+`🛒 *Jyoti Gruh Udhyog*
+
+નવો ઓર્ડર
+
+------------------------
+
+`;
+
+    cart.forEach(item=>{
+
+        const row = rows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+
+        const total = price * item.qty;
+
+        grandTotal += total;
+
+        message +=
+
+`📦 ${product}
+⚖️ ${weight}
+
+💰 ₹${price} × ${item.qty} = ₹${total}
+
+------------------------
+
+`;
+
+    });
+
+    message +=
+
+`💵 Grand Total : ₹${grandTotal}
+
+🙏 આભાર`;
+
+    const mobile = "919712149344";
+
+    window.open(
+        `https://wa.me/${mobile}?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
+
+    setTimeout(()=>{
+
+        if(confirm("શું તમે તમારો ઓર્ડર પૂર્ણ કરી દીધો છે?")){
+
+            cart = [];
+
+            saveCart();
+
+            updateCartButton();
+
+            loadCart();
+
+            alert("🙏 આભાર.\nતમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
+
+        }
+
+    },1000);
+
+}
+
+// ======================================
+// AUTO LOAD
+// ======================================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+});
