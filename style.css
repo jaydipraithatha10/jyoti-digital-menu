@@ -240,6 +240,18 @@ body{
     white-space:nowrap;
 }
 
+.product-name{
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:16px;
+    font-weight:700;
+    margin:10px;
+    line-height:1.2;
+}
+
 
 
 
