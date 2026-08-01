@@ -341,32 +341,35 @@ body{
 /* =========================
    QUANTITY BUTTON
 ========================= */
-
-.qty-box{
+.qty-control{
+    width:84%;
+    height:42px;
+    margin:0 auto 14px;
+    background:#6B4226;
+    border-radius:12px;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    justify-content:center;
-    gap:12px;
-    margin-top:10px;
+    padding:0 14px;
 }
 
-.qty-btn{
-    width:32px;
-    height:32px;
+.qty-control button{
+    width:30px;
+    height:30px;
     border:none;
-    border-radius:8px;
-    background:#6B4226;
+    background:transparent;
     color:#fff;
-    font-size:20px;
+    font-size:24px;
+    font-weight:bold;
     cursor:pointer;
 }
 
-.qty-number{
+.qty-control span{
+    color:#fff;
     font-size:18px;
-    font-weight:700;
-    min-width:20px;
-    text-align:center;
+    font-weight:bold;
 }
+
 
 /* =========================
    REMOVE BUTTON
