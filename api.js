@@ -634,27 +634,12 @@ async function orderWhatsApp(){
     );
 
     
-document.addEventListener("visibilitychange", function(){
+const popup = document.getElementById("orderPopup");
 
-    if(document.visibilityState === "visible" && cart.length > 0){
+if(popup){
 
-        if(confirm("શું તમે તમારો ઓર્ડર પૂર્ણ કરી દીધો છે?")){
+    popup.style.display = "block";
 
-            cart = [];
-
-            saveCart();
-
-            loadCart();
-
-            updateCartButton();
-
-            alert("🙏 આભાર. તમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
-
-        }
-
-    }
-
-}, { once:true });
 }
 
 // ======================================
@@ -674,3 +659,25 @@ document.addEventListener("DOMContentLoaded",()=>{
     updateCartButton();
 
 });
+
+function completeOrder(){
+
+    cart = [];
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+    document.getElementById("orderPopup").style.display = "none";
+
+    alert("🙏 આભાર.\nતમારો ઓર્ડર સફળતાપૂર્વક નોંધાયો.");
+
+}
+
+function closePopup(){
+
+    document.getElementById("orderPopup").style.display = "none";
+
+}
