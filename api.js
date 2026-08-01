@@ -286,11 +286,11 @@ function addToCart(id){
 // Auto Load Products
 // =========================
 
-document.addEventListener("DOMContentLoaded",()=>{
-
+document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
-
+    updateCartButton();
 });
+
 function updateCartButton(){
 
     const btn = document.getElementById("viewCart");
