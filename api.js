@@ -260,8 +260,9 @@ async function loadProducts(){
 
     });
 
-}
+    updateCartButton();
 
+}
 function addToCart(id){
 
     const item = cart.find(p => p.id == id);
