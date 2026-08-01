@@ -210,11 +210,9 @@ body{
 }
 
 
-
-
 .product-card button{
-    width:calc(100% - 20px);
-    margin:10px;
+    width:calc(100% - 24px);
+    margin:12px;
     padding:12px;
     border:none;
     border-radius:10px;
@@ -224,6 +222,7 @@ body{
     font-weight:600;
     cursor:pointer;
 }
+
 
 
 
