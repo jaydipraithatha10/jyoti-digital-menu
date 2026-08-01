@@ -161,17 +161,16 @@ body{
     display:block;
 }
 
+
 .category-card h3{
-    font-size:20px;      /* પહેલા 28px કે 32px હોય તો ઓછું કરો */
-    font-weight:700;
-    line-height:1.2;
-    margin:18px 10px;
-    white-space:nowrap;  /* એક જ લાઇન */
-    overflow:hidden;
-    text-overflow:ellipsis; /* લાંબું હોય તો ... */
+    font-size:18px;
+    line-height:1.3;
+    text-align:center;
+    white-space:normal;
+    overflow:visible;
+    text-overflow:unset;
+    word-break:break-word;
 }
-
-
 
 
 
@@ -244,9 +243,8 @@ body{
 }
 
 .section-title{
-    font-size:28px;
-    font-weight:700;
-    color:#6b3f23;
+    font-size:24px;
+    white-space:nowrap;
 }
 
 
