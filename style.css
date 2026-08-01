@@ -428,3 +428,138 @@ body{
 .whatsapp-btn:active{
     transform:scale(.98);
 }
+
+/* =========================================
+   STYLE.CSS - PART 4
+   RESPONSIVE & FINAL POLISH
+========================================= */
+
+/* Smooth Animation */
+
+*{
+    transition:all .25s ease;
+}
+
+img{
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+/* Product & Category Active Effect */
+
+.category-card:active,
+.product-card:active{
+    transform:scale(.98);
+}
+
+/* Button Active */
+
+.cart-btn:active,
+.qty-btn:active,
+.remove-btn:active,
+.whatsapp-btn:active,
+.back-btn:active{
+    transform:scale(.96);
+}
+
+/* Empty Cart */
+
+.empty-cart{
+    text-align:center;
+    padding:60px 20px;
+}
+
+.empty-cart img{
+    width:140px;
+    opacity:.8;
+}
+
+.empty-cart h2{
+    margin-top:20px;
+    color:#6B4226;
+}
+
+.empty-cart p{
+    color:#777;
+    margin-top:8px;
+}
+
+/* Section Gap */
+
+.section-title{
+    margin-bottom:18px;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#C9B39A;
+    border-radius:10px;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .header{
+        padding:18px;
+    }
+
+    .logo{
+        width:75px;
+        height:75px;
+    }
+
+    .header h1{
+        font-size:26px;
+    }
+
+    .header p{
+        font-size:14px;
+    }
+
+    .hero-banner{
+        width:94%;
+    }
+
+    .category-grid,
+    .product-grid{
+        gap:14px;
+    }
+
+    .category-card img{
+        height:160px;
+    }
+
+    .product-card img{
+        height:140px;
+    }
+
+    .product-name{
+        font-size:15px;
+    }
+
+    .product-price{
+        font-size:20px;
+    }
+
+    .cart-btn{
+        height:40px;
+        font-size:14px;
+    }
+
+    .floating-cart{
+        width:56px;
+        height:56px;
+        font-size:22px;
+    }
+
+    .whatsapp-btn{
+        height:50px;
+        font-size:17px;
+    }
+}
