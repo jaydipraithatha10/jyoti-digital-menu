@@ -534,7 +534,12 @@ Total : ₹${total}
 `;
 
 });
+message +=
 
+`💰 Grand Total : ₹${grandTotal}
+
+🙏 આભાર.
+`;
     
 
 setTimeout(()=>{
