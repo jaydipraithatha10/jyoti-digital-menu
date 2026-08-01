@@ -156,21 +156,9 @@ body{
     flex-direction:column;
 }
 
-/*
-.category-card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-*/
-.category-card img{
-    width:100%;
-    height:180px;
-    object-fit:contain;   /* cover ના બદલે contain */
-    background:#fff;
-    padding:10px;
-    box-sizing:border-box;
-}
+
+
+
 
 .category-card h3{
     font-size:16px;
@@ -181,34 +169,67 @@ body{
     margin:0;
 }
 
-.product-name{
-    font-size:16px;
-    margin:10px;
+
+/* Product Image */
+.category-card img{
+    width:100%;
+    height:180px;
+    object-fit:contain;
+    background:#fff;
+    padding:5px;
+    box-sizing:border-box;
 }
 
+/* Product Name */
+.product-name{
+    font-size:16px;
+    font-weight:700;
+    color:#6B4226;
+    text-align:center;
+    line-height:1.3;
+    height:44px;              /* બધા નામ માટે same height */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:10px 8px 5px;
+}
+
+/* Weight */
 .product-weight{
     font-size:15px;
     color:#666;
-    margin:5px 0;
+    text-align:center;
+    margin:0;
 }
 
+/* Price */
 .product-price{
-    font-size:24px;
-    font-weight:bold;
-    margin:5px 0 10px;
+    font-size:22px;
+    font-weight:700;
+    color:#000;
+    text-align:center;
+    margin:8px 0 12px;
 }
 
+/* Button */
 .cart-btn{
     width:85%;
     height:45px;
-    margin:12px auto;
+    margin:0 auto 15px;
     border:none;
     border-radius:12px;
     background:#7A4A28;
     color:#fff;
     font-size:16px;
     font-weight:600;
+    cursor:pointer;
+    display:block;
 }
+
+
+
+
+
 
 .back-btn{
     width:40px;
