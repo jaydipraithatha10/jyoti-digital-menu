@@ -62,7 +62,8 @@ onclick="openCategory('${row[0]}')"
     <img src="${row[3]}"
      alt="${row[1]}"
      loading="lazy"
-     decoding="async">
+     decoding="async"
+     onerror="this.src='placeholder.png'">
 
     <h3>${row[1]}</h3>
 
