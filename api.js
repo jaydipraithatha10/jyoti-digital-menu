@@ -238,6 +238,10 @@ async function loadProducts(){
         }
 
         list.innerHTML += `
+...
+`;
+
+setTimeout(() => updateProductButton(id), 0);
 <div class="product-card">
 
     <img src="${image}"
