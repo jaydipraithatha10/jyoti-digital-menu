@@ -156,10 +156,20 @@ body{
     flex-direction:column;
 }
 
+/*
 .category-card img{
     width:100%;
     height:180px;
     object-fit:cover;
+}
+*/
+.category-card img{
+    width:100%;
+    height:180px;
+    object-fit:contain;   /* cover ના બદલે contain */
+    background:#fff;
+    padding:10px;
+    box-sizing:border-box;
 }
 
 .category-card h3{
