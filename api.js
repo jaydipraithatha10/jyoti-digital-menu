@@ -151,15 +151,15 @@ async function loadSubCategories(){
         list.innerHTML += `
 
 <div class="category-card"
-     onclick="openCategory('${row[0]}')">
+onclick="location.href='products.html?sub=${row[0]}'">
 
-    <img src="${row[3]}"
-         alt="${row[1]}"
-         loading="lazy"
-         decoding="async"
-         onerror="this.src='placeholder.png'">
+<img src="${row[4].trim()}"
+     alt="${row[2]}"
+     loading="lazy"
+     decoding="async"
+     onerror="this.src='placeholder.png'">
 
-    <h3>${row[1]}</h3>
+<h3>${row[2]}</h3>
 
 </div>
 
