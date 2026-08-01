@@ -293,17 +293,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function updateCartButton(){
 
-    const btn = document.getElementById("viewCart");
+    const btn = document.getElementById("viewCartBtn");
+    const count = document.getElementById("cartCount");
 
-    if(!btn) return;
+    if(!btn || !count) return;
 
     const total = cart.reduce((sum,item)=>sum+item.qty,0);
 
-    if(total===0){
+    if(total==0){
+
         btn.style.display="none";
+
     }else{
-        btn.style.display="block";
-        btn.innerHTML=`🛒 View Cart (${total})`;
+
+        btn.style.display="flex";
+        count.innerText = total;
+
     }
 
 }
