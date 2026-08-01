@@ -71,7 +71,24 @@ onclick="openCategory('${row[0]}')"
 
 }
 
-        
+
+        async function openCategory(categoryId){
+
+    const csv = await fetchCSV(subCategoryURL);
+    const rows = csvToArray(csv);
+
+    const hasSubCategory = rows.slice(1).some(row => {
+        return row[1] == categoryId &&
+               row[3].trim().toLowerCase() == "active";
+    });
+
+    if(hasSubCategory){
+        location.href = "category.html?id=" + categoryId;
+    }else{
+        location.href = "products.html?category=" + categoryId;
+    }
+
+}
 
 
 
