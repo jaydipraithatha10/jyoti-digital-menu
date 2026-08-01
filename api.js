@@ -503,48 +503,39 @@ async function orderWhatsApp(){
 `;
 
     cart.forEach(item=>{
+    
+        let grandTotal = 0;
 
-        const row = rows.find(r=>r[0]==item.id);
+cart.forEach(item => {
 
-        if(!row) return;
+    const row = rows.find(r => r[0] == item.id);
 
-        const product = row[3];
-        const weight = row[4];
-        const price = Number(row[5]);
+    if(!row) return;
 
-        const total = price * item.qty;
+    const product = row[3];
+    const weight = row[4];
+    const price = Number(row[5]);
 
-        grandTotal += total;
+    const total = price * item.qty;
 
-        message +=
-
-`📦 ${product}
-
-⚖️ ${weight}
-
-💰 ₹${price} × ${item.qty} = ₹${total}
-
-----------------------------
-
-`;
-
-    });
+    grandTotal += total;
 
     message +=
 
-`💵 Grand Total : ₹${grandTotal}
+`📦 ${product}
+⚖️ ${weight}
 
-🙏 આભાર`;
+Qty : ${item.qty}
+Price : ₹${price}
+Total : ₹${total}
 
-    const mobile="919712149344";
+------------------------
 
-    window.open(
+`;
 
-`https://wa.me/${mobile}?text=${encodeURIComponent(message)}`,
+});
 
-"_blank"
-
-);
+    
 
 setTimeout(()=>{
 
