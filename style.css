@@ -226,23 +226,34 @@ body{
     font-size:18px;
     font-weight:600;
 }
+.product-name{
+    font-size:18px;
+    font-weight:700;
+    color:#6B4226;
+}
 
+.product-weight{
+    font-size:15px;
+    color:#666;
+}
 
+.product-price{
+    font-size:20px;
+    font-weight:700;
+    color:#000;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.cart-btn{
+    width:85%;
+    height:46px;
+    margin:10px auto 15px;
+    border:none;
+    border-radius:12px;
+    background:#7A4A28;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+}
 
 .back-btn{
     width:40px;
