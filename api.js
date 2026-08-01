@@ -57,8 +57,8 @@ async function loadCategories(){
         list.innerHTML += `
 
 <div class="category-card"
-onclick="location.href='category.html?id=${row[0]}'">
 
+onclick="openCategory('${row[0]}')"
     <img src="${row[3]}" alt="${row[1]}">
 
     <h3>${row[1]}</h3>
