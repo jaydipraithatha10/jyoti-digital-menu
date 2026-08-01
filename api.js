@@ -319,6 +319,26 @@ function updateProductButton(id){
     </div>
     `;
 }
+
+function changeQty(id, change){
+
+    const item = cart.find(p => p.id == id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty <= 0){
+        cart = cart.filter(p => p.id != id);
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+    updateProductButton(id);
+
+}
 // =========================
 // Auto Load Products
 // =========================
