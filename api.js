@@ -238,10 +238,6 @@ async function loadProducts(){
         }
 
         list.innerHTML += `
-...
-`;
-
-setTimeout(() => updateProductButton(id), 0);
 <div class="product-card">
 
     <img src="${image}"
@@ -255,16 +251,16 @@ setTimeout(() => updateProductButton(id), 0);
 
     <h4 class="product-price">₹${price}</h4>
 
-    
-<div class="cart-action" id="cart-${id}">
+    <div class="cart-action" id="cart-${id}">
+        <button class="cart-btn" onclick="addToCart('${id}')">
+            + Add
+        </button>
+    </div>
 
-    <button class="cart-btn" onclick="addToCart('${id}')">
-        + Add
-    </button>
-
-</div>
 </div>
 `;
+
+setTimeout(() => updateProductButton(id), 0);
 
     });
 
