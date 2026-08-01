@@ -150,3 +150,170 @@ onerror="this.src='placeholder.png'">
     });
 
 }
+
+// ========================================
+// PRODUCTS
+// ========================================
+
+async function loadProducts(){
+
+    const list = document.getElementById("productList");
+
+    if(!list) return;
+
+    const subId = getParam("sub");
+    const categoryId = getParam("category");
+
+    const csv = await fetchCSV(productURL);
+    const rows = csvToArray(csv);
+
+    list.innerHTML = "";
+
+    rows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const catId = row[1];
+        const subCatId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = row[5];
+        const status = row[6];
+        const image = row[7];
+
+        if(status.trim().toLowerCase()!="active") return;
+
+        if(subId){
+            if(subCatId!=subId) return;
+        }else if(categoryId){
+            if(catId!=categoryId) return;
+        }
+
+        const item = cart.find(p=>p.id==id);
+        const qty = item ? item.qty : 0;
+
+        list.innerHTML += `
+
+<div class="product-card">
+
+<img src="${image}"
+onerror="this.src='placeholder.png'">
+
+<h3 class="product-name">${product}</h3>
+
+<p class="product-weight">${weight}</p>
+
+<h4 class="product-price">₹${price}</h4>
+
+<div id="cart-${id}">
+
+${qty==0 ?
+
+`<button class="cart-btn"
+onclick="addToCart('${id}')">
++ Add
+</button>`
+
+:
+
+`<div class="qty-control">
+
+<button onclick="changeQty('${id}',-1)">−</button>
+
+<span>${qty}</span>
+
+<button onclick="changeQty('${id}',1)">+</button>
+
+</div>`
+
+}
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+}
+
+// ========================================
+// ADD TO CART
+// ========================================
+
+function addToCart(id){
+
+    const item = cart.find(p=>p.id==id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    updateCartButton();
+
+}
+
+// ========================================
+// CHANGE QTY
+// ========================================
+
+function changeQty(id,change){
+
+    const item = cart.find(p=>p.id==id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty<=0){
+
+        cart = cart.filter(p=>p.id!=id);
+
+    }
+
+    saveCart();
+
+    loadProducts();
+
+    updateCartButton();
+
+}
+
+// ========================================
+// FLOATING CART
+// ========================================
+
+function updateCartButton(){
+
+    const btn=document.getElementById("viewCartBtn");
+    const count=document.getElementById("cartCount");
+
+    if(!btn || !count) return;
+
+    const total = cart.reduce((sum,item)=>sum+item.qty,0);
+
+    if(total==0){
+
+        btn.style.display="none";
+
+    }else{
+
+        btn.style.display="flex";
+        count.innerText=total;
+
+    }
+
+}
