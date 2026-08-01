@@ -317,3 +317,184 @@ function updateCartButton(){
     }
 
 }
+
+// ========================================
+// CART PAGE
+// ========================================
+
+async function loadCart(){
+
+    const list = document.getElementById("cartList");
+
+    if(!list) return;
+
+    const csv = await fetchCSV(productURL);
+    const rows = csvToArray(csv);
+
+    let total = 0;
+
+    list.innerHTML = "";
+
+    if(cart.length==0){
+
+        list.innerHTML=`
+        <div class="empty-cart">
+            <h2>🛒 Cart is Empty</h2>
+            <p>Please add products.</p>
+        </div>
+        `;
+        return;
+    }
+
+    cart.forEach(item=>{
+
+        const row = rows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const image = row[7];
+
+        total += price * item.qty;
+
+        list.innerHTML += `
+
+<div class="cart-item">
+
+<img src="${image}">
+
+<div class="cart-info">
+
+<h3>${product}</h3>
+
+<p>${weight}</p>
+
+<div class="cart-price">
+₹${price}
+</div>
+
+<div class="qty-box">
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',-1);loadCart();">
+−
+</button>
+
+<span class="qty-number">
+${item.qty}
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',1);loadCart();">
++
+</button>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeCartItem('${item.id}')">
+🗑 Remove
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    list.innerHTML += `
+
+<div class="cart-total">
+
+<h2>Total</h2>
+
+<div class="total-price">
+₹${total}
+</div>
+
+<button class="whatsapp-btn"
+onclick="orderWhatsApp()">
+
+📲 Order on WhatsApp
+
+</button>
+
+</div>
+
+`;
+
+}
+
+// ========================================
+// REMOVE ITEM
+// ========================================
+
+function removeCartItem(id){
+
+    cart = cart.filter(item=>item.id!=id);
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+}
+
+// ========================================
+// WHATSAPP ORDER
+// ========================================
+
+async function orderWhatsApp(){
+
+    const csv = await fetchCSV(productURL);
+    const rows = csvToArray(csv);
+
+    let message = "🛒 *Jyoti Gruh Udhyog Order*%0A%0A";
+
+    cart.forEach(item=>{
+
+        const row = rows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        message += `• ${row[3]} (${row[4]}) x ${item.qty}%0A`;
+
+    });
+
+    const mobile = "91XXXXXXXXXX"; // અહીં તમારો WhatsApp નંબર
+
+    window.open(
+        `https://wa.me/${mobile}?text=${message}`,
+        "_blank"
+    );
+
+    // Order પછી Cart Empty
+
+    cart = [];
+
+    saveCart();
+
+}
+
+// ========================================
+// AUTO LOAD
+// ========================================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+});
