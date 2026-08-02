@@ -235,9 +235,8 @@ body{
     box-shadow:0 4px 14px rgba(0,0,0,.08);
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
-    transition:.25s;
-    height:100%;
+    align-items:center;
+    text-align:center;
 }
 
 .product-grid{
@@ -266,54 +265,46 @@ body{
 
 /* PRODUCT NAME */
 
+
 .product-name{
+    width:100%;
+    text-align:center;
     font-size:16px;
     font-weight:700;
     color:#6B4226;
-    text-align:center;
     line-height:1.3;
-    margin:6px 8px 4px;
-    height:42px;
+    min-height:44px;
+    display:flex;
     align-items:center;
     justify-content:center;
-display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
+    padding:0 8px;
 }
-
 
 
 /* WEIGHT */
-.product-weight{
-    font-size:13px;
-    color:#777;
-    margin-bottom:4px;
-}
 
+.product-weight{
+    width:100%;
+    text-align:center;
+    font-size:14px;
+    color:#777;
+    margin:4px 0;
+}
 
 /* PRICE */
 
 .product-price{
-    font-size:21px;
+    width:100%;
+    text-align:center;
+    font-size:22px;
     font-weight:700;
     color:#111;
-    margin-bottom:8px;
+    margin-bottom:10px;
 }
 
 /* ADD BUTTON */
 
-.cart-btn{
-    width:82%;
-    height:38px;
-    margin:0 auto 10px;
-    border:none;
-    border-radius:12px;
-    background:#6B4226;
-    color:#fff;
-    font-size:15px;
-    font-weight:600;
-}
+
 
 .cart-btn:hover{
     background:#5b341d;
@@ -325,16 +316,10 @@ display:-webkit-box;
 
 /* QTY CONTROL */
 
+.cart-btn,
 .qty-control{
     width:82%;
-    height:38px;
-    margin:0 auto 10px;
-    border-radius:12px;
-    background:#6B4226;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 12px;
+    margin:0 auto 12px;
 }
 
 .qty-control button{
