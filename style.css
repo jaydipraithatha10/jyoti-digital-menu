@@ -179,6 +179,37 @@ body{
     color:#333;
 }
 
+
+
+/* =========================
+   SUB CATEGORY GRID
+========================= */
+
+.subcategory-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    padding:0 15px 30px;
+}
+
+.subcategory-grid .category-card{
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.subcategory-grid .category-card img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+}
+
+.subcategory-grid .category-card h3{
+    padding:14px 10px;
+    text-align:center;
+    font-size:17px;
+    font-weight:700;
+}
 /* =========================
    PAGE HEADER
 ========================= */
