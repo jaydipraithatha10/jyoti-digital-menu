@@ -204,8 +204,8 @@ onerror="this.src='placeholder.png'">
 // PRODUCTS + SEARCH
 // ======================================
 
-async function loadProducts(){
 
+async function loadProducts(searchText=""){
     const list =
     document.getElementById("productList");
 
