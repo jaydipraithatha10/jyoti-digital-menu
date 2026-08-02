@@ -579,17 +579,20 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
 function completeOrder(){
 
-    cart=[];
+    // Cart Empty
+    cart = [];
 
     saveCart();
 
+    // Popup Hide
+    document.getElementById("orderPopup").style.display = "none";
+
+    // Cart UI Update
+    loadCart();
     updateCartButton();
 
-    loadCart();
-
-    document.getElementById("orderPopup").style.display="none";
-
-    alert("🛒 Your Cart is Empty");
+    // Home Page પર જાઓ
+    location.replace("index.html");
 
 }
 
