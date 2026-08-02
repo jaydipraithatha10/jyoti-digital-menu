@@ -274,10 +274,15 @@ body{
     line-height:1.3;
     margin:6px 8px 4px;
     height:42px;
-    display:flex;
     align-items:center;
     justify-content:center;
+display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
 }
+
+
 
 /* WEIGHT */
 .product-weight{
