@@ -292,7 +292,7 @@ body{
     width:100%;
     aspect-ratio:1/1;
     object-fit:contain;
-    padding:14px;
+    padding:8px;
 }
 
 /* PRODUCT NAME */
@@ -305,6 +305,7 @@ body{
     line-height:1.35;
     margin:8px 10px 6px;
     min-height:46px;
+    margin-bottom:4px;
 }
 
 
@@ -313,7 +314,7 @@ body{
 .product-weight{
     font-size:14px;
     color:#777;
-    margin-bottom:8px;
+    margin-bottom:6px;
 }
 
 /* PRICE */
