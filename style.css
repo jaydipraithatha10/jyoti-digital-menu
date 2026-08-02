@@ -27,17 +27,21 @@ body{
 ========================= */
 
 .header{
-    background:#fff;
+    background:linear-gradient(135deg,#FFFDF9,#F7E9D7);
     text-align:center;
-    padding:22px 15px;
-    box-shadow:0 3px 18px rgba(0,0,0,.08);
+    padding:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
+    border-bottom:1px solid #EADBC8;
 }
 
 .logo{
-    width:82px;
-    height:82px;
+    width:80px;
+    height:80px;
     border-radius:50%;
     object-fit:cover;
+    background:#fff;
+    padding:4px;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
 }
 
 .header h1{
