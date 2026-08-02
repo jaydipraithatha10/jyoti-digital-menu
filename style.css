@@ -793,7 +793,9 @@ input{
 }
 
 .footer{
-    margin-top:40px;
+    padding:20px 15px;
+}
+    
     background:linear-gradient(135deg,#6B4226,#8A5A36);
     color:#fff;
     text-align:center;
@@ -806,6 +808,9 @@ input{
     gap:15px;
     margin:20px 0;
     flex-wrap:wrap;
+    padding:10px 18px;
+    font-size:16px;
+    border-radius:10px;
 }
 
 .call-btn,
@@ -828,4 +833,9 @@ input{
 .call-btn:hover,
 .whatsapp-btn-footer:hover{
     opacity:.9;
+}
+.copyright{
+    margin-top:15px;
+    font-size:13px;
+    color:#EADBC8;
 }
