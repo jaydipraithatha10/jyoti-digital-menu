@@ -345,27 +345,35 @@ onclick="changeQty('${id}',1)">
 
 function initSearch(){
 
-    const searchBox =
-    document.getElementById("searchBox");
+    const searchBox = document.getElementById("searchBox");
 
     if(!searchBox) return;
 
-    searchBox.addEventListener("keypress",function(e){
+    searchBox.addEventListener("input",function(){
 
-        if(e.key==="Enter"){
+        const keyword = this.value.trim().toLowerCase();
 
-            const text =
-            this.value.trim();
+        const cards = document.querySelectorAll(".product-card");
 
-            if(text!=""){
+        cards.forEach(card=>{
 
-                location.href =
-                "products.html?search="+
-                encodeURIComponent(text);
+            const name = card.querySelector(".product-name")
+                .innerText.toLowerCase();
+
+            const weight = card.querySelector(".product-weight")
+                .innerText.toLowerCase();
+
+            if(name.includes(keyword) || weight.includes(keyword)){
+
+                card.style.display = "";
+
+            }else{
+
+                card.style.display = "none";
 
             }
 
-        }
+        });
 
     });
 
