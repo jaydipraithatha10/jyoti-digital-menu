@@ -27,11 +27,19 @@ body{
 ========================= */
 
 .header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
     background:linear-gradient(135deg,#FFFDF9,#F7E9D7);
+
     text-align:center;
-    padding:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,.10);
+    padding:18px 20px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
     border-bottom:1px solid #EADBC8;
+
+    backdrop-filter:blur(8px);
 }
 
 .logo{
