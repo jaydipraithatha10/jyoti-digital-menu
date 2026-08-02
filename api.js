@@ -559,3 +559,25 @@ document.addEventListener("DOMContentLoaded",async()=>{
     updateCartButton();
 
 });
+
+function completeOrder(){
+
+    cart=[];
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+    document.getElementById("orderPopup").style.display="none";
+
+    alert("🛒 Your Cart is Empty");
+
+}
+
+function closePopup(){
+
+    document.getElementById("orderPopup").style.display="none";
+
+}
