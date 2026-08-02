@@ -504,45 +504,62 @@ function removeCartItem(id){
 
 }
 
+
 async function orderWhatsApp(){
 
     await loadData();
 
-    let grandTotal=0;
+    let grandTotal = 0;
 
-    let message=`🛒 *Jyoti Gruh Udhyog Order*%0A%0A`;
+    let message = "🛒 *Jyoti Gruh Udhyog Order*\n\n";
 
     cart.forEach(item=>{
 
-        const row=productRows.find(r=>r[0]==item.id);
+        const row = productRows.find(r=>r[0]==item.id);
 
         if(!row) return;
 
-        const total=Number(row[5])*item.qty;
+        const total = Number(row[5]) * item.qty;
 
-        grandTotal+=total;
+        grandTotal += total;
 
-        message+=`📦 ${row[3]} (${row[4]})%0AQty : ${item.qty}%0APrice : ₹${row[5]}%0ATotal : ₹${total}%0A%0A`;
+        message +=
+`📦 ${row[3]} (${row[4]})
+Qty : ${item.qty}
+Price : ₹${row[5]}
+Total : ₹${total}
+
+`;
 
     });
 
-    message+=`💰 Grand Total : ₹${grandTotal}`;
+    message += `💰 Grand Total : ₹${grandTotal}`;
 
     window.open(
-        `https://wa.me/919712149344?text=${message}`,
+        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
         "_blank"
     );
+
+    setTimeout(()=>{
+
+        const popup = document.getElementById("orderPopup");
+
+        if(popup){
+
+            popup.style.display="block";
+
+        }
+
+    },1000);
+
+}
+    
+    
     
      
-window.open(
-    `https://wa.me/${mobile}?text=${encodeURIComponent(message)}`,
-    "_blank"
-);
 
-setTimeout(() => {
-    document.getElementById("orderPopup").style.display = "block";
-}, 1000);
-}
+
+
 
 document.addEventListener("DOMContentLoaded",async()=>{
 
