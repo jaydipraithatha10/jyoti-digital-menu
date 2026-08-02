@@ -147,9 +147,11 @@ body{
 
 .category-card h3{
     text-align:center;
-    padding:14px;
-    font-size:17px;
+    padding:12px 8px;
+    font-size:18px;
     color:#333;
+    font-weight:700px;
+    margin:0px;
     font-weight:700;
 }
 /* =========================================
