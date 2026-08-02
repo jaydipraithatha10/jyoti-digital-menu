@@ -343,21 +343,40 @@ onclick="changeQty('${id}',1)">
 // SEARCH
 // ======================================
 
-   
-            function initSearch(){
+   function initSearch(){
 
-    const searchBox =
-    document.getElementById("searchBox");
+    const searchBox = document.getElementById("searchBox");
 
     if(!searchBox) return;
 
-    searchBox.addEventListener("input",function(){
+    searchBox.addEventListener("input", function(){
 
-        loadProducts(this.value);
+        const text = this.value.trim();
+
+        // Products Page
+        if(document.getElementById("productList")){
+
+            loadProducts(text);
+
+        }
+
+        // Home Page
+        else if(document.getElementById("categoryList")){
+
+            if(text.length >= 2){
+
+                location.href =
+                "products.html?search=" +
+                encodeURIComponent(text);
+
+            }
+
+        }
 
     });
 
 }
+            
 
 
 
