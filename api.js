@@ -579,7 +579,6 @@ function removeCartItem(id){
 async function orderWhatsApp(){
 
     const csv = await fetchCSV(productURL);
-
     const rows = csvToArray(csv);
 
     let grandTotal = 0;
@@ -608,10 +607,8 @@ async function orderWhatsApp(){
         grandTotal += total;
 
         message +=
-
 `📦 ${product}
 ⚖️ ${weight}
-
 💰 ₹${price} × ${item.qty} = ₹${total}
 
 ------------------------
@@ -621,7 +618,6 @@ async function orderWhatsApp(){
     });
 
     message +=
-
 `💵 Grand Total : ₹${grandTotal}
 
 🙏 આભાર`;
@@ -633,32 +629,13 @@ async function orderWhatsApp(){
         "_blank"
     );
 
-    
-const popup = document.getElementById("orderPopup");
+    const popup = document.getElementById("orderPopup");
 
-if(popup){
-
-    popup.style.display = "block";
+    if(popup){
+        popup.style.display = "block";
+    }
 
 }
-
-// ======================================
-// AUTO LOAD
-// ======================================
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    loadCategories();
-
-    loadSubCategories();
-
-    loadProducts();
-
-    loadCart();
-
-    updateCartButton();
-
-});
 
 function completeOrder(){
 
@@ -672,7 +649,7 @@ function completeOrder(){
 
     document.getElementById("orderPopup").style.display = "none";
 
-    alert("🙏 આભાર.\nતમારો ઓર્ડર સફળતાપૂર્વક નોંધાયો.");
+    alert("🙏 આભાર.\nતમારો Cart હવે ખાલી કરવામાં આવ્યો છે.");
 
 }
 
@@ -681,3 +658,9 @@ function closePopup(){
     document.getElementById("orderPopup").style.display = "none";
 
 }
+        
+
+
+
+
+    
