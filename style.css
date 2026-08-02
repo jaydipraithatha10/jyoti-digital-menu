@@ -748,3 +748,11 @@ input{
         margin:auto;
     }
 }
+
+.search-section{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#F8F5F0;
+    padding-top:10px;
+}
