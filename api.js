@@ -197,3 +197,176 @@ onerror="this.src='placeholder.png'">
     });
 
 }
+
+// ======================================
+// API.JS V5
+// PART 2
+// PRODUCTS + SEARCH
+// ======================================
+
+async function loadProducts(){
+
+    const list =
+    document.getElementById("productList");
+
+    if(!list) return;
+
+    await loadData();
+
+    const subId =
+    getParam("sub");
+
+    const categoryId =
+    getParam("category");
+
+    const search =
+    (getParam("search") || "").toLowerCase();
+
+    let html = "";
+
+    productRows.slice(1).forEach(row=>{
+
+        const id = row[0];
+        const catId = row[1];
+        const subCatId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const status = row[6];
+        const image = row[7];
+
+        if(status.trim().toLowerCase()!="active")
+            return;
+
+        if(subId && subCatId!=subId)
+            return;
+
+        if(categoryId && !subId && catId!=categoryId)
+            return;
+
+        if(search){
+
+            const keyword =
+            (product + " " + weight)
+            .toLowerCase();
+
+            if(!keyword.includes(search))
+                return;
+
+        }
+
+        const item =
+        cart.find(p=>p.id==id);
+
+        const qty =
+        item ? item.qty : 0;
+
+        html += `
+
+<div class="product-card">
+
+<img src="${image}"
+loading="lazy"
+onerror="this.src='placeholder.png'">
+
+<h3 class="product-name">
+
+${product}
+
+</h3>
+
+<p class="product-weight">
+
+${weight}
+
+</p>
+
+<h4 class="product-price">
+
+₹${price}
+
+</h4>
+
+<div id="cart-${id}">
+
+${
+qty==0 ?
+
+`<button class="cart-btn"
+onclick="addToCart('${id}')">
+
++ Add
+
+</button>`
+
+:
+
+`<div class="qty-control">
+
+<button class="qty-btn"
+onclick="changeQty('${id}',-1)">
+
+−
+
+</button>
+
+<span class="qty-number">
+
+${qty}
+
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${id}',1)">
+
++
+
+</button>
+
+</div>`
+
+}
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    list.innerHTML = html;
+
+}
+
+// ======================================
+// SEARCH
+// ======================================
+
+function initSearch(){
+
+    const searchBox =
+    document.getElementById("searchBox");
+
+    if(!searchBox) return;
+
+    searchBox.addEventListener("keypress",function(e){
+
+        if(e.key==="Enter"){
+
+            const text =
+            this.value.trim();
+
+            if(text!=""){
+
+                location.href =
+                "products.html?search="+
+                encodeURIComponent(text);
+
+            }
+
+        }
+
+    });
+
+}
