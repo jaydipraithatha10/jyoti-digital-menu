@@ -1,6 +1,6 @@
 /* =========================================
    JYOTI GRUH UDHYOG
-   STYLE.CSS - PART 1
+   STYLE.CSS V2 - PART 1
 ========================================= */
 
 /* RESET */
@@ -11,10 +11,15 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    background:#F8F5F0;
+    background:#f7f3ee;
     font-family:Arial,Helvetica,sans-serif;
     color:#333;
+    overflow-x:hidden;
 }
 
 /* =========================
@@ -24,19 +29,19 @@ body{
 .header{
     background:#fff;
     text-align:center;
-    padding:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    padding:22px 15px;
+    box-shadow:0 3px 18px rgba(0,0,0,.08);
 }
 
 .logo{
-    width:80px;
-    height:80px;
+    width:82px;
+    height:82px;
     border-radius:50%;
     object-fit:cover;
 }
 
 .header h1{
-    margin-top:10px;
+    margin-top:12px;
     font-size:30px;
     font-weight:700;
     color:#6B4226;
@@ -44,8 +49,8 @@ body{
 
 .header p{
     margin-top:6px;
+    font-size:16px;
     color:#777;
-    font-size:15px;
 }
 
 /* =========================
@@ -53,10 +58,10 @@ body{
 ========================= */
 
 .hero-banner{
-    width:92%;
+    width:94%;
     margin:18px auto;
     overflow:hidden;
-    border-radius:20px;
+    border-radius:22px;
     box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
@@ -66,12 +71,12 @@ body{
 }
 
 /* =========================
-   SEARCH
+   SEARCH BOX
 ========================= */
 
 .search-box{
     width:90%;
-    margin:20px auto;
+    margin:20px auto 28px;
     background:#fff;
     border-radius:50px;
     display:flex;
@@ -81,7 +86,7 @@ body{
 }
 
 .search-icon{
-    font-size:24px;
+    font-size:26px;
     margin-right:12px;
 }
 
@@ -89,36 +94,33 @@ body{
     width:100%;
     border:none;
     outline:none;
-    font-size:17px;
     background:transparent;
+    font-size:17px;
 }
 
 /* =========================
-   SECTION
+   SECTION TITLE
 ========================= */
 
 .category-section{
-    padding:20px 15px;
+    padding:15px;
 }
 
-.section-title,
-.category-section h2{
-    font-size:28px;
+.section-title{
+    font-size:30px;
     font-weight:700;
     color:#6B4226;
     margin-bottom:18px;
 }
 
 /* =========================
-   GRID
+   CATEGORY GRID
 ========================= */
 
 .category-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:14px;
-    padding:0;
-    
+    gap:16px;
 }
 
 /* =========================
@@ -127,515 +129,70 @@ body{
 
 .category-card{
     background:#fff;
-    border-radius:18px;
+    border-radius:22px;
     overflow:hidden;
+    cursor:pointer;
     box-shadow:0 6px 18px rgba(0,0,0,.08);
+    transition:.25s;
 }
 
 .category-card:hover{
     transform:translateY(-4px);
 }
 
+.category-card:active{
+    transform:scale(.98);
+}
+
 .category-card img{
     width:100%;
-    aspect-ratio:4/3;
+    aspect-ratio:1/1;
     object-fit:cover;
     display:block;
 }
 
 .category-card h3{
+    padding:14px 10px;
     text-align:center;
-    padding:12px 8px;
     font-size:18px;
+    font-weight:700;
     color:#333;
-    font-weight:700px;
-    margin:0px;
-    font-weight:700;
-}
-/* =========================================
-   STYLE.CSS - PART 2
-   PRODUCT PAGE
-========================================= */
-
-/* Product Grid */
-
-.product-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:16px;
 }
 
-/* Product Card */
-
-.product-card{
-    background:#fff;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    display:flex;
-    flex-direction:column;
-    text-align:center;
-    transition:.25s;
-}
-
-.product-card:hover{
-    transform:translateY(-3px);
-}
-
-.product-card img{
-    width:100%;
-    height:145px;
-    object-fit:contain;
-    padding:8px;
-    background:#fff;
-}
-
-.product-name{
-    font-size:16px;
-    font-weight:700;
-    color:#6B4226;
-    line-height:1.3;
-    min-height:42px;
-    margin:8px;
-}
-
-.product-weight{
-    font-size:14px;
-    color:#777;
-    margin-bottom:4px;
-}
-
-.product-price{
-    font-size:22px;
-    font-weight:700;
-    color:#000;
-    margin-bottom:12px;
-}
-
-.cart-btn{
-    width:84%;
-    height:40px;
-    margin:0 auto 14px;
-    border:none;
-    border-radius:12px;
-    background:#6B4226;
-    color:#fff;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.cart-btn:active{
-    transform:scale(.97);
-}
-
-/* Back Button */
-
-
-
-.back-btn:active{
-    transform:scale(.95);
-}
-
-/* Floating Cart */
-
-.floating-cart{
-    position:fixed;
-    right:18px;
-    bottom:18px;
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    background:#6B4226;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:24px;
-    box-shadow:0 6px 18px rgba(0,0,0,.25);
-    cursor:pointer;
-    z-index:999;
-}
-
-#cartCount{
-    position:absolute;
-    top:-4px;
-    right:-4px;
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    background:#E53935;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:12px;
-    font-weight:700;
-}
-
-.category-section{
-    padding-bottom:90px;
-}
-
+/* =========================
+   PAGE HEADER
+========================= */
 
 .page-header{
     display:flex;
     align-items:center;
-    gap:15px;
-    margin:20px 20px 15px;
+    gap:14px;
+    padding:18px 15px;
 }
 
 .back-btn{
-    width:44px;
-    height:44px;
+    width:46px;
+    height:46px;
     border:none;
     border-radius:50%;
     background:#7a4a28;
     color:#fff;
     font-size:22px;
+    cursor:pointer;
     display:flex;
     align-items:center;
     justify-content:center;
-    cursor:pointer;
     box-shadow:0 8px 18px rgba(0,0,0,.15);
     flex-shrink:0;
 }
 
-.back-btn:hover{
-    transform:scale(1.05);
+.back-btn:active{
+    transform:scale(.95);
 }
 
 .subcategory-title{
-    margin:0;
     font-size:30px;
     font-weight:700;
     color:#4b2e1f;
     line-height:1.2;
-}
-
-
-
-
-
-/* =========================================
-   STYLE.CSS - PART 3
-   CART PAGE & QUANTITY
-========================================= */
-
-/* =========================
-   CART PAGE
-========================= */
-
-.cart-container{
-    padding:15px;
-    padding-bottom:100px;
-}
-
-.cart-item{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    background:#fff;
-    border-radius:16px;
-    padding:12px;
-    margin-bottom:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
-
-.cart-item img{
-    width:80px;
-    height:80px;
-    object-fit:contain;
-    border-radius:10px;
-}
-
-.cart-info{
-    flex:1;
-}
-
-.cart-info h3{
-    font-size:17px;
-    color:#6B4226;
-    margin-bottom:5px;
-}
-
-.cart-info p{
-    color:#666;
-    font-size:14px;
-    margin:2px 0;
-}
-
-.cart-price{
-    font-size:20px;
-    font-weight:700;
-    color:#000;
-}
-
-/* =========================
-   QUANTITY BUTTON
-========================= */
-.qty-control{
-    width:84%;
-    height:42px;
-    margin:0 auto 14px;
-    background:#6B4226;
-    border-radius:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 14px;
-}
-
-.qty-control button{
-    width:30px;
-    height:30px;
-    border:none;
-    background:transparent;
-    color:#fff;
-    font-size:24px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.qty-control span{
-    color:#fff;
-    font-size:18px;
-    font-weight:bold;
-}
-
-
-/* =========================
-   REMOVE BUTTON
-========================= */
-
-.remove-btn{
-    margin-top:10px;
-    background:#E53935;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:8px 14px;
-    cursor:pointer;
-}
-
-/* =========================
-   TOTAL
-========================= */
-
-.cart-total{
-    background:#fff;
-    margin:15px;
-    padding:15px;
-    border-radius:16px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
-
-.cart-total h2{
-    color:#6B4226;
-    margin-bottom:8px;
-}
-
-.total-price{
-    font-size:28px;
-    font-weight:700;
-}
-
-/* =========================
-   WHATSAPP BUTTON
-========================= */
-
-.whatsapp-btn{
-    position:fixed;
-    left:15px;
-    right:15px;
-    bottom:15px;
-    height:52px;
-    border:none;
-    border-radius:14px;
-    background:#25D366;
-    color:#fff;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 6px 15px rgba(0,0,0,.18);
-}
-
-.whatsapp-btn:active{
-    transform:scale(.98);
-}
-
-/* =========================================
-   STYLE.CSS - PART 4
-   RESPONSIVE & FINAL POLISH
-========================================= */
-
-/* Smooth Animation */
-
-*{
-    transition:all .25s ease;
-}
-
-img{
-    user-select:none;
-    -webkit-user-drag:none;
-}
-
-/* Product & Category Active Effect */
-
-.category-card:active,
-.product-card:active{
-    transform:scale(.98);
-}
-
-/* Button Active */
-
-.cart-btn:active,
-.qty-btn:active,
-.remove-btn:active,
-.whatsapp-btn:active,
-.back-btn:active{
-    transform:scale(.96);
-}
-
-/* Empty Cart */
-
-.empty-cart{
-    text-align:center;
-    padding:60px 20px;
-}
-
-.empty-cart img{
-    width:140px;
-    opacity:.8;
-}
-
-.empty-cart h2{
-    margin-top:20px;
-    color:#6B4226;
-}
-
-.empty-cart p{
-    color:#777;
-    margin-top:8px;
-}
-
-/* Section Gap */
-
-.section-title{
-    margin-bottom:18px;
-}
-
-/* Scrollbar */
-
-::-webkit-scrollbar{
-    width:6px;
-}
-
-::-webkit-scrollbar-thumb{
-    background:#C9B39A;
-    border-radius:10px;
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-    .header{
-        padding:18px;
-    }
-
-    .logo{
-        width:75px;
-        height:75px;
-    }
-
-    .header h1{
-        font-size:26px;
-    }
-
-    .header p{
-        font-size:14px;
-    }
-
-    .hero-banner{
-        width:94%;
-    }
-
-    .category-grid,
-    .product-grid{
-        gap:14px;
-    }
-
-    
-
-    .product-card img{
-        height:140px;
-    }
-
-    .product-name{
-        font-size:15px;
-    }
-
-    .product-price{
-        font-size:20px;
-    }
-
-    .cart-btn{
-        height:40px;
-        font-size:14px;
-    }
-
-    .floating-cart{
-        width:56px;
-        height:56px;
-        font-size:22px;
-    }
-
-    .whatsapp-btn{
-        height:50px;
-        font-size:17px;
-    }
-}
-
-.qty-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin:12px 0;
-}
-
-.qty-btn{
-    width:34px;
-    height:34px;
-    border:none;
-    border-radius:8px;
-    background:#6B4226;
-    color:#fff;
-    font-size:22px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.qty-number{
-    min-width:22px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-    color:#6B4226;
-}
-
-.order-popup{
-    position:fixed;
-    top:30%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:90%;
-    max-width:350px;
-    background:#fff;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 20px rgba(0,0,0,.3);
-    z-index:99999;
-    text-align:center;
 }
