@@ -587,6 +587,20 @@ document.addEventListener("DOMContentLoaded",async()=>{
 });
 
 
+window.addEventListener("pageshow", function () {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    updateCartButton();
+
+    if (document.getElementById("productList")) {
+        loadProducts();
+    }
+
+    if (document.getElementById("cartList")) {
+        loadCart();
+    }
+});
+
 
 
 
