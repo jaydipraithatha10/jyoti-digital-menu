@@ -229,16 +229,7 @@ body{
 
 /* Back Button */
 
-.back-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#6B4226;
-    color:#fff;
-    font-size:18px;
-    cursor:pointer;
-}
+
 
 .back-btn:active{
     transform:scale(.95);
@@ -282,6 +273,36 @@ body{
 
 .category-section{
     padding-bottom:90px;
+}
+
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:20px;
+}
+
+.subcategory-title{
+    margin:0;
+    font-size:32px;
+    font-weight:700;
+    color:#4b2e1f;
+}
+
+.back-btn{
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:#6b4327;
+    color:#fff;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 6px 15px rgba(0,0,0,.2);
 }
 
 /* =========================================
