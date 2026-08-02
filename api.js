@@ -220,7 +220,7 @@ async function loadProducts(searchText=""){
     getParam("category");
 
     const search =
-(searchText || "").toLowerCase();
+(searchText || getParam("search") || "").toLowerCase();
 
     let html = "";
 
