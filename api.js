@@ -551,8 +551,8 @@ saveCart();
 updateCartButton();
 
 // Home Page
-window.location.href = "index.html";
 
+window.location.replace("index.html");
     setTimeout(()=>{
 
         const popup = document.getElementById("orderPopup");
