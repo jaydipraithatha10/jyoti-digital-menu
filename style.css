@@ -953,3 +953,18 @@ input{
 
 }
 
+
+/* FINAL CATEGORY FONT */
+
+.category-card h3{
+    color:#6B4226 !important;
+    font-size:17px !important;
+    font-weight:600 !important;
+    text-align:center;
+}
+
+.product-name{
+    color:#6B4226;
+    font-size:17px;
+    font-weight:600;
+}
