@@ -757,3 +757,25 @@ input{
     }
 }
 
+
+.yes-btn,
+.no-btn{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.yes-btn{
+    background:#25D366;
+    color:#fff;
+}
+
+.no-btn{
+    background:#E53935;
+    color:#fff;
+}
