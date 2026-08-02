@@ -659,7 +659,23 @@ function closePopup(){
 
 }
         
+// ======================================
+// AUTO LOAD
+// ======================================
 
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+});
 
 
 
