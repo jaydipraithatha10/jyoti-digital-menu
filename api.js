@@ -540,6 +540,19 @@ Total : ₹${total}
         "_blank"
     );
 
+window.open(
+    `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+    "_blank"
+);
+
+// Cart Empty
+cart = [];
+saveCart();
+updateCartButton();
+
+// Home Page
+window.location.href = "index.html";
+
     setTimeout(()=>{
 
         const popup = document.getElementById("orderPopup");
