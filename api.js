@@ -371,18 +371,24 @@ if(heading){
         }
 
         // Home Page
-        else if(document.getElementById("categoryList")){
+        
+else if(document.getElementById("categoryList")){
 
-            if(text.length >= 2){
+    clearTimeout(window.searchTimer);
 
-                location.href =
-                "products.html?search=" +
-                encodeURIComponent(text);
+    window.searchTimer = setTimeout(()=>{
 
-            }
+        if(text.length >= 2){
+
+            location.href =
+            "products.html?search=" +
+            encodeURIComponent(text);
 
         }
 
+    },700);
+
+}
     });
 
 }
