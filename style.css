@@ -280,30 +280,40 @@ body{
     display:flex;
     align-items:center;
     gap:15px;
-    margin:20px;
-}
-
-.subcategory-title{
-    margin:0;
-    font-size:32px;
-    font-weight:700;
-    color:#4b2e1f;
+    margin:20px 20px 15px;
 }
 
 .back-btn{
-    width:48px;
-    height:48px;
+    width:44px;
+    height:44px;
     border:none;
     border-radius:50%;
-    background:#6b4327;
+    background:#7a4a28;
     color:#fff;
     font-size:22px;
     display:flex;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    box-shadow:0 6px 15px rgba(0,0,0,.2);
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+    flex-shrink:0;
 }
+
+.back-btn:hover{
+    transform:scale(1.05);
+}
+
+.subcategory-title{
+    margin:0;
+    font-size:30px;
+    font-weight:700;
+    color:#4b2e1f;
+    line-height:1.2;
+}
+
+
+
+
 
 /* =========================================
    STYLE.CSS - PART 3
