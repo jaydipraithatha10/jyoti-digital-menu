@@ -549,10 +549,10 @@ window.open(
 cart = [];
 saveCart();
 updateCartButton();
+loadCart();
 
 // Home Page
 
-window.location.replace("index.html");
     setTimeout(()=>{
 
         const popup = document.getElementById("orderPopup");
