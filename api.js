@@ -548,8 +548,10 @@ window.open(
 // Cart Empty
 cart = [];
 saveCart();
+
 updateCartButton();
 loadCart();
+loadProducts();   // ← આ નવી line ઉમેરો
 
 // Home Page
 
