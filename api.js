@@ -532,7 +532,16 @@ async function orderWhatsApp(){
         `https://wa.me/919712149344?text=${message}`,
         "_blank"
     );
+    
+     
+window.open(
+    `https://wa.me/${mobile}?text=${encodeURIComponent(message)}`,
+    "_blank"
+);
 
+setTimeout(() => {
+    document.getElementById("orderPopup").style.display = "block";
+}, 1000);
 }
 
 document.addEventListener("DOMContentLoaded",async()=>{
