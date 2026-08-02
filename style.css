@@ -791,3 +791,41 @@ input{
     background:#E53935;
     color:#fff;
 }
+
+.footer{
+    margin-top:40px;
+    background:linear-gradient(135deg,#6B4226,#8A5A36);
+    color:#fff;
+    text-align:center;
+    padding:30px 20px;
+}
+
+.footer-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin:20px 0;
+    flex-wrap:wrap;
+}
+
+.call-btn,
+.whatsapp-btn-footer{
+    text-decoration:none;
+    color:#fff;
+    padding:12px 22px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.call-btn{
+    background:#007BFF;
+}
+
+.whatsapp-btn-footer{
+    background:#25D366;
+}
+
+.call-btn:hover,
+.whatsapp-btn-footer:hover{
+    opacity:.9;
+}
