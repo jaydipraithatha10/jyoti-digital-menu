@@ -369,22 +369,22 @@ function changeQty(id,change){
 
 function updateCartButton(){
 
-    const btn=document.getElementById("viewCartBtn");
-    const count=document.getElementById("cartCount");
+    const btn = document.getElementById("viewCartBtn");
+    const count = document.getElementById("cartCount");
 
     if(!btn || !count) return;
 
-    const total=cart.reduce((sum,item)=>sum+item.qty,0);
+    const total = cart.reduce((sum,item)=>sum+item.qty,0);
 
-    if(total==0){
+    if(total <= 0){
 
-        btn.style.display="none";
+        btn.style.display = "none";
+        count.innerText = "0";
 
     }else{
 
-        btn.style.display="flex";
-
-        count.innerText=total;
+        btn.style.display = "flex";
+        count.innerText = total;
 
     }
 
