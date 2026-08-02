@@ -611,3 +611,126 @@ onclick="orderWhatsApp()">
     updateCartButton();
 
 }
+
+// ======================================
+// API.JS V5
+// PART 4
+// WHATSAPP + AUTO LOAD
+// ======================================
+
+async function orderWhatsApp(){
+
+    await loadData();
+
+    let grandTotal = 0;
+
+    let message =
+`🛒 *Jyoti Gruh Udhyog*
+
+નવો ઓર્ડર
+
+------------------------
+
+`;
+
+    cart.forEach(item=>{
+
+        const row =
+        productRows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+
+        const total = price * item.qty;
+
+        grandTotal += total;
+
+        message +=
+
+`📦 ${product}
+⚖️ ${weight}
+
+💰 ₹${price} × ${item.qty} = ₹${total}
+
+------------------------
+
+`;
+
+    });
+
+    message +=
+
+`💵 Grand Total : ₹${grandTotal}
+
+🙏 આભાર`;
+
+    // Open WhatsApp (ONLY ONE TIME)
+
+    window.open(
+        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
+
+    // Empty Cart
+
+    cart = [];
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+    loadProducts();
+
+}
+
+// ======================================
+// AUTO LOAD
+// ======================================
+
+document.addEventListener("DOMContentLoaded",async()=>{
+
+    await loadData();
+
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+    initSearch();
+
+});
+
+// ======================================
+// PAGE REFRESH AFTER BACK
+// ======================================
+
+window.addEventListener("pageshow",()=>{
+
+    cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    updateCartButton();
+
+    if(document.getElementById("productList")){
+
+        loadProducts();
+
+    }
+
+    if(document.getElementById("cartList")){
+
+        loadCart();
+
+    }
+
+});
