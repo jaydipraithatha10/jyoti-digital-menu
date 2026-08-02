@@ -343,37 +343,17 @@ onclick="changeQty('${id}',1)">
 // SEARCH
 // ======================================
 
-function initSearch(){
+   
+            function initSearch(){
 
-    const searchBox = document.getElementById("searchBox");
+    const searchBox =
+    document.getElementById("searchBox");
 
     if(!searchBox) return;
 
     searchBox.addEventListener("input",function(){
 
-        const keyword = this.value.trim().toLowerCase();
-
-        const cards = document.querySelectorAll(".product-card");
-
-        cards.forEach(card=>{
-
-            const name = card.querySelector(".product-name")
-                .innerText.toLowerCase();
-
-            const weight = card.querySelector(".product-weight")
-                .innerText.toLowerCase();
-
-            if(name.includes(keyword) || weight.includes(keyword)){
-
-                card.style.display = "";
-
-            }else{
-
-                card.style.display = "none";
-
-            }
-
-        });
+        loadProducts(this.value);
 
     });
 
