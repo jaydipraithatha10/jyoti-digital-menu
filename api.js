@@ -1,6 +1,6 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V4
+// API.JS V5
 // PART 1
 // ======================================
 
@@ -8,7 +8,7 @@
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function saveCart(){
+function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
@@ -36,7 +36,9 @@ const productURL =
 
 async function fetchCSV(url){
 
-    const response = await fetch(url);
+    const response = await fetch(url,{
+        cache:"force-cache"
+    });
 
     return await response.text();
 
@@ -46,8 +48,8 @@ function csvToArray(csv){
 
     return csv
         .trim()
-        .split("\n")
-        .map(row => row.split(","));
+        .split(/\r?\n/)
+        .map(row=>row.split(","));
 
 }
 
@@ -57,41 +59,41 @@ function getParam(name){
 
 }
 
-// ---------- LOAD CACHE ----------
+// ---------- LOAD DATA ONLY ONCE ----------
 
 async function loadData(){
 
-    if(categoryRows.length === 0){
+    if(categoryRows.length &&
+       subCategoryRows.length &&
+       productRows.length){
 
-        categoryRows =
-        csvToArray(await fetchCSV(categoryURL));
-
-    }
-
-    if(subCategoryRows.length === 0){
-
-        subCategoryRows =
-        csvToArray(await fetchCSV(subCategoryURL));
+        return;
 
     }
 
-    if(productRows.length === 0){
+    const [catCSV,subCSV,proCSV] =
+    await Promise.all([
 
-        productRows =
-        csvToArray(await fetchCSV(productURL));
+        fetchCSV(categoryURL),
+        fetchCSV(subCategoryURL),
+        fetchCSV(productURL)
 
-    }
+    ]);
+
+    categoryRows = csvToArray(catCSV);
+    subCategoryRows = csvToArray(subCSV);
+    productRows = csvToArray(proCSV);
 
 }
 
 // ======================================
-// PART 2
-// CATEGORY + SUB CATEGORY
+// CATEGORY
 // ======================================
 
 async function loadCategories(){
 
-    const list = document.getElementById("categoryList");
+    const list =
+    document.getElementById("categoryList");
 
     if(!list) return;
 
@@ -109,11 +111,11 @@ async function loadCategories(){
 <div class="category-card"
 onclick="openCategory('${row[0]}')">
 
-    <img src="${row[3]}"
-    loading="lazy"
-    onerror="this.src='placeholder.png'">
+<img src="${row[3]}"
+loading="lazy"
+onerror="this.src='placeholder.png'">
 
-    <h3>${row[1]}</h3>
+<h3>${row[1]}</h3>
 
 </div>
 
@@ -127,16 +129,15 @@ onclick="openCategory('${row[0]}')">
 // OPEN CATEGORY
 // ======================================
 
-async function openCategory(id){
+function openCategory(id){
 
-    await loadData();
+    const hasSub =
+    subCategoryRows.slice(1).some(row=>
 
-    const hasSub = subCategoryRows.slice(1).some(row=>{
+        row[1]==id &&
+        row[3].trim().toLowerCase()=="active"
 
-        return row[1]==id &&
-        row[3].trim().toLowerCase()=="active";
-
-    });
+    );
 
     if(hasSub){
 
@@ -180,134 +181,14 @@ async function loadSubCategories(){
         list.innerHTML += `
 
 <div class="category-card"
+
 onclick="location.href='products.html?sub=${row[0]}'">
 
-    <img src="${row[4]}"
-    loading="lazy"
-    onerror="this.src='placeholder.png'">
-
-    <h3>${row[2]}</h3>
-
-</div>
-
-`;
-
-    });
-
-}
-
-// ======================================
-// PART 3
-// PRODUCTS
-// ======================================
-
-async function loadProducts(){
-
-    const list =
-    document.getElementById("productList");
-
-    if(!list) return;
-
-    await loadData();
-
-    const subId = getParam("sub");
-    const categoryId = getParam("category");
-    const search =
-    (getParam("search") || "").toLowerCase();
-
-    list.innerHTML = "";
-
-    productRows.slice(1).forEach(row=>{
-
-        const id = row[0];
-        const catId = row[1];
-        const subCatId = row[2];
-        const product = row[3];
-        const weight = row[4];
-        const price = Number(row[5]);
-        const status = row[6];
-        const image = row[7];
-
-        if(status.trim().toLowerCase()!="active")
-            return;
-
-        if(subId && subCatId!=subId)
-            return;
-
-        if(categoryId && !subId && catId!=categoryId)
-            return;
-
-        if(search){
-
-            const keyword =
-            (product + " " + weight)
-            .toLowerCase();
-
-            if(!keyword.includes(search))
-                return;
-
-        }
-
-        const item =
-        cart.find(p=>p.id==id);
-
-        const qty =
-        item ? item.qty : 0;
-
-        list.innerHTML += `
-
-<div class="product-card">
-
-<img src="${image}"
+<img src="${row[4]}"
 loading="lazy"
 onerror="this.src='placeholder.png'">
 
-<h3 class="product-name">${product}</h3>
-
-<p class="product-weight">${weight}</p>
-
-<h4 class="product-price">₹${price}</h4>
-
-<div id="cart-${id}">
-
-${qty==0 ?
-
-`<button class="cart-btn"
-onclick="addToCart('${id}')">
-
-+ Add
-
-</button>`
-
-:
-
-`<div class="qty-control">
-
-<button class="qty-btn"
-onclick="changeQty('${id}',-1)">
-
-−
-
-</button>
-
-<span class="qty-number">
-
-${qty}
-
-</span>
-
-<button class="qty-btn"
-onclick="changeQty('${id}',1)">
-
-+
-
-</button>
-
-</div>`
-
-}
-
-</div>
+<h3>${row[2]}</h3>
 
 </div>
 
@@ -316,292 +197,3 @@ onclick="changeQty('${id}',1)">
     });
 
 }
-
-// ======================================
-// PART 4
-// CART + WHATSAPP + AUTO LOAD
-// ======================================
-
-function addToCart(id){
-
-    const item = cart.find(p=>p.id==id);
-
-    if(item){
-        item.qty++;
-    }else{
-        cart.push({
-            id:id,
-            qty:1
-        });
-    }
-
-    saveCart();
-
-    loadProducts();
-
-    updateCartButton();
-
-}
-
-function changeQty(id,change){
-
-    const item = cart.find(p=>p.id==id);
-
-    if(!item) return;
-
-    item.qty += change;
-
-    if(item.qty<=0){
-
-        cart = cart.filter(p=>p.id!=id);
-
-    }
-
-    saveCart();
-
-    loadProducts();
-
-    loadCart();
-
-    updateCartButton();
-
-}
-
-function updateCartButton(){
-
-    const btn = document.getElementById("viewCartBtn");
-    const count = document.getElementById("cartCount");
-
-    if(!btn || !count) return;
-
-    const total = cart.reduce((sum,item)=>sum+item.qty,0);
-
-    if(total <= 0){
-
-        btn.style.display = "none";
-        count.innerText = "0";
-
-    }else{
-
-        btn.style.display = "flex";
-        count.innerText = total;
-
-    }
-
-}
-
-async function loadCart(){
-
-    const list=document.getElementById("cartList");
-
-    if(!list) return;
-
-    await loadData();
-
-    list.innerHTML="";
-
-    let grandTotal=0;
-
-    if(cart.length===0){
-
-        list.innerHTML=`
-<div class="empty-cart">
-<h2>🛒 Your Cart is Empty</h2>
-</div>
-`;
-        return;
-    }
-
-    cart.forEach(item=>{
-
-        const row=productRows.find(r=>r[0]==item.id);
-
-        if(!row) return;
-
-        const total=Number(row[5])*item.qty;
-
-        grandTotal+=total;
-
-        list.innerHTML+=`
-
-<div class="cart-item">
-
-<img src="${row[7]}" onerror="this.src='placeholder.png'">
-
-<div class="cart-info">
-
-<h3>${row[3]}</h3>
-
-<p>${row[4]}</p>
-
-<div class="cart-price">
-
-₹${row[5]} × ${item.qty} = ₹${total}
-
-</div>
-
-<div class="qty-box">
-
-<button class="qty-btn"
-onclick="changeQty('${item.id}',-1)">−</button>
-
-<span class="qty-number">${item.qty}</span>
-
-<button class="qty-btn"
-onclick="changeQty('${item.id}',1)">+</button>
-
-</div>
-
-<button class="remove-btn"
-onclick="removeCartItem('${item.id}')">
-
-🗑 Remove
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-    });
-
-    list.innerHTML+=`
-
-<div class="cart-total">
-
-<h2>Grand Total</h2>
-
-<div class="total-price">
-
-₹${grandTotal}
-
-</div>
-
-<button class="whatsapp-btn"
-onclick="orderWhatsApp()">
-
-📲 Order on WhatsApp
-
-</button>
-
-</div>
-
-`;
-
-}
-
-function removeCartItem(id){
-
-    cart=cart.filter(item=>item.id!=id);
-
-    saveCart();
-
-    loadCart();
-
-    updateCartButton();
-
-}
-
-
-async function orderWhatsApp(){
-
-    await loadData();
-
-    let grandTotal = 0;
-
-    let message = "🛒 *Jyoti Gruh Udhyog Order*\n\n";
-
-    cart.forEach(item=>{
-
-        const row = productRows.find(r=>r[0]==item.id);
-
-        if(!row) return;
-
-        const total = Number(row[5]) * item.qty;
-
-        grandTotal += total;
-
-        message +=
-`📦 ${row[3]} (${row[4]})
-Qty : ${item.qty}
-Price : ₹${row[5]}
-Total : ₹${total}
-
-`;
-
-    });
-
-    message += `💰 Grand Total : ₹${grandTotal}`;
-
-    window.open(
-        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
-        "_blank"
-    );
-
-window.open(
-    `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
-    "_blank"
-);
-
-// Cart Empty
-cart = [];
-saveCart();
-
-updateCartButton();
-loadCart();
-loadProducts();   // ← આ નવી line ઉમેરો
-
-// Home Page
-
-    setTimeout(()=>{
-
-        const popup = document.getElementById("orderPopup");
-
-        if(popup){
-
-            popup.style.display="block";
-
-        }
-
-    },1000);
-
-}
-    
-
-document.addEventListener("DOMContentLoaded",async()=>{
-
-    await loadData();
-
-    loadCategories();
-
-    loadSubCategories();
-
-    loadProducts();
-
-    loadCart();
-
-    updateCartButton();
-
-});
-
-
-window.addEventListener("pageshow", function () {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    updateCartButton();
-
-    if (document.getElementById("productList")) {
-        loadProducts();
-    }
-
-    if (document.getElementById("cartList")) {
-        loadCart();
-    }
-});
-
-
-
-
-
