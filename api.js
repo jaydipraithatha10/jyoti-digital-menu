@@ -355,3 +355,241 @@ function initSearch(){
     });
 
 }
+
+// ======================================
+// API.JS V5
+// PART 3
+// CART + BADGE
+// ======================================
+
+function addToCart(id){
+
+    const item = cart.find(p => p.id == id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+}
+
+function changeQty(id,change){
+
+    const item = cart.find(p => p.id == id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty<=0){
+
+        cart = cart.filter(p=>p.id!=id);
+
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+    loadCart();
+
+}
+
+function removeCartItem(id){
+
+    cart = cart.filter(item=>item.id!=id);
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+    loadCart();
+
+}
+
+// ======================================
+// FLOATING CART
+// ======================================
+
+function updateCartButton(){
+
+    const btn =
+    document.getElementById("viewCartBtn");
+
+    const count =
+    document.getElementById("cartCount");
+
+    if(!btn || !count) return;
+
+    const total = cart.reduce(
+        (sum,item)=>sum+item.qty,
+        0
+    );
+
+    if(total===0){
+
+        btn.style.display="none";
+        count.innerText="0";
+
+    }else{
+
+        btn.style.display="flex";
+        count.innerText=total;
+
+    }
+
+}
+
+// ======================================
+// CART PAGE
+// ======================================
+
+async function loadCart(){
+
+    const list =
+    document.getElementById("cartList");
+
+    if(!list) return;
+
+    await loadData();
+
+    list.innerHTML="";
+
+    let grandTotal=0;
+
+    if(cart.length===0){
+
+        list.innerHTML=`
+
+<div class="empty-cart">
+
+<h2>🛒 Your Cart is Empty</h2>
+
+<p>Please add products.</p>
+
+</div>
+
+`;
+
+        updateCartButton();
+
+        return;
+
+    }
+
+    cart.forEach(item=>{
+
+        const row =
+        productRows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const total =
+        Number(row[5])*item.qty;
+
+        grandTotal += total;
+
+        list.innerHTML += `
+
+<div class="cart-item">
+
+<img src="${row[7]}"
+onerror="this.src='placeholder.png'">
+
+<div class="cart-info">
+
+<h3>${row[3]}</h3>
+
+<p>${row[4]}</p>
+
+<div class="cart-price">
+
+₹${row[5]} × ${item.qty}
+=
+₹${total}
+
+</div>
+
+<div class="qty-box">
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',-1)">
+
+−
+
+</button>
+
+<span class="qty-number">
+
+${item.qty}
+
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',1)">
+
++
+
+</button>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeCartItem('${item.id}')">
+
+🗑 Remove
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    list.innerHTML += `
+
+<div class="cart-total">
+
+<h2>Grand Total</h2>
+
+<div class="total-price">
+
+₹${grandTotal}
+
+</div>
+
+<button class="whatsapp-btn"
+onclick="orderWhatsApp()">
+
+📲 Order on WhatsApp
+
+</button>
+
+</div>
+
+`;
+
+    updateCartButton();
+
+}
