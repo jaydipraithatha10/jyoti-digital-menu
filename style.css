@@ -565,3 +565,186 @@ body{
     box-shadow:0 15px 40px rgba(0,0,0,.25);
     z-index:99999;
 }
+
+/* =========================================
+   STYLE.CSS V2 - PART 4
+   FINAL PREMIUM POLISH
+========================================= */
+
+/* SMOOTH SCROLL */
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* GLOBAL ANIMATION */
+
+*{
+    transition:.25s ease;
+}
+
+/* IMAGE */
+
+img{
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+/* CARD EFFECT */
+
+.category-card:hover,
+.product-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.category-card:active,
+.product-card:active{
+    transform:scale(.98);
+}
+
+/* BUTTON EFFECT */
+
+.cart-btn:hover,
+.whatsapp-btn:hover,
+.remove-btn:hover,
+.back-btn:hover{
+    filter:brightness(1.05);
+}
+
+.cart-btn:active,
+.qty-btn:active,
+.remove-btn:active,
+.whatsapp-btn:active,
+.back-btn:active{
+    transform:scale(.96);
+}
+
+/* PRODUCT IMAGE ZOOM */
+
+.product-card img,
+.category-card img{
+    transition:.35s;
+}
+
+.product-card:hover img,
+.category-card:hover img{
+    transform:scale(1.05);
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#f4f1ec;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#c7a67a;
+    border-radius:20px;
+}
+
+/* INPUT */
+
+input{
+    font-family:inherit;
+}
+
+/* EMPTY CART */
+
+.empty-cart{
+    padding:70px 20px;
+    text-align:center;
+}
+
+.empty-cart h2{
+    color:#6B4226;
+    margin-top:15px;
+    font-size:30px;
+}
+
+.empty-cart p{
+    color:#777;
+    margin-top:8px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .header{
+        padding:18px;
+    }
+
+    .logo{
+        width:72px;
+        height:72px;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
+    .header p{
+        font-size:14px;
+    }
+
+    .section-title,
+    .subcategory-title{
+        font-size:26px;
+    }
+
+    .category-grid,
+    .product-grid{
+        gap:14px;
+    }
+
+    .category-card h3{
+        font-size:16px;
+    }
+
+    .product-name{
+        font-size:15px;
+    }
+
+    .product-price{
+        font-size:21px;
+    }
+
+    .floating-cart{
+        width:56px;
+        height:56px;
+        font-size:22px;
+    }
+
+    .whatsapp-btn{
+        height:54px;
+        font-size:18px;
+    }
+}
+
+/* DESKTOP */
+
+@media(min-width:992px){
+
+    .category-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .product-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .header{
+        max-width:1400px;
+        margin:auto;
+    }
+
+    .category-section{
+        max-width:1400px;
+        margin:auto;
+    }
+}
