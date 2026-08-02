@@ -554,12 +554,6 @@ Total : ₹${total}
 
 }
     
-    
-    
-     
-
-
-
 
 document.addEventListener("DOMContentLoaded",async()=>{
 
@@ -577,27 +571,24 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
 });
 
-function completeOrder(){
 
-    // Cart Empty
-    cart = [];
-
-    saveCart();
-
-    // Popup Hide
-    document.getElementById("orderPopup").style.display = "none";
-
-    // Cart UI Update
-    loadCart();
-    updateCartButton();
-
-    // Home Page પર જાઓ
-    location.replace("index.html");
-
-}
 
 function closePopup(){
 
     document.getElementById("orderPopup").style.display="none";
+
+}
+
+function completeOrder(){
+
+    cart = [];
+
+    saveCart();
+
+    updateCartButton();
+
+    document.getElementById("orderPopup").style.display = "none";
+
+    window.location.href = "index.html";
 
 }
