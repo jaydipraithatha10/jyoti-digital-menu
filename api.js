@@ -586,22 +586,6 @@ document.addEventListener("DOMContentLoaded",async()=>{
 
 
 
-function closePopup(){
 
-    document.getElementById("orderPopup").style.display="none";
 
-}
 
-function completeOrder(){
-
-    cart = [];
-
-    saveCart();
-
-    updateCartButton();
-
-    document.getElementById("orderPopup").style.display = "none";
-
-    window.location.href = "index.html";
-
-}
