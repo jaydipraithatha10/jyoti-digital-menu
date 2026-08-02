@@ -336,7 +336,17 @@ onclick="changeQty('${id}',1)">
     });
 
     list.innerHTML = html;
+    // Product Count
+const totalProducts = list.querySelectorAll(".product-card").length;
 
+const heading = document.querySelector(".section-title");
+
+if(heading){
+
+    heading.innerHTML =
+    `🛒 All Products <span style="font-size:16px;color:#888;">(${totalProducts})</span>`;
+
+}
 }
 
 // ======================================
