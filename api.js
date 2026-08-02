@@ -83,3 +83,115 @@ async function loadData(){
     }
 
 }
+
+// ======================================
+// PART 2
+// CATEGORY + SUB CATEGORY
+// ======================================
+
+async function loadCategories(){
+
+    const list = document.getElementById("categoryList");
+
+    if(!list) return;
+
+    await loadData();
+
+    list.innerHTML = "";
+
+    categoryRows.slice(1).forEach(row=>{
+
+        if(row[2].trim().toLowerCase()!="active")
+            return;
+
+        list.innerHTML += `
+
+<div class="category-card"
+onclick="openCategory('${row[0]}')">
+
+    <img src="${row[3]}"
+    loading="lazy"
+    onerror="this.src='placeholder.png'">
+
+    <h3>${row[1]}</h3>
+
+</div>
+
+`;
+
+    });
+
+}
+
+// ======================================
+// OPEN CATEGORY
+// ======================================
+
+async function openCategory(id){
+
+    await loadData();
+
+    const hasSub = subCategoryRows.slice(1).some(row=>{
+
+        return row[1]==id &&
+        row[3].trim().toLowerCase()=="active";
+
+    });
+
+    if(hasSub){
+
+        location.href =
+        "category.html?id="+id;
+
+    }else{
+
+        location.href =
+        "products.html?category="+id;
+
+    }
+
+}
+
+// ======================================
+// SUB CATEGORY
+// ======================================
+
+async function loadSubCategories(){
+
+    const list =
+    document.getElementById("subCategoryList");
+
+    if(!list) return;
+
+    await loadData();
+
+    const id = getParam("id");
+
+    list.innerHTML = "";
+
+    subCategoryRows.slice(1).forEach(row=>{
+
+        if(row[3].trim().toLowerCase()!="active")
+            return;
+
+        if(row[1]!=id)
+            return;
+
+        list.innerHTML += `
+
+<div class="category-card"
+onclick="location.href='products.html?sub=${row[0]}'">
+
+    <img src="${row[4]}"
+    loading="lazy"
+    onerror="this.src='placeholder.png'">
+
+    <h3>${row[2]}</h3>
+
+</div>
+
+`;
+
+    });
+
+}
