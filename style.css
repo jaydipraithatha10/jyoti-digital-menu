@@ -976,15 +976,13 @@ input{
 
     inset:0;
 
-    background:rgba(0,0,0,.92);
-
-    z-index:9999;
+    background:rgba(0,0,0,.95);
 
     justify-content:center;
 
     align-items:center;
 
-    padding:20px;
+    z-index:99999;
 
 }
 
@@ -996,19 +994,21 @@ input{
 
 .zoom-image{
 
-    max-width:95%;
+    max-width:95vw;
 
     max-height:90vh;
 
-    border-radius:16px;
+    width:auto;
 
-    background:#fff;
+    height:auto;
 
     object-fit:contain;
 
-    box-shadow:0 10px 40px rgba(0,0,0,.45);
+    border-radius:12px;
 
-    animation:zoomIn .25s ease;
+    background:transparent;
+
+    box-shadow:none;
 
 }
 
