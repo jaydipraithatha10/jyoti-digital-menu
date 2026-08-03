@@ -99,10 +99,17 @@ async function loadData(){
     ]);
 
     categoryRows = csvToArray(catCSV);
-    subCategoryRows = csvToArray(subCSV);
-    productRows = csvToArray(proCSV);
+subCategoryRows = csvToArray(subCSV);
+productRows = csvToArray(proCSV);
 
-    dataLoaded = true;
+// Build Product Map
+productMap.clear();
+
+productRows.slice(1).forEach(row=>{
+    productMap.set(row[0], row);
+});
+
+dataLoaded = true;
 
 }
 
