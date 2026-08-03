@@ -578,8 +578,7 @@ async function loadCart(){
 
     cart.forEach(item=>{
 
-        const row =
-        productRows.find(r=>r[0]==item.id);
+        const row = getProduct(item.id);
 
         if(!row) return;
 
