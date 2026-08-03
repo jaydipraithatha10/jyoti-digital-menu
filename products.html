@@ -101,13 +101,15 @@ if ("serviceWorker" in navigator) {
 }
 <!-- Image Zoom Popup -->
 
-<div id="imageModal" class="image-modal">
+<div id="imageModal" class="image-modal" onclick="closeImage()">
 
     <span class="close-image" onclick="closeImage()">
         ✕
     </span>
 
-    <img id="zoomImage" class="zoom-image">
+    <img id="zoomImage"
+class="zoom-image"
+onclick="event.stopPropagation()">
 
 </div>
 
