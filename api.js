@@ -21,6 +21,7 @@ let productRows = [];
 // FAST LOOKUP
 
 let productMap = new Map();
+let productList = [];
 
 let dataLoaded = false;
 
