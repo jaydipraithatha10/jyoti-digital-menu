@@ -12,17 +12,13 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 function saveCart(){
     localStorage.setItem("cart", JSON.stringify(cart));
 }
-
+if(status.trim().toLowerCase()!="active")
+    return;
 // ---------- CACHE ----------
 
 let categoryRows = [];
 let subCategoryRows = [];
 let productRows = [];
-// ================================
-// SEARCH INDEX
-// ================================
-
-let searchIndex = [];
 
 let dataLoaded = false;
 
@@ -103,36 +99,7 @@ async function loadData(){
     categoryRows = csvToArray(catCSV);
     subCategoryRows = csvToArray(subCSV);
     productRows = csvToArray(proCSV);
-    
-// ================================
-// BUILD SEARCH INDEX
-// ================================
 
-searchIndex = productRows
-.slice(1)
-.filter(row => row[6].trim().toLowerCase() === "active")
-.map(row => ({
-
-    id: row[0],
-
-    category: row[1],
-
-    subCategory: row[2],
-
-    product: row[3],
-
-    weight: row[4],
-
-    price: Number(row[5]),
-
-    image: row[7],
-
-    keyword: (
-        row[3] + " " +
-        row[4]
-    ).toLowerCase()
-
-}));
     dataLoaded = true;
 
 }
@@ -272,24 +239,29 @@ async function loadProducts(searchText=""){
     productRows.slice(1).forEach(row=>{
 
         const id = row[0];
-const catId = row[1];
-const subCatId = row[2];
-const product = row[3];
-const weight = row[4];
-const price = Number(row[5]);
-const status = row[6];
-const image = row[7];
+        const catId = row[1];
+        const subCatId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const status = row[6];
+        const image = row[7];
 
-if(status.trim().toLowerCase()!="active")
-    return;
+        if(status.trim().toLowerCase()!="active") return;
 
         if(subId && subCatId!=subId) return;
 
         if(categoryId && !subId && catId!=categoryId) return;
 
-        if(search && !item.keyword.includes(search)){
-    return;
-}
+        if(search){
+
+            const keyword =
+            (product+" "+weight).toLowerCase();
+
+            if(!keyword.includes(search))
+                return;
+
+        }
 
         totalProducts++;
 
