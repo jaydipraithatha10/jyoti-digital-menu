@@ -99,7 +99,12 @@ function getProduct(id){
 
 async function loadData(){
 
-    if(dataLoaded) return;
+    if(
+    dataLoaded &&
+    (Date.now() - cacheTime) < CACHE_DURATION
+){
+    return;
+}
 
     const [catCSV,subCSV,proCSV] =
     await Promise.all([
@@ -148,6 +153,7 @@ productRows.slice(1).forEach(row=>{
 
 dataLoaded = true;
 
+cacheTime = Date.now();
 }
 
 // ======================================
