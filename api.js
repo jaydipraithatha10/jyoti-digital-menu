@@ -515,3 +515,254 @@ function updateCartButton(){
     }
 
 }
+
+// ======================================
+// API.JS V6
+// PART 4
+// CART + WHATSAPP + AUTO LOAD
+// ======================================
+
+// ======================================
+// LOAD CART
+// ======================================
+
+async function loadCart(){
+
+    const list =
+    document.getElementById("cartList");
+
+    if(!list) return;
+
+    await loadData();
+
+    if(cart.length===0){
+
+        list.innerHTML=`
+
+<div class="empty-cart">
+
+<h2>🛒 Your Cart is Empty</h2>
+
+<p>Please add products.</p>
+
+</div>
+
+`;
+
+        updateCartButton();
+
+        return;
+
+    }
+
+    let html = [];
+    let grandTotal = 0;
+
+    cart.forEach(item=>{
+
+        const row =
+        productRows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const image = row[7];
+
+        const total = price * item.qty;
+
+        grandTotal += total;
+
+        html.push(`
+
+<div class="cart-item">
+
+<img src="${image}"
+loading="lazy"
+onerror="this.src='placeholder.png'">
+
+<div class="cart-info">
+
+<h3>${product}</h3>
+
+<p>${weight}</p>
+
+<div class="cart-price">
+
+₹${price} × ${item.qty} = ₹${total}
+
+</div>
+
+<div class="qty-box">
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',-1)">−</button>
+
+<span class="qty-number">
+${item.qty}
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${item.id}',1)">+</button>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeCartItem('${item.id}')">
+
+🗑 Remove
+
+</button>
+
+</div>
+
+</div>
+
+`);
+
+    });
+
+    html.push(`
+
+<div class="cart-total">
+
+<h2>Grand Total</h2>
+
+<div class="total-price">
+
+₹${grandTotal}
+
+</div>
+
+<button class="whatsapp-btn"
+onclick="orderWhatsApp()">
+
+📲 Order on WhatsApp
+
+</button>
+
+</div>
+
+`);
+
+    list.innerHTML = html.join("");
+
+    updateCartButton();
+
+}
+
+// ======================================
+// WHATSAPP
+// ======================================
+
+async function orderWhatsApp(){
+
+    await loadData();
+
+    let grandTotal = 0;
+
+    let message =
+`🛒 *Jyoti Gruh Udhyog*
+
+નવો ઓર્ડર
+
+------------------------
+
+`;
+
+    cart.forEach(item=>{
+
+        const row =
+        productRows.find(r=>r[0]==item.id);
+
+        if(!row) return;
+
+        const total =
+        Number(row[5]) * item.qty;
+
+        grandTotal += total;
+
+        message +=
+`📦 ${row[3]}
+⚖️ ${row[4]}
+
+💰 ₹${row[5]} × ${item.qty} = ₹${total}
+
+------------------------
+
+`;
+
+    });
+
+    message +=
+`💵 Grand Total : ₹${grandTotal}
+
+🙏 આભાર`;
+
+    window.open(
+
+`https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+
+"_blank"
+
+);
+
+    cart = [];
+
+    saveCart();
+
+    updateCartButton();
+
+    loadCart();
+
+    loadProducts();
+
+}
+
+// ======================================
+// AUTO LOAD
+// ======================================
+
+document.addEventListener("DOMContentLoaded",async()=>{
+
+    await loadData();
+
+    loadCategories();
+
+    loadSubCategories();
+
+    loadProducts();
+
+    loadCart();
+
+    updateCartButton();
+
+    initSearch();
+
+});
+
+// ======================================
+// PAGE REFRESH
+// ======================================
+
+window.addEventListener("pageshow",()=>{
+
+    cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    updateCartButton();
+
+    if(document.getElementById("productList")){
+
+        loadProducts();
+
+    }
+
+    if(document.getElementById("cartList")){
+
+        loadCart();
+
+    }
+
+});
