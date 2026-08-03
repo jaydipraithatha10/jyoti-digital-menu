@@ -21,13 +21,14 @@ let productRows = [];
 // FAST LOOKUP
 
 let productMap = new Map();
+
 let productList = [];
 
 let dataLoaded = false;
 
 let cacheTime = 0;
 
-const CACHE_DURATION = 5 * 60 * 1000; // 5 Minutes
+const CACHE_DURATION = 5 * 60 * 1000;
 // ---------- GOOGLE SHEET ----------
 
 const SHEET =
