@@ -18,6 +18,9 @@ function saveCart(){
 let categoryRows = [];
 let subCategoryRows = [];
 let productRows = [];
+// FAST LOOKUP
+
+let productMap = new Map();
 
 let dataLoaded = false;
 
