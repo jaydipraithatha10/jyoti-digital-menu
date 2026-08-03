@@ -331,3 +331,165 @@
     font-weight:700;
     color:#111;
 }
+
+/* =========================================
+   PREMIUM FINISH
+========================================= */
+
+/* SMOOTH ANIMATION */
+
+*{
+    transition:.25s ease;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* IMAGES */
+
+img{
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+/* HEADER */
+
+.header{
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.logo{
+    transition:.35s;
+}
+
+.logo:hover{
+    transform:rotate(8deg) scale(1.05);
+}
+
+/* HERO */
+
+.hero-banner{
+    transition:.35s;
+}
+
+.hero-banner:hover{
+    transform:scale(1.01);
+}
+
+/* SEARCH */
+
+.search-box{
+    transition:.3s;
+}
+
+.search-box:focus-within{
+    box-shadow:0 8px 22px rgba(212,175,55,.35);
+}
+
+/* CATEGORY */
+
+.category-card,
+.product-card{
+    will-change:transform;
+}
+
+/* BUTTON */
+
+.cart-btn,
+.call-btn,
+.whatsapp-btn,
+.whatsapp-btn-footer,
+.back-btn{
+    transition:.25s;
+}
+
+.cart-btn:hover,
+.call-btn:hover,
+.whatsapp-btn:hover,
+.whatsapp-btn-footer:hover,
+.back-btn:hover{
+    filter:brightness(1.05);
+}
+
+.cart-btn:active,
+.call-btn:active,
+.whatsapp-btn:active,
+.whatsapp-btn-footer:active,
+.back-btn:active{
+    transform:scale(.96);
+}
+
+/* FLOATING CART */
+
+.floating-cart{
+    animation:cartPulse 2s infinite;
+}
+
+@keyframes cartPulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* FOOTER */
+
+.footer{
+    box-shadow:0 -6px 18px rgba(0,0,0,.08);
+}
+
+.footer-buttons a{
+    transition:.25s;
+}
+
+.footer-buttons a:hover{
+    transform:translateY(-3px);
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#C79A63;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+    background:#F5F2ED;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .category-card{
+        height:310px;
+    }
+
+    .category-card img{
+        height:220px;
+    }
+
+    .product-card img{
+        height:200px;
+    }
+
+    .section-title,
+    .subcategory-title{
+        font-size:26px;
+    }
+
+}
