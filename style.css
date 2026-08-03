@@ -133,9 +133,7 @@ body{
     margin-bottom:18px;
 }
 
-/* =========================
-   CATEGORY GRID
-========================= */
+
 
 
 
@@ -143,8 +141,60 @@ body{
    CATEGORY CARD
 ========================= */
 
+/* =========================
+   CATEGORY GRID
+========================= */
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    padding:0 15px;
+}
+
+/* =========================
+   CATEGORY CARD
+========================= */
+
+.category-card{
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 8px 22px rgba(0,0,0,.08);
+    display:flex;
+    flex-direction:column;
+    height:320px;
+    transition:.3s ease;
+}
+
 .category-card:hover{
     transform:translateY(-4px);
+    box-shadow:0 12px 28px rgba(0,0,0,.12);
+}
+
+/* IMAGE */
+
+.category-card img{
+    width:100%;
+    height:210px;
+    object-fit:contain;
+    padding:18px;
+    margin-top:10px;
+}
+
+/* TITLE */
+
+.category-card h3{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:12px;
+    font-size:18px;
+    font-weight:700;
+    color:#6B4226;
+    line-height:1.3;
 }
 
 .category-card:active{
@@ -152,41 +202,13 @@ body{
 }
 
 
-.category-grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
 
-.category-card{
-    background: #fff;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-    display: flex;
-    flex-direction: column;
-    height: 280px; /* બધા Card સમાન Height */
-}
 
-.category-card img{
-    width: 50%;
-    height: 220px;   /* પહેલા 190px અથવા 200px હોય તો વધારીને 220px કરો */
-    object-fit: contain;
-    transform: scale(1.12); /* Image 12% મોટી થશે */
-}
 
-.category-card h3{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: #5a3925;
-    padding: 10px;
-    margin: 0;
-}
+
+
+
+
 
 
 
