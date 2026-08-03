@@ -82,6 +82,14 @@ function getParam(name){
 }
 
 // ======================================
+// FAST PRODUCT LOOKUP
+// ======================================
+
+function getProduct(id){
+    return productMap.get(id);
+}
+
+// ======================================
 // LOAD DATA (ONLY ONCE)
 // ======================================
 
