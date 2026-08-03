@@ -963,4 +963,16 @@ input{
     text-align:center;
 }
 
+<!-- Image Zoom Popup -->
+
+<div id="imageModal" class="image-modal">
+
+    <span class="close-image" onclick="closeImage()">
+        ✕
+    </span>
+
+    <img id="zoomImage" class="zoom-image">
+
+</div>
+
 
