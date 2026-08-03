@@ -18,6 +18,11 @@ function saveCart(){
 let categoryRows = [];
 let subCategoryRows = [];
 let productRows = [];
+// ================================
+// SEARCH INDEX
+// ================================
+
+let searchIndex = [];
 
 let dataLoaded = false;
 
