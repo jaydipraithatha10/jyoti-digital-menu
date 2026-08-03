@@ -819,3 +819,25 @@ window.addEventListener("pageshow",()=>{
     }
 
 });
+
+// ======================================
+// IMAGE ZOOM
+// ======================================
+
+function openImage(src){
+
+    document.getElementById("zoomImage").src = src;
+
+    document
+    .getElementById("imageModal")
+    .classList.add("show");
+
+}
+
+function closeImage(){
+
+    document
+    .getElementById("imageModal")
+    .classList.remove("show");
+
+}
