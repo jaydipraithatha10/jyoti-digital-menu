@@ -351,3 +351,167 @@ onclick="changeQty('${id}',1)">
     }
 
 }
+
+// ======================================
+// API.JS V6
+// PART 3
+// FAST SEARCH + CART
+// ======================================
+
+// ---------- SEARCH ----------
+
+function initSearch(){
+
+    const searchBox =
+    document.getElementById("searchBox");
+
+    if(!searchBox) return;
+
+    let timer;
+
+    searchBox.addEventListener("input",function(){
+
+        const text = this.value.trim();
+
+        clearTimeout(timer);
+
+        timer = setTimeout(()=>{
+
+            // Products Page
+            if(document.getElementById("productList")){
+
+                loadProducts(text);
+
+            }
+
+            // Home Page
+            else if(document.getElementById("categoryList")){
+
+                if(text.length>=2){
+
+                    location.href=
+                    "products.html?search="+
+                    encodeURIComponent(text);
+
+                }
+
+            }
+
+        },250);
+
+    });
+
+}
+
+// ======================================
+// ADD TO CART
+// ======================================
+
+function addToCart(id){
+
+    const item =
+    cart.find(p=>p.id==id);
+
+    if(item){
+
+        item.qty++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+}
+
+// ======================================
+// CHANGE QTY
+// ======================================
+
+function changeQty(id,change){
+
+    const item =
+    cart.find(p=>p.id==id);
+
+    if(!item) return;
+
+    item.qty += change;
+
+    if(item.qty<=0){
+
+        cart =
+        cart.filter(p=>p.id!=id);
+
+    }
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+    loadCart();
+
+}
+
+// ======================================
+// REMOVE ITEM
+// ======================================
+
+function removeCartItem(id){
+
+    cart =
+    cart.filter(item=>item.id!=id);
+
+    saveCart();
+
+    updateCartButton();
+
+    loadProducts();
+
+    loadCart();
+
+}
+
+// ======================================
+// FLOATING CART
+// ======================================
+
+function updateCartButton(){
+
+    const btn =
+    document.getElementById("viewCartBtn");
+
+    const count =
+    document.getElementById("cartCount");
+
+    if(!btn || !count) return;
+
+    const total =
+    cart.reduce(
+        (sum,item)=>sum+item.qty,
+        0
+    );
+
+    if(total===0){
+
+        btn.style.display="none";
+        count.textContent="0";
+
+    }else{
+
+        btn.style.display="flex";
+        count.textContent=total;
+
+    }
+
+}
