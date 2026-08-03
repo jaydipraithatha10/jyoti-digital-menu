@@ -284,15 +284,9 @@ const image = item.image;
 
         if(categoryId && !subId && catId!=categoryId) return;
 
-        if(search){
-
-            const keyword =
-            (product+" "+weight).toLowerCase();
-
-            if(!keyword.includes(search))
-                return;
-
-        }
+        if(search && !item.keyword.includes(search)){
+    return;
+}
 
         totalProducts++;
 
