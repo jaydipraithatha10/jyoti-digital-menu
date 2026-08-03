@@ -103,7 +103,36 @@ async function loadData(){
     categoryRows = csvToArray(catCSV);
     subCategoryRows = csvToArray(subCSV);
     productRows = csvToArray(proCSV);
+    
+// ================================
+// BUILD SEARCH INDEX
+// ================================
 
+searchIndex = productRows
+.slice(1)
+.filter(row => row[6].trim().toLowerCase() === "active")
+.map(row => ({
+
+    id: row[0],
+
+    category: row[1],
+
+    subCategory: row[2],
+
+    product: row[3],
+
+    weight: row[4],
+
+    price: Number(row[5]),
+
+    image: row[7],
+
+    keyword: (
+        row[3] + " " +
+        row[4]
+    ).toLowerCase()
+
+}));
     dataLoaded = true;
 
 }
