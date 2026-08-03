@@ -269,18 +269,16 @@ async function loadProducts(searchText=""){
 
     let totalProducts = 0;
 
-    productRows.slice(1).forEach(row=>{
+    searchIndex.forEach(item=>{
 
-        const id = row[0];
-        const catId = row[1];
-        const subCatId = row[2];
-        const product = row[3];
-        const weight = row[4];
-        const price = Number(row[5]);
-        const status = row[6];
-        const image = row[7];
+        const id = item.id;
+const catId = item.category;
+const subCatId = item.subCategory;
+const product = item.product;
+const weight = item.weight;
+const price = item.price;
+const image = item.image;
 
-        if(status.trim().toLowerCase()!="active") return;
 
         if(subId && subCatId!=subId) return;
 
