@@ -57,3 +57,134 @@
     font-weight:600;
     line-height:1.35;
 }
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    padding:15px;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product-card{
+    background:#fff;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    display:flex;
+    flex-direction:column;
+    transition:.3s ease;
+}
+
+.product-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 28px rgba(0,0,0,.12);
+}
+
+.product-card:active{
+    transform:scale(.98);
+}
+
+/* PRODUCT IMAGE */
+
+.product-card img{
+    width:100%;
+    height:210px;
+    object-fit:contain;
+    padding:12px;
+    transition:.35s ease;
+}
+
+.product-card:hover img{
+    transform:scale(1.08);
+}
+
+/* PRODUCT NAME */
+
+.product-name{
+    min-height:48px;
+    margin:8px 10px 5px;
+    font-size:17px;
+    font-weight:600;
+    color:#6B4226;
+    line-height:1.35;
+    text-align:center;
+}
+
+/* PRODUCT WEIGHT */
+
+.product-weight{
+    font-size:14px;
+    color:#777;
+    text-align:center;
+    margin-bottom:6px;
+}
+
+/* PRODUCT PRICE */
+
+.product-price{
+    font-size:24px;
+    font-weight:700;
+    color:#111;
+    text-align:center;
+    margin-bottom:12px;
+}
+
+/* ADD TO CART BUTTON */
+
+.cart-btn{
+    width:88%;
+    height:46px;
+    margin:0 auto 14px;
+    border:none;
+    border-radius:14px;
+    background:#6B4226;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.cart-btn:hover{
+    background:#5b341d;
+}
+
+.cart-btn:active{
+    transform:scale(.96);
+}
+
+/* QUANTITY CONTROL */
+
+.qty-control{
+    width:88%;
+    height:46px;
+    margin:0 auto 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 15px;
+    border-radius:14px;
+    background:#6B4226;
+}
+
+.qty-control button{
+    border:none;
+    background:none;
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.qty-control span{
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+}
