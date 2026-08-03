@@ -99,6 +99,18 @@ if ("serviceWorker" in navigator) {
         .then(() => console.log("Service Worker Registered"))
         .catch(err => console.log(err));
 }
+<!-- Image Zoom Popup -->
+
+<div id="imageModal" class="image-modal">
+
+    <span class="close-image" onclick="closeImage()">
+        ✕
+    </span>
+
+    <img id="zoomImage" class="zoom-image">
+
+</div>
+
 </script>
 </body>
 
