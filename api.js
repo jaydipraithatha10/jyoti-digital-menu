@@ -12,8 +12,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 function saveCart(){
     localStorage.setItem("cart", JSON.stringify(cart));
 }
-if(status.trim().toLowerCase()!="active")
-    return;
+
 // ---------- CACHE ----------
 
 let categoryRows = [];
