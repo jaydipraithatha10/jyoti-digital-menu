@@ -227,13 +227,11 @@ body{
 /* IMAGE */
 
 .subcategory-grid .category-card img{
-    width:100%;
+    width:75%;
     height:190px;
     object-fit:contain;
-    object-position:center;
-    padding:8px;
     display:block;
-    margin:auto;
+    margin:0 auto;
 }
 
 /* TITLE */
