@@ -25,6 +25,9 @@ let productList = [];
 
 let dataLoaded = false;
 
+let cacheTime = 0;
+
+const CACHE_DURATION = 5 * 60 * 1000; // 5 Minutes
 // ---------- GOOGLE SHEET ----------
 
 const SHEET =
