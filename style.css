@@ -964,5 +964,93 @@ input{
 }
 
 
+/* ===========================
+   IMAGE ZOOM
+=========================== */
+
+.image-modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.92);
+
+    z-index:9999;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+}
+
+.image-modal.show{
+
+    display:flex;
+
+}
+
+.zoom-image{
+
+    max-width:95%;
+
+    max-height:90vh;
+
+    border-radius:16px;
+
+    background:#fff;
+
+    object-fit:contain;
+
+    box-shadow:0 10px 40px rgba(0,0,0,.45);
+
+    animation:zoomIn .25s ease;
+
+}
+
+.close-image{
+
+    position:absolute;
+
+    top:20px;
+
+    right:25px;
+
+    color:#fff;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+@keyframes zoomIn{
+
+    from{
+
+        transform:scale(.8);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
 
 
