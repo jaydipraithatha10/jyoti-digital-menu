@@ -330,6 +330,7 @@ async function loadProducts(searchText=""){
 
 <img src="${image}"
 loading="lazy"
+onclick="openImage('${image}')"
 onerror="this.src='placeholder.png'">
 
 <h3 class="product-name">
