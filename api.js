@@ -110,6 +110,31 @@ async function loadData(){
     categoryRows = csvToArray(catCSV);
 subCategoryRows = csvToArray(subCSV);
 productRows = csvToArray(proCSV);
+productList = [];
+
+productRows.slice(1).forEach(row=>{
+
+    productList.push({
+
+        id: row[0],
+
+        category: row[1],
+
+        subCategory: row[2],
+
+        name: row[3],
+
+        weight: row[4],
+
+        price: Number(row[5]),
+
+        status: row[6],
+
+        image: row[7]
+
+    });
+
+});
 
 // Build Product Map
 productMap.clear();
