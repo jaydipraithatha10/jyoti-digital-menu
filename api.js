@@ -173,7 +173,7 @@ async function loadCategories(){
 
     if(!list) return;
 
-    await loadData();
+    
 
     const html = [];
 
@@ -232,7 +232,7 @@ async function loadSubCategories(){
 
     if(!list) return;
 
-    await loadData();
+    
 
     const id = getParam("id");
 
@@ -276,7 +276,7 @@ async function loadProducts(searchText=""){
 
     if(!list) return;
 
-    await loadData();
+    
 
     const subId = getParam("sub");
     const categoryId = getParam("category");
@@ -588,7 +588,7 @@ async function loadCart(){
 
     if(!list) return;
 
-    await loadData();
+    
 
     if(cart.length===0){
 
@@ -777,23 +777,23 @@ async function orderWhatsApp(){
 // AUTO LOAD
 // ======================================
 
-document.addEventListener("DOMContentLoaded",async()=>{
+document.addEventListener("DOMContentLoaded", async () => {
 
-    await loadData();
+    await loadData(); // Data માત્ર એક જ વાર load થશે
 
-    loadCategories();
-
-    loadSubCategories();
-
-    loadProducts();
-
-    loadCart();
+    Promise.all([
+        loadCategories(),
+        loadSubCategories(),
+        loadProducts(),
+        loadCart()
+    ]);
 
     updateCartButton();
 
     initSearch();
 
 });
+    
 
 // ======================================
 // PAGE REFRESH
