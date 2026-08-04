@@ -252,7 +252,7 @@ src="${row[3]}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
-onerror="this.src='placeholder.jpg'">
+onerror="this.src='placeholder.webp'">
 
 <h3>${row[1]}</h3>
 
@@ -318,7 +318,7 @@ src="${row[4]}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
-onerror="this.src='placeholder.jpg'">
+onerror="this.src='placeholder.webp'">
 
 <h3>${row[2]}</h3>
 
@@ -401,7 +401,7 @@ loading="lazy"
 decoding="async"
 fetchpriority="low"
 onclick="openImage('${image}')"
-onerror="this.src='placeholder.jpg'">
+onerror="this.src='placeholder.webp'">
 
 <h3 class="product-name">
 ${product}
@@ -707,7 +707,7 @@ src="${image}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
-onerror="this.src='placeholder.jpg'">
+onerror="this.src='placeholder.webp'">
 
 <div class="cart-info">
 
