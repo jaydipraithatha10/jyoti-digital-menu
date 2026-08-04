@@ -29,6 +29,65 @@ let dataLoaded = false;
 let cacheTime = 0;
 
 const CACHE_DURATION = 5 * 60 * 1000;
+
+// LOCAL STORAGE CACHE
+
+const STORAGE_KEY = "jyoti_data_cache";
+
+function saveCache(){
+
+    const data = {
+
+        categoryRows,
+        subCategoryRows,
+        productRows,
+
+        time: Date.now()
+
+    };
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+function loadCache(){
+
+    const cache =
+    localStorage.getItem(STORAGE_KEY);
+
+    if(!cache) return false;
+
+    const data = JSON.parse(cache);
+
+    if(
+        Date.now() - data.time >
+        CACHE_DURATION
+    ){
+        return false;
+    }
+
+    categoryRows = data.categoryRows;
+    subCategoryRows = data.subCategoryRows;
+    productRows = data.productRows;
+
+    productMap.clear();
+
+    productRows.slice(1).forEach(row=>{
+
+        productMap.set(row[0],row);
+
+    });
+
+    dataLoaded = true;
+
+    cacheTime = data.time;
+
+    return true;
+
+}
 // ---------- GOOGLE SHEET ----------
 
 const SHEET =
@@ -100,6 +159,7 @@ function getProduct(id){
 
 async function loadData(){
 
+if(loadCache()) return;
     if(
     dataLoaded &&
     (Date.now() - cacheTime) < CACHE_DURATION
@@ -155,6 +215,7 @@ productRows.slice(1).forEach(row=>{
 dataLoaded = true;
 
 cacheTime = Date.now();
+saveCache();
 }
 
 // ======================================
