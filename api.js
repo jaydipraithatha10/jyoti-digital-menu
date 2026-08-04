@@ -247,8 +247,11 @@ async function loadCategories(){
 <div class="category-card"
 onclick="openCategory('${row[0]}')">
 
-<img src="${row[3]}"
+<img
+src="${row[3]}"
 loading="lazy"
+decoding="async"
+fetchpriority="low"
 onerror="this.src='placeholder.png'">
 
 <h3>${row[1]}</h3>
@@ -310,8 +313,11 @@ async function loadSubCategories(){
 <div class="category-card"
 onclick="location.href='products.html?sub=${row[0]}'">
 
-<img src="${row[4]}"
+<img
+src="${row[4]}"
 loading="lazy"
+decoding="async"
+fetchpriority="low"
 onerror="this.src='placeholder.png'">
 
 <h3>${row[2]}</h3>
@@ -389,8 +395,11 @@ async function loadProducts(searchText=""){
 
 <div class="product-card">
 
-<img src="${image}"
+<img
+src="${image}"
 loading="lazy"
+decoding="async"
+fetchpriority="low"
 onclick="openImage('${image}')"
 onerror="this.src='placeholder.png'">
 
@@ -693,8 +702,11 @@ async function loadCart(){
 
 <div class="cart-item">
 
-<img src="${image}"
+<img
+src="${image}"
 loading="lazy"
+decoding="async"
+fetchpriority="low"
 onerror="this.src='placeholder.png'">
 
 <div class="cart-info">
