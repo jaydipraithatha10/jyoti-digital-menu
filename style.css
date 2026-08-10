@@ -1613,3 +1613,214 @@ input{
         font-size:13px !important;
     }
 }
+
+/* =========================================
+   FINAL FIX - PRODUCT WEIGHT PRICE BUTTON
+   ========================================= */
+
+.product-variants{
+    width:100% !important;
+    padding:0 10px 14px !important;
+    margin:0 !important;
+    overflow:visible !important;
+}
+
+.product-variant-row{
+    width:100% !important;
+    min-height:48px !important;
+
+    display:flex !important;
+    align-items:center !important;
+
+    gap:6px !important;
+
+    margin:0 0 10px 0 !important;
+    padding:0 !important;
+
+    overflow:visible !important;
+}
+
+
+/* WEIGHT */
+
+.product-variant-weight{
+    width:70px !important;
+    min-width:70px !important;
+    max-width:70px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:16px !important;
+    line-height:1.2 !important;
+
+    color:#777 !important;
+
+    text-align:left !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* PRICE */
+
+.product-variant-price{
+    width:58px !important;
+    min-width:58px !important;
+    max-width:58px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:19px !important;
+    line-height:1.2 !important;
+
+    font-weight:700 !important;
+
+    color:#111 !important;
+
+    text-align:left !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* BUTTON AREA */
+
+.product-variant-action{
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    margin-left:auto !important;
+
+    overflow:visible !important;
+}
+
+
+/* ADD BUTTON */
+
+.product-variant-action .variant-add-btn{
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    height:42px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+    border-radius:13px !important;
+
+    background:#6B4226 !important;
+    color:#fff !important;
+
+    font-size:14px !important;
+    font-weight:600 !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* QUANTITY */
+
+.product-variant-action .variant-qty{
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    height:42px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:space-around !important;
+
+    border-radius:13px !important;
+
+    background:#6B4226 !important;
+}
+
+.product-variant-action .variant-qty .qty-btn{
+    width:26px !important;
+    height:40px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+
+    background:transparent !important;
+
+    color:#fff !important;
+
+    font-size:20px !important;
+}
+
+.product-variant-action .variant-qty .qty-number{
+    min-width:16px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    color:#fff !important;
+
+    font-size:15px !important;
+    font-weight:700 !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:768px){
+
+    .product-variants{
+        padding-left:8px !important;
+        padding-right:8px !important;
+    }
+
+    .product-variant-row{
+        gap:4px !important;
+    }
+
+    .product-variant-weight{
+        width:68px !important;
+        min-width:68px !important;
+        max-width:68px !important;
+
+        font-size:15px !important;
+    }
+
+    .product-variant-price{
+        width:58px !important;
+        min-width:58px !important;
+        max-width:58px !important;
+
+        font-size:18px !important;
+    }
+
+    .product-variant-action{
+        width:82px !important;
+        min-width:82px !important;
+        max-width:82px !important;
+    }
+
+    .product-variant-action .variant-add-btn,
+    .product-variant-action .variant-qty{
+        width:82px !important;
+        min-width:82px !important;
+        max-width:82px !important;
+    }
+
+}
