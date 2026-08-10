@@ -15,7 +15,10 @@
 
 <!-- GOOGLE FONT -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
 
 <link
     rel="preconnect"
@@ -56,7 +59,7 @@
 
 
 <!-- =====================================================
-     HEADER
+     PREMIUM HEADER
 ===================================================== -->
 
 <header class="header">
@@ -66,9 +69,11 @@
         <img
             src="logo.webp"
             class="logo"
-            alt="Jyoti Gruh Udhyog"
-            width="80"
-            height="80"
+            alt="Jyoti Gruh Udhyog Logo"
+            width="70"
+            height="70"
+            loading="eager"
+            decoding="async"
         >
 
         <div class="brand-text">
@@ -98,7 +103,7 @@
 
     <!-- =================================================
          HERO
-    ================================================== -->
+    ================================================= -->
 
     <section class="home-hero">
 
@@ -120,7 +125,7 @@
 
     <!-- =================================================
          SEARCH
-    ================================================== -->
+    ================================================= -->
 
     <section class="home-search-section">
 
@@ -133,7 +138,7 @@
             <input
                 type="text"
                 id="searchBox"
-                placeholder="Search your favourite products..."
+                placeholder="Search Products..."
                 autocomplete="off"
             >
 
@@ -144,28 +149,38 @@
 
 
     <!-- =================================================
-         CATEGORY SECTION
-    ================================================== -->
+         CATEGORIES
+    ================================================= -->
 
-    <section class="home-section category-home-section">
+    <section
+        class="home-section"
+        id="categories"
+    >
 
         <div class="home-section-heading">
 
             <div>
 
                 <span class="section-kicker">
-                    EXPLORE
+                    EXPLORE OUR COLLECTION
                 </span>
 
                 <h2>
-                    Shop By Category
+                    Our Products
                 </h2>
 
             </div>
 
-            <span class="heading-arrow">
-                →
-            </span>
+
+            <!-- CLICKABLE ARROW -->
+
+            <button
+                class="heading-arrow"
+                aria-label="View Categories"
+                onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})"
+            >
+                ↓
+            </button>
 
         </div>
 
@@ -181,7 +196,7 @@
 
     <!-- =================================================
          WHY JYOTI
-    ================================================== -->
+    ================================================= -->
 
     <section class="trust-section">
 
@@ -202,6 +217,8 @@
         <div class="trust-grid">
 
 
+            <!-- CARD 1 -->
+
             <div class="trust-card">
 
                 <div class="trust-icon">
@@ -213,11 +230,14 @@
                 </h3>
 
                 <p>
-                    Traditional taste made with care.
+                    Traditional taste
+                    made with care.
                 </p>
 
             </div>
 
+
+            <!-- CARD 2 -->
 
             <div class="trust-card">
 
@@ -230,11 +250,14 @@
                 </h3>
 
                 <p>
-                    Carefully selected quality ingredients.
+                    Carefully selected
+                    quality ingredients.
                 </p>
 
             </div>
 
+
+            <!-- CARD 3 -->
 
             <div class="trust-card">
 
@@ -247,11 +270,11 @@
                 </h3>
 
                 <p>
-                    Every product prepared with love.
+                    Every product
+                    prepared with love.
                 </p>
 
             </div>
-
 
         </div>
 
@@ -261,7 +284,7 @@
 
     <!-- =================================================
          BRAND MESSAGE
-    ================================================== -->
+    ================================================= -->
 
     <section class="brand-message">
 
@@ -277,37 +300,15 @@
             </h2>
 
             <p>
-                Bringing the authentic taste of homemade
-                goodness to your family.
+                Authentic flavours, quality ingredients
+                and the warmth of homemade goodness.
             </p>
 
         </div>
 
     </section>
 
-
 </main>
-
-
-
-<!-- =====================================================
-     FLOATING CART
-===================================================== -->
-
-<div
-    id="viewCartBtn"
-    class="floating-cart"
-    onclick="location.href='cart.html'"
-    style="display:none;"
->
-
-    🛒
-
-    <span id="cartCount">
-        0
-    </span>
-
-</div>
 
 
 
@@ -357,7 +358,36 @@
 
 
 <!-- =====================================================
-     API
+     IMAGE ZOOM
+===================================================== -->
+
+<div
+    id="imageModal"
+    class="image-modal"
+    onclick="closeImage()"
+>
+
+    <span
+        class="close-image"
+        onclick="closeImage()"
+    >
+        ×
+    </span>
+
+
+    <img
+        id="zoomImage"
+        class="zoom-image"
+        alt="Product Image"
+        onclick="event.stopPropagation()"
+    >
+
+</div>
+
+
+
+<!-- =====================================================
+     API JS
 ===================================================== -->
 
 <script
@@ -377,20 +407,17 @@ if("serviceWorker" in navigator){
 
     window.addEventListener(
         "load",
-        ()=>{
+        function(){
 
-            navigator
-                .serviceWorker
+            navigator.serviceWorker
                 .register("service-worker.js")
                 .then(
-                    () =>
-                        console.log(
-                            "Service Worker Registered"
-                        )
+                    () => console.log(
+                        "Service Worker Registered"
+                    )
                 )
                 .catch(
-                    error =>
-                        console.log(error)
+                    err => console.log(err)
                 );
 
         }
