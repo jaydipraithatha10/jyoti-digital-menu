@@ -1,7 +1,6 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V7
-// GROUPED PRODUCT + CART + WHATSAPP
+// API.JS V8 - PREMIUM PRODUCT GROUPING
 // ======================================
 
 
@@ -12,19 +11,13 @@
 let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
-
 function saveCart(){
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 
 // ======================================
-// CACHE
+// DATA
 // ======================================
 
 let categoryRows = [];
@@ -32,113 +25,76 @@ let subCategoryRows = [];
 let productRows = [];
 
 let productMap = new Map();
-
 let productList = [];
 
 let dataLoaded = false;
-
 let cacheTime = 0;
 
-const CACHE_DURATION =
-    5 * 60 * 1000;
+const CACHE_DURATION = 5 * 60 * 1000;
 
-
-// NEW CACHE VERSION
-
-const STORAGE_KEY =
-    "jyoti_data_cache_v7";
+const STORAGE_KEY = "jyoti_data_cache_v8";
 
 
 // ======================================
-// SAVE CACHE
+// CACHE
 // ======================================
 
 function saveCache(){
 
-    const data = {
-
-        categoryRows,
-        subCategoryRows,
-        productRows,
-
-        time: Date.now()
-
-    };
-
     localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify(data)
+        JSON.stringify({
+            categoryRows,
+            subCategoryRows,
+            productRows,
+            time: Date.now()
+        })
     );
 
 }
 
-
-// ======================================
-// LOAD CACHE
-// ======================================
 
 function loadCache(){
 
     const cache =
         localStorage.getItem(STORAGE_KEY);
 
-    if(!cache)
-        return false;
+    if(!cache) return false;
 
     try{
 
-        const data =
-            JSON.parse(cache);
+        const data = JSON.parse(cache);
 
         if(
             !data.time ||
-            Date.now() - data.time >
-            CACHE_DURATION
+            Date.now() - data.time > CACHE_DURATION
         ){
-
             return false;
-
         }
 
-        categoryRows =
-            data.categoryRows || [];
-
-        subCategoryRows =
-            data.subCategoryRows || [];
-
-        productRows =
-            data.productRows || [];
-
+        categoryRows = data.categoryRows || [];
+        subCategoryRows = data.subCategoryRows || [];
+        productRows = data.productRows || [];
 
         productMap.clear();
 
-
-        productRows
-            .slice(1)
-            .forEach(row=>{
-
+        productRows.slice(1).forEach(row=>{
+            if(row[0]){
                 productMap.set(
-                    row[0],
+                    String(row[0]).trim(),
                     row
                 );
-
-            });
-
+            }
+        });
 
         dataLoaded = true;
-
-        cacheTime =
-            data.time;
+        cacheTime = data.time;
 
         return true;
 
-    }
-    catch(error){
+    }catch(error){
 
-        console.log(
-            "Cache Error:",
-            error
-        );
+        console.log("Cache Error:", error);
 
         return false;
 
@@ -168,37 +124,25 @@ const productURL =
 
 
 // ======================================
-// FAST FETCH
+// FETCH
 // ======================================
 
 async function fetchCSV(url){
 
     const separator =
-        url.includes("?")
-        ? "&"
-        : "?";
-
+        url.includes("?") ? "&" : "?";
 
     const response =
         await fetch(
-            url +
-            separator +
-            "_=" +
-            Date.now(),
+            url + separator + "_=" + Date.now(),
             {
                 cache:"no-store"
             }
         );
 
-
     if(!response.ok){
-
-        throw new Error(
-            "Data Load Failed"
-        );
-
+        throw new Error("Data Load Failed");
     }
-
 
     return await response.text();
 
@@ -214,9 +158,7 @@ function csvToArray(csv){
     return csv
         .trim()
         .split(/\r?\n/)
-        .map(row =>
-            row.split(",")
-        );
+        .map(row => row.split(","));
 
 }
 
@@ -240,7 +182,23 @@ function getParam(name){
 
 function getProduct(id){
 
-    return productMap.get(id);
+    return productMap.get(
+        String(id).trim()
+    );
+
+}
+
+
+// ======================================
+// PRODUCT NAME NORMALIZER
+// ======================================
+
+function normalizeProductName(name){
+
+    return String(name || "")
+        .trim()
+        .replace(/\s+/g," ")
+        .toLowerCase();
 
 }
 
@@ -251,55 +209,32 @@ function getProduct(id){
 
 async function loadData(){
 
-    /*
-    Use local cache if available
-    */
-
-    if(loadCache())
+    if(loadCache()){
         return;
-
-
-    if(
-        dataLoaded &&
-        (Date.now() - cacheTime)
-        < CACHE_DURATION
-    ){
-
-        return;
-
     }
-
 
     const [
         catCSV,
         subCSV,
         proCSV
-    ] =
-    await Promise.all([
+    ] = await Promise.all([
 
         fetchCSV(categoryURL),
-
         fetchCSV(subCategoryURL),
-
         fetchCSV(productURL)
 
     ]);
 
-
     categoryRows =
         csvToArray(catCSV);
-
 
     subCategoryRows =
         csvToArray(subCSV);
 
-
     productRows =
         csvToArray(proCSV);
 
-
     productList = [];
-
 
     productRows
         .slice(1)
@@ -308,43 +243,36 @@ async function loadData(){
             productList.push({
 
                 id: row[0],
-
                 category: row[1],
-
                 subCategory: row[2],
-
                 name: row[3],
-
                 weight: row[4],
-
                 price: Number(row[5]),
-
                 status: row[6],
-
                 image: row[7]
 
             });
 
         });
 
-
     productMap.clear();
-
 
     productRows
         .slice(1)
         .forEach(row=>{
 
-            productMap.set(
-                row[0],
-                row
-            );
+            if(row[0]){
+
+                productMap.set(
+                    String(row[0]).trim(),
+                    row
+                );
+
+            }
 
         });
 
-
     dataLoaded = true;
-
     cacheTime = Date.now();
 
     saveCache();
@@ -353,23 +281,17 @@ async function loadData(){
 
 
 // ======================================
-// CATEGORY
+// CATEGORIES
 // ======================================
 
 async function loadCategories(){
 
     const list =
-        document.getElementById(
-            "categoryList"
-        );
+        document.getElementById("categoryList");
 
-
-    if(!list)
-        return;
-
+    if(!list) return;
 
     const html = [];
-
 
     categoryRows
         .slice(1)
@@ -377,16 +299,10 @@ async function loadCategories(){
 
             if(
                 !row[2] ||
-                row[2]
-                    .trim()
-                    .toLowerCase()
-                    != "active"
+                row[2].trim().toLowerCase() !== "active"
             ){
-
                 return;
-
             }
-
 
             html.push(`
 
@@ -399,13 +315,10 @@ async function loadCategories(){
         src="${row[3]}"
         loading="lazy"
         decoding="async"
-        fetchpriority="low"
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${row[1]}
-    </h3>
+    <h3>${row[1]}</h3>
 
 </div>
 
@@ -413,9 +326,7 @@ async function loadCategories(){
 
         });
 
-
-    list.innerHTML =
-        html.join("");
+    list.innerHTML = html.join("");
 
 }
 
@@ -432,50 +343,33 @@ function openCategory(id){
             .some(row=>
 
                 row[1] == id &&
-
                 row[3] &&
-                row[3]
-                    .trim()
-                    .toLowerCase()
-                    == "active"
+                row[3].trim().toLowerCase() === "active"
 
             );
 
-
     location.href =
         hasSub
-
-        ? "category.html?id=" +
-          encodeURIComponent(id)
-
-        : "products.html?category=" +
-          encodeURIComponent(id);
+        ? "category.html?id=" + encodeURIComponent(id)
+        : "products.html?category=" + encodeURIComponent(id);
 
 }
 
 
 // ======================================
-// SUB CATEGORY
+// SUB CATEGORIES
 // ======================================
 
 async function loadSubCategories(){
 
     const list =
-        document.getElementById(
-            "subCategoryList"
-        );
+        document.getElementById("subCategoryList");
 
+    if(!list) return;
 
-    if(!list)
-        return;
-
-
-    const id =
-        getParam("id");
-
+    const id = getParam("id");
 
     const html = [];
-
 
     subCategoryRows
         .slice(1)
@@ -483,20 +377,14 @@ async function loadSubCategories(){
 
             if(
                 !row[3] ||
-                row[3]
-                    .trim()
-                    .toLowerCase()
-                    != "active"
+                row[3].trim().toLowerCase() !== "active"
             ){
-
                 return;
-
             }
 
-
-            if(row[1] != id)
+            if(row[1] != id){
                 return;
-
+            }
 
             html.push(`
 
@@ -509,13 +397,10 @@ async function loadSubCategories(){
         src="${row[4]}"
         loading="lazy"
         decoding="async"
-        fetchpriority="low"
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${row[2]}
-    </h3>
+    <h3>${row[2]}</h3>
 
 </div>
 
@@ -523,39 +408,29 @@ async function loadSubCategories(){
 
         });
 
-
-    list.innerHTML =
-        html.join("");
+    list.innerHTML = html.join("");
 
 }
 
 
 // ======================================
 // PRODUCTS
-// GROUP SAME PRODUCT
+// PREMIUM GROUPING
 // ======================================
 
-async function loadProducts(
-    searchText = ""
-){
+async function loadProducts(searchText=""){
 
     const list =
-        document.getElementById(
-            "productList"
-        );
+        document.getElementById("productList");
 
-
-    if(!list)
-        return;
+    if(!list) return;
 
 
     const subId =
         getParam("sub");
 
-
     const categoryId =
         getParam("category");
-
 
     const search =
         (
@@ -568,70 +443,40 @@ async function loadProducts(
 
 
     /*
-    Product Groups
+    ======================================
+    FIRST FILTER PRODUCTS
+    ======================================
     */
 
-    const groups =
-        new Map();
-
+    const filteredRows = [];
 
     productRows
         .slice(1)
         .forEach(row=>{
 
-            const id =
-                row[0];
+            const id = row[0];
+            const catId = row[1];
+            const subCatId = row[2];
+            const product = row[3];
+            const weight = row[4];
+            const price = Number(row[5]);
+            const status = row[6];
+            const image = row[7];
 
-            const catId =
-                row[1];
-
-            const subCatId =
-                row[2];
-
-            const product =
-                row[3];
-
-            const weight =
-                row[4];
-
-            const price =
-                Number(row[5]);
-
-            const status =
-                row[6];
-
-            const image =
-                row[7];
-
-
-            /*
-            ACTIVE ONLY
-            */
 
             if(
                 !status ||
-                status
-                    .trim()
-                    .toLowerCase()
-                    != "active"
+                status.trim().toLowerCase() !== "active"
             ){
-
                 return;
-
             }
 
-
-            /*
-            CATEGORY FILTER
-            */
 
             if(
                 subId &&
                 subCatId != subId
             ){
-
                 return;
-
             }
 
 
@@ -640,15 +485,9 @@ async function loadProducts(
                 !subId &&
                 catId != categoryId
             ){
-
                 return;
-
             }
 
-
-            /*
-            SEARCH
-            */
 
             if(search){
 
@@ -660,70 +499,127 @@ async function loadProducts(
                     )
                     .toLowerCase();
 
-
-                if(
-                    !keyword.includes(search)
-                ){
-
+                if(!keyword.includes(search)){
                     return;
-
                 }
 
             }
 
 
-            /*
-            SAME PRODUCT GROUP
-            */
-
-            const groupKey =
-                catId +
-                "_" +
-                subCatId +
-                "_" +
-                product;
-
-
-            if(
-                !groups.has(groupKey)
-            ){
-
-                groups.set(
-                    groupKey,
-                    {
-
-                        name: product,
-
-                        image: image,
-
-                        variants: []
-
-                    }
-                );
-
-            }
-
-
-            groups
-                .get(groupKey)
-                .variants
-                .push({
-
-                    id: id,
-
-                    weight: weight,
-
-                    price: price,
-
-                    image: image
-
-                });
+            filteredRows.push({
+                id,
+                product,
+                weight,
+                price,
+                image
+            });
 
         });
 
 
     /*
-    BUILD HTML
+    ======================================
+    GROUP BY PRODUCT NAME ONLY
+    ======================================
+    */
+
+    const groups = new Map();
+
+
+    filteredRows.forEach(item=>{
+
+        const key =
+            normalizeProductName(item.product);
+
+
+        if(!key) return;
+
+
+        if(!groups.has(key)){
+
+            groups.set(
+                key,
+                {
+                    name: item.product.trim(),
+                    image: item.image,
+                    variants: []
+                }
+            );
+
+        }
+
+
+        const group =
+            groups.get(key);
+
+
+        /*
+        Prevent duplicate same weight
+        */
+
+        const alreadyExists =
+            group.variants.some(
+                variant =>
+                    String(variant.weight)
+                        .trim()
+                        .toLowerCase()
+                    ===
+                    String(item.weight)
+                        .trim()
+                        .toLowerCase()
+            );
+
+
+        if(!alreadyExists){
+
+            group.variants.push({
+
+                id: item.id,
+
+                weight: item.weight,
+
+                price: item.price,
+
+                image: item.image
+
+            });
+
+        }
+
+    });
+
+
+    /*
+    ======================================
+    SORT WEIGHTS
+    ======================================
+    */
+
+    groups.forEach(group=>{
+
+        group.variants.sort((a,b)=>{
+
+            const aNumber =
+                parseFloat(
+                    String(a.weight)
+                ) || 0;
+
+            const bNumber =
+                parseFloat(
+                    String(b.weight)
+                ) || 0;
+
+            return aNumber - bNumber;
+
+        });
+
+    });
+
+
+    /*
+    ======================================
+    BUILD PREMIUM HTML
+    ======================================
     */
 
     const html = [];
@@ -733,142 +629,107 @@ async function loadProducts(
 
         html.push(`
 
-<div class="product-card grouped-product-card">
+<article class="product-card premium-product-card">
+
+    <div class="product-image-wrap">
+
+        <img
+            class="group-product-image"
+            src="${group.image}"
+            loading="lazy"
+            decoding="async"
+            onclick="openImage('${group.image}')"
+            onerror="this.src='placeholder.webp'"
+        >
+
+    </div>
 
 
-    <!-- PRODUCT IMAGE -->
-
-    <img
-        class="group-product-image"
-        src="${group.image}"
-        loading="lazy"
-        decoding="async"
-        fetchpriority="low"
-        onclick="openImage('${group.image}')"
-        onerror="this.src='placeholder.webp'"
-    >
-
-
-    <!-- PRODUCT NAME -->
-
-    <h3 class="product-name grouped-product-name">
-
+    <h3 class="grouped-product-name">
         ${group.name}
-
     </h3>
 
-
-    <!-- WEIGHT OPTIONS -->
 
     <div class="product-variants">
 
 `);
 
 
-        /*
-        EACH WEIGHT
-        */
+        group.variants.forEach(variant=>{
 
-        group.variants
-            .forEach(variant=>{
+            const item =
+                cart.find(
+                    p => p.id == variant.id
+                );
 
-                const item =
-                    cart.find(
-                        p =>
-                        p.id == variant.id
-                    );
+            const qty =
+                item ? item.qty : 0;
 
 
-                const qty =
-                    item
-                    ? item.qty
-                    : 0;
-
-
-                html.push(`
+            html.push(`
 
         <div class="product-variant">
 
-
-            <!-- WEIGHT + PRICE -->
-
             <div class="variant-info">
 
-                <span
-                    class="variant-weight"
-                >
+                <span class="variant-weight">
                     ${variant.weight}
                 </span>
 
-
-                <span
-                    class="variant-dot"
-                >
+                <span class="variant-dot">
                     •
                 </span>
 
-
-                <span
-                    class="variant-price"
-                >
+                <span class="variant-price">
                     ₹${variant.price}
                 </span>
 
             </div>
 
 
-            <!-- QUANTITY -->
-
             <div
                 class="variant-cart"
                 id="cart-${variant.id}"
             >
 
-                <div
-                    class="variant-qty-control"
-                >
-
+                <div class="variant-qty-control">
 
                     <button
                         class="variant-qty-btn"
                         onclick="changeQty('${variant.id}',-1)"
+                        aria-label="Decrease quantity"
                     >
                         −
                     </button>
 
-
-                    <span
-                        class="variant-qty-number"
-                    >
+                    <span class="variant-qty-number">
                         ${qty}
                     </span>
-
 
                     <button
                         class="variant-qty-btn"
                         onclick="changeQty('${variant.id}',1)"
+                        aria-label="Increase quantity"
                     >
                         +
                     </button>
-
 
                 </div>
 
             </div>
 
-
         </div>
 
 `);
 
-            });
+        });
 
 
         html.push(`
 
     </div>
 
-</div>
+</article>
 
 `);
 
@@ -884,22 +745,14 @@ async function loadProducts(
     */
 
     const heading =
-        document.querySelector(
-            ".section-title"
-        );
-
+        document.querySelector(".section-title");
 
     if(heading){
 
         heading.innerHTML =
-            `🛒 All Products
-            <span
-                style="
-                    font-size:16px;
-                    color:#888;
-                "
-            >
-                (${groups.size})
+            `🛍️ All Products
+            <span class="product-count">
+                ${groups.size}
             </span>`;
 
     }
@@ -914,17 +767,11 @@ async function loadProducts(
 function initSearch(){
 
     const searchBox =
-        document.getElementById(
-            "searchBox"
-        );
+        document.getElementById("searchBox");
 
-
-    if(!searchBox)
-        return;
-
+    if(!searchBox) return;
 
     let timer;
-
 
     searchBox.addEventListener(
         "input",
@@ -933,45 +780,27 @@ function initSearch(){
             const text =
                 this.value.trim();
 
-
             clearTimeout(timer);
-
 
             timer =
                 setTimeout(()=>{
 
-                    /*
-                    PRODUCT PAGE
-                    */
-
                     if(
-                        document.getElementById(
-                            "productList"
-                        )
+                        document.getElementById("productList")
                     ){
 
                         loadProducts(text);
 
                     }
-
-
-                    /*
-                    HOME PAGE
-                    */
-
                     else if(
-                        document.getElementById(
-                            "categoryList"
-                        )
+                        document.getElementById("categoryList")
                     ){
 
                         if(text.length >= 2){
 
                             location.href =
                                 "products.html?search=" +
-                                encodeURIComponent(
-                                    text
-                                );
+                                encodeURIComponent(text);
 
                         }
 
@@ -996,42 +825,31 @@ function addToCart(id){
             p => p.id == id
         );
 
-
     if(item){
 
         item.qty++;
 
-    }
-    else{
+    }else{
 
         cart.push({
-
-            id: id,
-
-            qty: 1
-
+            id:id,
+            qty:1
         });
 
     }
 
-
     saveCart();
-
     updateCartButton();
-
     loadProducts();
 
 }
 
 
 // ======================================
-// CHANGE QTY
+// CHANGE QUANTITY
 // ======================================
 
-function changeQty(
-    id,
-    change
-){
+function changeQty(id, change){
 
     const item =
         cart.find(
@@ -1039,34 +857,17 @@ function changeQty(
         );
 
 
-    /*
-    ADD
-    */
-
-    if(
-        !item &&
-        change > 0
-    ){
+    if(!item && change > 0){
 
         cart.push({
-
-            id: id,
-
-            qty: 1
-
+            id:id,
+            qty:1
         });
 
     }
-
-
-    /*
-    EXISTING
-    */
-
     else if(item){
 
         item.qty += change;
-
 
         if(item.qty <= 0){
 
@@ -1092,17 +893,15 @@ function changeQty(
 
 
 // ======================================
-// REMOVE CART ITEM
+// REMOVE
 // ======================================
 
 function removeCartItem(id){
 
     cart =
         cart.filter(
-            item =>
-            item.id != id
+            item => item.id != id
         );
-
 
     saveCart();
 
@@ -1122,24 +921,17 @@ function removeCartItem(id){
 function updateCartButton(){
 
     const btn =
-        document.getElementById(
-            "viewCartBtn"
-        );
-
+        document.getElementById("viewCartBtn");
 
     const count =
-        document.getElementById(
-            "cartCount"
-        );
+        document.getElementById("cartCount");
 
-
-    if(!btn || !count)
-        return;
+    if(!btn || !count) return;
 
 
     const total =
         cart.reduce(
-            (sum,item)=>
+            (sum,item) =>
                 sum + item.qty,
             0
         );
@@ -1147,20 +939,13 @@ function updateCartButton(){
 
     if(total === 0){
 
-        btn.style.display =
-            "none";
+        btn.style.display = "none";
+        count.textContent = "0";
 
-        count.textContent =
-            "0";
+    }else{
 
-    }
-    else{
-
-        btn.style.display =
-            "flex";
-
-        count.textContent =
-            total;
+        btn.style.display = "flex";
+        count.textContent = total;
 
     }
 
@@ -1174,13 +959,9 @@ function updateCartButton(){
 async function loadCart(){
 
     const list =
-        document.getElementById(
-            "cartList"
-        );
+        document.getElementById("cartList");
 
-
-    if(!list)
-        return;
+    if(!list) return;
 
 
     if(cart.length === 0){
@@ -1189,13 +970,9 @@ async function loadCart(){
 
 <div class="empty-cart">
 
-    <h2>
-        🛒 Your Cart is Empty
-    </h2>
+    <h2>🛒 Your Cart is Empty</h2>
 
-    <p>
-        Please add products.
-    </p>
+    <p>Please add products.</p>
 
 </div>
 
@@ -1218,75 +995,43 @@ async function loadCart(){
         const row =
             getProduct(item.id);
 
-
-        if(!row)
-            return;
+        if(!row) return;
 
 
-        const product =
-            row[3];
-
-
-        const weight =
-            row[4];
-
-
-        const price =
-            Number(row[5]);
-
-
-        const image =
-            row[7];
-
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const image = row[7];
 
         const total =
             price * item.qty;
 
 
-        grandTotal +=
-            total;
+        grandTotal += total;
 
 
         html.push(`
 
 <div class="cart-item">
 
-
     <img
         src="${image}"
         loading="lazy"
         decoding="async"
-        fetchpriority="low"
         onerror="this.src='placeholder.webp'"
     >
 
-
     <div class="cart-info">
 
+        <h3>${product}</h3>
 
-        <h3>
-            ${product}
-        </h3>
-
-
-        <p>
-            ${weight}
-        </p>
-
+        <p>${weight}</p>
 
         <div class="cart-price">
-
-            ₹${price}
-            ×
-            ${item.qty}
-            =
-            ₹${total}
-
+            ₹${price} × ${item.qty} = ₹${total}
         </div>
 
-
         <div class="qty-box">
-
 
             <button
                 class="qty-btn"
@@ -1295,13 +1040,9 @@ async function loadCart(){
                 −
             </button>
 
-
-            <span
-                class="qty-number"
-            >
+            <span class="qty-number">
                 ${item.qty}
             </span>
-
 
             <button
                 class="qty-btn"
@@ -1310,19 +1051,14 @@ async function loadCart(){
                 +
             </button>
 
-
         </div>
-
 
         <button
             class="remove-btn"
             onclick="removeCartItem('${item.id}')"
         >
-
             🗑 Remove
-
         </button>
-
 
     </div>
 
@@ -1333,36 +1069,22 @@ async function loadCart(){
     });
 
 
-    /*
-    GRAND TOTAL
-    */
-
     html.push(`
 
 <div class="cart-total">
 
-
-    <h2>
-        Grand Total
-    </h2>
-
+    <h2>Grand Total</h2>
 
     <div class="total-price">
-
         ₹${grandTotal}
-
     </div>
-
 
     <button
         class="whatsapp-btn"
         onclick="orderWhatsApp()"
     >
-
         📲 Order on WhatsApp
-
     </button>
-
 
 </div>
 
@@ -1371,7 +1093,6 @@ async function loadCart(){
 
     list.innerHTML =
         html.join("");
-
 
     updateCartButton();
 
@@ -1405,21 +1126,17 @@ async function orderWhatsApp(){
         const row =
             getProduct(item.id);
 
-
-        if(!row)
-            return;
+        if(!row) return;
 
 
         const price =
             Number(row[5]);
 
-
         const total =
             price * item.qty;
 
 
-        grandTotal +=
-            total;
+        grandTotal += total;
 
 
         message +=
@@ -1442,19 +1159,10 @@ async function orderWhatsApp(){
 
 
     window.open(
-
-        `https://wa.me/919712149344?text=${
-            encodeURIComponent(message)
-        }`,
-
+        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
         "_blank"
-
     );
 
-
-    /*
-    CLEAR CART
-    */
 
     cart = [];
 
@@ -1481,7 +1189,6 @@ document.addEventListener(
 
             await loadData();
 
-
             await Promise.all([
 
                 loadCategories(),
@@ -1493,7 +1200,6 @@ document.addEventListener(
                 loadCart()
 
             ]);
-
 
             updateCartButton();
 
@@ -1514,7 +1220,7 @@ document.addEventListener(
 
 
 // ======================================
-// PAGE REFRESH
+// PAGE SHOW
 // ======================================
 
 window.addEventListener(
@@ -1526,14 +1232,11 @@ window.addEventListener(
                 localStorage.getItem("cart")
             ) || [];
 
-
         updateCartButton();
 
 
         if(
-            document.getElementById(
-                "productList"
-            )
+            document.getElementById("productList")
         ){
 
             loadProducts();
@@ -1542,9 +1245,7 @@ window.addEventListener(
 
 
         if(
-            document.getElementById(
-                "cartList"
-            )
+            document.getElementById("cartList")
         ){
 
             loadCart();
@@ -1562,69 +1263,38 @@ window.addEventListener(
 function openImage(src){
 
     const image =
-        document.getElementById(
-            "zoomImage"
-        );
-
+        document.getElementById("zoomImage");
 
     const modal =
-        document.getElementById(
-            "imageModal"
-        );
+        document.getElementById("imageModal");
 
+    if(!image || !modal) return;
 
-    if(!image || !modal)
-        return;
+    image.src = src;
 
-
-    image.src =
-        src;
-
-
-    modal.classList.add(
-        "show"
-    );
+    modal.classList.add("show");
 
 }
 
-
-// ======================================
-// CLOSE IMAGE
-// ======================================
 
 function closeImage(){
 
     const modal =
-        document.getElementById(
-            "imageModal"
-        );
+        document.getElementById("imageModal");
 
+    if(!modal) return;
 
-    if(!modal)
-        return;
-
-
-    modal.classList.remove(
-        "show"
-    );
+    modal.classList.remove("show");
 
 }
 
-
-// ======================================
-// ESCAPE TO CLOSE IMAGE
-// ======================================
 
 document.addEventListener(
     "keydown",
     event=>{
 
-        if(
-            event.key === "Escape"
-        ){
-
+        if(event.key === "Escape"){
             closeImage();
-
         }
 
     }
