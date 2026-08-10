@@ -1674,3 +1674,249 @@ input{
         font-size:16px !important;
     }
 }
+
+/* ==========================================
+   FINAL PRODUCT VARIANT ROW FIX
+   ========================================== */
+
+.product-variants{
+    width:100% !important;
+    padding:0 10px 14px !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+}
+
+.product-variant-row{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:42px !important;
+
+    display:grid !important;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        auto
+        88px !important;
+
+    align-items:center !important;
+
+    gap:8px !important;
+
+    margin:0 0 10px 0 !important;
+    padding:0 !important;
+
+    box-sizing:border-box !important;
+
+    overflow:visible !important;
+}
+
+
+/* WEIGHT */
+
+.product-variant-weight{
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:16px !important;
+    line-height:1.2 !important;
+
+    color:#777 !important;
+
+    text-align:left !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* PRICE */
+
+.product-variant-price{
+    width:auto !important;
+    min-width:58px !important;
+    max-width:none !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:19px !important;
+    line-height:1.2 !important;
+
+    font-weight:700 !important;
+
+    color:#111 !important;
+
+    text-align:right !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* ACTION */
+
+.product-variant-action{
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    display:block !important;
+
+    box-sizing:border-box !important;
+
+    overflow:visible !important;
+}
+
+
+/* ADD BUTTON */
+
+.variant-add-btn{
+    display:flex !important;
+
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    height:42px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+    border-radius:13px !important;
+
+    background:#6B4226 !important;
+    color:#fff !important;
+
+    font-family:inherit !important;
+    font-size:14px !important;
+    font-weight:600 !important;
+
+    white-space:nowrap !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+
+    cursor:pointer !important;
+}
+
+
+/* QUANTITY */
+
+.variant-qty{
+    width:88px !important;
+    min-width:88px !important;
+    max-width:88px !important;
+
+    height:42px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:space-around !important;
+
+    border-radius:13px !important;
+
+    background:#6B4226 !important;
+
+    box-sizing:border-box !important;
+}
+
+
+/* QTY BUTTON */
+
+.variant-qty .qty-btn{
+    width:26px !important;
+    height:40px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+
+    background:transparent !important;
+
+    color:#fff !important;
+
+    font-size:20px !important;
+    font-weight:700 !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+}
+
+
+/* QTY NUMBER */
+
+.variant-qty .qty-number{
+    min-width:16px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    color:#fff !important;
+
+    font-size:15px !important;
+    font-weight:700 !important;
+
+    text-align:center !important;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media(max-width:768px){
+
+    .product-variants{
+        padding-left:8px !important;
+        padding-right:8px !important;
+    }
+
+    .product-variant-row{
+        grid-template-columns:
+            minmax(0,1fr)
+            auto
+            82px !important;
+
+        gap:6px !important;
+    }
+
+    .product-variant-weight{
+        font-size:15px !important;
+    }
+
+    .product-variant-price{
+        min-width:55px !important;
+        font-size:18px !important;
+    }
+
+    .product-variant-action{
+        width:82px !important;
+        min-width:82px !important;
+        max-width:82px !important;
+    }
+
+    .variant-add-btn,
+    .variant-qty{
+        width:82px !important;
+        min-width:82px !important;
+        max-width:82px !important;
+    }
+
+    .variant-add-btn{
+        font-size:13px !important;
+    }
+
+}
