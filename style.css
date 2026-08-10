@@ -2121,3 +2121,79 @@ main{
     }
 
 }
+
+
+/* =========================================
+   FINAL PRODUCT CARD COMPACT FIX
+========================================= */
+
+@media (max-width:768px){
+
+    .product-card,
+    .premium-product-card{
+
+        height:340px !important;
+        min-height:340px !important;
+        max-height:340px !important;
+
+        padding-bottom:12px !important;
+    }
+
+    .product-image-wrap{
+
+        height:125px !important;
+        min-height:125px !important;
+    }
+
+    .group-product-image{
+
+        width:112px !important;
+        height:112px !important;
+    }
+
+    .product-category-label{
+
+        height:16px !important;
+        min-height:16px !important;
+
+        margin-bottom:2px !important;
+    }
+
+    .product-name,
+    .grouped-product-name{
+
+        height:43px !important;
+        min-height:43px !important;
+        max-height:43px !important;
+
+        margin-bottom:2px !important;
+    }
+
+    .product-meta{
+
+        height:27px !important;
+        min-height:27px !important;
+
+        margin-bottom:0 !important;
+    }
+
+    .product-action{
+
+        height:40px !important;
+        min-height:40px !important;
+
+        margin-top:8px !important;
+    }
+
+    .premium-add-btn{
+
+        width:100px !important;
+        height:38px !important;
+    }
+
+    .premium-quantity{
+
+        width:100px !important;
+        height:38px !important;
+    }
+}
