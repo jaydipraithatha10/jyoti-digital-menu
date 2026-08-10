@@ -1,7 +1,8 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V10
+// API.JS V11
 // ======================================
+
 
 // ======================================
 // CART
@@ -9,6 +10,7 @@
 
 let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
+
 
 function saveCart(){
 
@@ -36,12 +38,14 @@ let dataLoaded = false;
 
 let cacheTime = 0;
 
-const CACHE_DURATION = 5 * 60 * 1000;
+const CACHE_DURATION =
+    5 * 60 * 1000;
 
 
 // New cache key
+// જેથી જૂનો wrong cache load ન થાય
 const STORAGE_KEY =
-    "jyoti_data_cache_v10";
+    "jyoti_data_cache_v11";
 
 
 // ======================================
@@ -76,6 +80,7 @@ function csvToArray(csv){
     let value = "";
     let insideQuotes = false;
 
+
     for(
         let i = 0;
         i < csv.length;
@@ -85,15 +90,18 @@ function csvToArray(csv){
         const char = csv[i];
         const next = csv[i + 1];
 
+
         if(
             char === '"' &&
             next === '"'
         ){
 
             value += '"';
+
             i++;
 
         }
+
 
         else if(
             char === '"'
@@ -103,6 +111,7 @@ function csvToArray(csv){
                 !insideQuotes;
 
         }
+
 
         else if(
             char === ',' &&
@@ -116,6 +125,7 @@ function csvToArray(csv){
             value = "";
 
         }
+
 
         else if(
             (
@@ -134,11 +144,13 @@ function csvToArray(csv){
 
             }
 
+
             row.push(
                 value.trim()
             );
 
             value = "";
+
 
             if(
                 row.some(
@@ -150,9 +162,11 @@ function csvToArray(csv){
 
             }
 
+
             row = [];
 
         }
+
 
         else{
 
@@ -171,6 +185,7 @@ function csvToArray(csv){
         row.push(
             value.trim()
         );
+
 
         if(
             row.some(
@@ -204,6 +219,7 @@ async function fetchCSV(url){
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -211,6 +227,7 @@ async function fetchCSV(url){
         );
 
     }
+
 
     return await response.text();
 
@@ -255,6 +272,7 @@ function loadCache(){
             STORAGE_KEY
         );
 
+
     if(!cache)
         return false;
 
@@ -279,8 +297,10 @@ function loadCache(){
         categoryRows =
             data.categoryRows || [];
 
+
         subCategoryRows =
             data.subCategoryRows || [];
+
 
         productRows =
             data.productRows || [];
@@ -299,12 +319,14 @@ function loadCache(){
 
     }
 
+
     catch(error){
 
         console.log(
             "Cache Error:",
             error
         );
+
 
         return false;
 
@@ -368,18 +390,8 @@ function getProduct(id){
 
 async function loadData(){
 
+    // First try fresh V11 cache
     if(loadCache()){
-
-        return;
-
-    }
-
-
-    if(
-        dataLoaded &&
-        Date.now() - cacheTime <
-        CACHE_DURATION
-    ){
 
         return;
 
@@ -414,11 +426,11 @@ async function loadData(){
 
 
     // ==================================
-    // EXACT PRODUCTS SHEET
+    // PRODUCT SHEET
     //
-    // A = ID
-    // B = CategoryID
-    // C = subCategoryID
+    // A = Product ID
+    // B = Category ID
+    // C = subCategory ID
     // D = Product
     // E = Weight
     // F = Price
@@ -489,6 +501,7 @@ async function loadCategories(){
             "categoryList"
         );
 
+
     if(!list)
         return;
 
@@ -509,24 +522,29 @@ async function loadCategories(){
 
 
             const id =
-                String(row[0] || "")
-                    .trim();
+                String(
+                    row[0] || ""
+                ).trim();
 
 
             const name =
-                String(row[1] || "")
-                    .trim();
+                String(
+                    row[1] || ""
+                ).trim();
 
 
             const status =
-                String(row[2] || "")
-                    .trim()
-                    .toLowerCase();
+                String(
+                    row[2] || ""
+                )
+                .trim()
+                .toLowerCase();
 
 
             const image =
-                String(row[3] || "")
-                    .trim();
+                String(
+                    row[3] || ""
+                ).trim();
 
 
             if(
@@ -639,6 +657,7 @@ async function loadSubCategories(){
             "subCategoryList"
         );
 
+
     if(!list)
         return;
 
@@ -659,36 +678,42 @@ async function loadSubCategories(){
             // SUB CATEGORY SHEET
             //
             // A = ID
-            // B = CategoryID
+            // B = Category ID
             // C = Name
             // D = Status
             // E = Image
 
 
             const id =
-                String(row[0] || "")
-                    .trim();
+                String(
+                    row[0] || ""
+                ).trim();
 
 
             const parentId =
-                String(row[1] || "")
-                    .trim();
+                String(
+                    row[1] || ""
+                ).trim();
 
 
             const name =
-                String(row[2] || "")
-                    .trim();
+                String(
+                    row[2] || ""
+                ).trim();
 
 
             const status =
-                String(row[3] || "")
-                    .trim()
-                    .toLowerCase();
+                String(
+                    row[3] || ""
+                )
+                .trim()
+                .toLowerCase();
 
 
             const image =
-                String(row[4] || "")
-                    .trim();
+                String(
+                    row[4] || ""
+                ).trim();
 
 
             if(
@@ -743,15 +768,19 @@ ${name}
 
 // ======================================
 // PRODUCTS
-// ======================================
+//
+// IMPORTANT:
+//
 // SAME PRODUCT NAME
 // = ONE CARD
 //
-// 250 gm + 500 gm
-// = SAME CARD
+// Example:
 //
-// Different IDs
-// = Different cart items
+// Golkeri
+//
+// 250 gm  ₹100  + Add
+// 500 gm  ₹190  + Add
+//
 // ======================================
 
 async function loadProducts(
@@ -762,6 +791,7 @@ async function loadProducts(
         document.getElementById(
             "productList"
         );
+
 
     if(!list)
         return;
@@ -790,7 +820,7 @@ async function loadProducts(
 
 
     // ==================================
-    // GROUP
+    // GROUP PRODUCTS
     // ==================================
 
     const groupedProducts =
@@ -802,18 +832,8 @@ async function loadProducts(
         .forEach(row => {
 
             // ==================================
-            // EXACT PRODUCT COLUMNS
-            //
-            // A = ID
-            // B = CategoryID
-            // C = subCategoryID
-            // D = Product
-            // E = Weight
-            // F = Price
-            // G = Status
-            // H = Images
+            // EXACT COLUMNS
             // ==================================
-
 
             const id =
                 String(
@@ -866,7 +886,7 @@ async function loadProducts(
 
 
             // ==================================
-            // ACTIVE ONLY
+            // ACTIVE
             // ==================================
 
             if(
@@ -879,7 +899,7 @@ async function loadProducts(
 
 
             // ==================================
-            // CATEGORY
+            // CATEGORY FILTER
             // ==================================
 
             if(
@@ -894,7 +914,7 @@ async function loadProducts(
 
 
             // ==================================
-            // SUB CATEGORY
+            // SUB CATEGORY FILTER
             // ==================================
 
             if(
@@ -937,7 +957,7 @@ async function loadProducts(
 
 
             // ==================================
-            // SAME PRODUCT
+            // SAME NAME = SAME CARD
             // ==================================
 
             const groupKey =
@@ -975,30 +995,51 @@ async function loadProducts(
             }
 
 
-            groupedProducts
-                .get(groupKey)
-                .variants
-                .push({
+            const group =
+                groupedProducts.get(
+                    groupKey
+                );
 
-                    id:
-                        id,
 
-                    weight:
-                        weight,
+            // ==================================
+            // ADD WEIGHT VARIANT
+            // ==================================
 
-                    price:
-                        price,
+            group.variants.push({
 
-                    image:
-                        image
+                id:
+                    id,
 
-                });
+                weight:
+                    weight,
+
+                price:
+                    price,
+
+                image:
+                    image
+
+            });
+
+
+            // If first image is empty,
+            // use next available image
+
+            if(
+                !group.image &&
+                image
+            ){
+
+                group.image =
+                    image;
+
+            }
 
         });
 
 
     // ==================================
-    // CREATE HTML
+    // HTML
     // ==================================
 
     const html = [];
@@ -1008,7 +1049,7 @@ async function loadProducts(
         .forEach(item => {
 
             // ==================================
-            // SORT WEIGHT
+            // SORT BY WEIGHT
             // ==================================
 
             item.variants.sort(
@@ -1047,7 +1088,7 @@ async function loadProducts(
 
 
             // ==================================
-            // ONE WEIGHT
+            // SINGLE VARIANT
             // ==================================
 
             if(
@@ -1168,8 +1209,7 @@ onclick="changeQty('${v.id}',1)">
             // MULTIPLE WEIGHTS
             // ==================================
 
-            let variantsHTML =
-                "";
+            let variantsHTML = "";
 
 
             item.variants
@@ -1190,138 +1230,69 @@ onclick="changeQty('${v.id}',1)">
 
                     variantsHTML += `
 
-<div
-style="
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:6px;
-width:100%;
-margin-bottom:7px;
-">
+<div class="product-variant-row">
 
-<div
-style="
-display:flex;
-align-items:center;
-gap:7px;
-flex:1;
-min-width:0;
-">
+    <div class="product-variant-info">
 
-<span
-style="
-font-size:15px;
-color:#777;
-white-space:nowrap;
-">
+        <span class="product-variant-weight">
+            ${v.weight}
+        </span>
 
-${v.weight}
+        <span class="product-variant-price">
+            ₹${v.price}
+        </span>
 
-</span>
-
-<span
-style="
-font-size:19px;
-font-weight:700;
-color:#111;
-white-space:nowrap;
-">
-
-₹${v.price}
-
-</span>
-
-</div>
+    </div>
 
 
-<div
-id="cart-${v.id}"
-style="
-width:72px;
-min-width:72px;
-">
+    <div
+        id="cart-${v.id}"
+        class="product-variant-action">
 
-${
-qty === 0
+        ${
+        qty === 0
 
-?
+        ?
 
-`<button
-class="cart-btn"
-style="
-width:72px;
-height:38px;
-margin:0;
-padding:0;
-font-size:13px;
-border-radius:12px;
-"
-onclick="addToCart('${v.id}')">
+        `<button
+            class="cart-btn"
+            onclick="addToCart('${v.id}')">
 
-+ Add
+            + Add
 
-</button>`
+        </button>`
 
-:
+        :
 
-`<div
-class="qty-control"
-style="
-width:72px;
-height:38px;
-margin:0;
-padding:0;
-display:flex;
-align-items:center;
-justify-content:space-around;
-border-radius:12px;
-">
+        `<div class="qty-control">
 
-<button
-class="qty-btn"
-style="
-width:22px;
-height:36px;
-padding:0;
-font-size:19px;
-"
-onclick="changeQty('${v.id}',-1)">
+            <button
+                class="qty-btn"
+                onclick="changeQty('${v.id}',-1)">
 
-−
+                −
 
-</button>
+            </button>
 
-<span
-class="qty-number"
-style="
-font-size:15px;
-min-width:14px;
-">
+            <span class="qty-number">
 
-${qty}
+                ${qty}
 
-</span>
+            </span>
 
-<button
-class="qty-btn"
-style="
-width:22px;
-height:36px;
-padding:0;
-font-size:19px;
-"
-onclick="changeQty('${v.id}',1)">
+            <button
+                class="qty-btn"
+                onclick="changeQty('${v.id}',1)">
 
-+
+                +
 
-</button>
+            </button>
 
-</div>`
+        </div>`
 
-}
+        }
 
-</div>
+    </div>
 
 </div>
 
@@ -1331,7 +1302,7 @@ onclick="changeQty('${v.id}',1)">
 
 
             // ==================================
-            // ONE PRODUCT CARD
+            // PRODUCT CARD
             // ==================================
 
             html.push(`
@@ -1354,15 +1325,14 @@ ${item.name}
 
 </h3>
 
+
 <div
-style="
-width:90%;
-margin:5px auto 12px;
-">
+class="product-variants">
 
 ${variantsHTML}
 
 </div>
+
 
 </div>
 
@@ -1419,6 +1389,7 @@ function initSearch(){
             "searchBox"
         );
 
+
     if(!searchBox)
         return;
 
@@ -1452,6 +1423,7 @@ function initSearch(){
                             );
 
                         }
+
 
                         else if(
                             document.getElementById(
@@ -1723,16 +1695,19 @@ Please add products.
             return;
 
 
-        // EXACT COLUMNS
-
         const product =
             row[3];
+
 
         const weight =
             row[4];
 
+
         const price =
-            Number(row[5]);
+            Number(
+                row[5]
+            );
+
 
         const image =
             row[7];
@@ -1864,7 +1839,7 @@ onclick="orderWhatsApp()">
 
 
 // ======================================
-// WHATSAPP
+// WHATSAPP ORDER
 // ======================================
 
 async function orderWhatsApp(){
@@ -1898,7 +1873,9 @@ async function orderWhatsApp(){
 
 
         const total =
-            Number(row[5]) *
+            Number(
+                row[5]
+            ) *
             item.qty;
 
 
@@ -1935,6 +1912,7 @@ async function orderWhatsApp(){
 
 
     cart = [];
+
 
     saveCart();
 
@@ -1978,6 +1956,7 @@ document.addEventListener(
             initSearch();
 
         }
+
 
         catch(error){
 
@@ -2064,7 +2043,9 @@ function openImage(src){
     }
 
 
-    image.src = src;
+    image.src =
+        src;
+
 
     modal.classList.add(
         "show"
