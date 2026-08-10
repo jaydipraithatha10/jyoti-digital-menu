@@ -1541,352 +1541,132 @@ button{
 
 @media(max-width:768px){
 
-    .header{
-
-        padding:18px;
-    }
-
-    .logo{
-
-        width:72px;
-
-        height:72px;
-    }
-
-    .header h1{
-
-        font-size:25px;
-    }
-
-    .header p{
-
-        font-size:14px;
-    }
-
-    .section-title,
-    .subcategory-title{
-
-        font-size:26px;
-    }
-
-
-    /* PRODUCT GRID */
-
     .product-grid{
-
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-
+        grid-template-columns:repeat(2,minmax(0,1fr));
         gap:12px;
-
-        padding:
-            10px 0 30px;
+        padding:10px 0 30px;
     }
 
-
-    /* SAME MOBILE CARD SIZE */
-
+    /* COMPACT PREMIUM CARD */
     .product-card,
     .premium-product-card{
+        height:365px;
+        min-height:365px;
+        max-height:365px;
 
-        height:400px;
+        border-radius:22px;
 
-        min-height:400px;
-
-        max-height:400px;
-
-        border-radius:21px;
-
-        padding:
-            8px 6px 15px;
+        padding:8px 6px 14px;
     }
-
 
     /* IMAGE */
-
     .product-image-wrap{
+        height:135px;
+        min-height:135px;
 
-        height:140px;
-
-        min-height:140px;
-
-        padding-top:5px;
-    }
-
-    .product-card > img,
-    .group-product-image{
-
-        width:120px !important;
-
-        height:120px !important;
-    }
-
-
-    /* BRAND */
-
-    .product-category-label{
-
-        height:17px;
-
-        min-height:17px;
-
-        font-size:7px;
-
-        letter-spacing:1.4px;
+        padding-top:3px;
 
         margin-bottom:4px;
     }
 
+    .product-card > img,
+    .group-product-image{
+        width:120px !important;
+        height:120px !important;
+    }
 
-    /* NAME */
+    /* BRAND */
+    .product-category-label{
+        height:16px;
+        min-height:16px;
 
+        font-size:7px;
+        letter-spacing:1.3px;
+
+        margin-bottom:3px;
+    }
+
+    /* PRODUCT NAME */
     .product-name,
     .grouped-product-name{
-
         height:48px;
-
         min-height:48px;
-
         max-height:48px;
 
         font-size:17px !important;
 
-        line-height:1.22;
+        line-height:1.2;
 
-        margin-bottom:7px !important;
+        margin:0 0 5px !important;
     }
 
-
-    /* META */
-
+    /* WEIGHT + PRICE */
     .product-meta{
-
         height:28px;
-
         min-height:28px;
 
-        gap:5px;
+        margin-bottom:8px;
 
-        margin-bottom:10px;
+        gap:5px;
     }
 
     .product-weight,
     .product-price{
-
-        font-size:14px !important;
-
+        font-size:15px !important;
         font-weight:600 !important;
     }
 
     .product-dot{
-
-        font-size:14px;
+        font-size:15px;
     }
 
-
-    /* BUTTON */
-
+    /* ADD AREA */
     .product-action{
-
         height:40px;
-
         min-height:40px;
+
+        margin-top:auto;
     }
 
     .premium-add-btn{
-
         width:100px;
-
         height:39px;
-
         min-height:39px;
 
         font-size:14px;
     }
 
+    /* QUANTITY */
     .premium-quantity{
-
         width:100px;
-
         height:39px;
-
         min-height:39px;
     }
 
     .premium-qty-btn{
-
         width:35px;
-
         height:35px;
-
         min-width:35px;
 
         font-size:18px;
     }
 
     .premium-qty-number{
-
         font-size:17px;
     }
 
-
-    /* FLOATING CART */
-
+    /* CART RIGHT */
     #viewCartBtn,
     .floating-cart{
-
         right:14px !important;
-
         left:auto !important;
 
         bottom:16px !important;
 
         width:56px;
-
         height:56px;
 
         min-width:56px;
-
         min-height:56px;
-
-        font-size:23px;
     }
-
-    #cartCount{
-
-        min-width:23px;
-
-        height:23px;
-
-        font-size:11px;
-
-        top:-5px;
-
-        right:-4px;
-    }
-
-
-    /* CART */
-
-    .cart-item{
-
-        gap:12px;
-
-        padding:13px;
-
-    }
-
-    .cart-item img{
-
-        width:80px;
-
-        height:80px;
-    }
-
-    .cart-info h3{
-
-        font-size:18px;
-    }
-
-    .cart-price{
-
-        font-size:19px;
-    }
-
-
-    /* FOOTER */
-
-    .footer{
-
-        padding:16px 12px;
-    }
-
-    .footer h3{
-
-        font-size:22px;
-    }
-
-    .footer p{
-
-        font-size:14px;
-    }
-
-    .footer-buttons{
-
-        gap:10px;
-    }
-
-    .call-btn,
-    .whatsapp-btn-footer{
-
-        width:145px;
-
-        height:45px;
-
-        font-size:15px;
-    }
-
-    .copyright{
-
-        font-size:12px;
-    }
-
-}
-
-
-/* =========================================================
-   DESKTOP
-   ========================================================= */
-
-@media(min-width:992px){
-
-    .category-grid{
-
-        grid-template-columns:
-            repeat(4,1fr);
-    }
-
-    .product-grid{
-
-        grid-template-columns:
-            repeat(4,minmax(0,1fr));
-
-        gap:20px;
-
-        padding:
-            15px 0 40px;
-    }
-
-
-    .product-card,
-    .premium-product-card{
-
-        height:455px;
-
-        min-height:455px;
-
-        max-height:455px;
-    }
-
-    .product-image-wrap{
-
-        height:190px;
-
-        min-height:190px;
-    }
-
-    .product-card > img,
-    .group-product-image{
-
-        width:165px !important;
-
-        height:165px !important;
-    }
-
-    .product-name,
-    .grouped-product-name{
-
-        font-size:21px !important;
-    }
-
 }
