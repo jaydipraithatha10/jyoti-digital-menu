@@ -344,127 +344,335 @@ onerror="this.src='placeholder.webp'">
 // PRODUCTS
 // ======================================
 
-async function loadProducts(searchText=""){
+// ==========================================
+// PRODUCTS
+// SAME PRODUCT NAME = ONE CARD
+// 250 gm + 500 gm = SAME CARD
+// ==========================================
 
-    const list =
-    document.getElementById("productList");
+function loadProducts(searchText = "") {
 
-    if(!list) return;
+    const list = document.getElementById("productList");
+
+    if (!list) return;
 
     const subId = getParam("sub");
     const categoryId = getParam("category");
+    const urlSearch = getParam("search") || "";
 
-    const search =
-    (searchText || getParam("search") || "")
-    .toLowerCase();
+    const search = (
+        searchText || urlSearch
+    ).trim().toLowerCase();
 
-    const html = [];
 
-    let totalProducts = 0;
+    // ======================================
+    // GROUP PRODUCTS
+    // ======================================
 
-    productRows.slice(1).forEach(row=>{
+    const grouped = new Map();
+
+
+    productRows.slice(1).forEach(row => {
+
+        /*
+        SHEET COLUMNS
+
+        A = ID
+        B = categoryID
+        C = SubCategoryID
+        D = Product
+        E = Weight
+        F = Price
+        G = Status
+        H = Images
+        */
+
 
         const id = row[0];
-        const catId = row[1];
-        const subCatId = row[2];
-        const product = row[3];
-        const weight = row[4];
-        const price = Number(row[5]);
-        const status = row[6];
-        const image = row[7];
 
-        if(status.trim().toLowerCase()!="active")
+        const category = row[1];
+
+        const subCategory = row[2];
+
+        const name = (row[3] || "").trim();
+
+        const weight = (row[4] || "").trim();
+
+        const price = Number(
+            String(row[5] || "")
+                .replace(/[₹,\s]/g, "")
+        ) || 0;
+
+        const status = (row[6] || "")
+            .trim()
+            .toLowerCase();
+
+        const image = (row[7] || "").trim();
+
+
+        // ==================================
+        // ACTIVE ONLY
+        // ==================================
+
+        if (status !== "active") {
             return;
+        }
 
-        if(subId && subCatId!=subId)
+
+        // ==================================
+        // SUB CATEGORY FILTER
+        // ==================================
+
+        if (
+            subId &&
+            String(subCategory).trim() !==
+            String(subId).trim()
+        ) {
             return;
+        }
 
-        if(categoryId && !subId && catId!=categoryId)
+
+        // ==================================
+        // CATEGORY FILTER
+        // ==================================
+
+        if (
+            categoryId &&
+            !subId &&
+            String(category).trim() !==
+            String(categoryId).trim()
+        ) {
             return;
+        }
 
-        if(search){
 
-            const keyword =
-            (product+" "+weight).toLowerCase();
+        // ==================================
+        // SEARCH
+        // ==================================
 
-            if(!keyword.includes(search))
+        if (search) {
+
+            const searchValue = (
+                name + " " + weight
+            ).toLowerCase();
+
+            if (!searchValue.includes(search)) {
                 return;
+            }
+        }
+
+
+        // ==================================
+        // IMPORTANT
+        // SAME NAME = SAME CARD
+        // ==================================
+
+        const groupKey = name
+            .toLowerCase()
+            .replace(/\s+/g, " ")
+            .trim();
+
+
+        if (!groupKey) {
+            return;
+        }
+
+
+        // ==================================
+        // CREATE GROUP
+        // ==================================
+
+        if (!grouped.has(groupKey)) {
+
+            grouped.set(groupKey, {
+
+                name: name,
+
+                image: image,
+
+                variants: []
+
+            });
 
         }
 
-        totalProducts++;
 
-        const item =
-        cart.find(p=>p.id==id);
+        // ==================================
+        // ADD VARIANT
+        // ==================================
 
-        const qty =
-        item ? item.qty : 0;
+        grouped.get(groupKey).variants.push({
+
+            id: id,
+
+            weight: weight,
+
+            price: price,
+
+            image: image
+
+        });
+
+    });
+
+
+    // ======================================
+    // CREATE HTML
+    // ======================================
+
+    const html = [];
+
+
+    grouped.forEach(product => {
+
+        let variantsHTML = "";
+
+
+        // ----------------------------------
+        // SORT WEIGHT
+        // ----------------------------------
+
+        product.variants.sort((a, b) => {
+
+            const aw =
+                parseFloat(a.weight) || 0;
+
+            const bw =
+                parseFloat(b.weight) || 0;
+
+            return aw - bw;
+
+        });
+
+
+        // ----------------------------------
+        // VARIANTS
+        // ----------------------------------
+
+        product.variants.forEach(variant => {
+
+
+            const cartItem = cart.find(item =>
+                String(item.id) ===
+                String(variant.id)
+            );
+
+
+            const qty =
+                cartItem ? cartItem.qty : 0;
+
+
+            let action = "";
+
+
+            // =================================
+            // ADD BUTTON
+            // =================================
+
+            if (qty === 0) {
+
+                action = `
+
+<button
+    type="button"
+    class="variant-add-btn"
+    onclick="addToCart('${variant.id}')"
+>
+    + Add
+</button>
+
+`;
+
+            }
+
+            // =================================
+            // QUANTITY
+            // =================================
+
+            else {
+
+                action = `
+
+<div class="variant-qty">
+
+<button
+    type="button"
+    class="qty-btn"
+    onclick="changeQty('${variant.id}',-1)"
+>
+    −
+</button>
+
+<span class="qty-number">
+    ${qty}
+</span>
+
+<button
+    type="button"
+    class="qty-btn"
+    onclick="changeQty('${variant.id}',1)"
+>
+    +
+</button>
+
+</div>
+
+`;
+
+            }
+
+
+            // =================================
+            // VARIANT ROW
+            // =================================
+
+            variantsHTML += `
+
+<div class="product-variant-row">
+
+    <div class="product-variant-weight">
+        ${variant.weight}
+    </div>
+
+    <div class="product-variant-price">
+        ₹${variant.price}
+    </div>
+
+    <div class="product-variant-action">
+        ${action}
+    </div>
+
+</div>
+
+`;
+
+        });
+
+
+        // ==================================
+        // PRODUCT CARD
+        // ==================================
 
         html.push(`
 
 <div class="product-card">
 
-<img
-src="${image}"
-loading="lazy"
-decoding="async"
-fetchpriority="low"
-onclick="openImage('${image}')"
-onerror="this.src='placeholder.webp'">
+    <img
+        src="${product.image || "placeholder.webp"}"
+        alt="${product.name}"
+        loading="lazy"
+        decoding="async"
+        onclick="openImage('${product.image || "placeholder.webp"}')"
+        onerror="this.src='placeholder.webp'"
+    >
 
-<h3 class="product-name">
-${product}
-</h3>
+    <h3 class="product-name">
+        ${product.name}
+    </h3>
 
-<p class="product-weight">
-${weight}
-</p>
-
-<h4 class="product-price">
-₹${price}
-</h4>
-
-<div id="cart-${id}">
-
-${
-qty==0 ?
-
-`<button class="cart-btn"
-onclick="addToCart('${id}')">
-
-+ Add
-
-</button>`
-
-:
-
-`<div class="qty-control">
-
-<button class="qty-btn"
-onclick="changeQty('${id}',-1)">
-
-−
-
-</button>
-
-<span class="qty-number">
-
-${qty}
-
-</span>
-
-<button class="qty-btn"
-onclick="changeQty('${id}',1)">
-
-+
-
-</button>
-
-</div>`
-
-}
-
-</div>
+    <div class="product-variants">
+        ${variantsHTML}
+    </div>
 
 </div>
 
@@ -472,20 +680,42 @@ onclick="changeQty('${id}',1)">
 
     });
 
+
+    // ======================================
+    // DISPLAY
+    // ======================================
+
     list.innerHTML = html.join("");
 
+
+    // ======================================
+    // PRODUCT COUNT
+    // ======================================
+
     const heading =
-    document.querySelector(".section-title");
+        document.querySelector(".section-title");
 
-    if(heading){
 
-        heading.innerHTML =
-`🛒 All Products <span style="font-size:16px;color:#888;">(${totalProducts})</span>`;
+    if (heading) {
+
+        heading.innerHTML = `
+
+🛒 All Products
+
+<span
+    style="
+        font-size:16px;
+        color:#888;
+    "
+>
+    (${grouped.size})
+</span>
+
+`;
 
     }
 
 }
-
 // ======================================
 // API.JS V6
 // PART 3
