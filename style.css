@@ -2141,3 +2141,337 @@ img{
     }
 
 }
+
+
+/* =========================================================
+   PREMIUM SUBCATEGORY PAGE
+========================================================= */
+
+.subcategory-page-header{
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:
+        22px 15px 18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+}
+
+.subcategory-heading{
+
+    flex:1;
+}
+
+.subcategory-heading .section-kicker{
+
+    margin-bottom:4px;
+}
+
+.subcategory-title{
+
+    color:var(--brown-dark);
+
+    font-size:29px;
+
+    line-height:1.15;
+
+    font-weight:700;
+
+    letter-spacing:-.3px;
+}
+
+
+/* BACK BUTTON */
+
+.back-btn{
+
+    width:46px;
+
+    height:46px;
+
+    min-width:46px;
+
+    border:none;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #75482b,
+            #51301c
+        );
+
+    color:#fff;
+
+    font-size:23px;
+
+    box-shadow:
+        0 7px 18px
+        rgba(65,38,20,.18);
+
+    transition:.2s ease;
+}
+
+.back-btn:active{
+
+    transform:scale(.92);
+}
+
+
+/* SUBCATEGORY SECTION */
+
+.subcategory-section{
+
+    width:100%;
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:
+        0 15px 55px;
+}
+
+
+/* GRID */
+
+.premium-subcategory-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:14px;
+}
+
+
+/* CARD */
+
+.premium-subcategory-grid
+.category-card{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:220px;
+
+    background:#fff;
+
+    border:
+        1px solid #eadfce;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    text-align:center;
+
+    box-shadow:
+        0 8px 26px
+        rgba(65,38,20,.08);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.premium-subcategory-grid
+.category-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 16px 38px
+        rgba(65,38,20,.14);
+}
+
+
+/* GOLD TOP LINE */
+
+.premium-subcategory-grid
+.category-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:20%;
+
+    right:20%;
+
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold),
+            transparent
+        );
+}
+
+
+/* IMAGE */
+
+.premium-subcategory-grid
+.category-card img{
+
+    width:78%;
+
+    aspect-ratio:1/1;
+
+    object-fit:cover;
+
+    display:block;
+
+    margin:
+        15px auto 6px;
+
+    border-radius:16px;
+
+    transition:
+        transform .3s ease;
+}
+
+.premium-subcategory-grid
+.category-card:hover img{
+
+    transform:scale(1.045);
+}
+
+
+/* NAME */
+
+.premium-subcategory-grid
+.category-card h3{
+
+    margin:0;
+
+    padding:
+        7px 8px 17px;
+
+    color:var(--brown) !important;
+
+    font-size:17px !important;
+
+    line-height:1.25;
+
+    font-weight:600 !important;
+
+    text-align:center;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .subcategory-page-header{
+
+        padding:
+            18px 12px 15px;
+
+        gap:11px;
+    }
+
+    .subcategory-title{
+
+        font-size:24px;
+    }
+
+    .back-btn{
+
+        width:42px;
+
+        height:42px;
+
+        min-width:42px;
+
+        font-size:21px;
+    }
+
+    .subcategory-section{
+
+        padding:
+            0 12px 40px;
+    }
+
+    .premium-subcategory-grid{
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap:11px;
+    }
+
+    .premium-subcategory-grid
+    .category-card{
+
+        min-height:185px;
+
+        border-radius:18px;
+    }
+
+    .premium-subcategory-grid
+    .category-card img{
+
+        width:76%;
+
+        margin:
+            11px auto 5px;
+
+        border-radius:13px;
+    }
+
+    .premium-subcategory-grid
+    .category-card h3{
+
+        font-size:15px !important;
+
+        padding:
+            6px 6px 13px;
+    }
+
+}
+
+
+/* DESKTOP */
+
+@media(min-width:992px){
+
+    .premium-subcategory-grid{
+
+        grid-template-columns:
+            repeat(4,minmax(0,1fr));
+
+        gap:20px;
+    }
+
+    .premium-subcategory-grid
+    .category-card{
+
+        min-height:270px;
+
+        border-radius:25px;
+    }
+
+}
