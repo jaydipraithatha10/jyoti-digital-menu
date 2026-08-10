@@ -10,15 +10,12 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Jyoti Gruh Udhyog</title>
+<title>Jyoti Gruh Udhyog | Taste Of Home In Every Bite</title>
 
 
 <!-- GOOGLE FONT -->
 
-<link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
->
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link
     rel="preconnect"
@@ -34,7 +31,10 @@
 
 <!-- CSS -->
 
-<link rel="stylesheet" href="style.css?v=10">
+<link
+    rel="stylesheet"
+    href="style.css?v=21"
+>
 
 
 <!-- PWA -->
@@ -55,60 +55,74 @@
 <body>
 
 
-<!-- =====================================
+<!-- =====================================================
      HEADER
-===================================== -->
+===================================================== -->
 
 <header class="header">
 
-    <img
-        src="logo.webp"
-        class="logo"
-        alt="Jyoti Gruh Udhyog Logo"
-        width="120"
-        height="120"
-        loading="eager"
-        decoding="async"
-    >
+    <div class="brand-wrap">
 
-    <h1>
-        Jyoti Gruh Udhyog
-    </h1>
+        <img
+            src="logo.webp"
+            class="logo"
+            alt="Jyoti Gruh Udhyog"
+            width="80"
+            height="80"
+        >
 
-    <p>
-        Pure & Homemade Products
-    </p>
+        <div class="brand-text">
+
+            <h1>
+                Jyoti Gruh Udhyog
+            </h1>
+
+            <p>
+                Taste Of Home In Every Bite
+            </p>
+
+        </div>
+
+    </div>
 
 </header>
 
 
 
-<!-- =====================================
+<!-- =====================================================
      MAIN
-===================================== -->
+===================================================== -->
 
 <main>
 
 
-    <!-- HERO -->
+    <!-- =================================================
+         HERO
+    ================================================== -->
 
-    <div class="hero-banner">
+    <section class="home-hero">
 
-        <img
-            src="banner3.webp"
-            alt="Jyoti Gruh Udhyog Banner"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-        >
+        <div class="hero-banner">
 
-    </div>
+            <img
+                src="banner3.webp"
+                alt="Jyoti Gruh Udhyog"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+            >
+
+        </div>
+
+    </section>
 
 
 
-    <!-- SEARCH -->
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
 
-    <section class="search-section">
+    <section class="home-search-section">
 
         <div class="search-box">
 
@@ -119,9 +133,153 @@
             <input
                 type="text"
                 id="searchBox"
-                placeholder="Search Products..."
+                placeholder="Search your favourite products..."
                 autocomplete="off"
             >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CATEGORY SECTION
+    ================================================== -->
+
+    <section class="home-section category-home-section">
+
+        <div class="home-section-heading">
+
+            <div>
+
+                <span class="section-kicker">
+                    EXPLORE
+                </span>
+
+                <h2>
+                    Shop By Category
+                </h2>
+
+            </div>
+
+            <span class="heading-arrow">
+                →
+            </span>
+
+        </div>
+
+
+        <div
+            id="categoryList"
+            class="category-grid premium-category-grid"
+        ></div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         WHY JYOTI
+    ================================================== -->
+
+    <section class="trust-section">
+
+        <div class="trust-heading">
+
+            <span class="section-kicker">
+                WHY JYOTI
+            </span>
+
+            <h2>
+                Made With Love,<br>
+                Served With Taste
+            </h2>
+
+        </div>
+
+
+        <div class="trust-grid">
+
+
+            <div class="trust-card">
+
+                <div class="trust-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    Taste Of Home
+                </h3>
+
+                <p>
+                    Traditional taste made with care.
+                </p>
+
+            </div>
+
+
+            <div class="trust-card">
+
+                <div class="trust-icon">
+                    ✨
+                </div>
+
+                <h3>
+                    Premium Quality
+                </h3>
+
+                <p>
+                    Carefully selected quality ingredients.
+                </p>
+
+            </div>
+
+
+            <div class="trust-card">
+
+                <div class="trust-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    Made With Care
+                </h3>
+
+                <p>
+                    Every product prepared with love.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BRAND MESSAGE
+    ================================================== -->
+
+    <section class="brand-message">
+
+        <div class="brand-message-inner">
+
+            <span>
+                JYOTI GRUH UDHYOG
+            </span>
+
+            <h2>
+                Taste Of Home<br>
+                In Every Bite
+            </h2>
+
+            <p>
+                Bringing the authentic taste of homemade
+                goodness to your family.
+            </p>
 
         </div>
 
@@ -132,33 +290,30 @@
 
 
 
-<!-- =====================================
-     CATEGORIES
-===================================== -->
+<!-- =====================================================
+     FLOATING CART
+===================================================== -->
 
-<section class="category-section">
+<div
+    id="viewCartBtn"
+    class="floating-cart"
+    onclick="location.href='cart.html'"
+    style="display:none;"
+>
 
-    <div class="page-header">
+    🛒
 
-        <h2 class="section-title">
-            🛍️ Our Products
-        </h2>
+    <span id="cartCount">
+        0
+    </span>
 
-    </div>
-
-
-    <div
-        id="categoryList"
-        class="category-grid"
-    ></div>
-
-</section>
+</div>
 
 
 
-<!-- =====================================
+<!-- =====================================================
      FOOTER
-===================================== -->
+===================================================== -->
 
 <footer class="footer">
 
@@ -167,7 +322,7 @@
     </h3>
 
     <p>
-        Pure & Homemade Products
+        Taste Of Home In Every Bite
     </p>
 
 
@@ -201,45 +356,20 @@
 
 
 
-<!-- =====================================
-     IMAGE ZOOM
-===================================== -->
-
-<div
-    id="imageModal"
-    class="image-modal"
-    onclick="closeImage()"
->
-
-    <span class="close-image">
-        ×
-    </span>
-
-    <img
-        id="zoomImage"
-        class="zoom-image"
-        alt="Product Image"
-        onclick="event.stopPropagation()"
-    >
-
-</div>
-
-
-
-<!-- =====================================
-     API JS
-===================================== -->
+<!-- =====================================================
+     API
+===================================================== -->
 
 <script
-    src="api.js?v=6"
+    src="api.js?v=21"
     defer
 ></script>
 
 
 
-<!-- =====================================
+<!-- =====================================================
      SERVICE WORKER
-===================================== -->
+===================================================== -->
 
 <script>
 
@@ -249,10 +379,9 @@ if("serviceWorker" in navigator){
         "load",
         ()=>{
 
-            navigator.serviceWorker
-                .register(
-                    "service-worker.js"
-                )
+            navigator
+                .serviceWorker
+                .register("service-worker.js")
                 .then(
                     () =>
                         console.log(
@@ -260,8 +389,8 @@ if("serviceWorker" in navigator){
                         )
                 )
                 .catch(
-                    err =>
-                        console.log(err)
+                    error =>
+                        console.log(error)
                 );
 
         }
