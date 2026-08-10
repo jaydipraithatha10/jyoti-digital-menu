@@ -1,7 +1,6 @@
 // ==========================================
 // JYOTI GRUH UDHYOG
-// API.JS V9
-// FINAL PRODUCT GROUPING + CART
+// API.JS - CLEAN FINAL VERSION
 // ==========================================
 
 
@@ -30,7 +29,8 @@ let dataLoaded = false;
 let cacheTime = 0;
 
 const CACHE_DURATION = 5 * 60 * 1000;
-const STORAGE_KEY = "jyoti_data_cache_v9";
+
+const STORAGE_KEY = "jyoti_data_cache";
 
 
 // ==========================================
@@ -40,6 +40,7 @@ const STORAGE_KEY = "jyoti_data_cache_v9";
 const SHEET =
 "2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU";
 
+
 const categoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=2013716827&single=true&output=csv`;
 
@@ -48,125 +49,6 @@ const subCategoryURL =
 
 const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
-
-
-// ==========================================
-// CSV PARSER
-// ==========================================
-
-function csvToArray(csv) {
-
-    const rows = [];
-    let row = [];
-    let cell = "";
-    let insideQuotes = false;
-
-    for (let i = 0; i < csv.length; i++) {
-
-        const char = csv[i];
-        const next = csv[i + 1];
-
-        if (char === '"' && insideQuotes && next === '"') {
-            cell += '"';
-            i++;
-            continue;
-        }
-
-        if (char === '"') {
-            insideQuotes = !insideQuotes;
-            continue;
-        }
-
-        if (char === "," && !insideQuotes) {
-
-            row.push(cell.trim());
-            cell = "";
-            continue;
-        }
-
-        if (
-            (char === "\n" || char === "\r") &&
-            !insideQuotes
-        ) {
-
-            if (char === "\r" && next === "\n") {
-                i++;
-            }
-
-            row.push(cell.trim());
-            cell = "";
-
-            if (row.some(v => v !== "")) {
-                rows.push(row);
-            }
-
-            row = [];
-            continue;
-        }
-
-        cell += char;
-    }
-
-    if (cell !== "" || row.length > 0) {
-
-        row.push(cell.trim());
-
-        if (row.some(v => v !== "")) {
-            rows.push(row);
-        }
-    }
-
-    return rows;
-}
-
-
-// ==========================================
-// FETCH CSV
-// ==========================================
-
-async function fetchCSV(url) {
-
-    const response = await fetch(
-        url + "&v=" + Date.now(),
-        {
-            cache: "no-store"
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error("Google Sheet load failed");
-    }
-
-    return await response.text();
-}
-
-
-// ==========================================
-// PRODUCT MAP
-// ==========================================
-
-function buildProductMap() {
-
-    productMap.clear();
-
-    productRows.slice(1).forEach(row => {
-
-        const id = String(row[0] || "").trim();
-
-        if (id) {
-            productMap.set(id, row);
-        }
-
-    });
-}
-
-
-function getProduct(id) {
-
-    return productMap.get(
-        String(id)
-    );
-}
 
 
 // ==========================================
@@ -180,25 +62,19 @@ function saveCache() {
         localStorage.setItem(
             STORAGE_KEY,
             JSON.stringify({
-
                 categoryRows,
                 subCategoryRows,
                 productRows,
-
                 time: Date.now()
-
             })
         );
 
-    }
-    catch (error) {
+    } catch (error) {
 
-        console.log(
-            "Cache save error",
-            error
-        );
+        console.log("Cache save error:", error);
 
     }
+
 }
 
 
@@ -207,26 +83,20 @@ function loadCache() {
     try {
 
         const saved =
-            localStorage.getItem(
-                STORAGE_KEY
-            );
+            localStorage.getItem(STORAGE_KEY);
 
         if (!saved) {
             return false;
         }
 
-        const data =
-            JSON.parse(saved);
+        const data = JSON.parse(saved);
 
         if (
             !data.time ||
-            Date.now() - data.time >
-            CACHE_DURATION
+            Date.now() - data.time > CACHE_DURATION
         ) {
 
-            localStorage.removeItem(
-                STORAGE_KEY
-            );
+            localStorage.removeItem(STORAGE_KEY);
 
             return false;
         }
@@ -243,17 +113,14 @@ function loadCache() {
         buildProductMap();
 
         dataLoaded = true;
+
         cacheTime = data.time;
 
         return true;
 
-    }
-    catch (error) {
+    } catch (error) {
 
-        console.log(
-            "Cache load error",
-            error
-        );
+        console.log("Cache load error:", error);
 
         return false;
     }
@@ -261,77 +128,136 @@ function loadCache() {
 
 
 // ==========================================
-// LOAD ALL DATA
+// CSV FETCH
 // ==========================================
 
-async function loadData() {
+async function fetchCSV(url) {
 
-    if (
-        dataLoaded &&
-        Date.now() - cacheTime <
-        CACHE_DURATION
-    ) {
-        return;
+    const response = await fetch(
+        url + "&cache=" + Date.now(),
+        {
+            cache: "no-store"
+        }
+    );
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Google Sheet data load failed"
+        );
+
     }
 
-    try {
+    return await response.text();
+}
 
-        const result =
-            await Promise.all([
 
-                fetchCSV(categoryURL),
+// ==========================================
+// CSV PARSER
+// Handles commas inside quotes
+// ==========================================
 
-                fetchCSV(subCategoryURL),
+function csvToArray(csv) {
 
-                fetchCSV(productURL)
+    const rows = [];
 
-            ]);
+    let row = [];
+    let cell = "";
+    let insideQuotes = false;
 
-        categoryRows =
-            csvToArray(result[0]);
+    for (let i = 0; i < csv.length; i++) {
 
-        subCategoryRows =
-            csvToArray(result[1]);
+        const char = csv[i];
+        const next = csv[i + 1];
 
-        productRows =
-            csvToArray(result[2]);
+        if (char === '"' && insideQuotes && next === '"') {
 
-        buildProductMap();
+            cell += '"';
+            i++;
+            continue;
+        }
 
-        dataLoaded = true;
-        cacheTime = Date.now();
+        if (char === '"') {
 
-        saveCache();
+            insideQuotes = !insideQuotes;
+            continue;
+        }
 
-        console.log(
-            "Jyoti data loaded",
-            {
-                categories:
-                    categoryRows.length,
+        if (char === "," && !insideQuotes) {
 
-                subCategories:
-                    subCategoryRows.length,
+            row.push(cell.trim());
+            cell = "";
 
-                products:
-                    productRows.length
+            continue;
+        }
+
+        if (
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ) {
+
+            if (char === "\r" && next === "\n") {
+                i++;
             }
-        );
 
+            row.push(cell.trim());
+            cell = "";
+
+            if (row.some(value => value !== "")) {
+                rows.push(row);
+            }
+
+            row = [];
+
+            continue;
+        }
+
+        cell += char;
     }
-    catch (error) {
 
-        console.error(
-            "LOAD DATA ERROR:",
-            error
-        );
+    if (cell !== "" || row.length > 0) {
 
-        // Try old cache if online loading fails
-        if (!loadCache()) {
-            console.error(
-                "No cached data available"
-            );
+        row.push(cell.trim());
+
+        if (row.some(value => value !== "")) {
+            rows.push(row);
         }
     }
+
+    return rows;
+}
+
+
+// ==========================================
+// PRODUCT MAP
+// ==========================================
+
+function buildProductMap() {
+
+    productMap.clear();
+
+    productRows
+        .slice(1)
+        .forEach(row => {
+
+            if (!row[0]) {
+                return;
+            }
+
+            productMap.set(
+                String(row[0]).trim(),
+                row
+            );
+
+        });
+}
+
+
+function getProduct(id) {
+
+    return productMap.get(
+        String(id).trim()
+    );
 }
 
 
@@ -344,6 +270,75 @@ function getParam(name) {
     return new URLSearchParams(
         window.location.search
     ).get(name);
+
+}
+
+
+// ==========================================
+// LOAD DATA
+// ==========================================
+
+async function loadData() {
+
+    if (
+        dataLoaded &&
+        Date.now() - cacheTime < CACHE_DURATION
+    ) {
+
+        return;
+    }
+
+
+    if (loadCache()) {
+
+        return;
+    }
+
+
+    try {
+
+        const result =
+            await Promise.all([
+                fetchCSV(categoryURL),
+                fetchCSV(subCategoryURL),
+                fetchCSV(productURL)
+            ]);
+
+
+        categoryRows =
+            csvToArray(result[0]);
+
+        subCategoryRows =
+            csvToArray(result[1]);
+
+        productRows =
+            csvToArray(result[2]);
+
+
+        buildProductMap();
+
+
+        dataLoaded = true;
+
+        cacheTime = Date.now();
+
+
+        saveCache();
+
+
+        console.log(
+            "Jyoti Gruh Udhyog data loaded successfully"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD DATA ERROR:",
+            error
+        );
+
+    }
 }
 
 
@@ -362,55 +357,59 @@ function loadCategories() {
         return;
     }
 
+
     const html = [];
+
 
     categoryRows
         .slice(1)
         .forEach(row => {
 
             const id =
-                String(row[0] || "").trim();
+                row[0];
 
             const name =
-                String(row[1] || "").trim();
+                row[1];
 
             const status =
-                String(row[2] || "").trim();
+                row[2];
 
             const image =
-                String(row[3] || "").trim();
+                row[3];
+
 
             if (
-                status.toLowerCase() !==
-                "active"
+                !status ||
+                status.toLowerCase().trim() !== "active"
             ) {
+
                 return;
             }
+
 
             html.push(`
 
 <div
     class="category-card"
-    onclick="openCategory('${escapeAttr(id)}')"
+    onclick="openCategory('${id}')"
 >
 
     <img
-        src="${escapeAttr(image || "placeholder.webp")}"
-        alt="${escapeAttr(name)}"
+        src="${image || "placeholder.webp"}"
+        alt="${name}"
         loading="lazy"
         decoding="async"
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${escapeHTML(name)}
-    </h3>
+    <h3>${name}</h3>
 
 </div>
 
 `);
 
         });
+
 
     list.innerHTML =
         html.join("");
@@ -428,20 +427,17 @@ function openCategory(id) {
             .slice(1)
             .some(row => {
 
-                const parentId =
-                    String(row[1] || "").trim();
-
-                const status =
-                    String(row[3] || "")
-                        .trim()
-                        .toLowerCase();
-
                 return (
-                    parentId === String(id) &&
-                    status === "active"
+                    String(row[1]).trim() ===
+                    String(id).trim()
+                    &&
+                    row[3] &&
+                    row[3].toLowerCase().trim() ===
+                    "active"
                 );
 
             });
+
 
     if (hasSub) {
 
@@ -449,8 +445,7 @@ function openCategory(id) {
             "category.html?id=" +
             encodeURIComponent(id);
 
-    }
-    else {
+    } else {
 
         location.href =
             "products.html?category=" +
@@ -475,44 +470,52 @@ function loadSubCategories() {
         return;
     }
 
+
     const categoryId =
         getParam("id");
 
+
     const html = [];
+
 
     subCategoryRows
         .slice(1)
         .forEach(row => {
 
             const id =
-                String(row[0] || "").trim();
+                row[0];
 
             const parentId =
-                String(row[1] || "").trim();
+                row[1];
 
             const name =
-                String(row[2] || "").trim();
+                row[2];
 
             const status =
-                String(row[3] || "")
-                    .trim()
-                    .toLowerCase();
+                row[3];
 
             const image =
-                String(row[4] || "").trim();
+                row[4];
+
 
             if (
-                parentId !==
-                String(categoryId)
+                String(parentId).trim() !==
+                String(categoryId).trim()
             ) {
+
                 return;
             }
 
+
             if (
-                status !== "active"
+                !status ||
+                status.toLowerCase().trim() !==
+                "active"
             ) {
+
                 return;
             }
+
 
             html.push(`
 
@@ -522,22 +525,21 @@ function loadSubCategories() {
 >
 
     <img
-        src="${escapeAttr(image || "placeholder.webp")}"
-        alt="${escapeAttr(name)}"
+        src="${image || "placeholder.webp"}"
+        alt="${name}"
         loading="lazy"
         decoding="async"
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${escapeHTML(name)}
-    </h3>
+    <h3>${name}</h3>
 
 </div>
 
 `);
 
         });
+
 
     list.innerHTML =
         html.join("");
@@ -546,13 +548,18 @@ function loadSubCategories() {
 
 // ==========================================
 // PRODUCTS
+// ==========================================
 //
-// IMPORTANT:
-// SAME PRODUCT NAME = ONE CARD
+// SAME PRODUCT NAME
+// = ONE PRODUCT CARD
+//
+// Example:
 //
 // Golkeri
-// 250 gm ₹100 + Add
-// 500 gm ₹190 + Add
+//
+// 250 gm    ₹100    + Add
+// 500 gm    ₹190    + Add
+//
 // ==========================================
 
 function loadProducts(searchText = "") {
@@ -566,6 +573,7 @@ function loadProducts(searchText = "") {
         return;
     }
 
+
     const subId =
         getParam("sub");
 
@@ -574,6 +582,7 @@ function loadProducts(searchText = "") {
 
     const urlSearch =
         getParam("search") || "";
+
 
     const search =
         (
@@ -585,7 +594,7 @@ function loadProducts(searchText = "") {
 
 
     // ======================================
-    // GROUP PRODUCTS
+    // GROUP PRODUCTS BY NAME
     // ======================================
 
     const grouped =
@@ -597,7 +606,7 @@ function loadProducts(searchText = "") {
         .forEach(row => {
 
             /*
-                PRODUCT SHEET
+                SHEET COLUMNS
 
                 A = ID
                 B = CategoryID
@@ -608,6 +617,7 @@ function loadProducts(searchText = "") {
                 G = Status
                 H = Images
             */
+
 
             const id =
                 String(row[0] || "").trim();
@@ -627,49 +637,70 @@ function loadProducts(searchText = "") {
             const price =
                 Number(
                     String(row[5] || "")
-                        .replace(/[₹,\s]/g, "")
+                    .replace(/[₹,\s]/g, "")
                 ) || 0;
 
             const status =
-                String(row[6] || "")
-                    .trim()
-                    .toLowerCase();
+                String(row[6] || "").trim();
 
             const image =
                 String(row[7] || "").trim();
 
 
-            // ACTIVE ONLY
+            // --------------------------------
+            // BASIC CHECK
+            // --------------------------------
 
-            if (status !== "active") {
+            if (!id || !name) {
                 return;
             }
 
 
+            // --------------------------------
+            // STATUS
+            // --------------------------------
+
+            if (
+                status.toLowerCase() !==
+                "active"
+            ) {
+
+                return;
+            }
+
+
+            // --------------------------------
             // SUB CATEGORY FILTER
+            // --------------------------------
 
             if (
                 subId &&
                 subCategory !==
-                String(subId)
+                String(subId).trim()
             ) {
+
                 return;
             }
 
 
+            // --------------------------------
             // CATEGORY FILTER
+            // --------------------------------
 
             if (
                 categoryId &&
                 !subId &&
                 category !==
-                String(categoryId)
+                String(categoryId).trim()
             ) {
+
                 return;
             }
 
 
-            // SEARCH FILTER
+            // --------------------------------
+            // SEARCH
+            // --------------------------------
 
             if (search) {
 
@@ -682,24 +713,24 @@ function loadProducts(searchText = "") {
                     .toLowerCase();
 
                 if (
-                    !searchable.includes(
-                        search
-                    )
+                    !searchable.includes(search)
                 ) {
+
                     return;
                 }
             }
 
 
-            // ==================================
-            // GROUP KEY
-            // ==================================
+            // =================================
+            // IMPORTANT
+            // SAME NAME = SAME CARD
+            // =================================
 
             const groupKey =
                 name
-                    .toLowerCase()
                     .replace(/\s+/g, " ")
-                    .trim();
+                    .trim()
+                    .toLowerCase();
 
 
             if (!grouped.has(groupKey)) {
@@ -707,17 +738,12 @@ function loadProducts(searchText = "") {
                 grouped.set(
                     groupKey,
                     {
-
-                        name:
-                            name,
-
-                        image:
-                            image,
-
+                        name: name,
+                        image: image,
                         variants: []
-
                     }
                 );
+
             }
 
 
@@ -725,23 +751,32 @@ function loadProducts(searchText = "") {
                 grouped.get(groupKey);
 
 
-            // First valid image
+            // --------------------------------
+            // ADD VARIANT
+            // --------------------------------
 
+            product.variants.push({
+
+                id: id,
+
+                weight: weight,
+
+                price: price,
+
+                image: image
+
+            });
+
+
+            // If first image is empty,
+            // use later image
             if (
                 !product.image &&
                 image
             ) {
+
                 product.image = image;
             }
-
-
-            product.variants.push({
-
-                id,
-                weight,
-                price
-
-            });
 
         });
 
@@ -758,60 +793,64 @@ function loadProducts(searchText = "") {
         let variantsHTML = "";
 
 
-        product.variants.forEach(
-            variant => {
+        // ----------------------------------
+        // VARIANTS
+        // ----------------------------------
 
-                const cartItem =
-                    cart.find(
-                        item =>
-                            String(item.id) ===
-                            String(variant.id)
-                    );
+        product.variants.forEach(variant => {
 
 
-                const qty =
-                    cartItem
-                        ? Number(cartItem.qty)
-                        : 0;
+            const cartItem =
+                cart.find(
+                    item =>
+                        String(item.id) ===
+                        String(variant.id)
+                );
 
 
-                let actionHTML = "";
+            const qty =
+                cartItem
+                    ? Number(cartItem.qty)
+                    : 0;
 
 
-                // =================================
-                // ADD BUTTON
-                // =================================
+            let actionHTML = "";
 
-                if (qty <= 0) {
 
-                    actionHTML = `
+            // =================================
+            // ADD BUTTON
+            // =================================
+
+            if (qty <= 0) {
+
+                actionHTML = `
 
 <button
     type="button"
     class="variant-add-btn"
-    onclick="addToCart('${escapeAttr(variant.id)}')"
+    onclick="addToCart('${variant.id}')"
 >
     + Add
 </button>
 
 `;
 
-                }
+            }
 
-                // =================================
-                // QTY CONTROL
-                // =================================
+            // =================================
+            // QUANTITY
+            // =================================
 
-                else {
+            else {
 
-                    actionHTML = `
+                actionHTML = `
 
 <div class="variant-qty">
 
     <button
         type="button"
         class="qty-btn"
-        onclick="changeQty('${escapeAttr(variant.id)}',-1)"
+        onclick="changeQty('${variant.id}', -1)"
     >
         −
     </button>
@@ -823,7 +862,7 @@ function loadProducts(searchText = "") {
     <button
         type="button"
         class="qty-btn"
-        onclick="changeQty('${escapeAttr(variant.id)}',1)"
+        onclick="changeQty('${variant.id}', 1)"
     >
         +
     </button>
@@ -832,19 +871,19 @@ function loadProducts(searchText = "") {
 
 `;
 
-                }
+            }
 
 
-                // =================================
-                // VARIANT ROW
-                // =================================
+            // =================================
+            // ROW
+            // =================================
 
-                variantsHTML += `
+            variantsHTML += `
 
 <div class="product-variant-row">
 
     <div class="product-variant-weight">
-        ${escapeHTML(variant.weight)}
+        ${variant.weight}
     </div>
 
     <div class="product-variant-price">
@@ -859,33 +898,34 @@ function loadProducts(searchText = "") {
 
 `;
 
-            }
-        );
+        });
 
 
-        // ======================================
-        // PRODUCT CARD
-        // ======================================
+        // ==================================
+        // CARD
+        // ==================================
 
         html.push(`
 
 <div class="product-card">
 
     <img
-        src="${escapeAttr(product.image || "placeholder.webp")}"
-        alt="${escapeAttr(product.name)}"
+        src="${product.image || "placeholder.webp"}"
+        alt="${product.name}"
         loading="lazy"
         decoding="async"
-        onclick="openImage('${escapeAttr(product.image || "placeholder.webp")}')"
+        onclick="openImage('${product.image || "placeholder.webp"}')"
         onerror="this.src='placeholder.webp'"
     >
 
     <h3 class="product-name">
-        ${escapeHTML(product.name)}
+        ${product.name}
     </h3>
 
     <div class="product-variants">
+
         ${variantsHTML}
+
     </div>
 
 </div>
@@ -896,7 +936,7 @@ function loadProducts(searchText = "") {
 
 
     // ======================================
-    // DISPLAY
+    // SHOW PRODUCTS
     // ======================================
 
     list.innerHTML =
@@ -912,24 +952,52 @@ function loadProducts(searchText = "") {
             ".section-title"
         );
 
+
     if (heading) {
 
         heading.innerHTML = `
 
-🛒 All Products
+            🛒 All Products
 
-<span
+            <span
+                style="
+                    font-size:16px;
+                    color:#888;
+                    font-weight:600;
+                "
+            >
+                (${grouped.size})
+            </span>
+
+        `;
+
+    }
+
+
+    // ======================================
+    // NO PRODUCTS
+    // ======================================
+
+    if (grouped.size === 0) {
+
+        list.innerHTML = `
+
+<div
     style="
-        font-size:16px;
-        color:#888;
+        grid-column:1/-1;
+        text-align:center;
+        padding:50px 20px;
+        color:#777;
+        font-size:18px;
     "
 >
-    (${grouped.size})
-</span>
+    😔 No products found
+</div>
 
 `;
 
     }
+
 }
 
 
@@ -948,7 +1016,9 @@ function initSearch() {
         return;
     }
 
+
     let timer;
+
 
     searchBox.addEventListener(
         "input",
@@ -957,11 +1027,14 @@ function initSearch() {
             const text =
                 this.value.trim();
 
+
             clearTimeout(timer);
+
 
             timer =
                 setTimeout(() => {
 
+                    // Products page
                     if (
                         document.getElementById(
                             "productList"
@@ -970,8 +1043,12 @@ function initSearch() {
 
                         loadProducts(text);
 
+                        return;
                     }
-                    else if (
+
+
+                    // Category page
+                    if (
                         document.getElementById(
                             "categoryList"
                         )
@@ -991,10 +1068,11 @@ function initSearch() {
 
                     }
 
-                }, 200);
+                }, 250);
 
         }
     );
+
 }
 
 
@@ -1004,30 +1082,31 @@ function initSearch() {
 
 function addToCart(id) {
 
-    id = String(id);
-
     const item =
         cart.find(
             p =>
-                String(p.id) === id
+                String(p.id) ===
+                String(id)
         );
+
 
     if (item) {
 
         item.qty =
             Number(item.qty) + 1;
 
-    }
-    else {
+    } else {
 
         cart.push({
 
-            id: id,
+            id: String(id),
+
             qty: 1
 
         });
 
     }
+
 
     saveCart();
 
@@ -1039,22 +1118,23 @@ function addToCart(id) {
 
 
 // ==========================================
-// CHANGE QUANTITY
+// CHANGE QTY
 // ==========================================
 
 function changeQty(id, change) {
 
-    id = String(id);
-
     const item =
         cart.find(
             p =>
-                String(p.id) === id
+                String(p.id) ===
+                String(id)
         );
+
 
     if (!item) {
         return;
     }
+
 
     item.qty =
         Number(item.qty) + Number(change);
@@ -1065,7 +1145,8 @@ function changeQty(id, change) {
         cart =
             cart.filter(
                 p =>
-                    String(p.id) !== id
+                    String(p.id) !==
+                    String(id)
             );
 
     }
@@ -1078,6 +1159,7 @@ function changeQty(id, change) {
     loadProducts();
 
     loadCart();
+
 }
 
 
@@ -1087,21 +1169,22 @@ function changeQty(id, change) {
 
 function removeCartItem(id) {
 
-    id = String(id);
-
     cart =
         cart.filter(
             item =>
-                String(item.id) !== id
+                String(item.id) !==
+                String(id)
         );
+
 
     saveCart();
 
     updateCartButton();
 
+    loadProducts();
+
     loadCart();
 
-    loadProducts();
 }
 
 
@@ -1120,6 +1203,7 @@ function updateCartButton() {
         document.getElementById(
             "cartCount"
         );
+
 
     if (!button || !count) {
         return;
@@ -1142,8 +1226,7 @@ function updateCartButton() {
         count.textContent =
             "0";
 
-    }
-    else {
+    } else {
 
         button.style.display =
             "flex";
@@ -1152,6 +1235,7 @@ function updateCartButton() {
             total;
 
     }
+
 }
 
 
@@ -1205,6 +1289,7 @@ function loadCart() {
         const row =
             getProduct(item.id);
 
+
         if (!row) {
             return;
         }
@@ -1217,20 +1302,15 @@ function loadCart() {
             row[4];
 
         const price =
-            Number(
-                String(row[5] || "")
-                    .replace(/[₹,\s]/g, "")
-            ) || 0;
+            Number(row[5]) || 0;
 
         const image =
             row[7];
 
 
-        const qty =
-            Number(item.qty) || 0;
-
         const total =
-            price * qty;
+            price *
+            Number(item.qty);
 
 
         grandTotal += total;
@@ -1241,24 +1321,25 @@ function loadCart() {
 <div class="cart-item">
 
     <img
-        src="${escapeAttr(image || "placeholder.webp")}"
-        alt="${escapeAttr(product)}"
+        src="${image || "placeholder.webp"}"
+        alt="${product}"
         loading="lazy"
+        decoding="async"
         onerror="this.src='placeholder.webp'"
     >
 
     <div class="cart-info">
 
         <h3>
-            ${escapeHTML(product)}
+            ${product}
         </h3>
 
         <p>
-            ${escapeHTML(weight)}
+            ${weight}
         </p>
 
         <div class="cart-price">
-            ₹${price} × ${qty}
+            ₹${price} × ${item.qty}
             =
             ₹${total}
         </div>
@@ -1267,18 +1348,18 @@ function loadCart() {
 
             <button
                 class="qty-btn"
-                onclick="changeQty('${escapeAttr(item.id)}',-1)"
+                onclick="changeQty('${item.id}', -1)"
             >
                 −
             </button>
 
             <span class="qty-number">
-                ${qty}
+                ${item.qty}
             </span>
 
             <button
                 class="qty-btn"
-                onclick="changeQty('${escapeAttr(item.id)}',1)"
+                onclick="changeQty('${item.id}', 1)"
             >
                 +
             </button>
@@ -1287,7 +1368,7 @@ function loadCart() {
 
         <button
             class="remove-btn"
-            onclick="removeCartItem('${escapeAttr(item.id)}')"
+            onclick="removeCartItem('${item.id}')"
         >
             🗑 Remove
         </button>
@@ -1300,6 +1381,10 @@ function loadCart() {
 
     });
 
+
+    // ======================================
+    // TOTAL
+    // ======================================
 
     html.push(`
 
@@ -1328,7 +1413,9 @@ function loadCart() {
     list.innerHTML =
         html.join("");
 
+
     updateCartButton();
+
 }
 
 
@@ -1339,6 +1426,7 @@ function loadCart() {
 async function orderWhatsApp() {
 
     await loadData();
+
 
     if (cart.length === 0) {
         return;
@@ -1363,6 +1451,7 @@ async function orderWhatsApp() {
         const row =
             getProduct(item.id);
 
+
         if (!row) {
             return;
         }
@@ -1375,17 +1464,11 @@ async function orderWhatsApp() {
             row[4];
 
         const price =
-            Number(
-                String(row[5] || "")
-                    .replace(/[₹,\s]/g, "")
-            ) || 0;
-
-        const qty =
-            Number(item.qty) || 0;
-
+            Number(row[5]) || 0;
 
         const total =
-            price * qty;
+            price *
+            Number(item.qty);
 
 
         grandTotal += total;
@@ -1394,8 +1477,7 @@ async function orderWhatsApp() {
         message +=
 `📦 ${product}
 ⚖️ ${weight}
-
-💰 ₹${price} × ${qty} = ₹${total}
+💰 ₹${price} × ${item.qty} = ₹${total}
 
 ------------------------
 
@@ -1411,11 +1493,15 @@ async function orderWhatsApp() {
 
 
     window.open(
+
         `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+
         "_blank"
+
     );
 
 
+    // Clear cart after order
     cart = [];
 
     saveCart();
@@ -1425,6 +1511,7 @@ async function orderWhatsApp() {
     loadCart();
 
     loadProducts();
+
 }
 
 
@@ -1444,13 +1531,16 @@ function openImage(src) {
             "imageModal"
         );
 
+
     if (!image || !modal) {
         return;
     }
 
+
     image.src = src;
 
     modal.classList.add("show");
+
 }
 
 
@@ -1461,41 +1551,14 @@ function closeImage() {
             "imageModal"
         );
 
+
     if (modal) {
+
         modal.classList.remove("show");
+
     }
+
 }
-
-
-// ==========================================
-// HTML SECURITY
-// ==========================================
-
-function escapeHTML(value) {
-
-    return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-function escapeAttr(value) {
-
-    return escapeHTML(value);
-}
-
-
-// ==========================================
-// CLEAR OLD CACHE
-// ==========================================
-
-// Important:
-// New API V9 uses a new cache key,
-// so old broken product grouping cache
-// will not interfere.
 
 
 // ==========================================
@@ -1534,9 +1597,7 @@ window.addEventListener(
 
         cart =
             JSON.parse(
-                localStorage.getItem(
-                    "cart"
-                )
+                localStorage.getItem("cart")
             ) || [];
 
 
