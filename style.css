@@ -1514,3 +1514,64 @@ input{
     }
 
 }
+
+/* =========================================
+   FINAL PRODUCT BUTTON + WEIGHT FIX
+========================================= */
+
+/* Weight + Price - NO BACKGROUND */
+
+.variant-info{
+    min-width:auto !important;
+    padding:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    color:#6B4226;
+    font-size:16px;
+    font-weight:600;
+}
+
+
+/* Smaller - 0 + */
+
+.variant-qty-control{
+    width:125px !important;
+    height:48px !important;
+}
+
+
+/* Smaller round buttons */
+
+.variant-qty-btn{
+    width:48px !important;
+    height:48px !important;
+
+    border-radius:50%;
+
+    font-size:24px !important;
+}
+
+
+/* Number */
+
+.variant-qty-number{
+    min-width:24px !important;
+
+    font-size:21px !important;
+
+    color:#6B4226;
+}
+
+
+/* Keep product card white */
+
+.grouped-product-card{
+    background:#fff !important;
+}
