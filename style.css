@@ -1670,3 +1670,64 @@ button{
         min-height:56px;
     }
 }
+
+/* =========================================
+   FINAL COMPACT PREMIUM CARD
+========================================= */
+
+@media(max-width:768px){
+
+    .product-card,
+    .premium-product-card{
+        height:365px !important;
+        min-height:365px !important;
+        max-height:365px !important;
+
+        padding-bottom:12px !important;
+    }
+
+    .product-image-wrap{
+        height:132px !important;
+        min-height:132px !important;
+    }
+
+    .product-card > img,
+    .group-product-image{
+        width:118px !important;
+        height:118px !important;
+    }
+
+    .product-category-label{
+        margin-top:1px !important;
+        margin-bottom:2px !important;
+    }
+
+    .product-name,
+    .grouped-product-name{
+        height:44px !important;
+        min-height:44px !important;
+        max-height:44px !important;
+
+        margin-bottom:2px !important;
+    }
+
+    .product-meta{
+        height:28px !important;
+        min-height:28px !important;
+
+        margin-bottom:5px !important;
+    }
+
+    .product-action{
+        height:40px !important;
+        min-height:40px !important;
+
+        /* button થોડું ઉપર */
+        margin-top:12px !important;
+    }
+
+    .premium-add-btn{
+        width:100px !important;
+        height:39px !important;
+    }
+}
