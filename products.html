@@ -36,7 +36,7 @@
 
 <link
     rel="stylesheet"
-    href="style.css?v=20"
+    href="style.css?v=22"
 >
 
 
@@ -58,89 +58,145 @@
 <body>
 
 
-<!-- ======================================
+<!-- =====================================================
      HEADER
-====================================== -->
+===================================================== -->
 
 <header class="header">
 
-    <img
-        src="logo.webp"
-        class="logo"
-        alt="Jyoti Gruh Udhyog"
-        width="80"
-        height="80"
-    >
+    <div class="brand-wrap">
 
-    <h1>
-        Jyoti Gruh Udhyog
-    </h1>
+        <img
+            src="logo.webp"
+            class="logo"
+            alt="Jyoti Gruh Udhyog Logo"
+            width="70"
+            height="70"
+            loading="eager"
+            decoding="async"
+        >
 
-    <p>
-        Pure & Homemade Products
-    </p>
+        <div class="brand-text">
+
+            <h1>
+                Jyoti Gruh Udhyog
+            </h1>
+
+            <p>
+                Taste Of Home In Every Bite
+            </p>
+
+        </div>
+
+    </div>
 
 </header>
 
 
 
-<!-- ======================================
+<!-- =====================================================
      MAIN
-====================================== -->
+===================================================== -->
 
-<main>
-
-<section class="category-section">
+<main class="products-page">
 
 
-    <!-- SEARCH -->
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
 
-    <div class="search-box">
+    <section class="products-page-header">
 
-        <span class="search-icon">
-            🔍
-        </span>
-
-        <input
-            type="text"
-            id="searchBox"
-            placeholder="Search Products..."
-            autocomplete="off"
+        <button
+            class="back-btn"
+            onclick="history.back()"
+            aria-label="Go Back"
         >
-
-    </div>
-
-
-
-    <!-- PAGE TITLE -->
-
-    <h2 class="section-title">
-
-        🛍️ All Products
-
-    </h2>
+            ←
+        </button>
 
 
+        <div class="products-heading">
 
-    <!-- ==================================
-         PRODUCTS
-    =================================== -->
+            <span class="section-kicker">
+                FRESH FROM OUR KITCHEN
+            </span>
 
-    <div
-        id="productList"
-        class="product-grid"
-    ></div>
+            <h2 class="products-title">
+                Our Products
+            </h2>
+
+        </div>
+
+    </section>
 
 
-</section>
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="products-search-section">
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                type="text"
+                id="searchBox"
+                placeholder="Search Products..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PRODUCT SECTION
+    ================================================= -->
+
+    <section class="products-section">
+
+        <div class="products-topbar">
+
+            <div>
+
+                <span class="section-kicker">
+                    JYOTI COLLECTION
+                </span>
+
+                <h2 class="section-title">
+                    🛍️ All Products
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT LIST -->
+
+        <div
+            id="productList"
+            class="product-grid premium-product-grid"
+        ></div>
+
+    </section>
+
 
 </main>
 
 
 
-<!-- ======================================
+<!-- =====================================================
      FLOATING CART
-====================================== -->
+===================================================== -->
 
 <div
     id="viewCartBtn"
@@ -159,9 +215,9 @@
 
 
 
-<!-- ======================================
+<!-- =====================================================
      FOOTER
-====================================== -->
+===================================================== -->
 
 <footer class="footer">
 
@@ -170,7 +226,7 @@
     </h3>
 
     <p>
-        Pure & Homemade Products
+        Taste Of Home In Every Bite
     </p>
 
 
@@ -204,9 +260,9 @@
 
 
 
-<!-- ======================================
+<!-- =====================================================
      IMAGE ZOOM
-====================================== -->
+===================================================== -->
 
 <div
     id="imageModal"
@@ -218,7 +274,7 @@
         class="close-image"
         onclick="closeImage()"
     >
-        ✕
+        ×
     </span>
 
 
@@ -233,20 +289,20 @@
 
 
 
-<!-- ======================================
-     API JS
-====================================== -->
+<!-- =====================================================
+     API
+===================================================== -->
 
 <script
-    src="api.js?v=20"
+    src="api.js?v=22"
     defer
 ></script>
 
 
 
-<!-- ======================================
+<!-- =====================================================
      SERVICE WORKER
-====================================== -->
+===================================================== -->
 
 <script>
 
@@ -254,13 +310,11 @@ if("serviceWorker" in navigator){
 
     window.addEventListener(
         "load",
-        ()=>{
+        function(){
 
             navigator
                 .serviceWorker
-                .register(
-                    "service-worker.js"
-                )
+                .register("service-worker.js")
                 .then(
                     () =>
                         console.log(
