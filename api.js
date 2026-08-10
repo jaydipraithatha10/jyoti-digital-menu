@@ -1,6 +1,7 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V11
+// API.JS V12
+// FINAL MULTI WEIGHT VERSION
 // ======================================
 
 
@@ -42,10 +43,12 @@ const CACHE_DURATION =
     5 * 60 * 1000;
 
 
-// New cache key
-// જેથી જૂનો wrong cache load ન થાય
+// ======================================
+// CACHE
+// ======================================
+
 const STORAGE_KEY =
-    "jyoti_data_cache_v11";
+    "jyoti_data_cache_v12";
 
 
 // ======================================
@@ -77,7 +80,9 @@ function csvToArray(csv){
     const rows = [];
 
     let row = [];
+
     let value = "";
+
     let insideQuotes = false;
 
 
@@ -88,6 +93,7 @@ function csvToArray(csv){
     ){
 
         const char = csv[i];
+
         const next = csv[i + 1];
 
 
@@ -102,7 +108,6 @@ function csvToArray(csv){
 
         }
 
-
         else if(
             char === '"'
         ){
@@ -111,7 +116,6 @@ function csvToArray(csv){
                 !insideQuotes;
 
         }
-
 
         else if(
             char === ',' &&
@@ -125,7 +129,6 @@ function csvToArray(csv){
             value = "";
 
         }
-
 
         else if(
             (
@@ -167,7 +170,6 @@ function csvToArray(csv){
 
         }
 
-
         else{
 
             value += char;
@@ -206,7 +208,7 @@ function csvToArray(csv){
 
 
 // ======================================
-// FETCH CSV
+// FETCH
 // ======================================
 
 async function fetchCSV(url){
@@ -235,7 +237,7 @@ async function fetchCSV(url){
 
 
 // ======================================
-// CACHE
+// CACHE SAVE
 // ======================================
 
 function saveCache(){
@@ -264,6 +266,10 @@ function saveCache(){
 
 }
 
+
+// ======================================
+// CACHE LOAD
+// ======================================
 
 function loadCache(){
 
@@ -318,7 +324,6 @@ function loadCache(){
         return true;
 
     }
-
 
     catch(error){
 
@@ -390,7 +395,6 @@ function getProduct(id){
 
 async function loadData(){
 
-    // First try fresh V11 cache
     if(loadCache()){
 
         return;
@@ -426,16 +430,16 @@ async function loadData(){
 
 
     // ==================================
-    // PRODUCT SHEET
+    // PRODUCT SHEET COLUMNS
     //
-    // A = Product ID
+    // A = ID
     // B = Category ID
     // C = subCategory ID
     // D = Product
     // E = Weight
     // F = Price
     // G = Status
-    // H = Images
+    // H = Image
     // ==================================
 
     productList = [];
@@ -512,14 +516,6 @@ async function loadCategories(){
     categoryRows
         .slice(1)
         .forEach(row => {
-
-            // CATEGORY SHEET
-            //
-            // A = ID
-            // B = Name
-            // C = Status
-            // D = Image
-
 
             const id =
                 String(
@@ -675,15 +671,6 @@ async function loadSubCategories(){
         .slice(1)
         .forEach(row => {
 
-            // SUB CATEGORY SHEET
-            //
-            // A = ID
-            // B = Category ID
-            // C = Name
-            // D = Status
-            // E = Image
-
-
             const id =
                 String(
                     row[0] || ""
@@ -768,19 +755,6 @@ ${name}
 
 // ======================================
 // PRODUCTS
-//
-// IMPORTANT:
-//
-// SAME PRODUCT NAME
-// = ONE CARD
-//
-// Example:
-//
-// Golkeri
-//
-// 250 gm  ₹100  + Add
-// 500 gm  ₹190  + Add
-//
 // ======================================
 
 async function loadProducts(
@@ -820,7 +794,7 @@ async function loadProducts(
 
 
     // ==================================
-    // GROUP PRODUCTS
+    // GROUP SAME PRODUCT
     // ==================================
 
     const groupedProducts =
@@ -831,9 +805,7 @@ async function loadProducts(
         .slice(1)
         .forEach(row => {
 
-            // ==================================
-            // EXACT COLUMNS
-            // ==================================
+            // EXACT SHEET COLUMNS
 
             const id =
                 String(
@@ -885,10 +857,6 @@ async function loadProducts(
                 ).trim();
 
 
-            // ==================================
-            // ACTIVE
-            // ==================================
-
             if(
                 status !== "active"
             ){
@@ -897,10 +865,6 @@ async function loadProducts(
 
             }
 
-
-            // ==================================
-            // CATEGORY FILTER
-            // ==================================
 
             if(
                 categoryId &&
@@ -913,10 +877,6 @@ async function loadProducts(
             }
 
 
-            // ==================================
-            // SUB CATEGORY FILTER
-            // ==================================
-
             if(
                 subCategoryId &&
                 rowSubCategoryId !==
@@ -927,10 +887,6 @@ async function loadProducts(
 
             }
 
-
-            // ==================================
-            // SEARCH
-            // ==================================
 
             if(search){
 
@@ -957,7 +913,7 @@ async function loadProducts(
 
 
             // ==================================
-            // SAME NAME = SAME CARD
+            // SAME PRODUCT NAME
             // ==================================
 
             const groupKey =
@@ -1001,10 +957,6 @@ async function loadProducts(
                 );
 
 
-            // ==================================
-            // ADD WEIGHT VARIANT
-            // ==================================
-
             group.variants.push({
 
                 id:
@@ -1022,9 +974,6 @@ async function loadProducts(
             });
 
 
-            // If first image is empty,
-            // use next available image
-
             if(
                 !group.image &&
                 image
@@ -1039,7 +988,7 @@ async function loadProducts(
 
 
     // ==================================
-    // HTML
+    // CREATE PRODUCTS
     // ==================================
 
     const html = [];
@@ -1049,7 +998,7 @@ async function loadProducts(
         .forEach(item => {
 
             // ==================================
-            // SORT BY WEIGHT
+            // SORT WEIGHT
             // ==================================
 
             item.variants.sort(
@@ -1088,220 +1037,6 @@ async function loadProducts(
 
 
             // ==================================
-            // SINGLE VARIANT
-            // ==================================
-
-            if(
-                item.variants.length === 1
-            ){
-
-                const v =
-                    item.variants[0];
-
-
-                const cartItem =
-                    cart.find(
-                        p =>
-                        p.id == v.id
-                    );
-
-
-                const qty =
-                    cartItem
-                    ? cartItem.qty
-                    : 0;
-
-
-                html.push(`
-
-<div
-class="product-card">
-
-<img
-src="${mainImage}"
-loading="lazy"
-decoding="async"
-fetchpriority="low"
-onclick="openImage('${mainImage}')"
-onerror="this.src='placeholder.webp'">
-
-<h3
-class="product-name">
-
-${item.name}
-
-</h3>
-
-<p
-class="product-weight">
-
-${v.weight}
-
-</p>
-
-<h4
-class="product-price">
-
-₹${v.price}
-
-</h4>
-
-<div
-id="cart-${v.id}">
-
-${
-qty === 0
-
-?
-
-`<button
-class="cart-btn"
-onclick="addToCart('${v.id}')">
-
-+ Add
-
-</button>`
-
-:
-
-`<div
-class="qty-control">
-
-<button
-class="qty-btn"
-onclick="changeQty('${v.id}',-1)">
-
-−
-
-</button>
-
-<span
-class="qty-number">
-
-${qty}
-
-</span>
-
-<button
-class="qty-btn"
-onclick="changeQty('${v.id}',1)">
-
-+
-
-</button>
-
-</div>`
-
-}
-
-</div>
-
-</div>
-
-`);
-
-                return;
-
-            }
-
-
-            // ==================================
-            // MULTIPLE WEIGHTS
-            // ==================================
-
-            let variantsHTML = "";
-
-
-            item.variants
-                .forEach(v => {
-
-                    const cartItem =
-                        cart.find(
-                            p =>
-                            p.id == v.id
-                        );
-
-
-                    const qty =
-                        cartItem
-                        ? cartItem.qty
-                        : 0;
-
-
-                    variantsHTML += `
-
-<div class="product-variant-row">
-
-    <div class="product-variant-info">
-
-        <span class="product-variant-weight">
-            ${v.weight}
-        </span>
-
-        <span class="product-variant-price">
-            ₹${v.price}
-        </span>
-
-    </div>
-
-
-    <div
-        id="cart-${v.id}"
-        class="product-variant-action">
-
-        ${
-        qty === 0
-
-        ?
-
-        `<button
-            class="cart-btn"
-            onclick="addToCart('${v.id}')">
-
-            + Add
-
-        </button>`
-
-        :
-
-        `<div class="qty-control">
-
-            <button
-                class="qty-btn"
-                onclick="changeQty('${v.id}',-1)">
-
-                −
-
-            </button>
-
-            <span class="qty-number">
-
-                ${qty}
-
-            </span>
-
-            <button
-                class="qty-btn"
-                onclick="changeQty('${v.id}',1)">
-
-                +
-
-            </button>
-
-        </div>`
-
-        }
-
-    </div>
-
-</div>
-
-`;
-
-                });
-
-
-            // ==================================
             // PRODUCT CARD
             // ==================================
 
@@ -1327,9 +1062,174 @@ ${item.name}
 
 
 <div
-class="product-variants">
+style="
+width:92%;
+margin:8px auto 14px;
+">
 
-${variantsHTML}
+${
+item.variants.map(v => {
+
+    const cartItem =
+        cart.find(
+            p => p.id == v.id
+        );
+
+
+    const qty =
+        cartItem
+        ? cartItem.qty
+        : 0;
+
+
+    return `
+
+<div
+style="
+display:grid;
+grid-template-columns:72px 58px 78px;
+align-items:center;
+justify-content:space-between;
+gap:4px;
+width:100%;
+margin-bottom:9px;
+">
+
+    <!-- WEIGHT -->
+
+    <span
+    style="
+    font-size:16px;
+    color:#777;
+    white-space:nowrap;
+    text-align:left;
+    ">
+
+        ${v.weight}
+
+    </span>
+
+
+    <!-- PRICE -->
+
+    <span
+    style="
+    font-size:19px;
+    font-weight:700;
+    color:#111;
+    white-space:nowrap;
+    text-align:left;
+    ">
+
+        ₹${v.price}
+
+    </span>
+
+
+    <!-- BUTTON -->
+
+    <div
+    id="cart-${v.id}"
+    style="
+    width:78px;
+    min-width:78px;
+    ">
+
+    ${
+        qty === 0
+
+        ?
+
+        `<button
+        class="cart-btn"
+        style="
+        width:78px !important;
+        min-width:78px !important;
+        height:40px !important;
+        margin:0 !important;
+        padding:0 !important;
+        border-radius:12px;
+        font-size:14px;
+        white-space:nowrap;
+        "
+        onclick="addToCart('${v.id}')">
+
+            + Add
+
+        </button>`
+
+        :
+
+        `<div
+        class="qty-control"
+        style="
+        width:78px !important;
+        min-width:78px !important;
+        height:40px !important;
+        margin:0 !important;
+        padding:0 !important;
+        display:flex;
+        align-items:center;
+        justify-content:space-around;
+        border-radius:12px;
+        ">
+
+            <button
+            class="qty-btn"
+            style="
+            width:23px;
+            height:38px;
+            padding:0;
+            margin:0;
+            font-size:19px;
+            "
+            onclick="changeQty('${v.id}',-1)">
+
+                −
+
+            </button>
+
+
+            <span
+            class="qty-number"
+            style="
+            min-width:14px;
+            font-size:15px;
+            ">
+
+                ${qty}
+
+            </span>
+
+
+            <button
+            class="qty-btn"
+            style="
+            width:23px;
+            height:38px;
+            padding:0;
+            margin:0;
+            font-size:19px;
+            "
+            onclick="changeQty('${v.id}',1)">
+
+                +
+
+            </button>
+
+        </div>`
+
+    }
+
+    </div>
+
+</div>
+
+`;
+
+}).join("")
+
+}
 
 </div>
 
@@ -1341,16 +1241,12 @@ ${variantsHTML}
         });
 
 
-    // ==================================
-    // DISPLAY
-    // ==================================
-
     list.innerHTML =
         html.join("");
 
 
     // ==================================
-    // COUNT
+    // PRODUCT COUNT
     // ==================================
 
     const heading =
@@ -1423,7 +1319,6 @@ function initSearch(){
                             );
 
                         }
-
 
                         else if(
                             document.getElementById(
@@ -1956,7 +1851,6 @@ document.addEventListener(
             initSearch();
 
         }
-
 
         catch(error){
 
