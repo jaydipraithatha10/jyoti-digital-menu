@@ -1,12 +1,12 @@
-// ======================================
+// ==========================================
 // JYOTI GRUH UDHYOG
-// API.JS V7 FINAL
-// ======================================
+// API.JS V8 FINAL
+// ==========================================
 
 
-// ======================================
+// ==========================================
 // CART
-// ======================================
+// ==========================================
 
 let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
@@ -22,9 +22,9 @@ function saveCart(){
 }
 
 
-// ======================================
+// ==========================================
 // DATA
-// ======================================
+// ==========================================
 
 let categoryRows = [];
 let subCategoryRows = [];
@@ -33,7 +33,6 @@ let productRows = [];
 let productMap = new Map();
 
 let dataLoaded = false;
-
 let cacheTime = 0;
 
 const CACHE_DURATION =
@@ -43,9 +42,9 @@ const STORAGE_KEY =
     "jyoti_data_cache";
 
 
-// ======================================
+// ==========================================
 // GOOGLE SHEET
-// ======================================
+// ==========================================
 
 const SHEET =
 "2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU";
@@ -63,49 +62,61 @@ const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
 
 
-// ======================================
-// CACHE SAVE
-// ======================================
+// ==========================================
+// CACHE
+// ==========================================
 
 function saveCache(){
 
-    const data = {
+    try{
 
-        categoryRows,
-        subCategoryRows,
-        productRows,
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
 
-        time: Date.now()
+                categoryRows:
+                    categoryRows,
 
-    };
+                subCategoryRows:
+                    subCategoryRows,
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(data)
-    );
+                productRows:
+                    productRows,
+
+                time:
+                    Date.now()
+
+            })
+        );
+
+    }
+    catch(error){
+
+        console.log(
+            "Cache save error",
+            error
+        );
+
+    }
 
 }
 
-
-// ======================================
-// CACHE LOAD
-// ======================================
 
 function loadCache(){
 
     try{
 
-        const cache =
+        const saved =
             localStorage.getItem(
                 STORAGE_KEY
             );
 
-        if(!cache)
+        if(!saved)
             return false;
 
 
         const data =
-            JSON.parse(cache);
+            JSON.parse(saved);
 
 
         if(
@@ -119,6 +130,7 @@ function loadCache(){
             );
 
             return false;
+
         }
 
 
@@ -139,16 +151,17 @@ function loadCache(){
 
         dataLoaded = true;
 
-        cacheTime = data.time;
+        cacheTime =
+            data.time;
+
 
         return true;
 
     }
-
     catch(error){
 
         console.log(
-            "Cache Error:",
+            "Cache load error",
             error
         );
 
@@ -159,9 +172,9 @@ function loadCache(){
 }
 
 
-// ======================================
-// FETCH CSV
-// ======================================
+// ==========================================
+// FETCH
+// ==========================================
 
 async function fetchCSV(url){
 
@@ -177,7 +190,7 @@ async function fetchCSV(url){
     if(!response.ok){
 
         throw new Error(
-            "Data Load Failed"
+            "Google Sheet data load failed"
         );
 
     }
@@ -188,9 +201,9 @@ async function fetchCSV(url){
 }
 
 
-// ======================================
-// CSV PARSER
-// ======================================
+// ==========================================
+// CSV
+// ==========================================
 
 function csvToArray(csv){
 
@@ -201,20 +214,22 @@ function csvToArray(csv){
 
             return row
                 .split(",")
-                .map(cell =>
-                    cell
+                .map(cell => {
+
+                    return cell
                         .replace(/^"|"$/g,"")
-                        .trim()
-                );
+                        .trim();
+
+                });
 
         });
 
 }
 
 
-// ======================================
+// ==========================================
 // PRODUCT MAP
-// ======================================
+// ==========================================
 
 function buildProductMap(){
 
@@ -228,7 +243,7 @@ function buildProductMap(){
             if(row[0]){
 
                 productMap.set(
-                    row[0],
+                    String(row[0]),
                     row
                 );
 
@@ -239,48 +254,41 @@ function buildProductMap(){
 }
 
 
-// ======================================
-// URL PARAMETER
-// ======================================
-
-function getParam(name){
-
-    return new URLSearchParams(
-        location.search
-    ).get(name);
-
-}
-
-
-// ======================================
-// GET PRODUCT
-// ======================================
-
 function getProduct(id){
 
     return productMap.get(
-        id
+        String(id)
     );
 
 }
 
 
-// ======================================
+// ==========================================
+// URL PARAM
+// ==========================================
+
+function getParam(name){
+
+    return new URLSearchParams(
+        window.location.search
+    ).get(name);
+
+}
+
+
+// ==========================================
 // LOAD DATA
-// ======================================
+// ==========================================
 
 async function loadData(){
 
-    if(dataLoaded){
+    if(
+        dataLoaded &&
+        Date.now() - cacheTime <
+        CACHE_DURATION
+    ){
 
-        if(
-            Date.now() - cacheTime <
-            CACHE_DURATION
-        ){
-
-            return;
-
-        }
+        return;
 
     }
 
@@ -294,31 +302,28 @@ async function loadData(){
 
     try{
 
-        const [
-            catCSV,
-            subCSV,
-            proCSV
-        ] = await Promise.all([
+        const result =
+            await Promise.all([
 
-            fetchCSV(categoryURL),
+                fetchCSV(categoryURL),
 
-            fetchCSV(subCategoryURL),
+                fetchCSV(subCategoryURL),
 
-            fetchCSV(productURL)
+                fetchCSV(productURL)
 
-        ]);
+            ]);
 
 
         categoryRows =
-            csvToArray(catCSV);
+            csvToArray(result[0]);
 
 
         subCategoryRows =
-            csvToArray(subCSV);
+            csvToArray(result[1]);
 
 
         productRows =
-            csvToArray(proCSV);
+            csvToArray(result[2]);
 
 
         buildProductMap();
@@ -334,15 +339,14 @@ async function loadData(){
 
 
         console.log(
-            "Jyoti Data Loaded"
+            "Jyoti Gruh Udhyog data loaded"
         );
 
     }
-
     catch(error){
 
         console.error(
-            "Data Load Error:",
+            "LOAD DATA ERROR:",
             error
         );
 
@@ -351,9 +355,9 @@ async function loadData(){
 }
 
 
-// ======================================
+// ==========================================
 // CATEGORY
-// ======================================
+// ==========================================
 
 function loadCategories(){
 
@@ -390,9 +394,8 @@ function loadCategories(){
             if(
                 !status ||
                 status
-                    .trim()
                     .toLowerCase()
-                    !== "active"
+                    .trim() !== "active"
             ){
 
                 return;
@@ -407,17 +410,17 @@ function loadCategories(){
     onclick="openCategory('${id}')"
 >
 
-    <img
-        src="${image || "placeholder.webp"}"
-        alt="${name}"
-        loading="lazy"
-        decoding="async"
-        onerror="this.src='placeholder.webp'"
-    >
+<img
+    src="${image || "placeholder.webp"}"
+    alt="${name}"
+    loading="lazy"
+    decoding="async"
+    onerror="this.src='placeholder.webp'"
+>
 
-    <h3>
-        ${name}
-    </h3>
+<h3>
+    ${name}
+</h3>
 
 </div>
 
@@ -432,9 +435,9 @@ function loadCategories(){
 }
 
 
-// ======================================
+// ==========================================
 // OPEN CATEGORY
-// ======================================
+// ==========================================
 
 function openCategory(id){
 
@@ -445,13 +448,16 @@ function openCategory(id){
 
                 return (
 
-                    row[1] == id &&
+                    String(row[1]) ===
+                    String(id)
+
+                    &&
 
                     row[3] &&
                     row[3]
-                        .trim()
                         .toLowerCase()
-                        === "active"
+                        .trim() ===
+                    "active"
 
                 );
 
@@ -476,9 +482,9 @@ function openCategory(id){
 }
 
 
-// ======================================
-// SUB CATEGORIES
-// ======================================
+// ==========================================
+// SUB CATEGORY
+// ==========================================
 
 function loadSubCategories(){
 
@@ -492,7 +498,7 @@ function loadSubCategories(){
         return;
 
 
-    const id =
+    const categoryId =
         getParam("id");
 
 
@@ -503,10 +509,10 @@ function loadSubCategories(){
         .slice(1)
         .forEach(row => {
 
-            const subId =
+            const id =
                 row[0];
 
-            const categoryId =
+            const parentId =
                 row[1];
 
             const name =
@@ -519,16 +525,22 @@ function loadSubCategories(){
                 row[4];
 
 
-            if(categoryId != id)
+            if(
+                String(parentId) !==
+                String(categoryId)
+            ){
+
                 return;
+
+            }
 
 
             if(
                 !status ||
                 status
-                    .trim()
                     .toLowerCase()
-                    !== "active"
+                    .trim() !==
+                "active"
             ){
 
                 return;
@@ -540,20 +552,20 @@ function loadSubCategories(){
 
 <div
     class="category-card"
-    onclick="location.href='products.html?sub=${encodeURIComponent(subId)}'"
+    onclick="location.href='products.html?sub=${encodeURIComponent(id)}'"
 >
 
-    <img
-        src="${image || "placeholder.webp"}"
-        alt="${name}"
-        loading="lazy"
-        decoding="async"
-        onerror="this.src='placeholder.webp'"
-    >
+<img
+    src="${image || "placeholder.webp"}"
+    alt="${name}"
+    loading="lazy"
+    decoding="async"
+    onerror="this.src='placeholder.webp'"
+>
 
-    <h3>
-        ${name}
-    </h3>
+<h3>
+    ${name}
+</h3>
 
 </div>
 
@@ -568,10 +580,19 @@ function loadSubCategories(){
 }
 
 
-// ======================================
+// ==========================================
 // PRODUCTS
-// SAME PRODUCT = ONE CARD
-// ======================================
+//
+// SAME PRODUCT NAME
+// = ONE CARD
+//
+// Example:
+//
+// Golkeri
+//
+// 250 gm   ₹100   + Add
+// 500 gm   ₹190   + Add
+// ==========================================
 
 function loadProducts(searchText = ""){
 
@@ -606,9 +627,9 @@ function loadProducts(searchText = ""){
         .toLowerCase();
 
 
-    // ==================================
-    // GROUP PRODUCTS
-    // ==================================
+    // --------------------------------------
+    // GROUP SAME PRODUCT
+    // --------------------------------------
 
     const grouped =
         new Map();
@@ -618,17 +639,18 @@ function loadProducts(searchText = ""){
         .slice(1)
         .forEach(row => {
 
-            /*
-                GOOGLE SHEET:
 
-                A = Display Order
-                B = Category ID
-                C = SubCategory ID
-                D = Product
-                E = Weight
-                F = Price
-                G = Status
-                H = Image
+            /*
+            PRODUCT SHEET
+
+            row[0] = ID
+            row[1] = Category ID
+            row[2] = Sub Category ID
+            row[3] = Product
+            row[4] = Weight
+            row[5] = Price
+            row[6] = Status
+            row[7] = Image
             */
 
 
@@ -644,7 +666,7 @@ function loadProducts(searchText = ""){
                 row[2];
 
 
-            const productName =
+            const name =
                 row[3];
 
 
@@ -664,16 +686,14 @@ function loadProducts(searchText = ""){
                 row[7];
 
 
-            // --------------------------
             // ACTIVE
-            // --------------------------
 
             if(
                 !status ||
                 status
-                    .trim()
                     .toLowerCase()
-                    !== "active"
+                    .trim() !==
+                "active"
             ){
 
                 return;
@@ -681,13 +701,12 @@ function loadProducts(searchText = ""){
             }
 
 
-            // --------------------------
-            // SUB CATEGORY FILTER
-            // --------------------------
+            // SUB CATEGORY
 
             if(
                 subId &&
-                subCategory != subId
+                String(subCategory) !==
+                String(subId)
             ){
 
                 return;
@@ -695,14 +714,13 @@ function loadProducts(searchText = ""){
             }
 
 
-            // --------------------------
-            // CATEGORY FILTER
-            // --------------------------
+            // CATEGORY
 
             if(
                 categoryId &&
                 !subId &&
-                category != categoryId
+                String(category) !==
+                String(categoryId)
             ){
 
                 return;
@@ -710,15 +728,13 @@ function loadProducts(searchText = ""){
             }
 
 
-            // --------------------------
             // SEARCH
-            // --------------------------
 
             if(search){
 
-                const text =
+                const searchTextValue =
                     (
-                        productName +
+                        name +
                         " " +
                         weight
                     )
@@ -726,7 +742,8 @@ function loadProducts(searchText = ""){
 
 
                 if(
-                    !text.includes(search)
+                    !searchTextValue
+                        .includes(search)
                 ){
 
                     return;
@@ -736,12 +753,10 @@ function loadProducts(searchText = ""){
             }
 
 
-            // --------------------------
-            // SAME PRODUCT
-            // --------------------------
+            // SAME PRODUCT NAME
 
             const groupKey =
-                productName
+                name
                     .trim()
                     .toLowerCase();
 
@@ -757,7 +772,7 @@ function loadProducts(searchText = ""){
                     {
 
                         name:
-                            productName,
+                            name,
 
                         image:
                             image,
@@ -782,19 +797,16 @@ function loadProducts(searchText = ""){
                         weight,
 
                     price:
-                        price,
-
-                    image:
-                        image
+                        price
 
                 });
 
         });
 
 
-    // ==================================
-    // CREATE HTML
-    // ==================================
+    // --------------------------------------
+    // CREATE CARDS
+    // --------------------------------------
 
     const html = [];
 
@@ -803,11 +815,8 @@ function loadProducts(searchText = ""){
         product => {
 
 
-            // --------------------------
-            // VARIANT HTML
-            // --------------------------
-
-            let variantsHTML = "";
+            let variantsHTML =
+                "";
 
 
             product.variants
@@ -818,8 +827,8 @@ function loadProducts(searchText = ""){
                     const cartItem =
                         cart.find(
                             item =>
-                                item.id ==
-                                variant.id
+                                String(item.id) ===
+                                String(variant.id)
                         );
 
 
@@ -830,19 +839,38 @@ function loadProducts(searchText = ""){
 
 
                     // ------------------
-                    // BUTTON
+                    // ACTION
                     // ------------------
 
-                    let actionHTML;
+                    let action;
 
 
                     if(qty === 0){
 
-                        actionHTML = `
+                        action = `
 
 <button
-    class="variant-add-btn"
+    type="button"
     onclick="addToCart('${variant.id}')"
+    style="
+        width:86px;
+        min-width:86px;
+        height:42px;
+        border:none;
+        border-radius:13px;
+        background:#6B4226;
+        color:#fff;
+        font-family:inherit;
+        font-size:14px;
+        font-weight:600;
+        white-space:nowrap;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        margin:0;
+        padding:0;
+    "
 >
     + Add
 </button>
@@ -852,27 +880,71 @@ function loadProducts(searchText = ""){
                     }
                     else{
 
-                        actionHTML = `
+                        action = `
 
-<div class="variant-qty">
+<div
+    style="
+        width:86px;
+        min-width:86px;
+        height:42px;
+        border-radius:13px;
+        background:#6B4226;
+        display:flex;
+        align-items:center;
+        justify-content:space-around;
+        overflow:hidden;
+    "
+>
 
-    <button
-        class="qty-btn"
-        onclick="changeQty('${variant.id}',-1)"
-    >
-        −
-    </button>
+<button
+    type="button"
+    onclick="changeQty('${variant.id}',-1)"
+    style="
+        width:25px;
+        height:42px;
+        border:none;
+        background:transparent;
+        color:#fff;
+        font-size:20px;
+        font-weight:700;
+        padding:0;
+        cursor:pointer;
+    "
+>
+    −
+</button>
 
-    <span class="qty-number">
-        ${qty}
-    </span>
 
-    <button
-        class="qty-btn"
-        onclick="changeQty('${variant.id}',1)"
-    >
-        +
-    </button>
+<span
+    style="
+        color:#fff;
+        font-size:15px;
+        font-weight:700;
+        min-width:16px;
+        text-align:center;
+    "
+>
+    ${qty}
+</span>
+
+
+<button
+    type="button"
+    onclick="changeQty('${variant.id}',1)"
+    style="
+        width:25px;
+        height:42px;
+        border:none;
+        background:transparent;
+        color:#fff;
+        font-size:20px;
+        font-weight:700;
+        padding:0;
+        cursor:pointer;
+    "
+>
+    +
+</button>
 
 </div>
 
@@ -882,26 +954,78 @@ function loadProducts(searchText = ""){
 
 
                     // ------------------
-                    // ROW
+                    // VARIANT ROW
                     // ------------------
 
                     variantsHTML += `
 
-<div class="product-variant-row">
+<div
+    style="
+        width:100%;
+        min-height:48px;
+        display:flex;
+        align-items:center;
+        margin:0 0 10px 0;
+        padding:0;
+        gap:5px;
+        overflow:visible;
+    "
+>
 
-    <div class="product-variant-weight">
+    <!-- WEIGHT -->
+
+    <div
+        style="
+            flex:1;
+            min-width:0;
+            color:#777;
+            font-family:inherit;
+            font-size:16px;
+            font-weight:400;
+            line-height:1.2;
+            white-space:nowrap;
+            text-align:left;
+            overflow:visible;
+        "
+    >
         ${variant.weight}
     </div>
 
 
-    <div class="product-variant-price">
+    <!-- PRICE -->
+
+    <div
+        style="
+            width:58px;
+            min-width:58px;
+            color:#111;
+            font-family:inherit;
+            font-size:18px;
+            font-weight:700;
+            line-height:1.2;
+            white-space:nowrap;
+            text-align:left;
+            overflow:visible;
+        "
+    >
         ₹${variant.price}
     </div>
 
 
-    <div class="product-variant-action">
+    <!-- BUTTON -->
 
-        ${actionHTML}
+    <div
+        style="
+            width:86px;
+            min-width:86px;
+            display:flex;
+            align-items:center;
+            justify-content:flex-end;
+            overflow:visible;
+        "
+    >
+
+        ${action}
 
     </div>
 
@@ -912,34 +1036,54 @@ function loadProducts(searchText = ""){
                 });
 
 
-            // --------------------------
-            // CARD
-            // --------------------------
+            // ------------------
+            // PRODUCT CARD
+            // ------------------
 
             html.push(`
 
-<div class="product-card">
+<div
+    class="product-card"
+    style="
+        overflow:hidden;
+    "
+>
 
-    <img
-        src="${product.image || "placeholder.webp"}"
-        alt="${product.name}"
-        loading="lazy"
-        decoding="async"
-        onclick="openImage('${product.image || "placeholder.webp"}')"
-        onerror="this.src='placeholder.webp'"
-    >
+<img
+    src="${product.image || "placeholder.webp"}"
+    alt="${product.name}"
+    loading="lazy"
+    decoding="async"
+    onclick="openImage('${product.image || "placeholder.webp"}')"
+    onerror="this.src='placeholder.webp'"
+>
 
 
-    <h3 class="product-name">
-        ${product.name}
-    </h3>
+<h3
+    class="product-name"
+    style="
+        margin:8px 10px 18px;
+        min-height:auto;
+        font-size:17px;
+        line-height:1.3;
+    "
+>
+    ${product.name}
+</h3>
 
 
-    <div class="product-variants">
+<div
+    style="
+        width:100%;
+        padding:0 8px 12px;
+        box-sizing:border-box;
+        overflow:visible;
+    "
+>
 
-        ${variantsHTML}
+    ${variantsHTML}
 
-    </div>
+</div>
 
 </div>
 
@@ -949,17 +1093,13 @@ function loadProducts(searchText = ""){
     );
 
 
-    // ==================================
-    // SHOW PRODUCTS
-    // ==================================
-
     list.innerHTML =
         html.join("");
 
 
-    // ==================================
-    // PRODUCT COUNT
-    // ==================================
+    // --------------------------------------
+    // COUNT
+    // --------------------------------------
 
     const heading =
         document.querySelector(
@@ -969,8 +1109,8 @@ function loadProducts(searchText = ""){
 
     if(heading){
 
-        heading.innerHTML =
-`
+        heading.innerHTML = `
+
 🛒 All Products
 
 <span
@@ -981,6 +1121,7 @@ function loadProducts(searchText = ""){
 >
     (${grouped.size})
 </span>
+
 `;
 
     }
@@ -988,9 +1129,9 @@ function loadProducts(searchText = ""){
 }
 
 
-// ======================================
+// ==========================================
 // SEARCH
-// ======================================
+// ==========================================
 
 function initSearch(){
 
@@ -1020,7 +1161,7 @@ function initSearch(){
 
             timer =
                 setTimeout(
-                    () => {
+                    function(){
 
 
                     if(
@@ -1065,15 +1206,17 @@ function initSearch(){
 }
 
 
-// ======================================
+// ==========================================
 // ADD TO CART
-// ======================================
+// ==========================================
 
 function addToCart(id){
 
     const item =
         cart.find(
-            p => p.id == id
+            p =>
+                String(p.id) ===
+                String(id)
         );
 
 
@@ -1086,9 +1229,11 @@ function addToCart(id){
 
         cart.push({
 
-            id:id,
+            id:
+                String(id),
 
-            qty:1
+            qty:
+                1
 
         });
 
@@ -1104,9 +1249,9 @@ function addToCart(id){
 }
 
 
-// ======================================
+// ==========================================
 // CHANGE QTY
-// ======================================
+// ==========================================
 
 function changeQty(
     id,
@@ -1115,7 +1260,9 @@ function changeQty(
 
     const item =
         cart.find(
-            p => p.id == id
+            p =>
+                String(p.id) ===
+                String(id)
         );
 
 
@@ -1130,7 +1277,9 @@ function changeQty(
 
         cart =
             cart.filter(
-                p => p.id != id
+                p =>
+                    String(p.id) !==
+                    String(id)
             );
 
     }
@@ -1147,16 +1296,17 @@ function changeQty(
 }
 
 
-// ======================================
-// REMOVE CART ITEM
-// ======================================
+// ==========================================
+// REMOVE CART
+// ==========================================
 
 function removeCartItem(id){
 
     cart =
         cart.filter(
             item =>
-                item.id != id
+                String(item.id) !==
+                String(id)
         );
 
 
@@ -1171,13 +1321,13 @@ function removeCartItem(id){
 }
 
 
-// ======================================
+// ==========================================
 // FLOATING CART
-// ======================================
+// ==========================================
 
 function updateCartButton(){
 
-    const btn =
+    const button =
         document.getElementById(
             "viewCartBtn"
         );
@@ -1190,7 +1340,7 @@ function updateCartButton(){
 
 
     if(
-        !btn ||
+        !button ||
         !count
     ){
 
@@ -1205,15 +1355,14 @@ function updateCartButton(){
                 sum,
                 item
             ) =>
-                sum +
-                item.qty,
+                sum + item.qty,
             0
         );
 
 
-    if(total === 0){
+    if(total <= 0){
 
-        btn.style.display =
+        button.style.display =
             "none";
 
         count.textContent =
@@ -1222,7 +1371,7 @@ function updateCartButton(){
     }
     else{
 
-        btn.style.display =
+        button.style.display =
             "flex";
 
         count.textContent =
@@ -1233,9 +1382,9 @@ function updateCartButton(){
 }
 
 
-// ======================================
-// LOAD CART
-// ======================================
+// ==========================================
+// CART PAGE
+// ==========================================
 
 function loadCart(){
 
@@ -1255,13 +1404,13 @@ function loadCart(){
 
 <div class="empty-cart">
 
-    <h2>
-        🛒 Your Cart is Empty
-    </h2>
+<h2>
+    🛒 Your Cart is Empty
+</h2>
 
-    <p>
-        Please add products.
-    </p>
+<p>
+    Please add products.
+</p>
 
 </div>
 
@@ -1322,71 +1471,69 @@ function loadCart(){
 
 <div class="cart-item">
 
-    <img
-        src="${image || "placeholder.webp"}"
-        alt="${product}"
-        loading="lazy"
-        decoding="async"
-        onerror="this.src='placeholder.webp'"
-    >
+<img
+    src="${image || "placeholder.webp"}"
+    alt="${product}"
+    loading="lazy"
+    decoding="async"
+    onerror="this.src='placeholder.webp'"
+>
 
 
-    <div class="cart-info">
+<div class="cart-info">
 
-        <h3>
-            ${product}
-        </h3>
-
-
-        <p>
-            ${weight}
-        </p>
+<h3>
+    ${product}
+</h3>
 
 
-        <div class="cart-price">
-
-            ₹${price}
-            ×
-            ${item.qty}
-            =
-            ₹${total}
-
-        </div>
+<p>
+    ${weight}
+</p>
 
 
-        <div class="qty-box">
+<div class="cart-price">
 
-            <button
-                class="qty-btn"
-                onclick="changeQty('${item.id}',-1)"
-            >
-                −
-            </button>
+₹${price} × ${item.qty}
+=
+₹${total}
 
-
-            <span class="qty-number">
-                ${item.qty}
-            </span>
+</div>
 
 
-            <button
-                class="qty-btn"
-                onclick="changeQty('${item.id}',1)"
-            >
-                +
-            </button>
+<div class="qty-box">
 
-        </div>
+<button
+    class="qty-btn"
+    onclick="changeQty('${item.id}',-1)"
+>
+    −
+</button>
 
 
-        <button
-            class="remove-btn"
-            onclick="removeCartItem('${item.id}')"
-        >
-            🗑 Remove
-        </button>
+<span class="qty-number">
+    ${item.qty}
+</span>
 
-    </div>
+
+<button
+    class="qty-btn"
+    onclick="changeQty('${item.id}',1)"
+>
+    +
+</button>
+
+</div>
+
+
+<button
+    class="remove-btn"
+    onclick="removeCartItem('${item.id}')"
+>
+    🗑 Remove
+</button>
+
+</div>
 
 </div>
 
@@ -1400,22 +1547,22 @@ function loadCart(){
 
 <div class="cart-total">
 
-    <h2>
-        Grand Total
-    </h2>
+<h2>
+    Grand Total
+</h2>
 
 
-    <div class="total-price">
-        ₹${grandTotal}
-    </div>
+<div class="total-price">
+    ₹${grandTotal}
+</div>
 
 
-    <button
-        class="whatsapp-btn"
-        onclick="orderWhatsApp()"
-    >
-        📲 Order on WhatsApp
-    </button>
+<button
+    class="whatsapp-btn"
+    onclick="orderWhatsApp()"
+>
+    📲 Order on WhatsApp
+</button>
 
 </div>
 
@@ -1431,9 +1578,9 @@ function loadCart(){
 }
 
 
-// ======================================
-// WHATSAPP ORDER
-// ======================================
+// ==========================================
+// WHATSAPP
+// ==========================================
 
 async function orderWhatsApp(){
 
@@ -1534,9 +1681,9 @@ async function orderWhatsApp(){
 }
 
 
-// ======================================
+// ==========================================
 // IMAGE ZOOM
-// ======================================
+// ==========================================
 
 function openImage(src){
 
@@ -1586,9 +1733,9 @@ function closeImage(){
 }
 
 
-// ======================================
-// AUTO LOAD
-// ======================================
+// ==========================================
+// START
+// ==========================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1613,9 +1760,9 @@ document.addEventListener(
 );
 
 
-// ======================================
+// ==========================================
 // PAGE SHOW
-// ======================================
+// ==========================================
 
 window.addEventListener(
     "pageshow",
