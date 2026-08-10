@@ -1920,3 +1920,242 @@ input{
     }
 
 }
+
+/* ==========================================
+   FINAL MOBILE PRODUCT ROW FIX
+   ========================================== */
+
+.product-variants{
+    width:100% !important;
+    padding:0 8px 14px !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+}
+
+.product-variant-row{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+
+    display:grid !important;
+
+    /* Weight | Price | Button */
+    grid-template-columns:
+        minmax(0,1fr)
+        52px
+        70px !important;
+
+    align-items:center !important;
+
+    column-gap:5px !important;
+
+    margin:0 0 10px 0 !important;
+    padding:0 !important;
+
+    box-sizing:border-box !important;
+
+    overflow:visible !important;
+}
+
+
+/* ==========================================
+   WEIGHT
+   ========================================== */
+
+.product-variant-weight{
+    width:auto !important;
+    min-width:0 !important;
+    max-width:none !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:15px !important;
+    line-height:1.2 !important;
+
+    color:#777 !important;
+
+    text-align:left !important;
+
+    white-space:nowrap !important;
+
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+}
+
+
+/* ==========================================
+   PRICE
+   ========================================== */
+
+.product-variant-price{
+    width:52px !important;
+    min-width:52px !important;
+    max-width:52px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:17px !important;
+    line-height:1.2 !important;
+
+    font-weight:700 !important;
+
+    color:#111 !important;
+
+    text-align:left !important;
+
+    white-space:nowrap !important;
+
+    overflow:visible !important;
+}
+
+
+/* ==========================================
+   BUTTON AREA
+   ========================================== */
+
+.product-variant-action{
+    width:70px !important;
+    min-width:70px !important;
+    max-width:70px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    box-sizing:border-box !important;
+
+    overflow:visible !important;
+}
+
+
+/* ==========================================
+   ADD BUTTON
+   ========================================== */
+
+.product-variant-action .variant-add-btn{
+    width:70px !important;
+    min-width:70px !important;
+    max-width:70px !important;
+
+    height:40px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+    border-radius:12px !important;
+
+    background:#6B4226 !important;
+    color:#fff !important;
+
+    font-family:inherit !important;
+
+    font-size:13px !important;
+    font-weight:600 !important;
+
+    white-space:nowrap !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:center !important;
+}
+
+
+/* ==========================================
+   QUANTITY
+   ========================================== */
+
+.product-variant-action .variant-qty{
+    width:70px !important;
+    min-width:70px !important;
+    max-width:70px !important;
+
+    height:40px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border-radius:12px !important;
+
+    background:#6B4226 !important;
+
+    display:flex !important;
+
+    align-items:center !important;
+    justify-content:space-around !important;
+
+    box-sizing:border-box !important;
+}
+
+
+.product-variant-action .variant-qty .qty-btn{
+    width:22px !important;
+    height:38px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    border:none !important;
+
+    background:transparent !important;
+
+    color:#fff !important;
+
+    font-size:18px !important;
+}
+
+
+.product-variant-action .variant-qty .qty-number{
+    min-width:14px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    color:#fff !important;
+
+    font-size:14px !important;
+    font-weight:700 !important;
+
+    text-align:center !important;
+}
+
+
+/* ==========================================
+   VERY SMALL PHONES
+   ========================================== */
+
+@media(max-width:360px){
+
+    .product-variant-row{
+        grid-template-columns:
+            minmax(0,1fr)
+            48px
+            64px !important;
+
+        column-gap:4px !important;
+    }
+
+    .product-variant-price{
+        width:48px !important;
+        min-width:48px !important;
+        max-width:48px !important;
+
+        font-size:16px !important;
+    }
+
+    .product-variant-action,
+    .product-variant-action .variant-add-btn,
+    .product-variant-action .variant-qty{
+        width:64px !important;
+        min-width:64px !important;
+        max-width:64px !important;
+    }
+
+    .product-variant-weight{
+        font-size:14px !important;
+    }
+
+}
