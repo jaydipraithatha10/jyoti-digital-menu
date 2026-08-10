@@ -338,12 +338,18 @@ onerror="this.src='placeholder.webp'">
 
 async function loadProducts(searchText=""){
 
+    // ======================================
+// PRODUCTS
+// SAME PRODUCT = ONE CARD
+// MINIMUM DESIGN CHANGE
+// ======================================
+
+async function loadProducts(searchText=""){
+
     const list =
     document.getElementById("productList");
 
     if(!list) return;
-
-    
 
     const subId = getParam("sub");
     const categoryId = getParam("category");
@@ -354,7 +360,11 @@ async function loadProducts(searchText=""){
 
     const html = [];
 
-    let totalProducts = 0;
+    // ======================================
+    // GROUP SAME PRODUCT
+    // ======================================
+
+    const groupedProducts = new Map();
 
     productRows.slice(1).forEach(row=>{
 
@@ -367,12 +377,19 @@ async function loadProducts(searchText=""){
         const status = row[6];
         const image = row[7];
 
-        if(status.trim().toLowerCase()!="active") return;
+        // ACTIVE ONLY
+        if(status.trim().toLowerCase()!="active")
+            return;
 
-        if(subId && subCatId!=subId) return;
+        // SUB CATEGORY
+        if(subId && subCatId!=subId)
+            return;
 
-        if(categoryId && !subId && catId!=categoryId) return;
+        // CATEGORY
+        if(categoryId && !subId && catId!=categoryId)
+            return;
 
+        // SEARCH
         if(search){
 
             const keyword =
@@ -383,77 +400,186 @@ async function loadProducts(searchText=""){
 
         }
 
-        totalProducts++;
+        // ======================================
+        // SAME PRODUCT NAME = SAME CARD
+        // ======================================
 
-        const item =
-        cart.find(p=>p.id==id);
+        if(!groupedProducts.has(product)){
 
-        const qty =
-        item ? item.qty : 0;
+            groupedProducts.set(product,{
+
+                name:product,
+
+                image:image,
+
+                variants:[]
+
+            });
+
+        }
+
+        groupedProducts.get(product).variants.push({
+
+            id:id,
+
+            weight:weight,
+
+            price:price
+
+        });
+
+    });
+
+    // ======================================
+    // CREATE CARDS
+    // ======================================
+
+    groupedProducts.forEach(item=>{
+
+        // --------------------------------------
+        // VARIANTS
+        // --------------------------------------
+
+        let variantHTML = "";
+
+        item.variants.forEach(variant=>{
+
+            const cartItem =
+            cart.find(p=>p.id==variant.id);
+
+            const qty =
+            cartItem ? cartItem.qty : 0;
+
+            // --------------------------------------
+            // ONE VARIANT
+            // --------------------------------------
+
+            variantHTML += `
+
+<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:6px;
+    margin-bottom:6px;
+">
+
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:6px;
+        flex:1;
+    ">
+
+        <p class="product-weight"
+           style="margin:0;">
+            ${variant.weight}
+        </p>
+
+        <h4 class="product-price"
+            style="
+                margin:0;
+                font-size:18px;
+            ">
+            ₹${variant.price}
+        </h4>
+
+    </div>
+
+    <div id="cart-${variant.id}">
+
+    ${
+        qty==0
+
+        ?
+
+        `<button
+            class="cart-btn"
+            style="
+                width:75px;
+                height:36px;
+                margin:0;
+                font-size:14px;
+            "
+            onclick="addToCart('${variant.id}')">
+
+            + Add
+
+        </button>`
+
+        :
+
+        `<div
+            class="qty-control"
+            style="
+                width:75px;
+                height:36px;
+                margin:0;
+                display:flex;
+                align-items:center;
+                justify-content:space-around;
+            ">
+
+            <button
+                class="qty-btn"
+                onclick="changeQty('${variant.id}',-1)">
+
+                −
+
+            </button>
+
+            <span class="qty-number">
+
+                ${qty}
+
+            </span>
+
+            <button
+                class="qty-btn"
+                onclick="changeQty('${variant.id}',1)">
+
+                +
+
+            </button>
+
+        </div>`
+
+    }
+
+    </div>
+
+</div>
+
+`;
+
+        });
+
+        // ======================================
+        // ONE PRODUCT CARD
+        // ======================================
 
         html.push(`
 
 <div class="product-card">
 
 <img
-src="${image}"
+src="${item.image}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
-onclick="openImage('${image}')"
+onclick="openImage('${item.image}')"
 onerror="this.src='placeholder.webp'">
 
 <h3 class="product-name">
-${product}
+${item.name}
 </h3>
 
-<p class="product-weight">
-${weight}
-</p>
+<div style="
+    width:90%;
+    margin:0 auto 10px;
+">
 
-<h4 class="product-price">
-₹${price}
-</h4>
-
-<div id="cart-${id}">
-
-${
-qty==0 ?
-
-`<button class="cart-btn"
-onclick="addToCart('${id}')">
-
-+ Add
-
-</button>`
-
-:
-
-`<div class="qty-control">
-
-<button class="qty-btn"
-onclick="changeQty('${id}',-1)">
-
-−
-
-</button>
-
-<span class="qty-number">
-
-${qty}
-
-</span>
-
-<button class="qty-btn"
-onclick="changeQty('${id}',1)">
-
-+
-
-</button>
-
-</div>`
-
-}
+${variantHTML}
 
 </div>
 
@@ -465,18 +591,21 @@ onclick="changeQty('${id}',1)">
 
     list.innerHTML = html.join("");
 
+    // ======================================
+    // PRODUCT COUNT
+    // ======================================
+
     const heading =
     document.querySelector(".section-title");
 
     if(heading){
 
         heading.innerHTML =
-`🛒 All Products <span style="font-size:16px;color:#888;">(${totalProducts})</span>`;
+`🛒 All Products <span style="font-size:16px;color:#888;">(${groupedProducts.size})</span>`;
 
     }
 
 }
-
 // ======================================
 // API.JS V6
 // PART 3
