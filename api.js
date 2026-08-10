@@ -349,6 +349,13 @@ onerror="this.src='placeholder.webp'">
 // PRODUCTS
 // ======================================
 
+
+// ======================================
+// PRODUCTS
+// SAME PRODUCT = ONE CARD
+// MULTIPLE WEIGHT = ONE IMAGE
+// ======================================
+
 async function loadProducts(searchText=""){
 
     const list =
@@ -368,6 +375,12 @@ async function loadProducts(searchText=""){
 
     let totalProducts = 0;
 
+    // ======================================
+    // GROUP SAME PRODUCT
+    // ======================================
+
+    const groupedProducts = new Map();
+
     productRows.slice(1).forEach(row=>{
 
         const id = row[0];
@@ -386,20 +399,32 @@ async function loadProducts(searchText=""){
 
         const image = row[7];
 
+
+        // ACTIVE ONLY
+
         if(
             status.trim().toLowerCase()!="active"
         ) return;
+
+
+        // SUB CATEGORY
 
         if(
             subId &&
             subCatId!=subId
         ) return;
 
+
+        // CATEGORY
+
         if(
             categoryId &&
             !subId &&
             catId!=categoryId
         ) return;
+
+
+        // SEARCH
 
         if(search){
 
@@ -411,45 +436,116 @@ async function loadProducts(searchText=""){
 
         }
 
+
+        // ==================================
+        // GROUP BY PRODUCT NAME
+        // ==================================
+
+        const groupKey =
+        product.trim().toLowerCase();
+
+
+        if(
+            !groupedProducts.has(groupKey)
+        ){
+
+            groupedProducts.set(
+                groupKey,
+                {
+
+                    name:product,
+
+                    image:image,
+
+                    variants:[]
+
+                }
+            );
+
+        }
+
+
+        groupedProducts
+        .get(groupKey)
+        .variants.push({
+
+            id:id,
+
+            weight:weight,
+
+            price:price
+
+        });
+
+    });
+
+
+    // ======================================
+    // CREATE CARDS
+    // ======================================
+
+    groupedProducts.forEach(item=>{
+
         totalProducts++;
 
-        const item =
-        cart.find(p=>p.id==id);
 
-        const qty =
-        item ? item.qty : 0;
+        // ==================================
+        // ONE WEIGHT
+        // OLD DESIGN SAME
+        // ==================================
 
-        html.push(`
+        if(
+            item.variants.length === 1
+        ){
+
+            const variant =
+            item.variants[0];
+
+
+            const cartItem =
+            cart.find(
+                p=>p.id==variant.id
+            );
+
+
+            const qty =
+            cartItem
+            ? cartItem.qty
+            : 0;
+
+
+            html.push(`
 
 <div class="product-card">
 
 <img
-src="${image}"
+src="${item.image}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
-onclick="openImage('${image}')"
+onclick="openImage('${item.image}')"
 onerror="this.src='placeholder.webp'">
 
 <h3 class="product-name">
-${product}
+${item.name}
 </h3>
 
 <p class="product-weight">
-${weight}
+${variant.weight}
 </p>
 
 <h4 class="product-price">
-₹${price}
+₹${variant.price}
 </h4>
 
-<div id="cart-${id}">
+<div id="cart-${variant.id}">
 
 ${
 qty==0 ?
 
-`<button class="cart-btn"
-onclick="addToCart('${id}')">
+`<button
+class="cart-btn"
+onclick="addToCart('${variant.id}')">
 
 + Add
 
@@ -459,8 +555,9 @@ onclick="addToCart('${id}')">
 
 `<div class="qty-control">
 
-<button class="qty-btn"
-onclick="changeQty('${id}',-1)">
+<button
+class="qty-btn"
+onclick="changeQty('${variant.id}',-1)">
 
 −
 
@@ -472,8 +569,9 @@ ${qty}
 
 </span>
 
-<button class="qty-btn"
-onclick="changeQty('${id}',1)">
+<button
+class="qty-btn"
+onclick="changeQty('${variant.id}',1)">
 
 +
 
@@ -489,10 +587,219 @@ onclick="changeQty('${id}',1)">
 
 `);
 
+            return;
+
+        }
+
+
+        // ==================================
+        // MULTIPLE WEIGHT
+        // ==================================
+
+        let variantHTML = "";
+
+
+        item.variants.forEach(variant=>{
+
+            const cartItem =
+            cart.find(
+                p=>p.id==variant.id
+            );
+
+
+            const qty =
+            cartItem
+            ? cartItem.qty
+            : 0;
+
+
+            variantHTML += `
+
+<div style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+width:100%;
+height:40px;
+margin-bottom:5px;
+gap:4px;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:5px;
+flex:1;
+min-width:0;
+">
+
+<span style="
+font-size:14px;
+color:#777;
+white-space:nowrap;
+">
+
+${variant.weight}
+
+</span>
+
+<span style="
+font-size:18px;
+font-weight:700;
+color:#111;
+white-space:nowrap;
+">
+
+₹${variant.price}
+
+</span>
+
+</div>
+
+
+<div
+id="cart-${variant.id}"
+style="
+width:70px;
+min-width:70px;
+flex-shrink:0;
+">
+
+${
+qty==0
+
+?
+
+`<button
+class="cart-btn"
+style="
+width:70px;
+height:36px;
+margin:0;
+padding:0;
+font-size:13px;
+border-radius:11px;
+"
+onclick="addToCart('${variant.id}')">
+
++ Add
+
+</button>`
+
+:
+
+`<div
+class="qty-control"
+style="
+width:70px;
+height:36px;
+margin:0;
+padding:0;
+display:flex;
+align-items:center;
+justify-content:space-around;
+border-radius:11px;
+">
+
+<button
+class="qty-btn"
+style="
+width:22px;
+height:34px;
+padding:0;
+font-size:19px;
+"
+onclick="changeQty('${variant.id}',-1)">
+
+−
+
+</button>
+
+<span
+class="qty-number"
+style="
+font-size:15px;
+min-width:14px;
+">
+
+${qty}
+
+</span>
+
+<button
+class="qty-btn"
+style="
+width:22px;
+height:34px;
+padding:0;
+font-size:19px;
+"
+onclick="changeQty('${variant.id}',1)">
+
++
+
+</button>
+
+</div>`
+
+}
+
+</div>
+
+</div>
+
+`;
+
+        });
+
+
+        // ==================================
+        // ONE PRODUCT CARD
+        // ==================================
+
+        html.push(`
+
+<div class="product-card">
+
+<img
+src="${item.image}"
+loading="lazy"
+decoding="async"
+fetchpriority="low"
+onclick="openImage('${item.image}')"
+onerror="this.src='placeholder.webp'">
+
+<h3 class="product-name">
+${item.name}
+</h3>
+
+<div style="
+width:90%;
+margin:2px auto 10px;
+">
+
+${variantHTML}
+
+</div>
+
+</div>
+
+`);
+
     });
+
+
+    // ======================================
+    // DISPLAY
+    // ======================================
 
     list.innerHTML =
     html.join("");
+
+
+    // ======================================
+    // PRODUCT COUNT
+    // ======================================
 
     const heading =
     document.querySelector(".section-title");
@@ -500,11 +807,18 @@ onclick="changeQty('${id}',1)">
     if(heading){
 
         heading.innerHTML =
-`🛒 All Products <span style="font-size:16px;color:#888;">(${totalProducts})</span>`;
+`🛒 All Products
+<span style="
+font-size:16px;
+color:#888;
+">
+(${totalProducts})
+</span>`;
 
     }
 
 }
+
 
 // ======================================
 // API.JS V6
