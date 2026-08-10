@@ -1130,5 +1130,81 @@ input{
 
 }
 
+/* ======================================
+   MULTI WEIGHT PRODUCT ROW
+====================================== */
+
+.product-variant-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    width:100%;
+    margin-bottom:8px;
+}
+
+.product-variant-info{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex:1;
+    min-width:0;
+}
+
+.product-variant-weight{
+    font-size:15px;
+    color:#777;
+    white-space:nowrap;
+}
+
+.product-variant-price{
+    font-size:19px;
+    font-weight:700;
+    color:#111;
+    white-space:nowrap;
+}
+
+.product-variant-action{
+    width:72px;
+    min-width:72px;
+    flex-shrink:0;
+}
+
+.product-variant-action .cart-btn{
+    width:72px !important;
+    min-width:72px;
+    height:38px;
+    margin:0 !important;
+    padding:0;
+    border-radius:12px;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+.product-variant-action .qty-control{
+    width:72px;
+    min-width:72px;
+    height:38px;
+    margin:0 !important;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    border-radius:12px;
+}
+
+.product-variant-action .qty-btn{
+    width:22px;
+    height:36px;
+    padding:0;
+    margin:0;
+    font-size:19px;
+}
+
+.product-variant-action .qty-number{
+    font-size:15px;
+    min-width:14px;
+}
+
 
 
