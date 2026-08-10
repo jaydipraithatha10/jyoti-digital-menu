@@ -1,16 +1,14 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V9
-// ORIGINAL CATEGORY + MULTI WEIGHT
+// API.JS V10
 // ======================================
-
 
 // ======================================
 // CART
 // ======================================
 
 let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+    JSON.parse(localStorage.getItem("cart")) || [];
 
 function saveCart(){
 
@@ -23,7 +21,7 @@ function saveCart(){
 
 
 // ======================================
-// CACHE
+// DATA
 // ======================================
 
 let categoryRows = [];
@@ -38,12 +36,12 @@ let dataLoaded = false;
 
 let cacheTime = 0;
 
-const CACHE_DURATION =
-5 * 60 * 1000;
+const CACHE_DURATION = 5 * 60 * 1000;
+
 
 // New cache key
 const STORAGE_KEY =
-"jyoti_data_cache_v9";
+    "jyoti_data_cache_v10";
 
 
 // ======================================
@@ -67,85 +65,127 @@ const productURL =
 
 
 // ======================================
-// SAVE CACHE
+// CSV PARSER
 // ======================================
 
-function saveCache(){
+function csvToArray(csv){
 
-    const data = {
+    const rows = [];
 
-        categoryRows,
-        subCategoryRows,
-        productRows,
+    let row = [];
+    let value = "";
+    let insideQuotes = false;
 
-        time:Date.now()
+    for(
+        let i = 0;
+        i < csv.length;
+        i++
+    ){
 
-    };
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(data)
-    );
-
-}
-
-
-// ======================================
-// LOAD CACHE
-// ======================================
-
-function loadCache(){
-
-    const cache =
-    localStorage.getItem(
-        STORAGE_KEY
-    );
-
-    if(!cache)
-        return false;
-
-    try{
-
-        const data =
-        JSON.parse(cache);
+        const char = csv[i];
+        const next = csv[i + 1];
 
         if(
-            Date.now() - data.time >
-            CACHE_DURATION
+            char === '"' &&
+            next === '"'
         ){
 
-            return false;
+            value += '"';
+            i++;
 
         }
 
-        categoryRows =
-        data.categoryRows || [];
+        else if(
+            char === '"'
+        ){
 
-        subCategoryRows =
-        data.subCategoryRows || [];
+            insideQuotes =
+                !insideQuotes;
 
-        productRows =
-        data.productRows || [];
+        }
 
-        buildProductMap();
+        else if(
+            char === ',' &&
+            !insideQuotes
+        ){
 
-        dataLoaded = true;
+            row.push(
+                value.trim()
+            );
 
-        cacheTime =
-        data.time;
+            value = "";
 
-        return true;
+        }
 
-    }catch(error){
+        else if(
+            (
+                char === '\n' ||
+                char === '\r'
+            ) &&
+            !insideQuotes
+        ){
 
-        console.log(
-            "Cache Error:",
-            error
-        );
+            if(
+                char === '\r' &&
+                next === '\n'
+            ){
 
-        return false;
+                i++;
+
+            }
+
+            row.push(
+                value.trim()
+            );
+
+            value = "";
+
+            if(
+                row.some(
+                    x => x !== ""
+                )
+            ){
+
+                rows.push(row);
+
+            }
+
+            row = [];
+
+        }
+
+        else{
+
+            value += char;
+
+        }
 
     }
+
+
+    if(
+        value !== "" ||
+        row.length
+    ){
+
+        row.push(
+            value.trim()
+        );
+
+        if(
+            row.some(
+                x => x !== ""
+            )
+        ){
+
+            rows.push(row);
+
+        }
+
+    }
+
+
+    return rows;
 
 }
 
@@ -157,12 +197,12 @@ function loadCache(){
 async function fetchCSV(url){
 
     const response =
-    await fetch(
-        url,
-        {
-            cache:"no-store"
-        }
-    );
+        await fetch(
+            url,
+            {
+                cache: "no-store"
+            }
+        );
 
     if(!response.ok){
 
@@ -178,15 +218,97 @@ async function fetchCSV(url){
 
 
 // ======================================
-// CSV PARSER
+// CACHE
 // ======================================
 
-function csvToArray(csv){
+function saveCache(){
 
-    return csv
-        .trim()
-        .split(/\r?\n/)
-        .map(row=>row.split(","));
+    const data = {
+
+        categoryRows:
+            categoryRows,
+
+        subCategoryRows:
+            subCategoryRows,
+
+        productRows:
+            productRows,
+
+        time:
+            Date.now()
+
+    };
+
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+function loadCache(){
+
+    const cache =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
+    if(!cache)
+        return false;
+
+
+    try{
+
+        const data =
+            JSON.parse(cache);
+
+
+        if(
+            !data.time ||
+            Date.now() - data.time >
+            CACHE_DURATION
+        ){
+
+            return false;
+
+        }
+
+
+        categoryRows =
+            data.categoryRows || [];
+
+        subCategoryRows =
+            data.subCategoryRows || [];
+
+        productRows =
+            data.productRows || [];
+
+
+        buildProductMap();
+
+
+        dataLoaded = true;
+
+        cacheTime =
+            data.time;
+
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.log(
+            "Cache Error:",
+            error
+        );
+
+        return false;
+
+    }
 
 }
 
@@ -212,27 +334,30 @@ function buildProductMap(){
 
     productMap.clear();
 
+
     productRows
-    .slice(1)
-    .forEach(row=>{
+        .slice(1)
+        .forEach(row => {
 
-        if(row[0]){
+            if(row[0]){
 
-            productMap.set(
-                row[0],
-                row
-            );
+                productMap.set(
+                    String(row[0]).trim(),
+                    row
+                );
 
-        }
+            }
 
-    });
+        });
 
 }
 
 
 function getProduct(id){
 
-    return productMap.get(id);
+    return productMap.get(
+        String(id).trim()
+    );
 
 }
 
@@ -243,16 +368,29 @@ function getProduct(id){
 
 async function loadData(){
 
-    if(loadCache())
+    if(loadCache()){
+
         return;
+
+    }
+
+
+    if(
+        dataLoaded &&
+        Date.now() - cacheTime <
+        CACHE_DURATION
+    ){
+
+        return;
+
+    }
 
 
     const [
-        catCSV,
-        subCSV,
-        proCSV
-    ] =
-    await Promise.all([
+        categoryCSV,
+        subCategoryCSV,
+        productCSV
+    ] = await Promise.all([
 
         fetchCSV(categoryURL),
 
@@ -264,53 +402,66 @@ async function loadData(){
 
 
     categoryRows =
-    csvToArray(catCSV);
+        csvToArray(categoryCSV);
+
 
     subCategoryRows =
-    csvToArray(subCSV);
+        csvToArray(subCategoryCSV);
+
 
     productRows =
-    csvToArray(proCSV);
+        csvToArray(productCSV);
 
 
     // ==================================
-    // PRODUCT SHEET
+    // EXACT PRODUCTS SHEET
     //
-    // A = Display Order
-    // B = Category
-    // C = Product
-    // D = Weight
-    // E = Price
-    // F = Status
-    // G = Image
+    // A = ID
+    // B = CategoryID
+    // C = subCategoryID
+    // D = Product
+    // E = Weight
+    // F = Price
+    // G = Status
+    // H = Images
     // ==================================
 
     productList = [];
 
 
     productRows
-    .slice(1)
-    .forEach(row=>{
+        .slice(1)
+        .forEach(row => {
 
-        productList.push({
+            productList.push({
 
-            id:row[0],
+                id:
+                    row[0],
 
-            category:row[1],
+                categoryId:
+                    row[1],
 
-            name:row[2],
+                subCategoryId:
+                    row[2],
 
-            weight:row[3],
+                name:
+                    row[3],
 
-            price:Number(row[4]),
+                weight:
+                    row[4],
 
-            status:row[5],
+                price:
+                    Number(row[5]),
 
-            image:row[6]
+                status:
+                    row[6],
+
+                image:
+                    row[7]
+
+            });
 
         });
-
-    });
 
 
     buildProductMap();
@@ -319,7 +470,8 @@ async function loadData(){
     dataLoaded = true;
 
     cacheTime =
-    Date.now();
+        Date.now();
+
 
     saveCache();
 
@@ -333,9 +485,9 @@ async function loadData(){
 async function loadCategories(){
 
     const list =
-    document.getElementById(
-        "categoryList"
-    );
+        document.getElementById(
+            "categoryList"
+        );
 
     if(!list)
         return;
@@ -345,48 +497,73 @@ async function loadCategories(){
 
 
     categoryRows
-    .slice(1)
-    .forEach(row=>{
+        .slice(1)
+        .forEach(row => {
 
-        if(
-            !row[2] ||
-            row[2]
-            .trim()
-            .toLowerCase()
-            != "active"
-        ){
-
-            return;
-
-        }
+            // CATEGORY SHEET
+            //
+            // A = ID
+            // B = Name
+            // C = Status
+            // D = Image
 
 
-        html.push(`
+            const id =
+                String(row[0] || "")
+                    .trim();
+
+
+            const name =
+                String(row[1] || "")
+                    .trim();
+
+
+            const status =
+                String(row[2] || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            const image =
+                String(row[3] || "")
+                    .trim();
+
+
+            if(
+                status !== "active"
+            ){
+
+                return;
+
+            }
+
+
+            html.push(`
 
 <div
 class="category-card"
-onclick="openCategory('${row[0]}')">
+onclick="openCategory('${id}')">
 
 <img
-src="${row[3]}"
+src="${image}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
 onerror="this.src='placeholder.webp'">
 
 <h3>
-${row[1]}
+${name}
 </h3>
 
 </div>
 
 `);
 
-    });
+        });
 
 
     list.innerHTML =
-    html.join("");
+        html.join("");
 
 }
 
@@ -397,28 +574,56 @@ ${row[1]}
 
 function openCategory(id){
 
-    const hasSub =
-    subCategoryRows
-    .slice(1)
-    .some(row=>
-
-        row[1] == id &&
-
-        row[3] &&
-        row[3]
-        .trim()
-        .toLowerCase()
-        == "active"
-
-    );
+    const categoryId =
+        String(id).trim();
 
 
-    location.href =
-    hasSub
+    const hasSubCategory =
+        subCategoryRows
+            .slice(1)
+            .some(row => {
 
-    ? "category.html?id="+id
+                const parentId =
+                    String(
+                        row[1] || ""
+                    ).trim();
 
-    : "products.html?category="+id;
+
+                const status =
+                    String(
+                        row[3] || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                return (
+                    parentId === categoryId &&
+                    status === "active"
+                );
+
+            });
+
+
+    if(hasSubCategory){
+
+        location.href =
+            "category.html?id=" +
+            encodeURIComponent(
+                categoryId
+            );
+
+    }
+
+    else{
+
+        location.href =
+            "products.html?category=" +
+            encodeURIComponent(
+                categoryId
+            );
+
+    }
 
 }
 
@@ -430,99 +635,108 @@ function openCategory(id){
 async function loadSubCategories(){
 
     const list =
-    document.getElementById(
-        "subCategoryList"
-    );
+        document.getElementById(
+            "subCategoryList"
+        );
 
     if(!list)
         return;
 
 
-    const id =
-    getParam("id");
+    const categoryId =
+        String(
+            getParam("id") || ""
+        ).trim();
 
 
     const html = [];
 
 
     subCategoryRows
-    .slice(1)
-    .forEach(row=>{
+        .slice(1)
+        .forEach(row => {
 
-        if(
-            !row[3] ||
-            row[3]
-            .trim()
-            .toLowerCase()
-            != "active"
-        ){
-
-            return;
-
-        }
+            // SUB CATEGORY SHEET
+            //
+            // A = ID
+            // B = CategoryID
+            // C = Name
+            // D = Status
+            // E = Image
 
 
-        if(row[1] != id)
-            return;
+            const id =
+                String(row[0] || "")
+                    .trim();
 
 
-        html.push(`
+            const parentId =
+                String(row[1] || "")
+                    .trim();
+
+
+            const name =
+                String(row[2] || "")
+                    .trim();
+
+
+            const status =
+                String(row[3] || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            const image =
+                String(row[4] || "")
+                    .trim();
+
+
+            if(
+                status !== "active"
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                parentId !== categoryId
+            ){
+
+                return;
+
+            }
+
+
+            html.push(`
 
 <div
 class="category-card"
-onclick="location.href='products.html?sub=${row[0]}'">
+onclick="
+location.href='products.html?sub=${encodeURIComponent(id)}'
+">
 
 <img
-src="${row[4]}"
+src="${image}"
 loading="lazy"
 decoding="async"
 fetchpriority="low"
 onerror="this.src='placeholder.webp'">
 
 <h3>
-${row[2]}
+${name}
 </h3>
 
 </div>
 
 `);
 
-    });
+        });
 
 
     list.innerHTML =
-    html.join("");
-
-}
-
-
-// ======================================
-// GET CATEGORY NAME
-// ======================================
-
-function getCategoryName(categoryId){
-
-    const row =
-    categoryRows
-    .slice(1)
-    .find(row =>
-
-        String(row[0]).trim()
-        ==
-        String(categoryId).trim()
-
-    );
-
-
-    if(!row)
-        return "";
-
-
-    return String(
-        row[1] || ""
-    )
-    .trim()
-    .toLowerCase();
+        html.join("");
 
 }
 
@@ -530,241 +744,257 @@ function getCategoryName(categoryId){
 // ======================================
 // PRODUCTS
 // ======================================
-// SAME PRODUCT = ONE CARD
-// 250 GM + 500 GM = SAME CARD
+// SAME PRODUCT NAME
+// = ONE CARD
+//
+// 250 gm + 500 gm
+// = SAME CARD
+//
+// Different IDs
+// = Different cart items
 // ======================================
 
 async function loadProducts(
-    searchText=""
+    searchText = ""
 ){
 
     const list =
-    document.getElementById(
-        "productList"
-    );
+        document.getElementById(
+            "productList"
+        );
 
     if(!list)
         return;
 
 
     const categoryId =
-    getParam("category");
+        String(
+            getParam("category") || ""
+        ).trim();
 
 
-    const subId =
-    getParam("sub");
+    const subCategoryId =
+        String(
+            getParam("sub") || ""
+        ).trim();
 
 
     const search =
-    (
-        searchText ||
-        getParam("search") ||
-        ""
-    )
-    .toLowerCase()
-    .trim();
-
-
-    // ==================================
-    // CATEGORY NAME
-    // ==================================
-
-    const selectedCategoryName =
-    getCategoryName(
-        categoryId
-    );
-
-
-    // ==================================
-    // GROUP PRODUCTS
-    // ==================================
-
-    const grouped =
-    new Map();
-
-
-    productRows
-    .slice(1)
-    .forEach(row=>{
-
-        // ==================================
-        // PRODUCT SHEET COLUMNS
-        //
-        // A = Display Order
-        // B = Category
-        // C = Product
-        // D = Weight
-        // E = Price
-        // F = Status
-        // G = Image
-        // ==================================
-
-        const id =
-        String(
-            row[0] || ""
-        ).trim();
-
-
-        const rowCategory =
-        String(
-            row[1] || ""
-        ).trim();
-
-
-        const product =
-        String(
-            row[2] || ""
-        ).trim();
-
-
-        const weight =
-        String(
-            row[3] || ""
-        ).trim();
-
-
-        const price =
-        Number(row[4]);
-
-
-        const status =
-        String(
-            row[5] || ""
+        (
+            searchText ||
+            getParam("search") ||
+            ""
         )
-        .trim()
-        .toLowerCase();
-
-
-        const image =
-        String(
-            row[6] || ""
-        ).trim();
-
-
-        // ==================================
-        // ACTIVE
-        // ==================================
-
-        if(
-            status != "active"
-        ){
-
-            return;
-
-        }
-
-
-        // ==================================
-        // CATEGORY FILTER
-        // ==================================
-
-        if(categoryId){
-
-            const nameMatch =
-            rowCategory
-            .toLowerCase()
-            ==
-            selectedCategoryName;
-
-
-            const idMatch =
-            rowCategory
-            ==
-            String(
-                categoryId
-            ).trim();
-
-
-            if(
-                !nameMatch &&
-                !idMatch
-            ){
-
-                return;
-
-            }
-
-        }
-
-
-        // ==================================
-        // SEARCH
-        // ==================================
-
-        if(search){
-
-            const keyword =
-            (
-                product +
-                " " +
-                weight
-            )
-            .toLowerCase();
-
-
-            if(
-                !keyword.includes(
-                    search
-                )
-            ){
-
-                return;
-
-            }
-
-        }
-
-
-        // ==================================
-        // GROUP SAME PRODUCT
-        // ==================================
-
-        const key =
-        product
         .toLowerCase()
-        .replace(
-            /\s+/g,
-            " "
-        )
         .trim();
 
 
-        if(
-            !grouped.has(key)
-        ){
+    // ==================================
+    // GROUP
+    // ==================================
 
-            grouped.set(
-                key,
-                {
+    const groupedProducts =
+        new Map();
 
-                    name:product,
 
-                    image:image,
+    productRows
+        .slice(1)
+        .forEach(row => {
 
-                    variants:[]
+            // ==================================
+            // EXACT PRODUCT COLUMNS
+            //
+            // A = ID
+            // B = CategoryID
+            // C = subCategoryID
+            // D = Product
+            // E = Weight
+            // F = Price
+            // G = Status
+            // H = Images
+            // ==================================
+
+
+            const id =
+                String(
+                    row[0] || ""
+                ).trim();
+
+
+            const rowCategoryId =
+                String(
+                    row[1] || ""
+                ).trim();
+
+
+            const rowSubCategoryId =
+                String(
+                    row[2] || ""
+                ).trim();
+
+
+            const product =
+                String(
+                    row[3] || ""
+                ).trim();
+
+
+            const weight =
+                String(
+                    row[4] || ""
+                ).trim();
+
+
+            const price =
+                Number(
+                    row[5]
+                );
+
+
+            const status =
+                String(
+                    row[6] || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            const image =
+                String(
+                    row[7] || ""
+                ).trim();
+
+
+            // ==================================
+            // ACTIVE ONLY
+            // ==================================
+
+            if(
+                status !== "active"
+            ){
+
+                return;
+
+            }
+
+
+            // ==================================
+            // CATEGORY
+            // ==================================
+
+            if(
+                categoryId &&
+                rowCategoryId !==
+                categoryId
+            ){
+
+                return;
+
+            }
+
+
+            // ==================================
+            // SUB CATEGORY
+            // ==================================
+
+            if(
+                subCategoryId &&
+                rowSubCategoryId !==
+                subCategoryId
+            ){
+
+                return;
+
+            }
+
+
+            // ==================================
+            // SEARCH
+            // ==================================
+
+            if(search){
+
+                const keyword =
+                    (
+                        product +
+                        " " +
+                        weight
+                    )
+                    .toLowerCase();
+
+
+                if(
+                    !keyword.includes(
+                        search
+                    )
+                ){
+
+                    return;
 
                 }
-            );
 
-        }
+            }
 
 
-        grouped
-        .get(key)
-        .variants
-        .push({
+            // ==================================
+            // SAME PRODUCT
+            // ==================================
 
-            id:id,
+            const groupKey =
+                product
+                    .toLowerCase()
+                    .replace(
+                        /\s+/g,
+                        " "
+                    )
+                    .trim();
 
-            weight:weight,
 
-            price:price,
+            if(
+                !groupedProducts.has(
+                    groupKey
+                )
+            ){
 
-            image:image
+                groupedProducts.set(
+                    groupKey,
+                    {
+
+                        name:
+                            product,
+
+                        image:
+                            image,
+
+                        variants:
+                            []
+
+                    }
+                );
+
+            }
+
+
+            groupedProducts
+                .get(groupKey)
+                .variants
+                .push({
+
+                    id:
+                        id,
+
+                    weight:
+                        weight,
+
+                    price:
+                        price,
+
+                    image:
+                        image
+
+                });
 
         });
-
-    });
 
 
     // ==================================
@@ -774,74 +1004,74 @@ async function loadProducts(
     const html = [];
 
 
-    grouped
-    .forEach(item=>{
+    groupedProducts
+        .forEach(item => {
 
-        // ==================================
-        // SORT WEIGHT
-        // ==================================
+            // ==================================
+            // SORT WEIGHT
+            // ==================================
 
-        item.variants.sort(
-            (a,b)=>{
+            item.variants.sort(
+                (a,b) => {
 
-                const aWeight =
-                parseFloat(
-                    a.weight
-                ) || 0;
-
-
-                const bWeight =
-                parseFloat(
-                    b.weight
-                ) || 0;
+                    const aWeight =
+                        parseFloat(
+                            a.weight
+                        ) || 0;
 
 
-                return (
-                    aWeight -
-                    bWeight
-                );
-
-            }
-        );
+                    const bWeight =
+                        parseFloat(
+                            b.weight
+                        ) || 0;
 
 
-        const mainImage =
-        item.image ||
-        (
-            item.variants[0]
-            ?
-            item.variants[0].image
-            :
-            "placeholder.webp"
-        );
+                    return (
+                        aWeight -
+                        bWeight
+                    );
 
-
-        // ==================================
-        // SINGLE WEIGHT
-        // ==================================
-
-        if(
-            item.variants.length == 1
-        ){
-
-            const v =
-            item.variants[0];
-
-
-            const cartItem =
-            cart.find(
-                p =>
-                p.id == v.id
+                }
             );
 
 
-            const qty =
-            cartItem
-            ? cartItem.qty
-            : 0;
+            const mainImage =
+                item.image ||
+                (
+                    item.variants[0]
+                    ?
+                    item.variants[0].image
+                    :
+                    "placeholder.webp"
+                );
 
 
-            html.push(`
+            // ==================================
+            // ONE WEIGHT
+            // ==================================
+
+            if(
+                item.variants.length === 1
+            ){
+
+                const v =
+                    item.variants[0];
+
+
+                const cartItem =
+                    cart.find(
+                        p =>
+                        p.id == v.id
+                    );
+
+
+                const qty =
+                    cartItem
+                    ? cartItem.qty
+                    : 0;
+
+
+                html.push(`
 
 <div
 class="product-card">
@@ -879,7 +1109,7 @@ class="product-price">
 id="cart-${v.id}">
 
 ${
-qty == 0
+qty === 0
 
 ?
 
@@ -929,45 +1159,45 @@ onclick="changeQty('${v.id}',1)">
 
 `);
 
-            return;
+                return;
 
-        }
-
-
-        // ==================================
-        // MULTIPLE WEIGHTS
-        // ==================================
-
-        let variantHTML =
-        "";
+            }
 
 
-        item.variants
-        .forEach(v=>{
+            // ==================================
+            // MULTIPLE WEIGHTS
+            // ==================================
 
-            const cartItem =
-            cart.find(
-                p =>
-                p.id == v.id
-            );
+            let variantsHTML =
+                "";
 
 
-            const qty =
-            cartItem
-            ? cartItem.qty
-            : 0;
+            item.variants
+                .forEach(v => {
+
+                    const cartItem =
+                        cart.find(
+                            p =>
+                            p.id == v.id
+                        );
 
 
-            variantHTML += `
+                    const qty =
+                        cartItem
+                        ? cartItem.qty
+                        : 0;
+
+
+                    variantsHTML += `
 
 <div
 style="
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:5px;
+gap:6px;
 width:100%;
-margin-bottom:6px;
+margin-bottom:7px;
 ">
 
 <div
@@ -981,7 +1211,7 @@ min-width:0;
 
 <span
 style="
-font-size:14px;
+font-size:15px;
 color:#777;
 white-space:nowrap;
 ">
@@ -992,7 +1222,7 @@ ${v.weight}
 
 <span
 style="
-font-size:18px;
+font-size:19px;
 font-weight:700;
 color:#111;
 white-space:nowrap;
@@ -1010,11 +1240,10 @@ id="cart-${v.id}"
 style="
 width:72px;
 min-width:72px;
-flex-shrink:0;
 ">
 
 ${
-qty == 0
+qty === 0
 
 ?
 
@@ -1022,11 +1251,11 @@ qty == 0
 class="cart-btn"
 style="
 width:72px;
-height:36px;
+height:38px;
 margin:0;
 padding:0;
 font-size:13px;
-border-radius:11px;
+border-radius:12px;
 "
 onclick="addToCart('${v.id}')">
 
@@ -1040,20 +1269,20 @@ onclick="addToCart('${v.id}')">
 class="qty-control"
 style="
 width:72px;
-height:36px;
+height:38px;
 margin:0;
 padding:0;
 display:flex;
 align-items:center;
 justify-content:space-around;
-border-radius:11px;
+border-radius:12px;
 ">
 
 <button
 class="qty-btn"
 style="
 width:22px;
-height:34px;
+height:36px;
 padding:0;
 font-size:19px;
 "
@@ -1078,7 +1307,7 @@ ${qty}
 class="qty-btn"
 style="
 width:22px;
-height:34px;
+height:36px;
 padding:0;
 font-size:19px;
 "
@@ -1098,14 +1327,14 @@ onclick="changeQty('${v.id}',1)">
 
 `;
 
-        });
+                });
 
 
-        // ==================================
-        // ONE PRODUCT CARD
-        // ==================================
+            // ==================================
+            // ONE PRODUCT CARD
+            // ==================================
 
-        html.push(`
+            html.push(`
 
 <div
 class="product-card">
@@ -1128,10 +1357,10 @@ ${item.name}
 <div
 style="
 width:90%;
-margin:4px auto 12px;
+margin:5px auto 12px;
 ">
 
-${variantHTML}
+${variantsHTML}
 
 </div>
 
@@ -1139,11 +1368,15 @@ ${variantHTML}
 
 `);
 
-    });
+        });
 
+
+    // ==================================
+    // DISPLAY
+    // ==================================
 
     list.innerHTML =
-    html.join("");
+        html.join("");
 
 
     // ==================================
@@ -1151,9 +1384,9 @@ ${variantHTML}
     // ==================================
 
     const heading =
-    document.querySelector(
-        ".section-title"
-    );
+        document.querySelector(
+            ".section-title"
+        );
 
 
     if(heading){
@@ -1166,7 +1399,7 @@ font-size:16px;
 color:#888;
 ">
 
-(${grouped.size})
+(${groupedProducts.size})
 
 </span>`;
 
@@ -1182,9 +1415,9 @@ color:#888;
 function initSearch(){
 
     const searchBox =
-    document.getElementById(
-        "searchBox"
-    );
+        document.getElementById(
+            "searchBox"
+        );
 
     if(!searchBox)
         return;
@@ -1198,51 +1431,51 @@ function initSearch(){
         function(){
 
             const text =
-            this.value.trim();
+                this.value.trim();
 
 
             clearTimeout(timer);
 
 
             timer =
-            setTimeout(
-                ()=>{
-
-                    if(
-                        document.getElementById(
-                            "productList"
-                        )
-                    ){
-
-                        loadProducts(
-                            text
-                        );
-
-                    }
-
-                    else if(
-                        document.getElementById(
-                            "categoryList"
-                        )
-                    ){
+                setTimeout(
+                    () => {
 
                         if(
-                            text.length >= 2
+                            document.getElementById(
+                                "productList"
+                            )
                         ){
 
-                            location.href =
-                            "products.html?search=" +
-                            encodeURIComponent(
+                            loadProducts(
                                 text
                             );
 
                         }
 
-                    }
+                        else if(
+                            document.getElementById(
+                                "categoryList"
+                            )
+                        ){
 
-                },
-                250
-            );
+                            if(
+                                text.length >= 2
+                            ){
+
+                                location.href =
+                                    "products.html?search=" +
+                                    encodeURIComponent(
+                                        text
+                                    );
+
+                            }
+
+                        }
+
+                    },
+                    250
+                );
 
         }
     );
@@ -1257,23 +1490,27 @@ function initSearch(){
 function addToCart(id){
 
     const item =
-    cart.find(
-        p =>
-        p.id == id
-    );
+        cart.find(
+            p =>
+            p.id == id
+        );
 
 
     if(item){
 
         item.qty++;
 
-    }else{
+    }
+
+    else{
 
         cart.push({
 
-            id:id,
+            id:
+                id,
 
-            qty:1
+            qty:
+                1
 
         });
 
@@ -1299,17 +1536,18 @@ function changeQty(
 ){
 
     const item =
-    cart.find(
-        p =>
-        p.id == id
-    );
+        cart.find(
+            p =>
+            p.id == id
+        );
 
 
     if(!item)
         return;
 
 
-    item.qty += change;
+    item.qty +=
+        change;
 
 
     if(
@@ -1317,10 +1555,10 @@ function changeQty(
     ){
 
         cart =
-        cart.filter(
-            p =>
-            p.id != id
-        );
+            cart.filter(
+                p =>
+                p.id != id
+            );
 
     }
 
@@ -1337,16 +1575,16 @@ function changeQty(
 
 
 // ======================================
-// REMOVE ITEM
+// REMOVE CART ITEM
 // ======================================
 
 function removeCartItem(id){
 
     cart =
-    cart.filter(
-        item =>
-        item.id != id
-    );
+        cart.filter(
+            item =>
+            item.id != id
+        );
 
 
     saveCart();
@@ -1367,30 +1605,36 @@ function removeCartItem(id){
 function updateCartButton(){
 
     const btn =
-    document.getElementById(
-        "viewCartBtn"
-    );
+        document.getElementById(
+            "viewCartBtn"
+        );
 
 
     const count =
-    document.getElementById(
-        "cartCount"
-    );
+        document.getElementById(
+            "cartCount"
+        );
 
 
-    if(!btn || !count)
+    if(
+        !btn ||
+        !count
+    ){
+
         return;
+
+    }
 
 
     const total =
-    cart.reduce(
-        (
-            sum,
-            item
-        ) =>
-        sum + item.qty,
-        0
-    );
+        cart.reduce(
+            (
+                sum,
+                item
+            ) =>
+            sum + item.qty,
+            0
+        );
 
 
     if(
@@ -1398,18 +1642,20 @@ function updateCartButton(){
     ){
 
         btn.style.display =
-        "none";
+            "none";
 
         count.textContent =
-        "0";
+            "0";
 
-    }else{
+    }
+
+    else{
 
         btn.style.display =
-        "flex";
+            "flex";
 
         count.textContent =
-        total;
+            total;
 
     }
 
@@ -1423,9 +1669,9 @@ function updateCartButton(){
 async function loadCart(){
 
     const list =
-    document.getElementById(
-        "cartList"
-    );
+        document.getElementById(
+            "cartList"
+        );
 
 
     if(!list)
@@ -1465,38 +1711,40 @@ Please add products.
     let grandTotal = 0;
 
 
-    cart.forEach(item=>{
+    cart.forEach(item => {
 
         const row =
-        getProduct(
-            item.id
-        );
+            getProduct(
+                item.id
+            );
 
 
         if(!row)
             return;
 
 
+        // EXACT COLUMNS
+
         const product =
-        row[2];
+            row[3];
 
         const weight =
-        row[3];
+            row[4];
 
         const price =
-        Number(row[4]);
+            Number(row[5]);
 
         const image =
-        row[6];
+            row[7];
 
 
         const total =
-        price *
-        item.qty;
+            price *
+            item.qty;
 
 
         grandTotal +=
-        total;
+            total;
 
 
         html.push(`
@@ -1607,7 +1855,7 @@ onclick="orderWhatsApp()">
 
 
     list.innerHTML =
-    html.join("");
+        html.join("");
 
 
     updateCartButton();
@@ -1637,12 +1885,12 @@ async function orderWhatsApp(){
 `;
 
 
-    cart.forEach(item=>{
+    cart.forEach(item => {
 
         const row =
-        getProduct(
-            item.id
-        );
+            getProduct(
+                item.id
+            );
 
 
         if(!row)
@@ -1650,19 +1898,19 @@ async function orderWhatsApp(){
 
 
         const total =
-        Number(row[4]) *
-        item.qty;
+            Number(row[5]) *
+            item.qty;
 
 
         grandTotal +=
-        total;
+            total;
 
 
         message +=
-`📦 ${row[2]}
-⚖️ ${row[3]}
+`📦 ${row[3]}
+⚖️ ${row[4]}
 
-💰 ₹${row[4]} × ${item.qty} = ₹${total}
+💰 ₹${row[5]} × ${item.qty} = ₹${total}
 
 ------------------------
 
@@ -1679,9 +1927,9 @@ async function orderWhatsApp(){
 
     window.open(
 
-`https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
 
-"_blank"
+        "_blank"
 
     );
 
@@ -1711,6 +1959,7 @@ document.addEventListener(
 
             await loadData();
 
+
             await Promise.all([
 
                 loadCategories(),
@@ -1723,11 +1972,14 @@ document.addEventListener(
 
             ]);
 
+
             updateCartButton();
 
             initSearch();
 
-        }catch(error){
+        }
+
+        catch(error){
 
             console.error(
                 "Jyoti Menu Error:",
@@ -1741,7 +1993,7 @@ document.addEventListener(
 
 
 // ======================================
-// PAGE REFRESH
+// PAGE SHOW
 // ======================================
 
 window.addEventListener(
@@ -1749,11 +2001,11 @@ window.addEventListener(
     function(){
 
         cart =
-        JSON.parse(
-            localStorage.getItem(
-                "cart"
-            )
-        ) || [];
+            JSON.parse(
+                localStorage.getItem(
+                    "cart"
+                )
+            ) || [];
 
 
         updateCartButton();
@@ -1791,19 +2043,25 @@ window.addEventListener(
 function openImage(src){
 
     const image =
-    document.getElementById(
-        "zoomImage"
-    );
+        document.getElementById(
+            "zoomImage"
+        );
 
 
     const modal =
-    document.getElementById(
-        "imageModal"
-    );
+        document.getElementById(
+            "imageModal"
+        );
 
 
-    if(!image || !modal)
+    if(
+        !image ||
+        !modal
+    ){
+
         return;
+
+    }
 
 
     image.src = src;
@@ -1818,9 +2076,9 @@ function openImage(src){
 function closeImage(){
 
     const modal =
-    document.getElementById(
-        "imageModal"
-    );
+        document.getElementById(
+            "imageModal"
+        );
 
 
     if(!modal)
