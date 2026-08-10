@@ -1,23 +1,19 @@
-// ==========================================
+// ======================================
 // JYOTI GRUH UDHYOG
 // API.JS V6
-// ==========================================
+// PART 1
+// CORE + CACHE + FAST FETCH
+// ======================================
 
-
-// ==========================================
-// CART
-// ==========================================
+// ---------- CART ----------
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function saveCart() {
+function saveCart(){
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-
-// ==========================================
-// DATA
-// ==========================================
+// ---------- CACHE ----------
 
 let categoryRows = [];
 let subCategoryRows = [];
@@ -25,14 +21,77 @@ let productRows = [];
 
 let productMap = new Map();
 
+let productList = [];
 
-// ==========================================
-// GOOGLE SHEET
-// ==========================================
+let dataLoaded = false;
+
+let cacheTime = 0;
+
+const CACHE_DURATION = 5 * 60 * 1000;
+
+// LOCAL STORAGE CACHE
+
+const STORAGE_KEY = "jyoti_data_cache";
+
+function saveCache(){
+
+    const data = {
+
+        categoryRows,
+        subCategoryRows,
+        productRows,
+
+        time: Date.now()
+
+    };
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+function loadCache(){
+
+    const cache =
+    localStorage.getItem(STORAGE_KEY);
+
+    if(!cache) return false;
+
+    const data = JSON.parse(cache);
+
+    if(
+        Date.now() - data.time >
+        CACHE_DURATION
+    ){
+        return false;
+    }
+
+    categoryRows = data.categoryRows;
+    subCategoryRows = data.subCategoryRows;
+    productRows = data.productRows;
+
+    productMap.clear();
+
+    productRows.slice(1).forEach(row=>{
+
+        productMap.set(row[0],row);
+
+    });
+
+    dataLoaded = true;
+
+    cacheTime = data.time;
+
+    return true;
+
+}
+
+// ---------- GOOGLE SHEET ----------
 
 const SHEET =
 "2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU";
-
 
 const categoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=2013716827&single=true&output=csv`;
@@ -43,95 +102,19 @@ const subCategoryURL =
 const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
 
+// ======================================
+// FAST FETCH
+// ======================================
 
-// ==========================================
-// CSV PARSER
-// ==========================================
+async function fetchCSV(url){
 
-function csvToArray(csv) {
-
-    const lines = csv
-        .trim()
-        .split(/\r?\n/);
-
-    return lines.map(line => {
-
-        const result = [];
-        let current = "";
-        let insideQuotes = false;
-
-        for (let i = 0; i < line.length; i++) {
-
-            const char = line[i];
-
-            if (char === '"') {
-
-                if (
-                    insideQuotes &&
-                    line[i + 1] === '"'
-                ) {
-
-                    current += '"';
-                    i++;
-
-                } else {
-
-                    insideQuotes =
-                        !insideQuotes;
-
-                }
-
-            }
-            else if (
-                char === "," &&
-                !insideQuotes
-            ) {
-
-                result.push(
-                    current.trim()
-                );
-
-                current = "";
-
-            }
-            else {
-
-                current += char;
-
-            }
-
-        }
-
-        result.push(
-            current.trim()
-        );
-
-        return result;
-
+    const response = await fetch(url,{
+        cache:"force-cache"
     });
 
-}
+    if(!response.ok){
 
-
-// ==========================================
-// FETCH CSV
-// ==========================================
-
-async function fetchCSV(url) {
-
-    const response =
-        await fetch(
-            url + "&v=" + Date.now(),
-            {
-                cache: "no-store"
-            }
-        );
-
-    if (!response.ok) {
-
-        throw new Error(
-            "CSV Load Failed"
-        );
+        throw new Error("Data Load Failed");
 
     }
 
@@ -139,796 +122,441 @@ async function fetchCSV(url) {
 
 }
 
+// ======================================
+// CSV PARSER
+// ======================================
 
-// ==========================================
-// BUILD PRODUCT MAP
-// ==========================================
+function csvToArray(csv){
 
-function buildProductMap() {
+    return csv
+        .trim()
+        .split(/\r?\n/)
+        .map(row=>row.split(","));
+
+}
+
+// ======================================
+// URL PARAM
+// ======================================
+
+function getParam(name){
+
+    return new URLSearchParams(location.search).get(name);
+
+}
+
+// ======================================
+// FAST PRODUCT LOOKUP
+// ======================================
+
+function getProduct(id){
+    return productMap.get(id);
+}
+
+// ======================================
+// LOAD DATA (ONLY ONCE)
+// ======================================
+
+async function loadData(){
+
+if(loadCache()) return;
+
+    if(
+    dataLoaded &&
+    (Date.now() - cacheTime) < CACHE_DURATION
+){
+    return;
+}
+
+    const [catCSV,subCSV,proCSV] =
+    await Promise.all([
+
+        fetchCSV(categoryURL),
+        fetchCSV(subCategoryURL),
+        fetchCSV(productURL)
+
+    ]);
+
+    categoryRows = csvToArray(catCSV);
+    subCategoryRows = csvToArray(subCSV);
+    productRows = csvToArray(proCSV);
+
+    productList = [];
+
+    productRows.slice(1).forEach(row=>{
+
+        productList.push({
+
+            id: row[0],
+
+            category: row[1],
+
+            subCategory: row[2],
+
+            name: row[3],
+
+            weight: row[4],
+
+            price: Number(row[5]),
+
+            status: row[6],
+
+            image: row[7]
+
+        });
+
+    });
+
+    // Build Product Map
 
     productMap.clear();
 
-    productRows
-        .slice(1)
-        .forEach(row => {
+    productRows.slice(1).forEach(row=>{
 
-            if (row[0]) {
+        productMap.set(row[0], row);
 
-                productMap.set(
-                    String(row[0]),
-                    row
-                );
+    });
 
-            }
+    dataLoaded = true;
 
-        });
+    cacheTime = Date.now();
+
+    saveCache();
 
 }
 
+// ======================================
+// API.JS V6
+// PART 2
+// CATEGORY + SUB CATEGORY + PRODUCTS
+// ======================================
 
-// ==========================================
-// GET PRODUCT
-// ==========================================
+// ======================================
+// CATEGORY
+// ======================================
 
-function getProduct(id) {
+async function loadCategories(){
 
-    return productMap.get(
-        String(id)
+    const list =
+    document.getElementById("categoryList");
+
+    if(!list) return;
+
+    const html = [];
+
+    categoryRows.slice(1).forEach(row=>{
+
+        if(row[2].trim().toLowerCase()!="active")
+            return;
+
+        html.push(`
+
+<div class="category-card"
+onclick="openCategory('${row[0]}')">
+
+<img
+src="${row[3]}"
+loading="lazy"
+decoding="async"
+fetchpriority="low"
+onerror="this.src='placeholder.webp'">
+
+<h3>${row[1]}</h3>
+
+</div>
+
+`);
+
+    });
+
+    list.innerHTML = html.join("");
+
+}
+
+// ======================================
+// OPEN CATEGORY
+// ======================================
+
+function openCategory(id){
+
+    const hasSub =
+    subCategoryRows.slice(1).some(row=>
+
+        row[1]==id &&
+        row[3].trim().toLowerCase()=="active"
+
     );
 
-}
-
-
-// ==========================================
-// URL PARAMETER
-// ==========================================
-
-function getParam(name) {
-
-    return new URLSearchParams(
-        window.location.search
-    ).get(name);
+    location.href = hasSub
+        ? "category.html?id="+id
+        : "products.html?category="+id;
 
 }
 
+// ======================================
+// SUB CATEGORY
+// ======================================
 
-// ==========================================
-// LOAD DATA
-// ==========================================
-
-async function loadData() {
-
-    try {
-
-        const data =
-            await Promise.all([
-
-                fetchCSV(
-                    categoryURL
-                ),
-
-                fetchCSV(
-                    subCategoryURL
-                ),
-
-                fetchCSV(
-                    productURL
-                )
-
-            ]);
-
-
-        categoryRows =
-            csvToArray(
-                data[0]
-            );
-
-        subCategoryRows =
-            csvToArray(
-                data[1]
-            );
-
-        productRows =
-            csvToArray(
-                data[2]
-            );
-
-
-        buildProductMap();
-
-
-        console.log(
-            "CATEGORY:",
-            categoryRows.length
-        );
-
-        console.log(
-            "SUBCATEGORY:",
-            subCategoryRows.length
-        );
-
-        console.log(
-            "PRODUCTS:",
-            productRows.length
-        );
-
-
-    }
-    catch (error) {
-
-        console.error(
-            "DATA LOAD ERROR:",
-            error
-        );
-
-    }
-
-}
-
-
-// ==========================================
-// LOAD CATEGORIES
-// ==========================================
-
-function loadCategories() {
+async function loadSubCategories(){
 
     const list =
-        document.getElementById(
-            "categoryList"
-        );
+    document.getElementById("subCategoryList");
 
-    if (!list) return;
+    if(!list) return;
 
+    const id = getParam("id");
 
-    let html = "";
+    const html = [];
 
+    subCategoryRows.slice(1).forEach(row=>{
 
-    categoryRows
-        .slice(1)
-        .forEach(row => {
+        if(row[3].trim().toLowerCase()!="active")
+            return;
 
-            const id =
-                row[0];
+        if(row[1]!=id)
+            return;
 
-            const name =
-                row[1];
+        html.push(`
 
-            const status =
-                row[2];
-
-            const image =
-                row[3];
-
-
-            if (
-                String(status)
-                    .trim()
-                    .toLowerCase()
-                !== "active"
-            ) {
-
-                return;
-
-            }
-
-
-            html += `
-
-<div
-    class="category-card"
-    onclick="openCategory('${id}')"
->
+<div class="category-card"
+onclick="location.href='products.html?sub=${row[0]}'">
 
 <img
-    src="${image || "placeholder.webp"}"
-    alt="${name}"
-    loading="lazy"
-    onerror="this.src='placeholder.webp'"
->
+src="${row[4]}"
+loading="lazy"
+decoding="async"
+fetchpriority="low"
+onerror="this.src='placeholder.webp'">
 
-<h3>
-    ${name}
-</h3>
+<h3>${row[2]}</h3>
 
 </div>
 
-`;
+`);
 
-        });
+    });
 
-
-    list.innerHTML =
-        html;
+    list.innerHTML = html.join("");
 
 }
 
+// ======================================
+// PRODUCTS
+// ======================================
 
-// ==========================================
-// OPEN CATEGORY
-// ==========================================
-
-function openCategory(id) {
-
-    const hasSubCategory =
-        subCategoryRows
-            .slice(1)
-            .some(row => {
-
-                return (
-                    String(row[1]) ===
-                    String(id)
-                    &&
-                    String(row[3])
-                        .trim()
-                        .toLowerCase()
-                    === "active"
-                );
-
-            });
-
-
-    if (hasSubCategory) {
-
-        window.location.href =
-            "category.html?id=" +
-            encodeURIComponent(id);
-
-    }
-    else {
-
-        window.location.href =
-            "products.html?category=" +
-            encodeURIComponent(id);
-
-    }
-
-}
-
-
-// ==========================================
-// LOAD SUB CATEGORIES
-// ==========================================
-
-function loadSubCategories() {
+async function loadProducts(searchText=""){
 
     const list =
-        document.getElementById(
-            "subCategoryList"
-        );
+    document.getElementById("productList");
 
-    if (!list) return;
+    if(!list) return;
 
-
-    const categoryId =
-        getParam("id");
-
-
-    let html = "";
-
-
-    subCategoryRows
-        .slice(1)
-        .forEach(row => {
-
-            const id =
-                row[0];
-
-            const parentId =
-                row[1];
-
-            const name =
-                row[2];
-
-            const status =
-                row[3];
-
-            const image =
-                row[4];
-
-
-            if (
-                String(parentId) !==
-                String(categoryId)
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                String(status)
-                    .trim()
-                    .toLowerCase()
-                !== "active"
-            ) {
-
-                return;
-
-            }
-
-
-            html += `
-
-<div
-    class="category-card"
-    onclick="window.location.href='products.html?sub=${encodeURIComponent(id)}'"
->
-
-<img
-    src="${image || "placeholder.webp"}"
-    alt="${name}"
-    loading="lazy"
-    onerror="this.src='placeholder.webp'"
->
-
-<h3>
-    ${name}
-</h3>
-
-</div>
-
-`;
-
-        });
-
-
-    list.innerHTML =
-        html;
-
-}
-
-
-// ==========================================
-// LOAD PRODUCTS
-// ==========================================
-
-function loadProducts(searchText = "") {
-
-    const list =
-        document.getElementById(
-            "productList"
-        );
-
-    if (!list) return;
-
-
-    const categoryId =
-        getParam("category");
-
-    const subId =
-        getParam("sub");
-
-    const urlSearch =
-        getParam("search") || "";
-
+    const subId = getParam("sub");
+    const categoryId = getParam("category");
 
     const search =
-        (
-            searchText ||
-            urlSearch
-        )
-        .trim()
-        .toLowerCase();
+    (searchText || getParam("search") || "")
+    .toLowerCase();
 
+    const html = [];
 
-    const grouped =
-        new Map();
+    let totalProducts = 0;
 
+    productRows.slice(1).forEach(row=>{
 
-    // ======================================
-    // READ PRODUCTS
-    // ======================================
+        const id = row[0];
+        const catId = row[1];
+        const subCatId = row[2];
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const status = row[6];
+        const image = row[7];
 
-    productRows
-        .slice(1)
-        .forEach(row => {
+        if(status.trim().toLowerCase()!="active")
+            return;
 
-            /*
-                A = ID
-                B = CategoryID
-                C = SubCategoryID
-                D = Product
-                E = Weight
-                F = Price
-                G = Status
-                H = Images
-            */
+        if(subId && subCatId!=subId)
+            return;
 
+        if(categoryId && !subId && catId!=categoryId)
+            return;
 
-            const id =
-                row[0];
+        if(search){
 
-            const category =
-                row[1];
+            const keyword =
+            (product+" "+weight).toLowerCase();
 
-            const subCategory =
-                row[2];
-
-            const name =
-                row[3];
-
-            const weight =
-                row[4];
-
-            const price =
-                Number(
-                    String(row[5])
-                        .replace(/[^\d.]/g, "")
-                ) || 0;
-
-            const status =
-                row[6];
-
-            const image =
-                row[7];
-
-
-            // ACTIVE ONLY
-
-            if (
-                String(status)
-                    .trim()
-                    .toLowerCase()
-                !== "active"
-            ) {
-
+            if(!keyword.includes(search))
                 return;
 
-            }
+        }
 
+        totalProducts++;
 
-            // CATEGORY FILTER
+        const item =
+        cart.find(p=>p.id==id);
 
-            if (
-                categoryId &&
-                !subId &&
-                String(category) !==
-                String(categoryId)
-            ) {
+        const qty =
+        item ? item.qty : 0;
 
-                return;
-
-            }
-
-
-            // SUB CATEGORY FILTER
-
-            if (
-                subId &&
-                String(subCategory) !==
-                String(subId)
-            ) {
-
-                return;
-
-            }
-
-
-            // SEARCH
-
-            if (search) {
-
-                const text =
-                    (
-                        name +
-                        " " +
-                        weight
-                    )
-                    .toLowerCase();
-
-
-                if (
-                    !text.includes(
-                        search
-                    )
-                ) {
-
-                    return;
-
-                }
-
-            }
-
-
-            // GROUP BY PRODUCT NAME
-
-            const key =
-                String(name)
-                    .trim()
-                    .toLowerCase();
-
-
-            if (
-                !grouped.has(key)
-            ) {
-
-                grouped.set(
-                    key,
-                    {
-                        name: name,
-                        image: image,
-                        variants: []
-                    }
-                );
-
-            }
-
-
-            grouped
-                .get(key)
-                .variants
-                .push({
-
-                    id: id,
-                    weight: weight,
-                    price: price
-
-                });
-
-        });
-
-
-    // ======================================
-    // CREATE PRODUCT CARDS
-    // ======================================
-
-    let html = "";
-
-
-    grouped.forEach(product => {
-
-
-        let variants = "";
-
-
-        product.variants
-            .forEach(variant => {
-
-
-                const cartItem =
-                    cart.find(
-                        item =>
-                            String(item.id) ===
-                            String(variant.id)
-                    );
-
-
-                const qty =
-                    cartItem
-                        ? cartItem.qty
-                        : 0;
-
-
-                let button = "";
-
-
-                if (qty === 0) {
-
-                    button = `
-
-<button
-    class="variant-add-btn"
-    type="button"
-    onclick="addToCart('${variant.id}')"
->
-    + Add
-</button>
-
-`;
-
-                }
-                else {
-
-                    button = `
-
-<div class="variant-qty">
-
-<button
-    class="qty-btn"
-    type="button"
-    onclick="changeQty('${variant.id}',-1)"
->
-    −
-</button>
-
-<span class="qty-number">
-    ${qty}
-</span>
-
-<button
-    class="qty-btn"
-    type="button"
-    onclick="changeQty('${variant.id}',1)"
->
-    +
-</button>
-
-</div>
-
-`;
-
-                }
-
-
-                variants += `
-
-<div class="product-variant-row">
-
-<div class="product-variant-weight">
-    ${variant.weight}
-</div>
-
-<div class="product-variant-price">
-    ₹${variant.price}
-</div>
-
-<div class="product-variant-action">
-
-    ${button}
-
-</div>
-
-</div>
-
-`;
-
-            });
-
-
-        html += `
+        html.push(`
 
 <div class="product-card">
 
 <img
-    src="${product.image || "placeholder.webp"}"
-    alt="${product.name}"
-    loading="lazy"
-    decoding="async"
-    onclick="openImage('${product.image || "placeholder.webp"}')"
-    onerror="this.src='placeholder.webp'"
->
+src="${image}"
+loading="lazy"
+decoding="async"
+fetchpriority="low"
+onclick="openImage('${image}')"
+onerror="this.src='placeholder.webp'">
 
 <h3 class="product-name">
-    ${product.name}
+${product}
 </h3>
 
-<div class="product-variants">
+<p class="product-weight">
+${weight}
+</p>
 
-    ${variants}
+<h4 class="product-price">
+₹${price}
+</h4>
+
+<div id="cart-${id}">
+
+${
+qty==0 ?
+
+`<button class="cart-btn"
+onclick="addToCart('${id}')">
+
++ Add
+
+</button>`
+
+:
+
+`<div class="qty-control">
+
+<button class="qty-btn"
+onclick="changeQty('${id}',-1)">
+
+−
+
+</button>
+
+<span class="qty-number">
+
+${qty}
+
+</span>
+
+<button class="qty-btn"
+onclick="changeQty('${id}',1)">
+
++
+
+</button>
+
+</div>`
+
+}
 
 </div>
 
 </div>
 
-`;
+`);
 
     });
 
-
-    list.innerHTML =
-        html;
-
-
-    // ======================================
-    // PRODUCT COUNT
-    // ======================================
+    list.innerHTML = html.join("");
 
     const heading =
-        document.querySelector(
-            ".section-title"
-        );
+    document.querySelector(".section-title");
 
-
-    if (heading) {
+    if(heading){
 
         heading.innerHTML =
-            `🛒 All Products <span style="font-size:16px;color:#888">(${grouped.size})</span>`;
+`🛒 All Products <span style="font-size:16px;color:#888;">(${totalProducts})</span>`;
 
     }
 
-
-    console.log(
-        "PRODUCT CARDS:",
-        grouped.size
-    );
-
 }
 
+// ======================================
+// API.JS V6
+// PART 3
+// FAST SEARCH + CART
+// ======================================
 
-// ==========================================
-// SEARCH
-// ==========================================
+// ---------- SEARCH ----------
 
-function initSearch() {
+function initSearch(){
 
-    const input =
-        document.getElementById(
-            "searchBox"
-        );
+    const searchBox =
+    document.getElementById("searchBox");
 
-    if (!input) return;
-
+    if(!searchBox) return;
 
     let timer;
 
+    searchBox.addEventListener("input",function(){
 
-    input.addEventListener(
-        "input",
-        function () {
+        const text = this.value.trim();
 
-            clearTimeout(
-                timer
-            );
+        clearTimeout(timer);
 
+        timer = setTimeout(()=>{
 
-            timer =
-                setTimeout(() => {
+            if(document.getElementById("productList")){
 
-                    const text =
-                        this.value.trim();
+                loadProducts(text);
 
+            }
 
-                    if (
-                        document.getElementById(
-                            "productList"
-                        )
-                    ) {
+            else if(document.getElementById("categoryList")){
 
-                        loadProducts(
-                            text
-                        );
+                if(text.length>=2){
 
-                    }
-                    else if (
-                        text.length >= 2
-                    ) {
+                    location.href=
+                    "products.html?search="+
+                    encodeURIComponent(text);
 
-                        window.location.href =
-                            "products.html?search=" +
-                            encodeURIComponent(
-                                text
-                            );
+                }
 
-                    }
+            }
 
-                }, 200);
+        },250);
 
-        }
-    );
+    });
 
 }
 
+// ======================================
+// ADD TO CART
+// ======================================
 
-// ==========================================
-// ADD CART
-// ==========================================
-
-function addToCart(id) {
+function addToCart(id){
 
     const item =
-        cart.find(
-            p =>
-                String(p.id) ===
-                String(id)
-        );
+    cart.find(p=>p.id==id);
 
-
-    if (item) {
+    if(item){
 
         item.qty++;
 
-    }
-    else {
+    }else{
 
         cart.push({
-            id: String(id),
-            qty: 1
+            id:id,
+            qty:1
         });
 
     }
 
-
     saveCart();
 
     updateCartButton();
@@ -937,41 +565,25 @@ function addToCart(id) {
 
 }
 
-
-// ==========================================
+// ======================================
 // CHANGE QTY
-// ==========================================
+// ======================================
 
-function changeQty(
-    id,
-    change
-) {
+function changeQty(id,change){
 
     const item =
-        cart.find(
-            p =>
-                String(p.id) ===
-                String(id)
-        );
+    cart.find(p=>p.id==id);
 
-
-    if (!item) return;
-
+    if(!item) return;
 
     item.qty += change;
 
-
-    if (item.qty <= 0) {
+    if(item.qty<=0){
 
         cart =
-            cart.filter(
-                p =>
-                    String(p.id) !==
-                    String(id)
-            );
+        cart.filter(p=>p.id!=id);
 
     }
-
 
     saveCart();
 
@@ -983,110 +595,85 @@ function changeQty(
 
 }
 
+// ======================================
+// REMOVE ITEM
+// ======================================
 
-// ==========================================
-// REMOVE CART
-// ==========================================
-
-function removeCartItem(id) {
+function removeCartItem(id){
 
     cart =
-        cart.filter(
-            item =>
-                String(item.id) !==
-                String(id)
-        );
-
+    cart.filter(item=>item.id!=id);
 
     saveCart();
 
     updateCartButton();
 
-    loadCart();
-
     loadProducts();
 
+    loadCart();
+
 }
 
+// ======================================
+// FLOATING CART
+// ======================================
 
-// ==========================================
-// CART BUTTON
-// ==========================================
+function updateCartButton(){
 
-function updateCartButton() {
-
-    const button =
-        document.getElementById(
-            "viewCartBtn"
-        );
+    const btn =
+    document.getElementById("viewCartBtn");
 
     const count =
-        document.getElementById(
-            "cartCount"
-        );
+    document.getElementById("cartCount");
 
-
-    if (!button || !count)
-        return;
-
+    if(!btn || !count) return;
 
     const total =
-        cart.reduce(
-            (sum, item) =>
-                sum + Number(item.qty || 0),
-            0
-        );
+    cart.reduce(
+        (sum,item)=>sum+item.qty,
+        0
+    );
 
+    if(total===0){
 
-    if (total <= 0) {
+        btn.style.display="none";
+        count.textContent="0";
 
-        button.style.display =
-            "none";
+    }else{
 
-        count.textContent =
-            "0";
-
-    }
-    else {
-
-        button.style.display =
-            "flex";
-
-        count.textContent =
-            total;
+        btn.style.display="flex";
+        count.textContent=total;
 
     }
 
 }
 
+// ======================================
+// API.JS V6
+// PART 4
+// CART + WHATSAPP + AUTO LOAD
+// ======================================
 
-// ==========================================
+// ======================================
 // LOAD CART
-// ==========================================
+// ======================================
 
-function loadCart() {
+async function loadCart(){
 
     const list =
-        document.getElementById(
-            "cartList"
-        );
+    document.getElementById("cartList");
 
-    if (!list) return;
+    if(!list) return;
 
+    if(cart.length===0){
 
-    if (cart.length === 0) {
-
-        list.innerHTML = `
+        list.innerHTML=`
 
 <div class="empty-cart">
 
-<h2>
-    🛒 Your Cart is Empty
-</h2>
+<h2>🛒 Your Cart is Empty</h2>
 
-<p>
-    Please add products.
-</p>
+<p>Please add products.</p>
 
 </div>
 
@@ -1098,156 +685,114 @@ function loadCart() {
 
     }
 
-
-    let html = "";
-
+    let html = [];
     let grandTotal = 0;
 
+    cart.forEach(item=>{
 
-    cart.forEach(item => {
+        const row = getProduct(item.id);
 
-        const row =
-            getProduct(
-                item.id
-            );
+        if(!row) return;
 
+        const product = row[3];
+        const weight = row[4];
+        const price = Number(row[5]);
+        const image = row[7];
 
-        if (!row) return;
+        const total = price * item.qty;
 
+        grandTotal += total;
 
-        const name =
-            row[3];
-
-        const weight =
-            row[4];
-
-        const price =
-            Number(
-                String(row[5])
-                    .replace(/[^\d.]/g, "")
-            ) || 0;
-
-        const image =
-            row[7];
-
-
-        const total =
-            price *
-            item.qty;
-
-
-        grandTotal +=
-            total;
-
-
-        html += `
+        html.push(`
 
 <div class="cart-item">
 
 <img
-    src="${image || "placeholder.webp"}"
-    alt="${name}"
-    onerror="this.src='placeholder.webp'"
->
+src="${image}"
+loading="lazy"
+decoding="async"
+fetchpriority="low"
+onerror="this.src='placeholder.webp'">
 
 <div class="cart-info">
 
-<h3>
-    ${name}
-</h3>
+<h3>${product}</h3>
 
-<p>
-    ${weight}
-</p>
+<p>${weight}</p>
 
 <div class="cart-price">
-    ₹${price} × ${item.qty}
-    = ₹${total}
+
+₹${price} × ${item.qty} = ₹${total}
+
 </div>
 
 <div class="qty-box">
 
-<button
-    class="qty-btn"
-    onclick="changeQty('${item.id}',-1)"
->
-    −
-</button>
+<button class="qty-btn"
+onclick="changeQty('${item.id}',-1)">−</button>
 
 <span class="qty-number">
-    ${item.qty}
+${item.qty}
 </span>
 
-<button
-    class="qty-btn"
-    onclick="changeQty('${item.id}',1)"
->
-    +
+<button class="qty-btn"
+onclick="changeQty('${item.id}',1)">+</button>
+
+</div>
+
+<button class="remove-btn"
+onclick="removeCartItem('${item.id}')">
+
+🗑 Remove
+
 </button>
 
 </div>
 
-<button
-    class="remove-btn"
-    onclick="removeCartItem('${item.id}')"
->
-    🗑 Remove
-</button>
-
 </div>
 
-</div>
-
-`;
+`);
 
     });
 
-
-    html += `
+    html.push(`
 
 <div class="cart-total">
 
-<h2>
-    Grand Total
-</h2>
+<h2>Grand Total</h2>
 
 <div class="total-price">
-    ₹${grandTotal}
+
+₹${grandTotal}
+
 </div>
 
-<button
-    class="whatsapp-btn"
-    onclick="orderWhatsApp()"
->
-    📲 Order on WhatsApp
+<button class="whatsapp-btn"
+onclick="orderWhatsApp()">
+
+📲 Order on WhatsApp
+
 </button>
 
 </div>
 
-`;
+`);
 
-
-    list.innerHTML =
-        html;
-
+    list.innerHTML = html.join("");
 
     updateCartButton();
 
 }
 
-
-// ==========================================
+// ======================================
 // WHATSAPP
-// ==========================================
+// ======================================
 
-async function orderWhatsApp() {
+async function orderWhatsApp(){
 
     await loadData();
 
-
-    if (cart.length === 0)
-        return;
-
+    let grandTotal = 0;
 
     let message =
 `🛒 *Jyoti Gruh Udhyog*
@@ -1258,47 +803,22 @@ async function orderWhatsApp() {
 
 `;
 
+    cart.forEach(item=>{
 
-    let grandTotal = 0;
+        const row = getProduct(item.id);
 
-
-    cart.forEach(item => {
-
-        const row =
-            getProduct(
-                item.id
-            );
-
-
-        if (!row) return;
-
-
-        const name =
-            row[3];
-
-        const weight =
-            row[4];
-
-        const price =
-            Number(
-                String(row[5])
-                    .replace(/[^\d.]/g, "")
-            ) || 0;
-
+        if(!row) return;
 
         const total =
-            price *
-            item.qty;
+        Number(row[5]) * item.qty;
 
-
-        grandTotal +=
-            total;
-
+        grandTotal += total;
 
         message +=
-`📦 ${name}
-⚖️ ${weight}
-💰 ₹${price} × ${item.qty} = ₹${total}
+`📦 ${row[3]}
+⚖️ ${row[4]}
+
+💰 ₹${row[5]} × ${item.qty} = ₹${total}
 
 ------------------------
 
@@ -1306,19 +826,18 @@ async function orderWhatsApp() {
 
     });
 
-
     message +=
 `💵 Grand Total : ₹${grandTotal}
 
 🙏 આભાર`;
 
-
     window.open(
-        "https://wa.me/919712149344?text=" +
-        encodeURIComponent(message),
-        "_blank"
-    );
 
+`https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
+
+"_blank"
+
+);
 
     cart = [];
 
@@ -1332,122 +851,70 @@ async function orderWhatsApp() {
 
 }
 
+// ======================================
+// AUTO LOAD
+// ======================================
 
-// ==========================================
-// IMAGE MODAL
-// ==========================================
+document.addEventListener("DOMContentLoaded", async () => {
 
-function openImage(src) {
+    await loadData();
 
-    const image =
-        document.getElementById(
-            "zoomImage"
-        );
+    Promise.all([
+        loadCategories(),
+        loadSubCategories(),
+        loadProducts(),
+        loadCart()
+    ]);
 
-    const modal =
-        document.getElementById(
-            "imageModal"
-        );
+    updateCartButton();
 
+    initSearch();
 
-    if (!image || !modal)
-        return;
+});
 
+// ======================================
+// PAGE REFRESH
+// ======================================
 
-    image.src =
-        src;
+window.addEventListener("pageshow",()=>{
 
-    modal.classList.add(
-        "show"
-    );
+    cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
 
-}
+    updateCartButton();
 
-
-function closeImage() {
-
-    const modal =
-        document.getElementById(
-            "imageModal"
-        );
-
-
-    if (modal) {
-
-        modal.classList.remove(
-            "show"
-        );
-
-    }
-
-}
-
-
-// ==========================================
-// START
-// ==========================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
-
-        await loadData();
-
-        loadCategories();
-
-        loadSubCategories();
+    if(document.getElementById("productList")){
 
         loadProducts();
 
+    }
+
+    if(document.getElementById("cartList")){
+
         loadCart();
 
-        updateCartButton();
-
-        initSearch();
-
     }
-);
 
+});
 
-// ==========================================
-// PAGE SHOW
-// ==========================================
+// ======================================
+// IMAGE ZOOM
+// ======================================
 
-window.addEventListener(
-    "pageshow",
-    function () {
+function openImage(src){
 
-        cart =
-            JSON.parse(
-                localStorage.getItem(
-                    "cart"
-                )
-            ) || [];
+    document.getElementById("zoomImage").src = src;
 
+    document
+    .getElementById("imageModal")
+    .classList.add("show");
 
-        updateCartButton();
+}
 
+function closeImage(){
 
-        if (
-            document.getElementById(
-                "productList"
-            )
-        ) {
+    document
+    .getElementById("imageModal")
+    .classList.remove("show");
 
-            loadProducts();
-
-        }
-
-
-        if (
-            document.getElementById(
-                "cartList"
-            )
-        ) {
-
-            loadCart();
-
-        }
-
-    }
-);
+}
