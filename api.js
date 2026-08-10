@@ -1,25 +1,15 @@
 // ======================================
 // JYOTI GRUH UDHYOG
-// API.JS V9
-// PREMIUM SEPARATE PRODUCT CARDS
-// ======================================
-
-
-// ======================================
-// CART
+// API.JS V10
+// PREMIUM PRODUCT CARDS
+// SEPARATE WEIGHT CARDS
 // ======================================
 
 let cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
-
 function saveCart(){
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 
@@ -37,11 +27,10 @@ let productList = [];
 let dataLoaded = false;
 let cacheTime = 0;
 
-const CACHE_DURATION =
-    5 * 60 * 1000;
+const CACHE_DURATION = 5 * 60 * 1000;
 
 const STORAGE_KEY =
-    "jyoti_data_cache_v9";
+    "jyoti_data_cache_v10";
 
 
 // ======================================
@@ -53,28 +42,21 @@ function saveCache(){
     localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
-
             categoryRows,
             subCategoryRows,
             productRows,
-
-            time: Date.now()
-
+            time:Date.now()
         })
     );
 
 }
 
-
 function loadCache(){
 
     const cache =
-        localStorage.getItem(
-            STORAGE_KEY
-        );
+        localStorage.getItem(STORAGE_KEY);
 
-    if(!cache)
-        return false;
+    if(!cache) return false;
 
     try{
 
@@ -100,9 +82,7 @@ function loadCache(){
         productRows =
             data.productRows || [];
 
-
         productMap.clear();
-
 
         productRows
             .slice(1)
@@ -118,7 +98,6 @@ function loadCache(){
                 }
 
             });
-
 
         dataLoaded = true;
 
@@ -153,17 +132,15 @@ const SHEET =
 const categoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=2013716827&single=true&output=csv`;
 
-
 const subCategoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=35788410&single=true&output=csv`;
-
 
 const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
 
 
 // ======================================
-// FETCH CSV
+// FETCH
 // ======================================
 
 async function fetchCSV(url){
@@ -172,7 +149,6 @@ async function fetchCSV(url){
         url.includes("?")
         ? "&"
         : "?";
-
 
     const response =
         await fetch(
@@ -185,7 +161,6 @@ async function fetchCSV(url){
             }
         );
 
-
     if(!response.ok){
 
         throw new Error(
@@ -194,14 +169,13 @@ async function fetchCSV(url){
 
     }
 
-
     return await response.text();
 
 }
 
 
 // ======================================
-// CSV PARSER
+// CSV
 // ======================================
 
 function csvToArray(csv){
@@ -215,7 +189,7 @@ function csvToArray(csv){
 
 
 // ======================================
-// URL PARAM
+// URL
 // ======================================
 
 function getParam(name){
@@ -252,7 +226,6 @@ async function loadData(){
 
     }
 
-
     const [
         catCSV,
         subCSV,
@@ -261,28 +234,21 @@ async function loadData(){
     await Promise.all([
 
         fetchCSV(categoryURL),
-
         fetchCSV(subCategoryURL),
-
         fetchCSV(productURL)
 
     ]);
 
-
     categoryRows =
         csvToArray(catCSV);
-
 
     subCategoryRows =
         csvToArray(subCSV);
 
-
     productRows =
         csvToArray(proCSV);
 
-
     productList = [];
-
 
     productRows
         .slice(1)
@@ -291,28 +257,19 @@ async function loadData(){
             productList.push({
 
                 id:row[0],
-
                 category:row[1],
-
                 subCategory:row[2],
-
                 name:row[3],
-
                 weight:row[4],
-
                 price:Number(row[5]),
-
                 status:row[6],
-
                 image:row[7]
 
             });
 
         });
 
-
     productMap.clear();
-
 
     productRows
         .slice(1)
@@ -329,7 +286,6 @@ async function loadData(){
 
         });
 
-
     dataLoaded = true;
 
     cacheTime =
@@ -341,7 +297,7 @@ async function loadData(){
 
 
 // ======================================
-// CATEGORY
+// CATEGORIES
 // ======================================
 
 async function loadCategories(){
@@ -351,13 +307,9 @@ async function loadCategories(){
             "categoryList"
         );
 
-
-    if(!list)
-        return;
-
+    if(!list) return;
 
     const html = [];
-
 
     categoryRows
         .slice(1)
@@ -375,7 +327,6 @@ async function loadCategories(){
 
             }
 
-
             html.push(`
 
 <div
@@ -390,16 +341,13 @@ async function loadCategories(){
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${row[1]}
-    </h3>
+    <h3>${row[1]}</h3>
 
 </div>
 
 `);
 
         });
-
 
     list.innerHTML =
         html.join("");
@@ -419,9 +367,7 @@ function openCategory(id){
             .some(row=>
 
                 row[1] == id &&
-
                 row[3] &&
-
                 row[3]
                     .trim()
                     .toLowerCase()
@@ -429,13 +375,10 @@ function openCategory(id){
 
             );
 
-
     location.href =
         hasSub
-
         ? "category.html?id=" +
           encodeURIComponent(id)
-
         : "products.html?category=" +
           encodeURIComponent(id);
 
@@ -453,17 +396,12 @@ async function loadSubCategories(){
             "subCategoryList"
         );
 
-
-    if(!list)
-        return;
-
+    if(!list) return;
 
     const id =
         getParam("id");
 
-
     const html = [];
-
 
     subCategoryRows
         .slice(1)
@@ -481,10 +419,8 @@ async function loadSubCategories(){
 
             }
 
-
             if(row[1] != id)
                 return;
-
 
             html.push(`
 
@@ -500,16 +436,13 @@ async function loadSubCategories(){
         onerror="this.src='placeholder.webp'"
     >
 
-    <h3>
-        ${row[2]}
-    </h3>
+    <h3>${row[2]}</h3>
 
 </div>
 
 `);
 
         });
-
 
     list.innerHTML =
         html.join("");
@@ -519,11 +452,11 @@ async function loadSubCategories(){
 
 // ======================================
 // PRODUCTS
-// EACH SHEET ROW = ONE CARD
+// ONE ROW = ONE CARD
 // ======================================
 
 async function loadProducts(
-    searchText = ""
+    searchText=""
 ){
 
     const list =
@@ -531,18 +464,14 @@ async function loadProducts(
             "productList"
         );
 
-
-    if(!list)
-        return;
+    if(!list) return;
 
 
     const subId =
         getParam("sub");
 
-
     const categoryId =
         getParam("category");
-
 
     const search =
         (
@@ -555,7 +484,6 @@ async function loadProducts(
 
 
     const html = [];
-
 
     let totalProducts = 0;
 
@@ -589,10 +517,6 @@ async function loadProducts(
                 row[7];
 
 
-            /*
-            ACTIVE ONLY
-            */
-
             if(
                 !status ||
                 status
@@ -606,10 +530,6 @@ async function loadProducts(
             }
 
 
-            /*
-            SUB CATEGORY FILTER
-            */
-
             if(
                 subId &&
                 subCatId != subId
@@ -619,10 +539,6 @@ async function loadProducts(
 
             }
 
-
-            /*
-            CATEGORY FILTER
-            */
 
             if(
                 categoryId &&
@@ -635,10 +551,6 @@ async function loadProducts(
             }
 
 
-            /*
-            SEARCH
-            */
-
             if(search){
 
                 const keyword =
@@ -648,7 +560,6 @@ async function loadProducts(
                         weight
                     )
                     .toLowerCase();
-
 
                 if(
                     !keyword.includes(search)
@@ -664,10 +575,6 @@ async function loadProducts(
             totalProducts++;
 
 
-            /*
-            CART QUANTITY
-            */
-
             const item =
                 cart.find(
                     p =>
@@ -681,18 +588,11 @@ async function loadProducts(
                 : 0;
 
 
-            /*
-            PRODUCT CARD
-            */
-
             html.push(`
 
 <article
     class="product-card premium-product-card"
 >
-
-
-    <!-- IMAGE -->
 
     <div class="product-image-wrap">
 
@@ -708,20 +608,15 @@ async function loadProducts(
     </div>
 
 
-    <!-- PRODUCT INFO -->
-
     <div class="product-info">
 
-
         <div class="product-category-label">
-            Product
+            JYOTI GRUH UDHYOG
         </div>
 
 
         <h3 class="grouped-product-name">
-
             ${product}
-
         </h3>
 
 
@@ -742,37 +637,53 @@ async function loadProducts(
         </div>
 
 
-        <!-- QUANTITY -->
-
         <div
-            class="premium-quantity"
+            class="product-action"
             id="cart-${id}"
         >
 
-            <button
-                class="premium-qty-btn"
-                onclick="changeQty('${id}',-1)"
-                aria-label="Decrease quantity"
-            >
-                −
-            </button>
+            ${
+                qty === 0
 
+                ?
 
-            <span class="premium-qty-number">
-                ${qty}
-            </span>
+                `<button
+                    class="premium-add-btn"
+                    onclick="addToCart('${id}')"
+                >
+                    <span class="add-symbol">+</span>
+                    Add
+                </button>`
 
+                :
 
-            <button
-                class="premium-qty-btn"
-                onclick="changeQty('${id}',1)"
-                aria-label="Increase quantity"
-            >
-                +
-            </button>
+                `<div class="premium-quantity">
+
+                    <button
+                        class="premium-qty-btn"
+                        onclick="changeQty('${id}',-1)"
+                    >
+                        −
+                    </button>
+
+                    <span
+                        class="premium-qty-number"
+                    >
+                        ${qty}
+                    </span>
+
+                    <button
+                        class="premium-qty-btn"
+                        onclick="changeQty('${id}',1)"
+                    >
+                        +
+                    </button>
+
+                </div>`
+
+            }
 
         </div>
-
 
     </div>
 
@@ -786,10 +697,6 @@ async function loadProducts(
     list.innerHTML =
         html.join("");
 
-
-    /*
-    PRODUCT COUNT
-    */
 
     const heading =
         document.querySelector(
@@ -821,13 +728,10 @@ function initSearch(){
             "searchBox"
         );
 
-
     if(!searchBox)
         return;
 
-
     let timer;
-
 
     searchBox.addEventListener(
         "input",
@@ -836,9 +740,7 @@ function initSearch(){
             const text =
                 this.value.trim();
 
-
             clearTimeout(timer);
-
 
             timer =
                 setTimeout(()=>{
@@ -888,7 +790,8 @@ function addToCart(id){
 
     const item =
         cart.find(
-            p => p.id == id
+            p =>
+            p.id == id
         );
 
 
@@ -920,7 +823,7 @@ function addToCart(id){
 
 
 // ======================================
-// CHANGE QUANTITY
+// CHANGE QTY
 // ======================================
 
 function changeQty(
@@ -930,13 +833,10 @@ function changeQty(
 
     const item =
         cart.find(
-            p => p.id == id
+            p =>
+            p.id == id
         );
 
-
-    /*
-    ADD NEW
-    */
 
     if(
         !item &&
@@ -952,12 +852,6 @@ function changeQty(
         });
 
     }
-
-
-    /*
-    EXISTING ITEM
-    */
-
     else if(item){
 
         item.qty += change;
@@ -990,7 +884,7 @@ function changeQty(
 
 
 // ======================================
-// REMOVE CART ITEM
+// REMOVE
 // ======================================
 
 function removeCartItem(id){
@@ -1000,7 +894,6 @@ function removeCartItem(id){
             item =>
             item.id != id
         );
-
 
     saveCart();
 
@@ -1014,7 +907,7 @@ function removeCartItem(id){
 
 
 // ======================================
-// FLOATING CART
+// CART BUTTON
 // ======================================
 
 function updateCartButton(){
@@ -1024,21 +917,13 @@ function updateCartButton(){
             "viewCartBtn"
         );
 
-
     const count =
         document.getElementById(
             "cartCount"
         );
 
-
-    if(
-        !btn ||
-        !count
-    ){
-
+    if(!btn || !count)
         return;
-
-    }
 
 
     const total =
@@ -1082,14 +967,11 @@ async function loadCart(){
             "cartList"
         );
 
-
     if(!list)
         return;
 
 
-    if(
-        cart.length === 0
-    ){
+    if(cart.length === 0){
 
         list.innerHTML = `
 
@@ -1122,10 +1004,7 @@ async function loadCart(){
     cart.forEach(item=>{
 
         const row =
-            getProduct(
-                item.id
-            );
-
+            getProduct(item.id);
 
         if(!row)
             return;
@@ -1162,29 +1041,15 @@ async function loadCart(){
         onerror="this.src='placeholder.webp'"
     >
 
-
     <div class="cart-info">
 
-        <h3>
-            ${product}
-        </h3>
+        <h3>${product}</h3>
 
-
-        <p>
-            ${weight}
-        </p>
-
+        <p>${weight}</p>
 
         <div class="cart-price">
-
-            ₹${price}
-            ×
-            ${item.qty}
-            =
-            ₹${total}
-
+            ₹${price} × ${item.qty} = ₹${total}
         </div>
-
 
         <div class="qty-box">
 
@@ -1195,11 +1060,9 @@ async function loadCart(){
                 −
             </button>
 
-
             <span class="qty-number">
                 ${item.qty}
             </span>
-
 
             <button
                 class="qty-btn"
@@ -1209,7 +1072,6 @@ async function loadCart(){
             </button>
 
         </div>
-
 
         <button
             class="remove-btn"
@@ -1231,23 +1093,17 @@ async function loadCart(){
 
 <div class="cart-total">
 
-    <h2>
-        Grand Total
-    </h2>
-
+    <h2>Grand Total</h2>
 
     <div class="total-price">
         ₹${grandTotal}
     </div>
 
-
     <button
         class="whatsapp-btn"
         onclick="orderWhatsApp()"
     >
-
         📲 Order on WhatsApp
-
     </button>
 
 </div>
@@ -1257,7 +1113,6 @@ async function loadCart(){
 
     list.innerHTML =
         html.join("");
-
 
     updateCartButton();
 
@@ -1289,10 +1144,7 @@ async function orderWhatsApp(){
     cart.forEach(item=>{
 
         const row =
-            getProduct(
-                item.id
-            );
-
+            getProduct(item.id);
 
         if(!row)
             return;
@@ -1329,19 +1181,10 @@ async function orderWhatsApp(){
 
 
     window.open(
-
-        `https://wa.me/919712149344?text=${
-            encodeURIComponent(message)
-        }`,
-
+        `https://wa.me/919712149344?text=${encodeURIComponent(message)}`,
         "_blank"
-
     );
 
-
-    /*
-    CLEAR CART
-    */
 
     cart = [];
 
@@ -1368,7 +1211,6 @@ document.addEventListener(
 
             await loadData();
 
-
             await Promise.all([
 
                 loadCategories(),
@@ -1380,7 +1222,6 @@ document.addEventListener(
                 loadCart()
 
             ]);
-
 
             updateCartButton();
 
@@ -1410,11 +1251,8 @@ window.addEventListener(
 
         cart =
             JSON.parse(
-                localStorage.getItem(
-                    "cart"
-                )
+                localStorage.getItem("cart")
             ) || [];
-
 
         updateCartButton();
 
@@ -1455,30 +1293,17 @@ function openImage(src){
             "zoomImage"
         );
 
-
     const modal =
         document.getElementById(
             "imageModal"
         );
 
-
-    if(
-        !image ||
-        !modal
-    ){
-
+    if(!image || !modal)
         return;
 
-    }
+    image.src = src;
 
-
-    image.src =
-        src;
-
-
-    modal.classList.add(
-        "show"
-    );
+    modal.classList.add("show");
 
 }
 
@@ -1490,14 +1315,10 @@ function closeImage(){
             "imageModal"
         );
 
-
     if(!modal)
         return;
 
-
-    modal.classList.remove(
-        "show"
-    );
+    modal.classList.remove("show");
 
 }
 
