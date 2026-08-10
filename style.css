@@ -1207,4 +1207,73 @@ input{
 }
 
 
+/* =========================================
+   FINAL FIX - MULTI WEIGHT PRODUCT ROW
+========================================= */
+
+.product-card{
+    overflow:hidden !important;
+}
+
+.product-card > div{
+    max-width:100%;
+    box-sizing:border-box;
+}
+
+.product-variant-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:6px;
+    margin-bottom:10px;
+    box-sizing:border-box;
+}
+
+.product-variant-weight{
+    flex:1;
+    min-width:0;
+    font-size:16px;
+    color:#777;
+    white-space:nowrap;
+}
+
+.product-variant-price{
+    width:65px;
+    min-width:65px;
+    font-size:19px;
+    font-weight:700;
+    color:#111;
+    white-space:nowrap;
+}
+
+.product-variant-action{
+    width:78px;
+    min-width:78px;
+    flex-shrink:0;
+}
+
+.product-variant-action .cart-btn{
+    width:78px !important;
+    min-width:78px !important;
+    height:40px !important;
+    margin:0 !important;
+    padding:0 !important;
+    border-radius:12px;
+    font-size:14px !important;
+    white-space:nowrap;
+}
+
+.product-variant-action .qty-control{
+    width:78px !important;
+    min-width:78px !important;
+    height:40px !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    border-radius:12px;
+}
+
 
