@@ -2450,3 +2450,26 @@ input{
     }
 
 }
+
+/* =========================================================
+   STEP 2 - HOME SPACING
+========================================================= */
+
+@media(max-width:768px){
+
+    /* Search થી Products heading નો gap ઓછો */
+    .home-search-section{
+        padding-bottom:10px !important;
+    }
+
+    /* Our Products section થોડું ઉપર */
+    .home-section{
+        padding-top:10px !important;
+    }
+
+    /* Heading અને cards વચ્ચેનો gap */
+    .home-section-heading{
+        margin-bottom:12px !important;
+    }
+
+}
