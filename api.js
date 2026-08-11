@@ -1,7 +1,7 @@
 /* =========================================================
    JYOTI GRUH UDHYOG
-   API.JS V20
-   CLEAN PREMIUM VERSION
+   API.JS V21
+   PREMIUM PRODUCT VERSION
 ========================================================= */
 
 
@@ -41,7 +41,7 @@ const CACHE_DURATION =
     5 * 60 * 1000;
 
 const STORAGE_KEY =
-    "jyoti_data_cache_v20";
+    "jyoti_data_cache_v21";
 
 
 /* =========================================================
@@ -390,7 +390,8 @@ async function loadCategories(){
                 row[1] || "";
 
             const image =
-                row[3] || "placeholder.webp";
+                row[3] ||
+                "placeholder.webp";
 
 
             html.push(`
@@ -524,14 +525,17 @@ async function loadSubCategories(){
                 row[2] || "";
 
             const image =
-                row[4] || "placeholder.webp";
+                row[4] ||
+                "placeholder.webp";
 
 
             html.push(`
 
 <div
     class="category-card"
-    onclick="location.href='products.html?sub=${encodeURIComponent(id)}'"
+    onclick="
+        location.href='products.html?sub=${encodeURIComponent(id)}'
+    "
 >
 
     <img
@@ -560,8 +564,7 @@ async function loadSubCategories(){
 
 
 /* =========================================================
-   PRODUCT CARD
-   ONE GOOGLE SHEET ROW = ONE CARD
+   PREMIUM PRODUCT CARD
 ========================================================= */
 
 function createProductCard(row){
@@ -593,7 +596,7 @@ function createProductCard(row){
 
     const qty =
         cartItem
-        ? cartItem.qty
+        ? Number(cartItem.qty)
         : 0;
 
 
@@ -633,13 +636,9 @@ function createProductCard(row){
         −
     </button>
 
-
-    <span
-        class="premium-qty-number"
-    >
+    <span class="premium-qty-number">
         ${qty}
     </span>
-
 
     <button
         class="premium-qty-btn"
@@ -678,7 +677,6 @@ function createProductCard(row){
 
     <div class="product-info">
 
-
         <div class="product-category-label">
 
             JYOTI GRUH UDHYOG
@@ -696,23 +694,17 @@ function createProductCard(row){
         <div class="product-meta">
 
             <span class="product-weight">
-
                 ${weight}
-
             </span>
 
 
             <span class="product-dot">
-
                 •
-
             </span>
 
 
             <span class="product-price">
-
                 ₹${price}
-
             </span>
 
         </div>
@@ -1111,7 +1103,7 @@ function changeQty(
 
 
 /* =========================================================
-   REMOVE CART ITEM
+   REMOVE
 ========================================================= */
 
 function removeCartItem(id){
@@ -1193,7 +1185,7 @@ function updateCartButton(){
 
 
 /* =========================================================
-   LOAD CART
+   CART PAGE
 ========================================================= */
 
 async function loadCart(){
@@ -1281,28 +1273,22 @@ async function loadCart(){
 
 <div class="cart-item">
 
-
     <img
         src="${image}"
         alt="${product}"
         loading="lazy"
-        decoding="async"
         onerror="this.src='placeholder.webp'"
     >
 
-
     <div class="cart-info">
-
 
         <h3>
             ${product}
         </h3>
 
-
         <p>
             ${weight}
         </p>
-
 
         <div class="cart-price">
 
@@ -1311,9 +1297,7 @@ async function loadCart(){
 
         </div>
 
-
         <div class="qty-box">
-
 
             <button
                 class="qty-btn"
@@ -1322,13 +1306,9 @@ async function loadCart(){
                 −
             </button>
 
-
             <span class="qty-number">
-
                 ${qty}
-
             </span>
-
 
             <button
                 class="qty-btn"
@@ -1337,22 +1317,16 @@ async function loadCart(){
                 +
             </button>
 
-
         </div>
-
 
         <button
             class="remove-btn"
             onclick="removeCartItem('${item.id}')"
         >
-
             🗑 Remove
-
         </button>
 
-
     </div>
-
 
 </div>
 
@@ -1369,21 +1343,15 @@ async function loadCart(){
         Grand Total
     </h2>
 
-
     <div class="total-price">
-
         ₹${grandTotal}
-
     </div>
-
 
     <button
         class="whatsapp-btn"
         onclick="orderWhatsApp()"
     >
-
         📲 Order on WhatsApp
-
     </button>
 
 </div>
@@ -1401,7 +1369,7 @@ async function loadCart(){
 
 
 /* =========================================================
-   WHATSAPP ORDER
+   WHATSAPP
 ========================================================= */
 
 async function orderWhatsApp(){
@@ -1409,11 +1377,8 @@ async function orderWhatsApp(){
     await loadData();
 
 
-    if(cart.length === 0){
-
+    if(cart.length === 0)
         return;
-
-    }
 
 
     let grandTotal = 0;
@@ -1553,7 +1518,7 @@ function closeImage(){
 
 
 /* =========================================================
-   ESCAPE CLOSE IMAGE
+   ESC
 ========================================================= */
 
 document.addEventListener(
@@ -1573,7 +1538,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   PAGE INITIALIZATION
+   INITIALIZE
 ========================================================= */
 
 async function initializePage(){
