@@ -2627,3 +2627,44 @@ input{
     }
 
 }
+
+/* =====================================================
+   COMPACT HOME BRAND SECTION
+===================================================== */
+
+.home-bottom-brand{
+    padding:35px 20px 38px !important;
+    min-height:0 !important;
+    height:auto !important;
+}
+
+.home-bottom-brand span{
+    display:block;
+    margin-bottom:12px !important;
+}
+
+.home-bottom-brand h2{
+    margin:0 !important;
+    font-size:38px !important;
+    line-height:1.12 !important;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        padding:32px 18px 35px !important;
+    }
+
+    .home-bottom-brand span{
+        font-size:12px !important;
+        letter-spacing:3px !important;
+        margin-bottom:12px !important;
+    }
+
+    .home-bottom-brand h2{
+        font-size:32px !important;
+        line-height:1.12 !important;
+    }
+
+}
