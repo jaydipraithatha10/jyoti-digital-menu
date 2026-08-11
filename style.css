@@ -2368,3 +2368,19 @@ input{
     }
 
 }
+
+/* =========================================================
+   HOME - REDUCE GAP BEFORE WHY JYOTI
+========================================================= */
+
+@media(max-width:768px){
+
+    .home-section{
+        padding-bottom:25px !important;
+    }
+
+    .trust-section{
+        padding-top:25px !important;
+    }
+
+}
