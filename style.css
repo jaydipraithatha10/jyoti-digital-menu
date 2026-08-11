@@ -4618,3 +4618,41 @@ input{
 }
 
 
+/* =====================================================
+   PREMIUM TYPOGRAPHY
+===================================================== */
+
+/* Main headings */
+.header h1,
+.home-section-heading h2,
+.trust-heading h2,
+.brand-message-inner h2,
+.products-title,
+.subcategory-title,
+.section-title{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+}
+
+/* Brand name */
+.header h1{
+    letter-spacing:-.4px;
+}
+
+/* Product names */
+.grouped-product-name,
+.category-card h3,
+.trust-card h3{
+    font-family:'Outfit',sans-serif;
+}
+
+/* All normal content */
+body,
+button,
+input,
+p,
+span,
+a{
+    font-family:'Outfit',sans-serif;
+}
+
