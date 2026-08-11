@@ -4656,3 +4656,7 @@ a{
     font-family:'Outfit',sans-serif;
 }
 
+
+.product-card.premium-product-card .group-product-image{
+    border-radius:18px !important;
+}
