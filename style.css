@@ -4463,3 +4463,57 @@ input{
             rgba(201,162,39,.35)
         );
 }
+
+
+/* =====================================================
+   CATEGORY + PRODUCT SEARCH GOLDEN EFFECT
+===================================================== */
+
+.home-search-section .search-box:focus-within,
+.products-search-section .search-box:focus-within{
+
+    border-color:#C9A227 !important;
+
+    box-shadow:
+        0 8px 25px rgba(65,38,20,.08),
+        0 0 0 3px rgba(201,162,39,.10),
+        0 0 18px rgba(201,162,39,.14) !important;
+
+    transform:translateY(-1px);
+}
+
+
+/* Search icon */
+
+.home-search-section .search-icon,
+.products-search-section .search-icon{
+
+    transition:
+        transform .25s ease,
+        filter .25s ease;
+}
+
+
+.home-search-section .search-box:focus-within .search-icon,
+.products-search-section .search-box:focus-within .search-icon{
+
+    transform:scale(1.08);
+
+    filter:
+        drop-shadow(
+            0 0 5px
+            rgba(201,162,39,.35)
+        );
+}
+
+
+/* Smooth */
+
+.home-search-section .search-box,
+.products-search-section .search-box{
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
