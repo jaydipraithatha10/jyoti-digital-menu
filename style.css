@@ -2553,3 +2553,44 @@ input{
     }
 
 }
+
+/* =====================================================
+   HOME BOTTOM BRAND - COMPACT
+===================================================== */
+
+.home-bottom-brand{
+    padding:45px 20px !important;
+}
+
+.home-bottom-brand span{
+    font-size:11px !important;
+    letter-spacing:3px !important;
+}
+
+.home-bottom-brand h2{
+    margin-top:12px !important;
+    font-size:32px !important;
+    line-height:1.12 !important;
+}
+
+.home-bottom-brand p{
+    margin-top:14px !important;
+    font-size:15px !important;
+    line-height:1.5 !important;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        padding:40px 15px !important;
+    }
+
+    .home-bottom-brand h2{
+        font-size:30px !important;
+        line-height:1.12 !important;
+    }
+
+}
