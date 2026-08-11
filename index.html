@@ -436,13 +436,13 @@
 
 
 <!-- =====================================================
-     WELCOME VOICE + ANIMATION
+     WELCOME ANIMATION + VOICE
 ===================================================== -->
 
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
+window.addEventListener(
+    "load",
     function(){
 
         const welcome =
@@ -455,62 +455,49 @@ document.addEventListener(
             return;
 
 
-        /* =================================================
+        /* ================================================
            WELCOME VOICE
-        ================================================= */
-
-        function speakWelcome(){
-
-            if(
-                !("speechSynthesis" in window)
-            ){
-
-                return;
-
-            }
-
-
-            window.speechSynthesis.cancel();
-
-
-            const message =
-                new SpeechSynthesisUtterance(
-                    "Jyoti Gruh Udhyog માં આપનું સ્વાગત છે."
-                );
-
-
-            message.lang = "gu-IN";
-
-            message.rate = 0.9;
-
-            message.pitch = 1.05;
-
-            message.volume = 1;
-
-
-            window.speechSynthesis.speak(
-                message
-            );
-
-        }
-
-
-        /* =================================================
-           START VOICE
         ================================================= */
 
         setTimeout(
             function(){
 
-                speakWelcome();
+                if(
+                    "speechSynthesis"
+                    in window
+                ){
+
+                    window.speechSynthesis.cancel();
+
+
+                    const voice =
+                        new SpeechSynthesisUtterance(
+                            "Jyoti Gruh Udhyog માં આપનું સ્વાગત છે."
+                        );
+
+
+                    voice.lang = "gu-IN";
+
+                    voice.rate = 0.9;
+
+                    voice.pitch = 1.05;
+
+                    voice.volume = 1;
+
+
+                    window.speechSynthesis.speak(
+                        voice
+                    );
+
+                }
 
             },
-            300
+            500
         );
 
 
-        /* =================================================
-           REMOVE WELCOME SCREEN
+        /* ================================================
+           ORIGINAL WELCOME ANIMATION TIMING
         ================================================= */
 
         setTimeout(
@@ -525,16 +512,6 @@ document.addEventListener(
                     function(){
 
                         welcome.remove();
-
-
-                        if(
-                            "speechSynthesis"
-                            in window
-                        ){
-
-                            window.speechSynthesis.cancel();
-
-                        }
 
                     },
                     800
