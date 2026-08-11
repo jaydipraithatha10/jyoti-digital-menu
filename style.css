@@ -2064,3 +2064,21 @@ input{
     }
 
 }
+
+/* =========================================================
+   PRODUCT CARD - STEP 1
+   IMAGE TOP ALIGN
+========================================================= */
+
+.product-card.premium-product-card .product-image-wrap{
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    padding-top:0 !important;
+    margin-top:0 !important;
+}
+
+.product-card.premium-product-card .group-product-image{
+    margin-top:0 !important;
+    transform:none !important;
+}
