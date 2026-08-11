@@ -4715,21 +4715,23 @@ input{
 }
 
 /* =====================================================
-   PRODUCT CARD - GOLDEN SHINE
+   PRODUCT CARD - SAME GOLDEN SHINE AS CATEGORY
+   CLEAN FINAL VERSION
 ===================================================== */
 
 .product-card.premium-product-card{
     position:relative;
     overflow:hidden;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        border-color .25s ease;
 }
 
 
-/* Moving shine */
+/* Moving golden shine */
+
+.product-card.premium-product-card .product-image-wrap{
+    position:relative;
+    overflow:hidden;
+}
+
 
 .product-card.premium-product-card .product-image-wrap::after{
 
@@ -4738,24 +4740,24 @@ input{
     position:absolute;
 
     top:-120%;
-    left:-80%;
+    left:-70%;
 
-    width:35%;
+    width:45%;
     height:300%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.42),
-            rgba(201,162,39,.16),
+            rgba(255,255,255,.45),
+            rgba(201,162,39,.18),
             transparent
         );
 
     transform:rotate(22deg);
 
     animation:
-        productGoldenShine 5s ease-in-out infinite;
+        productCardGoldenShine 5s ease-in-out infinite;
 
     pointer-events:none;
 
@@ -4763,44 +4765,34 @@ input{
 }
 
 
-@keyframes productGoldenShine{
+@keyframes productCardGoldenShine{
 
     0%{
-        left:-80%;
+        left:-70%;
     }
 
     45%{
-        left:140%;
+        left:130%;
     }
 
     100%{
-        left:140%;
+        left:130%;
     }
 
 }
 
 
-/* Same premium lift as category */
-
-.product-card.premium-product-card:hover{
-
-    transform:translateY(-3px);
-
-    border-color:#D6B45A !important;
-
-    box-shadow:
-        0 12px 28px rgba(65,38,20,.12),
-        0 0 16px rgba(201,162,39,.12);
-}
-
+/* Same tap feel as Category Card */
 
 .product-card.premium-product-card:active{
 
-    transform:scale(.97);
+    transform:scale(.97) !important;
 
     border-color:#C9A227 !important;
 
     box-shadow:
-        0 5px 15px rgba(65,38,20,.12),
-        0 0 12px rgba(201,162,39,.16);
+        0 5px 15px
+        rgba(65,38,20,.12),
+        0 0 12px
+        rgba(201,162,39,.16);
 }
