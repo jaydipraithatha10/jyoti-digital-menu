@@ -2519,3 +2519,19 @@ input{
     }
 
 }
+
+/* =========================================================
+   STEP 4 - CATEGORY TO WHY JYOTI SPACING
+========================================================= */
+
+@media(max-width:768px){
+
+    .home-section{
+        padding-bottom:28px !important;
+    }
+
+    .trust-section{
+        padding-top:55px !important;
+    }
+
+}
