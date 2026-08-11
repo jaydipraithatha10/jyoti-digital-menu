@@ -3219,3 +3219,65 @@ img{
     }
 
 }
+
+/* =========================================
+   FINAL PRODUCTS HEADER ALIGNMENT
+========================================= */
+
+.products-page-header{
+    display:flex !important;
+    align-items:center !important;
+    gap:14px !important;
+    padding:18px 15px 14px !important;
+}
+
+.products-page-header .back-btn{
+    flex-shrink:0 !important;
+}
+
+.products-heading{
+    flex:1 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+}
+
+.products-heading .section-kicker{
+    margin:0 0 3px !important;
+}
+
+.products-title{
+    margin:0 !important;
+    font-size:32px !important;
+    line-height:1.05 !important;
+}
+
+
+/* =========================================
+   PRODUCT CARD BALANCE
+========================================= */
+
+.premium-product-grid .product-card{
+    justify-content:flex-start !important;
+}
+
+.premium-product-grid .product-card .product-action{
+    margin-top:auto !important;
+    padding-top:18px !important;
+    padding-bottom:2px !important;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .products-page-header{
+        padding:16px 12px 12px !important;
+    }
+
+    .products-title{
+        font-size:28px !important;
+    }
+
+}
