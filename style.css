@@ -2392,3 +2392,29 @@ input{
     }
 
 }
+
+@media (max-width:768px){
+
+    .product-card.premium-product-card{
+        height:370px !important;
+        min-height:370px !important;
+    }
+
+    .product-card.premium-product-card .product-image-wrap{
+        height:150px !important;
+    }
+
+    .product-card.premium-product-card .grouped-product-name{
+        font-size:17px !important;
+    }
+
+    .product-card.premium-product-card .product-meta{
+        margin-top:5px !important;
+    }
+
+    .product-card.premium-product-card .premium-add-btn,
+    .product-card.premium-product-card .premium-quantity{
+        height:42px !important;
+    }
+
+}
