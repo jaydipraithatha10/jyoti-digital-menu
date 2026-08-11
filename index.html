@@ -433,7 +433,34 @@
 
 </div>
 
+<script>
 
+/* =====================================================
+   WELCOME SCREEN
+===================================================== */
+
+window.addEventListener("load", function(){
+
+    const welcome =
+        document.getElementById("welcomeOverlay");
+
+    if(!welcome) return;
+
+    setTimeout(function(){
+
+        welcome.classList.add("hide-welcome");
+
+        setTimeout(function(){
+
+            welcome.style.display = "none";
+
+        }, 800);
+
+    }, 3500);
+
+});
+
+</script>
 
 <!-- =====================================================
      API JS
