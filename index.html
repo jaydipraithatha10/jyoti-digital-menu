@@ -36,7 +36,7 @@
 
 <link
     rel="stylesheet"
-    href="style.css?v=31"
+    href="style.css?v=32"
 >
 
 
@@ -57,25 +57,30 @@
 
 <body>
 
-<!-- WELCOME OVERLAY -->
 
 <!-- =====================================================
      WELCOME SCREEN
 ===================================================== -->
 
-<div id="welcomeOverlay" class="welcome-overlay">
+<div
+    id="welcomeOverlay"
+    class="welcome-overlay"
+>
 
     <div class="welcome-box">
 
         <img
             src="welcome-cartoon.webp"
-            class="welcome-cartoon"
+            class="welcome-screen-cartoon"
             alt="Jyoti Gruh Udhyog Welcome"
         >
 
     </div>
 
 </div>
+
+
+
 <!-- =====================================================
      HEADER
 ===================================================== -->
@@ -330,24 +335,14 @@
 
 </section>
 
-<!-- WELCOME CARTOON -->
 
-<div class="welcome-cartoon">
-
-    <img
-        src="welcome-cartoon.webp"
-        alt="Jyoti Gruh Udhyog Welcome"
-    >
-
-</div>
 </main>
+
 
 
 <!-- =====================================================
      FOOTER
 ===================================================== -->
-
-
 
 <footer class="footer">
 
@@ -359,6 +354,7 @@
         Taste Of Home In Every Bite
     </p>
 
+
     <div class="footer-buttons">
 
         <a
@@ -367,6 +363,7 @@
         >
             📞 Call Now
         </a>
+
 
         <a
             href="https://wa.me/919712149344"
@@ -379,11 +376,14 @@
 
     </div>
 
+
     <p class="copyright">
         © 2026 Jyoti Gruh Udhyog
     </p>
 
 </footer>
+
+
 
 <!-- =====================================================
      FLOATING CART
@@ -433,34 +433,56 @@
 
 </div>
 
+
+
+<!-- =====================================================
+     WELCOME SCRIPT
+===================================================== -->
+
 <script>
 
-/* =====================================================
-   WELCOME SCREEN
-===================================================== */
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-window.addEventListener("load", function(){
+        const welcome =
+            document.getElementById(
+                "welcomeOverlay"
+            );
 
-    const welcome =
-        document.getElementById("welcomeOverlay");
 
-    if(!welcome) return;
+        if(!welcome)
+            return;
 
-    setTimeout(function(){
 
-        welcome.classList.add("hide-welcome");
+        setTimeout(
+            function(){
 
-        setTimeout(function(){
+                welcome.classList.add(
+                    "hide-welcome"
+                );
 
-            welcome.style.display = "none";
 
-        }, 800);
+                setTimeout(
+                    function(){
 
-    }, 3500);
+                        welcome.remove();
 
-});
+                    },
+                    800
+                );
+
+
+            },
+            3500
+        );
+
+    }
+);
 
 </script>
+
+
 
 <!-- =====================================================
      API JS
@@ -479,30 +501,36 @@ window.addEventListener("load", function(){
 
 <script>
 
-if ("serviceWorker" in navigator) {
+if("serviceWorker" in navigator){
 
     window.addEventListener(
         "load",
-        function () {
+        function(){
 
             navigator
                 .serviceWorker
-                .register("service-worker.js")
-                .then(function () {
+                .register(
+                    "service-worker.js"
+                )
+                .then(
+                    function(){
 
-                    console.log(
-                        "Service Worker Registered"
-                    );
+                        console.log(
+                            "Service Worker Registered"
+                        );
 
-                })
-                .catch(function (error) {
+                    }
+                )
+                .catch(
+                    function(error){
 
-                    console.log(
-                        "Service Worker Error:",
-                        error
-                    );
+                        console.log(
+                            "Service Worker Error:",
+                            error
+                        );
 
-                });
+                    }
+                );
 
         }
     );
