@@ -3466,3 +3466,47 @@ input{
             drop-shadow(0 0 2px rgba(255,210,80,.15));
     }
 }
+
+
+/* =========================================================
+   OUR PRODUCTS - SOFT GOLDEN LIGHT
+========================================================= */
+
+.home-section-heading h2{
+    animation: productsTitleGlow 3.5s ease-in-out infinite;
+}
+
+@keyframes productsTitleGlow{
+
+    0%,100%{
+        text-shadow:
+            0 0 0 rgba(201,162,39,0);
+    }
+
+    50%{
+        text-shadow:
+            0 0 10px rgba(201,162,39,.28);
+    }
+
+}
+
+
+/* GOLDEN KICKER */
+
+.home-section-heading .section-kicker{
+    animation: kickerGlow 4s ease-in-out infinite;
+}
+
+@keyframes kickerGlow{
+
+    0%,100%{
+        opacity:.75;
+    }
+
+    50%{
+        opacity:1;
+        text-shadow:
+            0 0 8px rgba(201,162,39,.25);
+    }
+
+}
