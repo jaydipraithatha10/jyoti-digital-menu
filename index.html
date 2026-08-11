@@ -1,2290 +1,377 @@
-/* =========================================================
-   JYOTI GRUH UDHYOG
-   PREMIUM STYLE.CSS
-   V22
-========================================================= */
-
-:root{
-    --brown:#6B4226;
-    --brown-dark:#432719;
-    --brown-deep:#351d12;
-
-    --gold:#C9A227;
-    --gold-light:#E8CE7D;
-
-    --cream:#F8F4EE;
-    --cream-dark:#EFE6D8;
-
-    --text:#3F281C;
-    --muted:#8A8178;
-
-    --white:#FFFFFF;
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    margin:0;
-    min-height:100vh;
-
-    background:
-        linear-gradient(
-            180deg,
-            #FBF9F5 0%,
-            #F6F0E7 100%
-        );
-
-    color:var(--text);
-
-    font-family:'Outfit',sans-serif;
-
-    overflow-x:hidden;
-
-    display:flex;
-    flex-direction:column;
-}
-
-body > main{
-    flex:1;
-}
-
-img{
-    max-width:100%;
-    user-select:none;
-    -webkit-user-drag:none;
-}
-
-button,
-input{
-    font-family:inherit;
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-    width:100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #FFFDF9,
-            #F8EDDD
-        );
-
-    border-bottom:1px solid #E7DCCB;
-
-    box-shadow:
-        0 4px 18px rgba(60,35,20,.06);
-
-    z-index:1000;
-}
-
-.brand-wrap{
-    width:100%;
-    max-width:1400px;
-    min-height:165px;
-
-    margin:auto;
-
-    padding:22px 28px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    gap:22px;
-}
-
-.logo{
-    width:110px;
-    height:110px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    background:#fff;
-
-    padding:5px;
-
-    box-shadow:
-        0 8px 22px rgba(60,35,20,.16);
-
-    flex-shrink:0;
-}
-
-.brand-text{
-    text-align:left;
-}
-
-.header h1{
-    margin:0;
-
-    color:var(--brown);
-
-    font-size:42px;
-    line-height:1.05;
-
-    font-weight:700;
-
-    letter-spacing:-1px;
-}
-
-.header p{
-    margin-top:9px;
-
-    color:#8C7763;
-
-    font-size:21px;
-}
-
-
-/* =========================================================
-   COMMON
-========================================================= */
-
-.section-kicker{
-    display:block;
-
-    color:#AD956B;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    letter-spacing:3px;
-
-    text-transform:uppercase;
-}
-
-
-/* =========================================================
-   HOME HERO
-========================================================= */
-
-.home-hero{
-    width:100%;
-    padding:22px 0 8px;
-}
-
-.hero-banner{
-    width:94%;
-    max-width:1400px;
-
-    margin:auto;
-
-    overflow:hidden;
-
-    border-radius:24px;
-
-    box-shadow:
-        0 10px 30px rgba(60,35,20,.12);
-}
-
-.hero-banner img{
-    width:100%;
-    display:block;
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-.home-search-section,
-.products-search-section{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-}
-
-.home-search-section{
-    padding:10px 20px 25px;
-}
-
-.products-search-section{
-    padding:5px 20px 18px;
-}
-
-.search-box{
-    width:100%;
-    min-height:62px;
-
-    background:#fff;
-
-    border:1px solid #E8DDCE;
-
-    border-radius:40px;
-
-    display:flex;
-    align-items:center;
-
-    padding:12px 20px;
-
-    box-shadow:
-        0 8px 25px rgba(65,38,20,.07);
-}
-
-.search-icon{
-    font-size:27px;
-    margin-right:14px;
-}
-
-.search-box input{
-    width:100%;
-
-    border:none;
-    outline:none;
-
-    background:transparent;
-
-    color:var(--text);
-
-    font-size:18px;
-}
-
-.search-box input::placeholder{
-    color:#B1B1B1;
-}
-
-
-/* =========================================================
-   HOME CATEGORY
-========================================================= */
-
-.home-section{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:20px 20px 65px;
-}
-
-.home-section-heading{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    margin-bottom:20px;
-}
-
-.home-section-heading h2{
-    margin-top:4px;
-
-    font-size:34px;
-
-    color:var(--brown-dark);
-}
-
-.heading-arrow{
-    width:54px;
-    height:54px;
-
-    border:none;
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #75482B,
-            #4F2D1A
-        );
-
-    color:#fff;
-
-    font-size:25px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 8px 20px rgba(65,38,20,.20);
-}
-
-.heading-arrow:active{
-    transform:scale(.93);
-}
-
-
-/* =========================================================
-   CATEGORY GRID
-========================================================= */
-
-.category-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap:16px;
-}
-
-.category-card{
-    width:100%;
-
-    background:#fff;
-
-    border:1px solid #E7DCCB;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    text-align:center;
-
-    box-shadow:
-        0 8px 25px rgba(65,38,20,.07);
-
-    transition:.25s ease;
-
-    cursor:pointer;
-
-    position:relative;
-}
-
-.category-card::before{
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:22%;
-    right:22%;
-
-    height:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--gold),
-            transparent
-        );
-}
-
-.category-card img{
-    width:82%;
-
-    aspect-ratio:1/1;
-
-    object-fit:cover;
-
-    display:block;
-
-    margin:18px auto 8px;
-
-    border-radius:16px;
-}
-
-.category-card h3{
-    padding:8px 10px 18px;
-
-    color:var(--brown) !important;
-
-    font-size:19px !important;
-
-    font-weight:600 !important;
-}
-
-
-/* =========================================================
-   WHY JYOTI
-========================================================= */
-
-.trust-section{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:65px 20px 75px;
-
-    text-align:center;
-}
-
-.trust-heading{
-    margin-bottom:35px;
-}
-
-.trust-heading h2{
-    margin-top:10px;
-
-    color:var(--brown-dark);
-
-    font-size:38px;
-
-    line-height:1.12;
-}
-
-.trust-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:18px;
-}
-
-.trust-card{
-    background:
-        linear-gradient(
-            180deg,
-            #fff,
-            #FBF6EF
-        );
-
-    border:1px solid #E7DCCB;
-
-    border-radius:22px;
-
-    padding:30px 18px;
-
-    box-shadow:
-        0 8px 25px rgba(65,38,20,.06);
-}
-
-.trust-icon{
-    width:62px;
-    height:62px;
-
-    margin:0 auto 18px;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#F4EBDD;
-
-    font-size:30px;
-}
-
-.trust-card h3{
-    color:var(--brown);
-    font-size:21px;
-    margin-bottom:9px;
-}
-
-.trust-card p{
-    color:#8A8178;
-    font-size:15px;
-    line-height:1.5;
-}
-
-
-/* =========================================================
-   BRAND MESSAGE
-========================================================= */
-
-.brand-message{
-    width:100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #5B321E,
-            #7A4728
-        );
-
-    border-top:4px solid var(--gold);
-
-    color:#fff;
-
-    text-align:center;
-}
-
-.brand-message-inner{
-    max-width:900px;
-
-    margin:auto;
-
-    padding:70px 20px;
-}
-
-.brand-message-inner span{
-    color:#E5CE83;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    letter-spacing:4px;
-}
-
-.brand-message-inner h2{
-    margin-top:18px;
-
-    font-size:46px;
-
-    line-height:1.08;
-}
-
-.brand-message-inner p{
-    max-width:600px;
-
-    margin:20px auto 0;
-
-    color:#F3E8DB;
-
-    font-size:16px;
-
-    line-height:1.6;
-}
-
-
-/* =========================================================
-   SUBCATEGORY
-========================================================= */
-
-.subcategory-page-header{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:25px 20px 18px;
-
-    display:flex;
-    align-items:center;
-
-    gap:16px;
-}
-
-.subcategory-heading{
-    flex:1;
-}
-
-.subcategory-title{
-    margin-top:5px;
-
-    color:var(--brown-dark);
-
-    font-size:36px;
-
-    line-height:1.05;
-}
-
-.back-btn{
-    width:52px;
-    height:52px;
-
-    min-width:52px;
-
-    border:none;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #75482B,
-            #4F2D1A
-        );
-
-    color:#fff;
-
-    font-size:25px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 8px 20px rgba(65,38,20,.20);
-}
-
-.subcategory-section{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:0 20px 70px;
-}
-
-.premium-subcategory-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap:16px;
-}
-
-
-/* =========================================================
-   PRODUCTS HEADER
-========================================================= */
-
-.products-page{
-    width:100%;
-    min-height:calc(100vh - 165px);
-}
-
-.products-page-header{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:22px 20px 14px;
-
-    display:flex;
-    align-items:center;
-
-    gap:16px;
-}
-
-.products-heading{
-    flex:1;
-}
-
-.products-title{
-    margin-top:5px;
-
-    color:var(--brown-dark);
-
-    font-size:36px;
-
-    line-height:1.05;
-}
-
-.products-section{
-    width:100%;
-    max-width:1400px;
-
-    margin:auto;
-
-    padding:5px 20px 70px;
-}
-
-.products-topbar{
-    margin-bottom:15px;
-}
-
-.products-topbar .section-title{
-    margin:0;
-
-    color:var(--brown);
-
-    font-size:32px;
-}
-
-.product-count{
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    min-width:38px;
-    height:38px;
-
-    padding:0 10px;
-
-    margin-left:5px;
-
-    border-radius:50%;
-
-    background:var(--brown);
-
-    color:#fff;
-
-    font-size:18px;
-}
-
-
-/* =========================================================
-   PRODUCT GRID
-========================================================= */
-
-.product-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    gap:18px;
-
-    align-items:stretch;
-}
-
-
-/* =========================================================
-   ⭐ PREMIUM PRODUCT CARD
-========================================================= */
-
-.product-card.premium-product-card{
-
-    position:relative;
-
-    width:100%;
-
-    height:590px !important;
-    min-height:590px !important;
-
-    padding:18px 13px 16px !important;
-
-    background:
-        linear-gradient(
-            180deg,
-            #FFFFFF 0%,
-            #FFFDF9 100%
-        ) !important;
-
-    border:
-        1px solid #E6D2A4 !important;
-
-    border-radius:28px !important;
-
-    overflow:hidden;
-
-    display:flex !important;
-    flex-direction:column !important;
-    align-items:center !important;
-
-    text-align:center;
-
-    box-shadow:
-        0 12px 30px
-        rgba(70,42,23,.10),
-
-        inset 0 0 0 1px
-        rgba(255,255,255,.8);
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
-
-
-/* PREMIUM GOLD TOP */
-
-.product-card.premium-product-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:16%;
-    right:16%;
-
-    height:4px;
-
-    border-radius:0 0 10px 10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #C9A227,
-            #F1D98A,
-            #C9A227,
-            transparent
-        );
-
-    z-index:5;
-}
-
-
-/* INNER GOLD FRAME */
-
-.product-card.premium-product-card::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:8px;
-
-    border:
-        1px solid
-        rgba(201,162,39,.16);
-
-    border-radius:23px;
-
-    pointer-events:none;
-
-    z-index:1;
-}
-
-
-/* =========================================================
-   PRODUCT IMAGE AREA
-========================================================= */
-
-.product-card.premium-product-card
-.product-image-wrap{
-
-    width:100%;
-
-    height:245px !important;
-
-    flex-shrink:0;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    z-index:3;
-
-    padding:7px 5px 0;
-}
-
-
-/* IMAGE */
-
-.product-card.premium-product-card
-.group-product-image{
-
-    width:100% !important;
-
-    height:100% !important;
-
-    max-width:100%;
-
-    object-fit:contain !important;
-
-    border-radius:16px;
-
-    cursor:pointer;
-
-    transition:
-        transform .3s ease,
-
-        filter .3s ease;
-}
-
-.product-card.premium-product-card:hover
-.group-product-image{
-
-    transform:scale(1.025);
-}
-
-
-/* =========================================================
-   PRODUCT INFO
-========================================================= */
-
-.product-card.premium-product-card
-.product-info{
-
-    width:100%;
-
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    text-align:center;
-
-    position:relative;
-
-    z-index:3;
-}
-
-
-/* =========================================================
-   BRAND LABEL
-========================================================= */
-
-.product-card.premium-product-card
-.product-category-label{
-
-    margin:
-        8px 0 5px !important;
-
-    color:#A28B70 !important;
-
-    font-size:10px !important;
-
-    font-weight:600 !important;
-
-    letter-spacing:2.5px !important;
-
-    line-height:1.2 !important;
-
-    white-space:nowrap !important;
-}
-
-
-/* SMALL GOLD DECORATION */
-
-.product-card.premium-product-card
-.product-category-label::before{
-
-    content:"✦";
-
-    color:#C9A227;
-
-    margin-right:7px;
-
-}
-
-.product-card.premium-product-card
-.product-category-label::after{
-
-    content:"✦";
-
-    color:#C9A227;
-
-    margin-left:7px;
-
-}
-
-
-/* =========================================================
-   PRODUCT NAME
-========================================================= */
-
-.product-card.premium-product-card
-.grouped-product-name{
-
-    width:100%;
-
-    min-height:46px;
-
-    margin:0 !important;
-
-    padding:0 5px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    color:#60391F !important;
-
-    font-size:22px !important;
-
-    font-weight:700 !important;
-
-    line-height:1.15 !important;
-}
-
-
-/* =========================================================
-   PRICE BOX
-========================================================= */
-
-.product-card.premium-product-card
-.product-meta{
-
-    width:88%;
-
-    min-height:52px;
-
-    margin:
-        12px auto 0 !important;
-
-    padding:
-        8px 10px;
-
-    display:flex !important;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
-
-    border:
-        1.5px solid #E3C879;
-
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #FFFDF8,
-            #FFF9EE
-        );
-
-    box-shadow:
-        inset 0 0 0 1px
-        rgba(255,255,255,.8);
-}
-
-
-/* WEIGHT */
-
-.product-card.premium-product-card
-.product-weight{
-
-    color:#6F604F !important;
-
-    font-size:17px !important;
-
-    font-weight:500 !important;
-
-    line-height:1;
-}
-
-
-/* DOT */
-
-.product-card.premium-product-card
-.product-dot{
-
-    color:#C9A227 !important;
-
-    font-size:17px;
-
-    font-weight:700;
-}
-
-
-/* PRICE */
-
-.product-card.premium-product-card
-.product-price{
-
-    color:#57321E !important;
-
-    font-size:21px !important;
-
-    font-weight:700 !important;
-
-    line-height:1;
-}
-
-
-/* =========================================================
-   SMALL PREMIUM MESSAGE
-========================================================= */
-
-.product-card.premium-product-card
-.product-meta::before{
-
-    content:"🌿";
-
-    font-size:14px;
-
-}
-
-
-/* =========================================================
-   ACTION AREA
-========================================================= */
-
-.product-card.premium-product-card
-.product-action{
-
-    width:100% !important;
-
-    margin-top:auto !important;
-
-    padding-top:12px !important;
-
-    display:flex !important;
-
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    z-index:5;
-}
-
-
-/* =========================================================
-   ADD BUTTON
-========================================================= */
-
-.product-card.premium-product-card
-.premium-add-btn{
-
-    width:88% !important;
-
-    max-width:230px !important;
-
-    height:52px !important;
-
-    padding:0 !important;
-
-    border:
-        2px solid #D1AA43 !important;
-
-    border-radius:30px !important;
-
-    background:
-        linear-gradient(
-            135deg,
-            #754522,
-            #4E2A18
-        ) !important;
-
-    color:#fff !important;
-
-    font-family:'Outfit',sans-serif !important;
-
-    font-size:18px !important;
-
-    font-weight:600 !important;
-
-    line-height:1 !important;
-
-    display:flex !important;
-
-    align-items:center !important;
-
-    justify-content:center !important;
-
-    gap:8px !important;
-
-    cursor:pointer !important;
-
-    appearance:none !important;
-
-    box-shadow:
-        0 9px 22px
-        rgba(91,50,29,.25) !important;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease !important;
-}
-
-
-.product-card.premium-product-card
-.premium-add-btn:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 13px 28px
-        rgba(91,50,29,.32) !important;
-}
-
-
-.product-card.premium-product-card
-.premium-add-btn:active{
-
-    transform:scale(.96);
-}
-
-
-/* PLUS */
-
-.product-card.premium-product-card
-.add-symbol{
-
-    font-size:25px !important;
-
-    font-weight:400 !important;
-
-    line-height:1;
-}
-
-
-/* =========================================================
-   QUANTITY
-========================================================= */
-
-.product-card.premium-product-card
-.premium-quantity{
-
-    width:88% !important;
-
-    max-width:230px !important;
-
-    height:52px !important;
-
-    padding:0 8px !important;
-
-    border:
-        2px solid #D1AA43 !important;
-
-    border-radius:30px !important;
-
-    background:#60351F !important;
-
-    display:flex !important;
-
-    align-items:center !important;
-
-    justify-content:space-between !important;
-}
-
-
-.product-card.premium-product-card
-.premium-qty-btn{
-
-    width:38px !important;
-
-    height:38px !important;
-
-    border:none !important;
-
-    border-radius:50% !important;
-
-    background:#FFF !important;
-
-    color:#60391F !important;
-
-    font-size:22px !important;
-
-    display:flex !important;
-
-    align-items:center !important;
-
-    justify-content:center !important;
-
-    cursor:pointer !important;
-}
-
-
-.product-card.premium-product-card
-.premium-qty-number{
-
-    color:#fff !important;
-
-    font-size:19px !important;
-
-    font-weight:700 !important;
-}
-
-
-/* =========================================================
-   EMPTY SEARCH
-========================================================= */
-
-.empty-search{
-
-    width:100%;
-
-    padding:60px 20px;
-
-    text-align:center;
-
-    grid-column:1/-1;
-}
-
-.empty-search-icon{
-    font-size:42px;
-}
-
-.empty-search h3{
-    margin-top:10px;
-
-    color:var(--brown);
-
-    font-size:24px;
-}
-
-.empty-search p{
-    margin-top:7px;
-
-    color:#888;
-}
-
-
-/* =========================================================
-   FLOATING CART
-========================================================= */
-
-.floating-cart{
-
-    position:fixed;
-
-    right:18px;
-    bottom:20px;
-
-    width:62px;
-    height:62px;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #75482B,
-            #4F2D1A
-        );
-
-    color:#fff;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:26px;
-
-    box-shadow:
-        0 10px 28px
-        rgba(60,35,20,.28);
-
-    cursor:pointer;
-
-    z-index:9999;
-}
-
-#cartCount{
-
-    position:absolute;
-
-    top:-4px;
-    right:-4px;
-
-    width:24px;
-    height:24px;
-
-    border-radius:50%;
-
-    background:#D92D20;
-
-    color:#fff;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:12px;
-
-    font-weight:700;
-}
-
-
-/* =========================================================
-   CART
-========================================================= */
-
-.cart-container{
-
-    width:100%;
-    max-width:1000px;
-
-    margin:auto;
-
-    padding:20px 15px 110px;
-}
-
-.cart-item{
-
-    display:flex;
-
-    gap:15px;
-
-    align-items:center;
-
-    background:#fff;
-
-    border:1px solid #E7DCCB;
-
-    border-radius:22px;
-
-    padding:15px;
-
-    margin-bottom:16px;
-
-    box-shadow:
-        0 7px 22px
-        rgba(65,38,20,.07);
-}
-
-.cart-item img{
-
-    width:95px;
-    height:95px;
-
-    object-fit:contain;
-
-    border-radius:14px;
-}
-
-.cart-info{
-    flex:1;
-}
-
-.cart-info h3{
-
-    color:var(--brown);
+<!DOCTYPE html>
+<html lang="en">
 
-    font-size:20px;
+<head>
 
-    margin-bottom:4px;
-}
-
-.cart-info p{
-
-    color:#777;
-
-    margin-bottom:5px;
-}
-
-.cart-price{
-
-    font-size:20px;
-
-    font-weight:700;
-
-    color:#111;
-}
-
-.qty-box{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    margin:10px 0;
-}
-
-.qty-btn{
-
-    width:40px;
-    height:40px;
-
-    border:none;
-
-    border-radius:11px;
-
-    background:var(--brown);
-
-    color:#fff;
-
-    font-size:22px;
-}
-
-.qty-number{
-
-    min-width:25px;
-
-    text-align:center;
-
-    color:var(--brown);
-
-    font-size:20px;
-
-    font-weight:700;
-}
-
-.remove-btn{
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#E53935;
-
-    color:#fff;
-
-    padding:9px 15px;
-
-    font-weight:600;
-}
-
-.cart-total{
-
-    background:#fff;
-
-    border:1px solid #E7DCCB;
-
-    border-radius:22px;
-
-    padding:22px;
-
-    text-align:center;
-
-    box-shadow:
-        0 8px 25px
-        rgba(65,38,20,.07);
-}
-
-.cart-total h2{
-
-    color:var(--brown);
-
-    margin-bottom:8px;
-}
-
-.total-price{
-
-    font-size:42px;
-
-    font-weight:700;
-
-    margin-bottom:18px;
-}
-
-.whatsapp-btn{
-
-    width:100%;
-    height:56px;
-
-    border:none;
-
-    border-radius:15px;
-
-    background:#25D366;
-
-    color:#fff;
-
-    font-size:19px;
-
-    font-weight:700;
-}
-
-
-/* =========================================================
-   EMPTY CART
-========================================================= */
-
-.empty-cart{
-
-    text-align:center;
-
-    padding:80px 20px;
-}
-
-.empty-cart h2{
-
-    color:var(--brown);
-
-    font-size:29px;
-}
-
-.empty-cart p{
-
-    color:#777;
-
-    margin-top:8px;
-}
-
-
-/* =========================================================
-   IMAGE MODAL
-========================================================= */
-
-.image-modal{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.94);
-
-    align-items:center;
-
-    justify-content:center;
-
-    z-index:99999;
-}
-
-.image-modal.show{
-    display:flex;
-}
-
-.zoom-image{
-
-    max-width:95vw;
-    max-height:90vh;
-
-    width:auto;
-    height:auto;
-
-    object-fit:contain;
-
-    border-radius:12px;
-}
-
-.close-image{
-
-    position:absolute;
-
-    top:18px;
-    right:22px;
-
-    color:#fff;
-
-    font-size:35px;
-
-    cursor:pointer;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer{
-
-    width:100%;
-
-    margin-top:auto;
-
-    padding:55px 15px 30px;
-
-    text-align:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #5B321E,
-            #7A4728
-        );
-
-    border-top:4px solid var(--gold);
-
-    color:#fff;
-}
-
-.footer h3{
-
-    font-size:28px;
-
-    margin-bottom:10px;
-}
-
-.footer p{
-
-    color:#F4E8DA;
-
-    font-size:16px;
-
-    margin-bottom:20px;
-}
-
-.footer-buttons{
-
-    display:flex;
-
-    justify-content:center;
+<meta charset="UTF-8">
 
-    align-items:center;
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    gap:14px;
+<title>Jyoti Gruh Udhyog</title>
 
-    flex-wrap:wrap;
+<!-- GOOGLE FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    margin:20px 0 25px;
-}
-
-.call-btn,
-.whatsapp-btn-footer{
-
-    width:170px;
-
-    height:50px;
-
-    border-radius:30px;
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-decoration:none;
-
-    color:#fff !important;
-
-    font-size:17px;
-
-    font-weight:600;
-
-    box-shadow:
-        0 7px 18px
-        rgba(0,0,0,.20);
-}
-
-.call-btn{
-    background:#1877F2;
-}
-
-.whatsapp-btn-footer{
-    background:#25D366;
-}
-
-.copyright{
-
-    font-size:13px !important;
-
-    color:#E5D3C0 !important;
-
-    margin:0 !important;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:768px){
-
-    /* HEADER */
-
-    .brand-wrap{
-
-        min-height:165px;
-
-        padding:20px 18px;
-
-        gap:15px;
-    }
-
-    .logo{
-
-        width:105px;
-        height:105px;
-    }
-
-    .header h1{
-
-        font-size:31px;
-
-        letter-spacing:-.6px;
-    }
-
-    .header p{
-
-        font-size:17px;
-
-        margin-top:7px;
-    }
-
-
-    /* HOME */
-
-    .home-section{
-
-        padding:20px 12px 55px;
-    }
-
-    .home-section-heading h2{
-
-        font-size:30px;
-    }
-
-    .heading-arrow{
-
-        width:50px;
-        height:50px;
-    }
-
-
-    .category-grid{
-
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-
-        gap:11px;
-    }
-
-    .category-card{
-
-        border-radius:19px;
-    }
-
-    .category-card img{
-
-        width:82%;
-
-        margin-top:13px;
-    }
-
-    .category-card h3{
-
-        font-size:16px !important;
-
-        padding-bottom:14px;
-    }
-
-
-    /* TRUST */
-
-    .trust-section{
-
-        padding:55px 12px;
-    }
-
-    .trust-heading h2{
+<link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
-        font-size:31px;
-    }
+<!-- MAIN CSS -->
+<link
+    rel="stylesheet"
+    href="style.css?v=30"
+>
 
-    .trust-grid{
+<meta
+    name="theme-color"
+    content="#6B4226"
+>
 
-        grid-template-columns:
-            repeat(3,1fr);
+<link
+    rel="manifest"
+    href="manifest.json"
+>
 
-        gap:9px;
-    }
+</head>
 
-    .trust-card{
 
-        padding:20px 8px;
+<body>
 
-        border-radius:18px;
-    }
 
-    .trust-icon{
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        width:52px;
-        height:52px;
+<header class="header">
 
-        font-size:25px;
-    }
+    <div class="brand-wrap">
 
-    .trust-card h3{
+        <img
+            src="logo.webp"
+            class="logo"
+            alt="Jyoti Gruh Udhyog"
+            width="90"
+            height="90"
+            loading="eager"
+            decoding="async"
+        >
 
-        font-size:15px;
-    }
+        <div class="brand-text">
 
-    .trust-card p{
+            <h1>
+                Jyoti Gruh Udhyog
+            </h1>
 
-        font-size:12px;
-    }
+            <p>
+                Taste Of Home In Every Bite
+            </p>
 
+        </div>
 
-    /* BRAND */
+    </div>
 
-    .brand-message-inner{
+</header>
 
-        padding:55px 15px;
-    }
 
-    .brand-message-inner h2{
 
-        font-size:34px;
-    }
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
+<main>
 
-    /* SUBCATEGORY */
 
-    .subcategory-page-header{
+<!-- =====================================================
+     HERO BANNER
+===================================================== -->
 
-        padding:18px 12px 14px;
+<section class="hero-section">
 
-        gap:11px;
-    }
+    <img
+        src="banner.webp"
+        class="hero-banner"
+        alt="Jyoti Gruh Udhyog"
+        loading="eager"
+        decoding="async"
+        onerror="this.src='placeholder.webp'"
+    >
 
-    .subcategory-title{
+</section>
 
-        font-size:28px;
-    }
 
-    .back-btn{
 
-        width:48px;
-        height:48px;
+<!-- =====================================================
+     SEARCH
+===================================================== -->
 
-        min-width:48px;
+<section class="home-search-section">
 
-        font-size:23px;
-    }
+    <div class="search-box">
 
-    .subcategory-section{
+        <span class="search-icon">
+            🔍
+        </span>
 
-        padding:0 12px 55px;
-    }
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="Search Products..."
+            autocomplete="off"
+        >
 
-    .premium-subcategory-grid{
+    </div>
 
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
+</section>
 
-        gap:11px;
-    }
 
 
-    /* PRODUCTS HEADER */
+<!-- =====================================================
+     PRODUCTS / CATEGORIES
+===================================================== -->
 
-    .products-page-header{
+<section class="home-products-section">
 
-        padding:18px 12px 12px;
+    <div class="home-section-heading">
 
-        gap:11px;
-    }
+        <span class="section-kicker">
+            EXPLORE OUR COLLECTION
+        </span>
 
-    .products-title{
+        <div class="home-title-row">
 
-        font-size:29px;
-    }
+            <h2 class="section-title">
+                Our Products
+            </h2>
 
-    .products-search-section{
+            <button
+                class="scroll-down-btn"
+                onclick="document.getElementById('whyJyoti').scrollIntoView({behavior:'smooth'})"
+                aria-label="Scroll Down"
+            >
+                ↓
+            </button>
 
-        padding:5px 12px 15px;
-    }
+        </div>
 
-    .products-section{
+    </div>
 
-        padding:3px 12px 60px;
-    }
 
-    .products-topbar .section-title{
+    <!-- CATEGORY LIST -->
 
-        font-size:28px;
-    }
+    <div
+        id="categoryList"
+        class="category-grid"
+    ></div>
 
+</section>
 
-    /* PRODUCT GRID */
 
-    .product-grid{
 
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
+<!-- =====================================================
+     WHY JYOTI
+===================================================== -->
 
-        gap:11px;
-    }
+<section
+    id="whyJyoti"
+    class="why-jyoti"
+>
 
+    <div class="why-heading">
 
-    /* =====================================================
-       MOBILE PREMIUM CARD
-    ===================================================== */
+        <span class="section-kicker">
+            WHY JYOTI
+        </span>
 
-    .product-card.premium-product-card{
+        <h2>
+            Made With Love,<br>
+            Served With Taste
+        </h2>
 
-        height:520px !important;
+    </div>
 
-        min-height:520px !important;
 
-        padding:
-            14px 7px 14px !important;
+    <div class="why-grid">
 
-        border-radius:22px !important;
-    }
 
+        <!-- CARD 1 -->
 
-    .product-card.premium-product-card
-    .product-image-wrap{
+        <div class="why-card">
 
-        height:210px !important;
+            <div class="why-icon">
+                🏠
+            </div>
 
-        padding:5px 3px 0;
-    }
+            <h3>
+                Taste Of Home
+            </h3>
 
+            <p>
+                Traditional taste made with care.
+            </p>
 
-    .product-card.premium-product-card
-    .group-product-image{
+        </div>
 
-        border-radius:13px;
-    }
 
+        <!-- CARD 2 -->
 
-    .product-card.premium-product-card
-    .product-category-label{
+        <div class="why-card">
 
-        font-size:8px !important;
+            <div class="why-icon">
+                ✨
+            </div>
 
-        letter-spacing:1.4px !important;
+            <h3>
+                Premium Quality
+            </h3>
 
-        margin:
-            7px 0 4px !important;
-    }
+            <p>
+                Carefully selected quality ingredients.
+            </p>
 
+        </div>
 
-    .product-card.premium-product-card
-    .grouped-product-name{
 
-        font-size:18px !important;
+        <!-- CARD 3 -->
 
-        min-height:42px;
+        <div class="why-card">
 
-        padding:0 2px;
-    }
+            <div class="why-icon">
+                ❤️
+            </div>
 
+            <h3>
+                Made With Care
+            </h3>
 
-    .product-card.premium-product-card
-    .product-meta{
+            <p>
+                Every product prepared with love.
+            </p>
 
-        width:91%;
+        </div>
 
-        min-height:43px;
 
-        margin-top:9px !important;
+    </div>
 
-        padding:5px 5px;
+</section>
 
-        gap:5px;
 
-        border-radius:13px;
-    }
 
+<!-- =====================================================
+     BOTTOM BRAND
+===================================================== -->
 
-    .product-card.premium-product-card
-    .product-weight{
+<section class="home-bottom-brand">
 
-        font-size:14px !important;
-    }
+    <span>
+        JYOTI GRUH UDHYOG
+    </span>
 
+    <h2>
+        Taste Of Home<br>
+        In Every Bite
+    </h2>
 
-    .product-card.premium-product-card
-    .product-dot{
+</section>
 
-        font-size:13px;
-    }
 
+</main>
 
-    .product-card.premium-product-card
-    .product-price{
 
-        font-size:18px !important;
-    }
 
+<!-- =====================================================
+     FLOATING CART
+===================================================== -->
 
-    .product-card.premium-product-card
-    .product-meta::before{
+<div
+    id="viewCartBtn"
+    class="floating-cart"
+    onclick="location.href='cart.html'"
+    style="display:none;"
+>
 
-        font-size:11px;
-    }
+    🛒
 
+    <span id="cartCount">
+        0
+    </span>
 
-    .product-card.premium-product-card
-    .product-action{
+</div>
 
-        padding-top:8px !important;
-    }
 
 
-    .product-card.premium-product-card
-    .premium-add-btn{
+<!-- =====================================================
+     IMAGE MODAL
+===================================================== -->
 
-        width:91% !important;
+<div
+    id="imageModal"
+    class="image-modal"
+    onclick="closeImage()"
+>
 
-        height:48px !important;
+    <span
+        class="close-image"
+        onclick="closeImage()"
+    >
+        ×
+    </span>
 
-        font-size:17px !important;
+    <img
+        id="zoomImage"
+        class="zoom-image"
+        alt="Product Image"
+        onclick="event.stopPropagation()"
+    >
 
-        border-radius:27px !important;
-    }
+</div>
 
 
-    .product-card.premium-product-card
-    .premium-quantity{
 
-        width:91% !important;
+<!-- =====================================================
+     API JS
+===================================================== -->
 
-        height:48px !important;
-    }
+<script
+    src="api.js?v=30"
+    defer
+></script>
 
 
-    .product-card.premium-product-card
-    .premium-qty-btn{
 
-        width:34px !important;
+<!-- =====================================================
+     SERVICE WORKER
+===================================================== -->
 
-        height:34px !important;
+<script>
 
-        font-size:20px !important;
-    }
+if ("serviceWorker" in navigator) {
 
+    window.addEventListener("load", function () {
 
-    .product-card.premium-product-card
-    .premium-qty-number{
+        navigator.serviceWorker
+            .register("service-worker.js")
+            .then(function () {
+                console.log("Service Worker Registered");
+            })
+            .catch(function (error) {
+                console.log(
+                    "Service Worker Error:",
+                    error
+                );
+            });
 
-        font-size:17px !important;
-    }
+    });
 
-
-    /* FLOAT CART */
-
-    .floating-cart{
-
-        width:56px;
-        height:56px;
-
-        right:15px;
-        bottom:18px;
-
-        font-size:23px;
-    }
-
-
-    /* FOOTER */
-
-    .footer{
-
-        padding:45px 12px 25px;
-    }
-
-    .footer h3{
-
-        font-size:24px;
-    }
-
-    .footer p{
-
-        font-size:14px;
-    }
-
-    .call-btn,
-    .whatsapp-btn-footer{
-
-        width:145px;
-        height:46px;
-
-        font-size:15px;
-    }
-}
-
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-@media(min-width:992px){
-
-    .category-grid{
-
-        grid-template-columns:
-            repeat(4,minmax(0,1fr));
-    }
-
-    .premium-subcategory-grid{
-
-        grid-template-columns:
-            repeat(4,minmax(0,1fr));
-    }
-
-    .product-grid{
-
-        grid-template-columns:
-            repeat(4,minmax(0,1fr));
-    }
-
-    .product-card.premium-product-card{
-
-        height:590px !important;
-
-        min-height:590px !important;
-    }
-
-    .product-card.premium-product-card
-    .product-image-wrap{
-
-        height:245px !important;
-    }
-
-    .home-section,
-    .trust-section,
-    .subcategory-page-header,
-    .subcategory-section,
-    .products-page-header,
-    .products-search-section,
-    .products-section{
-
-        max-width:1400px;
-    }
 }
-
-
-/* =========================================================
-   SMALL PHONE
-========================================================= */
-
-@media(max-width:380px){
-
-    .brand-wrap{
-
-        gap:10px;
-
-        padding-left:10px;
-        padding-right:10px;
-    }
-
-    .logo{
-
-        width:82px;
-        height:82px;
-    }
-
-    .header h1{
-
-        font-size:25px;
-    }
-
-    .header p{
-
-        font-size:14px;
-    }
-
-
-    .product-card.premium-product-card{
-
-        height:500px !important;
 
-        min-height:500px !important;
-    }
+</script>
 
 
-    .product-card.premium-product-card
-    .product-image-wrap{
+</body>
 
-        height:195px !important;
-    }
-
-
-    .product-card.premium-product-card
-    .grouped-product-name{
-
-        font-size:17px !important;
-    }
-
-
-    .product-card.premium-product-card
-    .product-weight{
-
-        font-size:13px !important;
-    }
-
-
-    .product-card.premium-product-card
-    .product-price{
-
-        font-size:17px !important;
-    }
-
-
-    .product-card.premium-product-card
-    .premium-add-btn{
-
-        height:46px !important;
-
-        font-size:16px !important;
-    }
-
-
-    .product-card.premium-product-card
-    .premium-quantity{
-
-        height:46px !important;
-    }
-}
+</html>
