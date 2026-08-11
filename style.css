@@ -3426,28 +3426,43 @@ input{
    JYOTI LOGO – SOFT GOLDEN GLOW
 ========================================================= */
 
+/* =========================================================
+   🪔 JYOTI LOGO – DIya LIGHT EFFECT
+========================================================= */
+
 .logo{
-    position:relative;
-    animation:logoGlow 3.5s ease-in-out infinite;
+    animation: diyaGlow 1.8s ease-in-out infinite;
 }
 
-@keyframes logoGlow{
+@keyframes diyaGlow{
 
     0%{
-        box-shadow:
-            0 8px 22px rgba(60,35,20,.16),
-            0 0 0 rgba(201,162,39,0);
+        filter:
+            brightness(1)
+            drop-shadow(0 0 2px rgba(255,210,80,.15));
     }
 
-    50%{
-        box-shadow:
-            0 8px 25px rgba(60,35,20,.18),
-            0 0 28px rgba(201,162,39,.38);
+    35%{
+        filter:
+            brightness(1.03)
+            drop-shadow(0 0 8px rgba(255,210,80,.35));
+    }
+
+    55%{
+        filter:
+            brightness(1.07)
+            drop-shadow(0 0 16px rgba(255,210,80,.55));
+    }
+
+    75%{
+        filter:
+            brightness(1.03)
+            drop-shadow(0 0 8px rgba(255,210,80,.35));
     }
 
     100%{
-        box-shadow:
-            0 8px 22px rgba(60,35,20,.16),
-            0 0 0 rgba(201,162,39,0);
+        filter:
+            brightness(1)
+            drop-shadow(0 0 2px rgba(255,210,80,.15));
     }
 }
