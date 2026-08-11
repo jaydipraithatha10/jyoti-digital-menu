@@ -461,13 +461,14 @@ input{
 
     margin:auto;
 
-    padding:35px 10px 35px;
+    padding:10px 12px 55px;
+    
 
     text-align:center;
 }
 
 .trust-heading{
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 .trust-heading h2{
