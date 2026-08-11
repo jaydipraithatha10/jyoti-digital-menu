@@ -2400,3 +2400,29 @@ input{
     }
 
 }
+
+/* =========================================================
+   FINAL - CATEGORY TO WHY JYOTI GAP
+========================================================= */
+
+@media (max-width:768px){
+
+    #categories{
+        padding-bottom:0 !important;
+        margin-bottom:0 !important;
+    }
+
+    #categories .category-grid{
+        margin-bottom:0 !important;
+    }
+
+    .trust-section{
+        padding-top:0 !important;
+        margin-top:0 !important;
+    }
+
+    .trust-heading{
+        margin-top:0 !important;
+    }
+
+}
