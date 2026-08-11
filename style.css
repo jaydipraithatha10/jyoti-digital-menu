@@ -2701,3 +2701,16 @@ input{
     }
 
 }
+
+/* =====================================================
+   GAP BETWEEN TASTE OF HOME AND FOOTER
+===================================================== */
+
+.home-bottom-brand{
+    margin-bottom:30px !important;
+}
+
+/* Footer */
+.footer{
+    margin-top:30px !important;
+}
