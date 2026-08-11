@@ -3353,3 +3353,71 @@ input{
     }
 
 }
+
+/* =========================================================
+   PREMIUM GOLDEN LIGHTING – PRODUCT CARDS
+========================================================= */
+
+.category-card{
+    position:relative;
+    overflow:hidden;
+}
+
+/* Soft moving golden light */
+.category-card::after{
+    content:"";
+    position:absolute;
+
+    top:-120%;
+    left:-70%;
+
+    width:45%;
+    height:300%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.45),
+        rgba(201,162,39,.18),
+        transparent
+    );
+
+    transform:rotate(22deg);
+
+    animation:goldenShine 5s ease-in-out infinite;
+
+    pointer-events:none;
+    z-index:5;
+}
+
+@keyframes goldenShine{
+
+    0%{
+        left:-70%;
+    }
+
+    45%{
+        left:130%;
+    }
+
+    100%{
+        left:130%;
+    }
+
+}
+
+
+/* Product image પર પણ ખૂબ subtle glow */
+.category-card img{
+    transition:
+        transform .3s ease,
+        filter .3s ease;
+}
+
+.category-card:hover img{
+    transform:scale(1.02);
+
+    filter:
+        brightness(1.04)
+        drop-shadow(0 5px 12px rgba(201,162,39,.18));
+}
