@@ -3575,12 +3575,230 @@ input{
 
 /* SMALL PHONE */
 
-@media(max-width:380px){
+/* =====================================================
+   JYOTI WELCOME OVERLAY
+===================================================== */
+
+.welcome-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFFDF9,
+            #F8EDDD
+        );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:999999;
+
+    animation:
+        welcomeOverlayOut .8s ease
+        3.6s forwards;
+}
+
+
+/* WELCOME BOX */
+
+.welcome-box{
+
+    width:88%;
+    max-width:360px;
+
+    padding:28px 20px;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFFFFF,
+            #FFF8EC
+        );
+
+    border:
+        1px solid #E3C879;
+
+    border-radius:28px;
+
+    box-shadow:
+        0 15px 45px
+        rgba(70,42,23,.18);
+
+    animation:
+        welcomeBoxIn .8s ease
+        forwards;
+}
+
+
+/* CARTOON */
+
+.welcome-cartoon{
+
+    width:145px;
+    max-width:45vw;
+
+    height:auto;
+
+    display:block;
+
+    margin:0 auto 8px;
+
+    filter:
+        drop-shadow(
+            0 8px 15px
+            rgba(70,42,23,.18)
+        );
+
+    animation:
+        welcomeFloat 2s ease-in-out infinite;
+}
+
+
+/* TEXT */
+
+.welcome-text span{
+
+    display:block;
+
+    font-size:25px;
+
+    margin-bottom:5px;
+}
+
+.welcome-text h2{
+
+    margin:0;
+
+    color:#6B4226;
+
+    font-size:25px;
+
+    font-weight:700;
+}
+
+.welcome-text p{
+
+    margin:8px 0 5px;
+
+    color:#6B4226;
+
+    font-size:21px;
+
+    font-weight:600;
+}
+
+.welcome-text small{
+
+    color:#9A8068;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes welcomeBoxIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.88)
+            translateY(15px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+}
+
+
+@keyframes welcomeFloat{
+
+    0%,100%{
+
+        transform:
+            translateY(0);
+    }
+
+    50%{
+
+        transform:
+            translateY(-7px);
+    }
+
+}
+
+
+@keyframes welcomeOverlayOut{
+
+    0%{
+
+        opacity:1;
+
+        visibility:visible;
+    }
+
+    100%{
+
+        opacity:0;
+
+        visibility:hidden;
+
+        pointer-events:none;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .welcome-box{
+
+        width:86%;
+
+        padding:24px 16px;
+
+        border-radius:25px;
+    }
 
     .welcome-cartoon{
-        width:95px;
-        right:5px;
-        bottom:75px;
+
+        width:125px;
+    }
+
+    .welcome-text h2{
+
+        font-size:22px;
+    }
+
+    .welcome-text p{
+
+        font-size:19px;
     }
 
 }
