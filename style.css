@@ -982,271 +982,17 @@ input{
    PREMIUM PRODUCT CARD
 ========================================================= */
 
-.product-card{
 
-    position:relative;
 
-    width:100%;
 
-    height:430px;
 
-    min-height:430px;
 
-    background:#fff;
 
-    border:
-        1px solid #E5D9C8;
 
-    border-radius:25px;
 
-    overflow:hidden;
 
-    padding:
-        14px 12px;
 
-    display:flex;
 
-    flex-direction:column;
-
-    align-items:center;
-
-    text-align:center;
-
-    box-shadow:
-        0 9px 28px
-        rgba(65,38,20,.07);
-
-}
-
-.product-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:20%;
-
-    right:20%;
-
-    height:2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--gold),
-            transparent
-        );
-
-}
-
-.product-card > img{
-
-    width:88%;
-
-    height:205px;
-
-    object-fit:contain;
-
-    padding:0;
-
-    margin:
-        1px auto 5px;
-
-    border-radius:15px;
-
-    cursor:pointer;
-
-}
-
-.product-card .product-name{
-
-    width:100%;
-
-    min-height:48px;
-
-    margin:
-        0 4px 6px;
-
-    padding:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    color:var(--brown);
-
-    font-size:20px;
-
-    line-height:1.25;
-
-    font-weight:700;
-
-}
-
-.product-card .product-weight{
-
-    margin:0;
-
-    color:#777;
-
-    font-size:17px;
-
-    line-height:1.2;
-
-    font-weight:500;
-
-}
-
-.product-card .product-price{
-
-    margin:0;
-
-    color:var(--brown);
-
-    font-size:20px;
-
-    line-height:1.2;
-
-    font-weight:700;
-
-}
-
-
-/* =========================================================
-   PRODUCT PRICE ALIGNMENT
-========================================================= */
-
-.product-card > .product-weight{
-
-    display:inline-block;
-
-}
-
-.product-card .product-price{
-
-    display:inline-block;
-
-}
-
-
-/* =========================================================
-   ADD BUTTON
-========================================================= */
-
-.product-card > div{
-
-    max-width:100%;
-
-}
-
-.product-card .cart-btn{
-
-    width:190px !important;
-
-    height:48px;
-
-    margin:
-        auto auto 1px !important;
-
-    border:none;
-
-    border-radius:30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #75482B,
-            #59331E
-        );
-
-    color:#fff;
-
-    font-size:17px;
-
-    font-weight:600;
-
-    box-shadow:
-        0 9px 22px
-        rgba(91,52,29,.20);
-
-    cursor:pointer;
-
-}
-
-.product-card .cart-btn:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 12px 26px
-        rgba(91,52,29,.27);
-
-}
-
-.product-card .cart-btn:active{
-
-    transform:scale(.96);
-
-}
-
-
-/* =========================================================
-   QUANTITY CONTROL
-========================================================= */
-
-.product-card .qty-control{
-
-    width:190px;
-
-    height:48px;
-
-    margin:
-        auto auto 1px !important;
-
-    border-radius:30px;
-
-    background:var(--brown);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-around;
-
-}
-
-.product-card .qty-control .qty-btn{
-
-    width:40px;
-
-    height:42px;
-
-    border:none;
-
-    background:transparent;
-
-    color:#fff;
-
-    font-size:22px;
-
-}
-
-.product-card .qty-control .qty-number{
-
-    color:#fff;
-
-    font-size:17px;
-
-    font-weight:700;
-
-}
 
 
 /* =========================================================
@@ -2271,6 +2017,553 @@ body > main{
 
         font-size:15px;
 
+    }
+
+}
+
+/* =========================================================
+   JYOTI - PREMIUM PRODUCT CARD
+========================================================= */
+
+.product-card{
+
+    position:relative;
+
+    width:100%;
+    height:410px;
+    min-height:410px;
+
+    padding:14px 12px 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fffdf9 100%
+        );
+
+    border:1px solid #ead7b0;
+
+    border-radius:26px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    text-align:center;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 12px 30px rgba(70,42,23,.08);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+/* GOLD PREMIUM TOP LINE */
+
+.product-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:18%;
+    right:18%;
+
+    height:3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #c9a227,
+            #e8ce7d,
+            #c9a227,
+            transparent
+        );
+
+}
+
+
+/* SUBTLE GOLD SIDE BORDER */
+
+.product-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:7px;
+
+    border:1px solid rgba(201,162,39,.12);
+
+    border-radius:21px;
+
+    pointer-events:none;
+
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.product-card > img{
+
+    width:86%;
+
+    height:172px;
+
+    object-fit:contain;
+
+    margin:5px auto 4px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    position:relative;
+
+    z-index:2;
+
+    transition:
+        transform .3s ease;
+}
+
+.product-card:hover > img{
+
+    transform:scale(1.025);
+
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.product-card .product-brand{
+
+    width:100%;
+
+    margin:
+        2px 0 5px;
+
+    color:#a48a68;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    letter-spacing:2.8px;
+
+    line-height:1.2;
+
+    position:relative;
+
+    z-index:2;
+}
+
+
+/* =========================================================
+   PRODUCT NAME
+========================================================= */
+
+.product-card .product-name{
+
+    width:100%;
+
+    min-height:40px;
+
+    margin:
+        0 3px 8px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    color:#653c23;
+
+    font-size:20px;
+
+    line-height:1.15;
+
+    font-weight:700;
+
+    position:relative;
+
+    z-index:2;
+}
+
+
+/* =========================================================
+   PREMIUM PRICE BOX
+========================================================= */
+
+.product-card .product-price-row{
+
+    width:86%;
+
+    min-height:49px;
+
+    margin:
+        0 auto 10px;
+
+    padding:
+        7px 12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:9px;
+
+    border:
+        1.5px solid #e8ce88;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fffdf8,
+            #fffaf1
+        );
+
+    box-shadow:
+        inset 0 0 0 1px
+        rgba(255,255,255,.8);
+
+    position:relative;
+
+    z-index:2;
+}
+
+
+/* WEIGHT */
+
+.product-card .product-weight{
+
+    margin:0;
+
+    color:#715f4d;
+
+    font-size:17px;
+
+    line-height:1;
+
+    font-weight:500;
+}
+
+
+/* DOT */
+
+.product-card .price-dot{
+
+    color:#d3ad55;
+
+    font-size:17px;
+
+    font-weight:700;
+}
+
+
+/* PRICE */
+
+.product-card .product-price{
+
+    margin:0;
+
+    color:#57321e;
+
+    font-size:21px;
+
+    line-height:1;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.product-card .product-action{
+
+    width:100%;
+
+    margin-top:auto;
+
+    padding-top:2px;
+
+    display:flex;
+
+    justify-content:center;
+
+    position:relative;
+
+    z-index:3;
+}
+
+
+.product-card .cart-btn{
+
+    width:86% !important;
+
+    max-width:205px;
+
+    height:50px;
+
+    margin:0 !important;
+
+    border:
+        2px solid #c9a227;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #75482b,
+            #512d1b
+        );
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    letter-spacing:.2px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(82,47,26,.24);
+
+    cursor:pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.product-card .cart-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 26px
+        rgba(82,47,26,.30);
+}
+
+
+.product-card .cart-btn:active{
+
+    transform:scale(.96);
+
+}
+
+
+/* =========================================================
+   QUANTITY CONTROL
+========================================================= */
+
+.product-card .qty-control{
+
+    width:86%;
+
+    max-width:205px;
+
+    height:50px;
+
+    margin:0 !important;
+
+    border:
+        2px solid #c9a227;
+
+    border-radius:28px;
+
+    background:#65391f;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-around;
+
+    position:relative;
+
+    z-index:3;
+}
+
+.product-card .qty-control .qty-btn{
+
+    width:40px;
+
+    height:44px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-size:22px;
+
+}
+
+.product-card .qty-control .qty-number{
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .product-card{
+
+        height:400px;
+
+        min-height:400px;
+
+        padding:
+            11px 8px 12px;
+
+        border-radius:22px;
+    }
+
+
+    .product-card > img{
+
+        width:88%;
+
+        height:165px;
+
+        margin:
+            4px auto 3px;
+    }
+
+
+    .product-card .product-brand{
+
+        font-size:9px;
+
+        letter-spacing:2px;
+
+        margin-bottom:4px;
+    }
+
+
+    .product-card .product-name{
+
+        font-size:17px;
+
+        min-height:40px;
+
+        margin-bottom:7px;
+    }
+
+
+    .product-card .product-price-row{
+
+        width:90%;
+
+        min-height:45px;
+
+        margin-bottom:9px;
+
+        gap:6px;
+
+        padding:
+            6px 8px;
+
+        border-radius:15px;
+    }
+
+
+    .product-card .product-weight{
+
+        font-size:15px;
+    }
+
+
+    .product-card .price-dot{
+
+        font-size:14px;
+    }
+
+
+    .product-card .product-price{
+
+        font-size:19px;
+    }
+
+
+    .product-card .cart-btn{
+
+        width:88% !important;
+
+        height:46px;
+
+        font-size:16px;
+    }
+
+
+    .product-card .qty-control{
+
+        width:88%;
+
+        height:46px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media(max-width:380px){
+
+    .product-card{
+
+        height:390px;
+
+        min-height:390px;
+    }
+
+    .product-card > img{
+
+        height:155px;
+    }
+
+    .product-card .product-name{
+
+        font-size:16px;
+    }
+
+    .product-card .product-price{
+
+        font-size:18px;
     }
 
 }
