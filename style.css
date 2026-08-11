@@ -2473,3 +2473,49 @@ input{
     }
 
 }
+
+
+/* =========================================================
+   STEP 3 - PREMIUM CATEGORY CARDS
+========================================================= */
+
+@media(max-width:768px){
+
+    .premium-category-grid{
+        gap:12px !important;
+    }
+
+    .premium-category-grid .category-card{
+        border-radius:22px !important;
+        padding:0 0 8px !important;
+
+        box-shadow:
+            0 8px 22px rgba(65,38,20,.08) !important;
+    }
+
+    .premium-category-grid .category-card img{
+
+        width:86% !important;
+
+        aspect-ratio:1 / 1 !important;
+
+        margin:
+            14px auto 7px !important;
+
+        border-radius:17px !important;
+    }
+
+    .premium-category-grid .category-card h3{
+
+        font-size:18px !important;
+
+        line-height:1.2 !important;
+
+        padding:
+            7px 6px 12px !important;
+
+        margin:0 !important;
+
+    }
+
+}
