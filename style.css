@@ -4368,3 +4368,59 @@ input{
     }
 
 }
+
+/* =====================================================
+   PREMIUM GOLDEN ARROW
+===================================================== */
+
+.heading-arrow{
+    position:relative;
+
+    animation:
+        premiumArrowPulse 2.5s ease-in-out infinite;
+
+    box-shadow:
+        0 8px 20px rgba(65,38,20,.20),
+        0 0 0 rgba(201,162,39,0);
+}
+
+
+/* Soft golden glow */
+
+@keyframes premiumArrowPulse{
+
+    0%,100%{
+        transform:translateY(0);
+
+        box-shadow:
+            0 8px 20px rgba(65,38,20,.20),
+            0 0 0 rgba(201,162,39,0);
+    }
+
+    50%{
+        transform:translateY(3px);
+
+        box-shadow:
+            0 10px 24px rgba(65,38,20,.22),
+            0 0 14px rgba(201,162,39,.28);
+    }
+
+}
+
+
+/* Press */
+
+.heading-arrow:active{
+    transform:scale(.92) !important;
+}
+
+
+/* Reduced motion */
+
+@media(prefers-reduced-motion:reduce){
+
+    .heading-arrow{
+        animation:none;
+    }
+
+}
