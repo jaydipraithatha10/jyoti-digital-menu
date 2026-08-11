@@ -12,20 +12,35 @@
 
 <title>Jyoti Gruh Udhyog</title>
 
+
 <!-- GOOGLE FONT -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
 
 <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
     rel="stylesheet"
 >
 
+
 <!-- MAIN CSS -->
+
 <link
     rel="stylesheet"
-    href="style.css?v=30"
+    href="style.css?v=31"
 >
+
+
+<!-- PWA -->
 
 <meta
     name="theme-color"
@@ -55,8 +70,8 @@
             src="logo.webp"
             class="logo"
             alt="Jyoti Gruh Udhyog"
-            width="90"
-            height="90"
+            width="110"
+            height="110"
             loading="eager"
             decoding="async"
         >
@@ -87,19 +102,22 @@
 
 
 <!-- =====================================================
-     HERO BANNER
+     HERO
 ===================================================== -->
 
-<section class="hero-section">
+<section class="home-hero">
 
-    <img
-        src="banner.webp"
-        class="hero-banner"
-        alt="Jyoti Gruh Udhyog"
-        loading="eager"
-        decoding="async"
-        onerror="this.src='placeholder.webp'"
-    >
+    <div class="hero-banner">
+
+        <img
+            src="banner.webp"
+            alt="Jyoti Gruh Udhyog"
+            loading="eager"
+            decoding="async"
+            onerror="this.src='placeholder.webp'"
+        >
+
+    </div>
 
 </section>
 
@@ -131,32 +149,39 @@
 
 
 <!-- =====================================================
-     PRODUCTS / CATEGORIES
+     OUR PRODUCTS
 ===================================================== -->
 
-<section class="home-products-section">
+<section class="home-section">
 
     <div class="home-section-heading">
 
-        <span class="section-kicker">
-            EXPLORE OUR COLLECTION
-        </span>
+        <div>
 
-        <div class="home-title-row">
+            <span class="section-kicker">
+                EXPLORE OUR COLLECTION
+            </span>
 
-            <h2 class="section-title">
+            <h2>
                 Our Products
             </h2>
 
-            <button
-                class="scroll-down-btn"
-                onclick="document.getElementById('whyJyoti').scrollIntoView({behavior:'smooth'})"
-                aria-label="Scroll Down"
-            >
-                ↓
-            </button>
-
         </div>
+
+
+        <button
+            class="heading-arrow"
+            onclick="
+                document
+                .getElementById('whyJyoti')
+                .scrollIntoView({
+                    behavior:'smooth'
+                })
+            "
+            aria-label="Scroll Down"
+        >
+            ↓
+        </button>
 
     </div>
 
@@ -178,10 +203,10 @@
 
 <section
     id="whyJyoti"
-    class="why-jyoti"
+    class="trust-section"
 >
 
-    <div class="why-heading">
+    <div class="trust-heading">
 
         <span class="section-kicker">
             WHY JYOTI
@@ -195,14 +220,14 @@
     </div>
 
 
-    <div class="why-grid">
+    <div class="trust-grid">
 
 
         <!-- CARD 1 -->
 
-        <div class="why-card">
+        <div class="trust-card">
 
-            <div class="why-icon">
+            <div class="trust-icon">
                 🏠
             </div>
 
@@ -219,9 +244,9 @@
 
         <!-- CARD 2 -->
 
-        <div class="why-card">
+        <div class="trust-card">
 
-            <div class="why-icon">
+            <div class="trust-icon">
                 ✨
             </div>
 
@@ -238,9 +263,9 @@
 
         <!-- CARD 3 -->
 
-        <div class="why-card">
+        <div class="trust-card">
 
-            <div class="why-icon">
+            <div class="trust-icon">
                 ❤️
             </div>
 
@@ -265,16 +290,25 @@
      BOTTOM BRAND
 ===================================================== -->
 
-<section class="home-bottom-brand">
+<section class="brand-message">
 
-    <span>
-        JYOTI GRUH UDHYOG
-    </span>
+    <div class="brand-message-inner">
 
-    <h2>
-        Taste Of Home<br>
-        In Every Bite
-    </h2>
+        <span>
+            JYOTI GRUH UDHYOG
+        </span>
+
+        <h2>
+            Taste Of Home<br>
+            In Every Bite
+        </h2>
+
+        <p>
+            Traditional taste, premium quality
+            and homemade care in every bite.
+        </p>
+
+    </div>
 
 </section>
 
@@ -321,6 +355,7 @@
         ×
     </span>
 
+
     <img
         id="zoomImage"
         class="zoom-image"
@@ -337,7 +372,7 @@
 ===================================================== -->
 
 <script
-    src="api.js?v=30"
+    src="api.js?v=31"
     defer
 ></script>
 
@@ -351,21 +386,31 @@
 
 if ("serviceWorker" in navigator) {
 
-    window.addEventListener("load", function () {
+    window.addEventListener(
+        "load",
+        function () {
 
-        navigator.serviceWorker
-            .register("service-worker.js")
-            .then(function () {
-                console.log("Service Worker Registered");
-            })
-            .catch(function (error) {
-                console.log(
-                    "Service Worker Error:",
-                    error
-                );
-            });
+            navigator
+                .serviceWorker
+                .register("service-worker.js")
+                .then(function () {
 
-    });
+                    console.log(
+                        "Service Worker Registered"
+                    );
+
+                })
+                .catch(function (error) {
+
+                    console.log(
+                        "Service Worker Error:",
+                        error
+                    );
+
+                });
+
+        }
+    );
 
 }
 
