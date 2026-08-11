@@ -2384,3 +2384,19 @@ input{
     }
 
 }
+
+/* =========================================================
+   HOME - CATEGORY TO WHY JYOTI GAP
+========================================================= */
+
+@media(max-width:768px){
+
+    .home-section{
+        padding-bottom:10px !important;
+    }
+
+    .trust-section{
+        padding-top:10px !important;
+    }
+
+}
