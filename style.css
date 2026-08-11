@@ -4072,3 +4072,154 @@ input{
     }
 
 }
+
+
+/* =====================================================
+   JYOTI WELCOME SCREEN - FINAL
+===================================================== */
+
+.welcome-overlay{
+    position:fixed;
+    inset:0;
+
+    width:100%;
+    height:100dvh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#FBF7F0;
+
+    z-index:999999;
+
+    opacity:1;
+    visibility:visible;
+
+    pointer-events:auto;
+}
+
+
+/* CARD */
+
+.welcome-box{
+    width:82%;
+    max-width:300px;
+
+    padding:15px;
+
+    background:#fff;
+
+    border:1.5px solid #D8B85A;
+
+    border-radius:25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        0 15px 45px
+        rgba(70,42,23,.18);
+
+    animation:
+        welcomeCardIn .7s ease;
+}
+
+
+/* CARTOON */
+
+.welcome-screen-cartoon{
+    display:block;
+
+    width:110px;
+    height:auto;
+
+    max-width:100%;
+
+    object-fit:contain;
+
+    margin:0 auto;
+
+    filter:
+        drop-shadow(
+            0 7px 14px
+            rgba(70,42,23,.20)
+        );
+
+    animation:
+        welcomeFloat 2s ease-in-out infinite;
+}
+
+
+/* CARD ENTRY */
+
+@keyframes welcomeCardIn{
+
+    from{
+        opacity:0;
+        transform:scale(.85);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+
+/* CARTOON MOVEMENT */
+
+@keyframes welcomeFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+}
+
+
+/* EXIT */
+
+.welcome-overlay.welcome-hide{
+
+    animation:
+        welcomeExit .7s ease forwards;
+}
+
+
+@keyframes welcomeExit{
+
+    from{
+        opacity:1;
+        visibility:visible;
+    }
+
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .welcome-box{
+        width:78%;
+        max-width:280px;
+        padding:13px;
+    }
+
+    .welcome-screen-cartoon{
+        width:105px;
+    }
+
+}
