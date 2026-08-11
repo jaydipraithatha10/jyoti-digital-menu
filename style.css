@@ -2426,3 +2426,27 @@ input{
     }
 
 }
+
+/* STEP 1 - OUR PRODUCTS ALIGNMENT */
+
+@media(max-width:768px){
+
+    .home-section-heading{
+        margin-bottom:16px !important;
+        align-items:center !important;
+    }
+
+    .home-section-heading h2{
+        font-size:27px !important;
+        line-height:1.1 !important;
+        margin:0 !important;
+    }
+
+    .heading-arrow{
+        width:46px !important;
+        height:46px !important;
+        font-size:22px !important;
+        flex-shrink:0 !important;
+    }
+
+}
