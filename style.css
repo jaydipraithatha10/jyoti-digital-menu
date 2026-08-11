@@ -4223,3 +4223,148 @@ input{
     }
 
 }
+
+/* =====================================================
+   FINAL WELCOME CARTOON FIX
+   DO NOT CHANGE OTHER DESIGN
+===================================================== */
+
+#welcomeOverlay .welcome-cartoon{
+    position:relative !important;
+
+    right:auto !important;
+    bottom:auto !important;
+    left:auto !important;
+    top:auto !important;
+
+    width:115px !important;
+    max-width:100% !important;
+    height:auto !important;
+
+    margin:0 auto !important;
+
+    display:block !important;
+
+    object-fit:contain;
+
+    pointer-events:none;
+
+    filter:
+        drop-shadow(
+            0 8px 14px
+            rgba(70,42,23,.20)
+        );
+
+    animation:
+        welcomeFloat 2s ease-in-out infinite !important;
+}
+
+
+/* Smooth card entry */
+
+#welcomeOverlay .welcome-box{
+    animation:
+        welcomeCardSmoothIn .8s cubic-bezier(.22,.61,.36,1)
+        forwards !important;
+}
+
+
+/* Smooth welcome entry */
+
+@keyframes welcomeCardSmoothIn{
+
+    0%{
+        opacity:0;
+        transform:
+            scale(.88)
+            translateY(18px);
+    }
+
+    60%{
+        opacity:1;
+        transform:
+            scale(1.02)
+            translateY(-2px);
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+}
+
+
+/* Smooth cartoon floating */
+
+@keyframes welcomeFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+}
+
+
+/* Smooth exit */
+
+#welcomeOverlay.hide-welcome{
+    animation:
+        welcomeExitSmooth .8s ease forwards !important;
+}
+
+
+@keyframes welcomeExitSmooth{
+
+    0%{
+        opacity:1;
+        visibility:visible;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+    }
+
+}
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    #welcomeOverlay .welcome-box{
+        width:82%;
+        max-width:300px;
+        padding:15px;
+    }
+
+    #welcomeOverlay .welcome-cartoon{
+        width:105px !important;
+    }
+
+}
+
+
+/* Small phone */
+
+@media(max-width:380px){
+
+    #welcomeOverlay .welcome-box{
+        width:78%;
+        max-width:270px;
+        padding:13px;
+    }
+
+    #welcomeOverlay .welcome-cartoon{
+        width:95px !important;
+    }
+
+}
