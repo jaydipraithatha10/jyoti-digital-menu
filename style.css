@@ -2288,3 +2288,40 @@ input{
         height:46px !important;
     }
 }
+
+/* =========================================================
+   HOME HEADER - SMALLER BRAND TEXT
+========================================================= */
+
+@media(max-width:768px){
+
+    .header h1{
+        font-size:28px !important;
+        line-height:1.05 !important;
+        white-space:nowrap !important;
+        letter-spacing:-0.5px !important;
+    }
+
+    .header p{
+        font-size:15px !important;
+        white-space:nowrap !important;
+    }
+
+    .brand-wrap{
+        gap:14px !important;
+    }
+
+}
+
+
+/* =========================================================
+   HOME - OUR PRODUCTS SMALLER
+========================================================= */
+
+@media(max-width:768px){
+
+    .home-section-heading h2{
+        font-size:27px !important;
+    }
+
+}
