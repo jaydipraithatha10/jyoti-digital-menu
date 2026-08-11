@@ -2714,3 +2714,21 @@ input{
 .footer{
     margin-top:30px !important;
 }
+
+/* =====================================================
+   GAP BETWEEN TASTE OF HOME AND FOOTER
+===================================================== */
+
+.home-bottom-brand{
+    border-bottom:30px solid #F8F4EE !important;
+}
+
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        border-bottom:30px solid #F8F4EE !important;
+    }
+
+}
