@@ -2418,3 +2418,45 @@ input{
     }
 
 }
+
+/* =====================================================
+   REMOVE EXTRA WHITE SPACE FROM PRODUCT CARD
+===================================================== */
+
+@media (max-width:768px){
+
+    .product-card.premium-product-card{
+        height:350px !important;
+        min-height:350px !important;
+    }
+
+    .product-card.premium-product-card .product-image-wrap{
+        height:150px !important;
+    }
+
+    .product-card.premium-product-card .product-info{
+        flex:none !important;
+    }
+
+    .product-card.premium-product-card .product-category-label{
+        margin-top:4px !important;
+    }
+
+    .product-card.premium-product-card .grouped-product-name{
+        min-height:35px !important;
+    }
+
+    .product-card.premium-product-card .product-meta{
+        margin-top:5px !important;
+    }
+
+    .product-card.premium-product-card .product-action{
+        margin-top:18px !important;
+        padding-top:0 !important;
+    }
+
+    .product-card.premium-product-card .premium-add-btn,
+    .product-card.premium-product-card .premium-quantity{
+        height:43px !important;
+    }
+}
