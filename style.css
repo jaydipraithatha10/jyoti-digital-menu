@@ -3256,3 +3256,20 @@ input{
     }
 
 }
+
+/* =====================================================
+   GAP BETWEEN TASTE OF HOME & FOOTER
+===================================================== */
+
+.home-bottom-brand{
+    margin-bottom:20px !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        margin-bottom:20px !important;
+    }
+
+}
