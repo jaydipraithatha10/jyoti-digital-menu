@@ -2732,3 +2732,240 @@ input{
     }
 
 }
+
+/* =========================================================
+   PREMIUM CALL + WHATSAPP BUTTONS
+========================================================= */
+
+.footer-buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin:25px auto 30px;
+}
+
+
+/* COMMON BUTTON */
+
+.footer-buttons .call-btn,
+.footer-buttons .whatsapp-btn-footer{
+
+    position:relative;
+
+    width:185px;
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    text-decoration:none !important;
+
+    color:#fff !important;
+
+    font-family:'Outfit',sans-serif;
+
+    font-size:17px;
+    font-weight:600;
+
+    letter-spacing:.2px;
+
+    border:1px solid rgba(255,255,255,.18);
+
+    overflow:hidden;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.25);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+/* =========================================================
+   CALL BUTTON
+========================================================= */
+
+.footer-buttons .call-btn{
+
+    background:
+        linear-gradient(
+            135deg,
+            #6B4226 0%,
+            #8B5A32 45%,
+            #5A321D 100%
+        );
+
+    border:
+        1px solid #D6B45A;
+
+    box-shadow:
+        0 8px 22px rgba(60,35,20,.35),
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -3px 0 rgba(45,25,14,.22);
+}
+
+
+/* =========================================================
+   WHATSAPP BUTTON
+========================================================= */
+
+.footer-buttons .whatsapp-btn-footer{
+
+    background:
+        linear-gradient(
+            135deg,
+            #128C4A 0%,
+            #25D366 50%,
+            #128C4A 100%
+        );
+
+    border:
+        1px solid #73E6A1;
+
+    box-shadow:
+        0 8px 22px rgba(18,140,74,.32),
+        inset 0 1px 0 rgba(255,255,255,.30),
+        inset 0 -3px 0 rgba(0,90,45,.20);
+}
+
+
+/* =========================================================
+   SHINE EFFECT
+========================================================= */
+
+.footer-buttons .call-btn::before,
+.footer-buttons .whatsapp-btn-footer::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:70%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.22),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+
+    transition:left .6s ease;
+}
+
+
+.footer-buttons .call-btn:hover::before,
+.footer-buttons .whatsapp-btn-footer:hover::before{
+
+    left:140%;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.footer-buttons .call-btn:hover,
+.footer-buttons .whatsapp-btn-footer:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 13px 28px rgba(0,0,0,.30),
+        inset 0 1px 0 rgba(255,255,255,.30);
+}
+
+
+/* =========================================================
+   PRESS
+========================================================= */
+
+.footer-buttons .call-btn:active,
+.footer-buttons .whatsapp-btn-footer:active{
+
+    transform:
+        translateY(1px)
+        scale(.97);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .footer-buttons{
+
+        gap:12px;
+
+        margin:
+            24px auto 28px;
+
+    }
+
+    .footer-buttons .call-btn,
+    .footer-buttons .whatsapp-btn-footer{
+
+        width:calc(50% - 8px);
+
+        min-width:145px;
+
+        height:56px;
+
+        border-radius:18px;
+
+        font-size:16px;
+
+        gap:8px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media(max-width:380px){
+
+    .footer-buttons{
+
+        gap:10px;
+
+    }
+
+    .footer-buttons .call-btn,
+    .footer-buttons .whatsapp-btn-footer{
+
+        min-width:0;
+
+        width:calc(50% - 5px);
+
+        height:52px;
+
+        font-size:14px;
+
+        border-radius:16px;
+
+    }
+
+}
