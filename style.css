@@ -2460,3 +2460,96 @@ input{
         height:43px !important;
     }
 }
+
+/* =====================================================
+   PRODUCT CARD - FINAL COMPACT VERSION
+===================================================== */
+
+@media (max-width:768px){
+
+    .product-card.premium-product-card{
+        height:335px !important;
+        min-height:335px !important;
+        padding:9px 7px 9px !important;
+    }
+
+    /* IMAGE */
+    .product-card.premium-product-card .product-image-wrap{
+        height:145px !important;
+        padding:2px !important;
+    }
+
+    /* BRAND */
+    .product-card.premium-product-card .product-category-label{
+        margin:4px 0 2px !important;
+        font-size:8px !important;
+        line-height:1 !important;
+    }
+
+    /* NAME */
+    .product-card.premium-product-card .grouped-product-name{
+        min-height:36px !important;
+        max-height:42px !important;
+        font-size:17px !important;
+        line-height:1.15 !important;
+    }
+
+    /* PRICE */
+    .product-card.premium-product-card .product-meta{
+        min-height:39px !important;
+        height:39px !important;
+        margin-top:4px !important;
+        padding:4px 5px !important;
+        border-radius:12px !important;
+    }
+
+    .product-card.premium-product-card .product-weight{
+        font-size:14px !important;
+    }
+
+    .product-card.premium-product-card .product-price{
+        font-size:18px !important;
+    }
+
+    /* REMOVE BIG WHITE SPACE */
+    .product-card.premium-product-card .product-info{
+        flex:1 !important;
+    }
+
+    /* BUTTON */
+    .product-card.premium-product-card .product-action{
+        margin-top:auto !important;
+        padding-top:5px !important;
+    }
+
+    .product-card.premium-product-card .premium-add-btn,
+    .product-card.premium-product-card .premium-quantity{
+        width:91% !important;
+        height:41px !important;
+        min-height:41px !important;
+        border-radius:24px !important;
+    }
+
+    .product-card.premium-product-card .premium-add-btn{
+        font-size:16px !important;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONE
+===================================================== */
+
+@media (max-width:380px){
+
+    .product-card.premium-product-card{
+        height:325px !important;
+        min-height:325px !important;
+    }
+
+    .product-card.premium-product-card .product-image-wrap{
+        height:138px !important;
+    }
+
+}
