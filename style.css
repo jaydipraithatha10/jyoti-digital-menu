@@ -3510,3 +3510,77 @@ input{
     }
 
 }
+
+/* =====================================================
+   JYOTI WELCOME CARTOON
+===================================================== */
+
+.welcome-cartoon{
+    position:fixed;
+
+    right:10px;
+    bottom:85px;
+
+    width:120px;
+
+    z-index:9000;
+
+    pointer-events:none;
+
+    animation:
+        welcomeFloat 3s ease-in-out infinite;
+}
+
+.welcome-cartoon img{
+    width:100%;
+    height:auto;
+
+    display:block;
+
+    filter:
+        drop-shadow(
+            0 7px 12px
+            rgba(70,42,23,.20)
+        );
+}
+
+
+/* SOFT FLOAT */
+
+@keyframes welcomeFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .welcome-cartoon{
+        width:110px;
+        right:7px;
+        bottom:78px;
+    }
+
+}
+
+
+/* SMALL PHONE */
+
+@media(max-width:380px){
+
+    .welcome-cartoon{
+        width:95px;
+        right:5px;
+        bottom:75px;
+    }
+
+}
