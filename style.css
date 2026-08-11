@@ -2332,3 +2332,63 @@ input{
     }
 
 }
+
+
+/* =====================================================
+   PRODUCT CARD - COMPACT MOBILE
+===================================================== */
+
+@media (max-width:768px){
+
+    .product-card.premium-product-card{
+        height:400px !important;
+        min-height:400px !important;
+        padding:10px 7px 10px !important;
+    }
+
+    .product-card.premium-product-card .product-image-wrap{
+        height:165px !important;
+        padding:3px 2px 0 !important;
+    }
+
+    .product-card.premium-product-card .product-category-label{
+        margin:5px 0 2px !important;
+        font-size:8px !important;
+    }
+
+    .product-card.premium-product-card .grouped-product-name{
+        min-height:36px !important;
+        font-size:18px !important;
+    }
+
+    .product-card.premium-product-card .product-meta{
+        min-height:40px !important;
+        margin-top:6px !important;
+    }
+
+    .product-card.premium-product-card .product-action{
+        padding-top:6px !important;
+    }
+
+    .product-card.premium-product-card .premium-add-btn,
+    .product-card.premium-product-card .premium-quantity{
+        height:44px !important;
+    }
+
+}
+
+
+/* SMALL PHONE */
+
+@media (max-width:380px){
+
+    .product-card.premium-product-card{
+        height:385px !important;
+        min-height:385px !important;
+    }
+
+    .product-card.premium-product-card .product-image-wrap{
+        height:155px !important;
+    }
+
+}
