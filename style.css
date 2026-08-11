@@ -2307,3 +2307,28 @@ input{
         height:205px !important;
     }
 }
+
+/* =====================================================
+   PRODUCT CARD - SMALLER
+===================================================== */
+
+@media(max-width:768px){
+
+    .product-card.premium-product-card{
+        height:440px !important;
+        min-height:440px !important;
+    }
+
+}
+
+
+/* SMALL PHONE */
+
+@media(max-width:380px){
+
+    .product-card.premium-product-card{
+        height:425px !important;
+        min-height:425px !important;
+    }
+
+}
