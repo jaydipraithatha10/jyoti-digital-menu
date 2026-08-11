@@ -4033,3 +4033,42 @@ input{
     }
 
 }
+
+/* =====================================================
+   FINAL WELCOME FIX
+   CARTOON COMPLETELY DISAPPEARS AFTER WELCOME
+===================================================== */
+
+.welcome-overlay{
+    animation:none !important;
+}
+
+/* Initial state */
+.welcome-overlay{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+/* After 4 seconds */
+.welcome-overlay.hide-welcome{
+    animation:welcomeExit .8s ease forwards !important;
+}
+
+
+/* Exit animation */
+
+@keyframes welcomeExit{
+
+    0%{
+        opacity:1;
+        visibility:visible;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+    }
+
+}
