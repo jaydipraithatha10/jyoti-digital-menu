@@ -2594,3 +2594,36 @@ input{
     }
 
 }
+
+/* =====================================================
+   HOME BOTTOM BRAND - LESS HEIGHT
+===================================================== */
+
+.home-bottom-brand{
+    padding-top:30px !important;
+    padding-bottom:30px !important;
+}
+
+.home-bottom-brand h2{
+    margin-top:10px !important;
+    margin-bottom:10px !important;
+}
+
+.home-bottom-brand p{
+    margin-top:10px !important;
+    margin-bottom:0 !important;
+}
+
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        padding-top:28px !important;
+        padding-bottom:28px !important;
+    }
+
+    .home-bottom-brand h2{
+        font-size:30px !important;
+        line-height:1.1 !important;
+    }
+
+}
