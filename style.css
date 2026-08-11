@@ -2668,3 +2668,36 @@ input{
     }
 
 }
+
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        padding:28px 15px 30px !important;
+    }
+
+    .home-bottom-brand h2{
+        font-size:30px !important;
+        line-height:1.1 !important;
+    }
+
+    .home-bottom-brand p{
+        margin-top:14px !important;
+        font-size:15px !important;
+        line-height:1.45 !important;
+    }
+
+}
+
+/* GAP BETWEEN TASTE OF HOME & FOOTER */
+
+.home-bottom-brand{
+    margin-bottom:25px !important;
+}
+
+@media(max-width:768px){
+
+    .home-bottom-brand{
+        margin-bottom:25px !important;
+    }
+
+}
