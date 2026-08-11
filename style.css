@@ -4565,3 +4565,54 @@ input{
 .category-card::after{
     pointer-events:none;
 }
+
+/* =====================================================
+   PREMIUM PRODUCTS DIVIDER
+===================================================== */
+
+.home-section-heading{
+    position:relative;
+}
+
+.home-section-heading > div:first-child{
+    position:relative;
+}
+
+.home-section-heading > div:first-child::after{
+
+    content:"";
+
+    display:block;
+
+    width:70px;
+    height:2px;
+
+    margin-top:10px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #C9A227,
+            #E8CE7D,
+            transparent
+        );
+
+    opacity:.75;
+}
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .home-section-heading > div:first-child::after{
+
+        width:55px;
+
+        margin-top:8px;
+
+    }
+
+}
