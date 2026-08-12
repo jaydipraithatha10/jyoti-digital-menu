@@ -4726,3 +4726,28 @@ a{
     }
 
 }
+
+
+/* =====================================================
+   PREMIUM ADD TO CART POP
+===================================================== */
+
+#cartCount.cart-pop{
+    animation: cartCountPop .35s ease;
+}
+
+@keyframes cartCountPop{
+
+    0%{
+        transform:scale(1);
+    }
+
+    45%{
+        transform:scale(1.3);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
