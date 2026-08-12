@@ -4660,3 +4660,38 @@ a{
 .product-card.premium-product-card .group-product-image{
     border-radius:18px !important;
 }
+
+
+
+/* =====================================================
+   PREMIUM PRODUCT CARD SCROLL-IN
+===================================================== */
+
+.product-card.premium-product-card{
+    animation: productCardReveal .6s ease both;
+}
+
+@keyframes productCardReveal{
+
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* Respect reduced-motion preference */
+
+@media (prefers-reduced-motion: reduce){
+
+    .product-card.premium-product-card{
+        animation:none;
+    }
+
+}
