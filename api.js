@@ -1176,8 +1176,13 @@ function updateCartButton(){
         button.style.display =
             "flex";
 
-        count.textContent =
-            total;
+        count.textContent = total;
+
+count.classList.remove("cart-pop");
+
+void count.offsetWidth;
+
+count.classList.add("cart-pop");
 
     }
 
