@@ -4695,3 +4695,34 @@ a{
     }
 
 }
+
+
+/* =====================================================
+   PREMIUM PRODUCT CARD SCROLL REVEAL
+===================================================== */
+
+.product-card.premium-product-card{
+    animation: productReveal .55s ease both;
+}
+
+@keyframes productReveal{
+
+    from{
+        opacity:0;
+        transform:translateY(16px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .product-card.premium-product-card{
+        animation:none;
+    }
+
+}
