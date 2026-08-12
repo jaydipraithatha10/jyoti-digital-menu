@@ -1411,7 +1411,7 @@ async function loadCart(){
     </h2>
 
     <div class="total-price">
-        Rs ${grandTotal}
+        ₹${grandTotal}
     </div>
 
     <button
@@ -1456,8 +1456,6 @@ async function orderWhatsApp(){
 
 નવો ઓર્ડર
 
-------------------------
-
 `;
 
 
@@ -1494,10 +1492,7 @@ async function orderWhatsApp(){
         message +=
 `📦 ${product}
 ⚖️ ${weight}
-
 💰 ₹${price} × ${qty} = ₹${total}
-
-------------------------
 
 `;
 
@@ -1505,7 +1500,7 @@ async function orderWhatsApp(){
 
 
     message +=
-`💵 Grand Total : ₹${grandTotal}
+`💵 *Total: ₹${grandTotal}*
 
 🙏 આભાર`;
 
