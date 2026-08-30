@@ -1,16 +1,28 @@
 /* =========================================================
    JYOTI GRUH UDHYOG
-   API.JS V35
+   API.JS V36
    CATEGORY → SUB CATEGORY → PRODUCTS
 ========================================================= */
 
-let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-let categoryRows = [];
-let subCategoryRows = [];
-let productRows = [];
+/* =========================================================
+   CART
+========================================================= */
 
-let productMap = new Map();
+let cart =
+    JSON.parse(
+        localStorage.getItem("cart") || "[]"
+    );
+
+
+function saveCart(){
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+}
 
 
 /* =========================================================
@@ -34,6 +46,19 @@ const productURL =
 
 
 /* =========================================================
+   DATA
+========================================================= */
+
+let categoryRows = [];
+
+let subCategoryRows = [];
+
+let productRows = [];
+
+let productMap = new Map();
+
+
+/* =========================================================
    HELPERS
 ========================================================= */
 
@@ -46,41 +71,15 @@ function clean(value){
 }
 
 
-function isActive(value){
-
-    const status =
-        clean(value).toLowerCase();
-
-    if(status === "")
-        return true;
-
-    return [
-        "active",
-        "enable",
-        "enabled",
-        "yes",
-        "true",
-        "1",
-        "show",
-        "visible"
-    ].includes(status);
-
-}
-
-
-function escapeHTML(value){
+function active(value){
 
     return clean(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+        .toLowerCase() === "active";
 
 }
 
 
-function getParam(name){
+function param(name){
 
     return new URLSearchParams(
         window.location.search
@@ -95,27 +94,38 @@ function getParam(name){
 
 function csvToArray(csv){
 
-    const result = [];
+    const rows = [];
 
     let row = [];
-    let cell = "";
-    let quoted = false;
+
+    let value = "";
+
+    let insideQuote = false;
 
 
-    for(let i = 0; i < csv.length; i++){
+    for(
+        let i = 0;
+        i < csv.length;
+        i++
+    ){
 
-        const char = csv[i];
-        const next = csv[i + 1];
+        const char =
+            csv[i];
+
+        const next =
+            csv[i + 1];
 
 
         if(
             char === '"' &&
-            quoted &&
+            insideQuote &&
             next === '"'
         ){
 
-            cell += '"';
+            value += '"';
+
             i++;
+
             continue;
 
         }
@@ -123,7 +133,9 @@ function csvToArray(csv){
 
         if(char === '"'){
 
-            quoted = !quoted;
+            insideQuote =
+                !insideQuote;
+
             continue;
 
         }
@@ -131,11 +143,15 @@ function csvToArray(csv){
 
         if(
             char === "," &&
-            !quoted
+            !insideQuote
         ){
 
-            row.push(cell.trim());
-            cell = "";
+            row.push(
+                value.trim()
+            );
+
+            value = "";
+
             continue;
 
         }
@@ -146,7 +162,7 @@ function csvToArray(csv){
                 char === "\n" ||
                 char === "\r"
             ) &&
-            !quoted
+            !insideQuote
         ){
 
             if(
@@ -159,76 +175,74 @@ function csvToArray(csv){
             }
 
 
-            row.push(cell.trim());
+            row.push(
+                value.trim()
+            );
 
 
             if(
                 row.some(
-                    value => value !== ""
+                    x => x !== ""
                 )
             ){
 
-                result.push(row);
+                rows.push(row);
 
             }
 
 
             row = [];
-            cell = "";
+
+            value = "";
 
             continue;
 
         }
 
 
-        cell += char;
+        value += char;
 
     }
 
 
     if(
-        cell !== "" ||
+        value !== "" ||
         row.length
     ){
 
-        row.push(cell.trim());
+        row.push(
+            value.trim()
+        );
 
 
         if(
             row.some(
-                value => value !== ""
+                x => x !== ""
             )
         ){
 
-            result.push(row);
+            rows.push(row);
 
         }
 
     }
 
 
-    return result;
+    return rows;
 
 }
 
 
 /* =========================================================
-   FETCH CSV
+   FETCH
 ========================================================= */
 
 async function fetchCSV(url){
 
-    const separator =
-        url.includes("?")
-        ? "&"
-        : "?";
-
-
     const response =
         await fetch(
             url +
-            separator +
-            "_=" +
+            "&_=" +
             Date.now(),
             {
                 cache:"no-store"
@@ -239,7 +253,7 @@ async function fetchCSV(url){
     if(!response.ok){
 
         throw new Error(
-            "CSV Error " +
+            "Google Sheet Error: " +
             response.status
         );
 
@@ -250,10 +264,12 @@ async function fetchCSV(url){
         await response.text();
 
 
-    if(!text.trim()){
+    if(
+        !text.trim()
+    ){
 
         throw new Error(
-            "CSV is empty"
+            "Empty Google Sheet"
         );
 
     }
@@ -265,17 +281,17 @@ async function fetchCSV(url){
 
 
 /* =========================================================
-   LOAD ALL DATA
+   LOAD DATA
 ========================================================= */
 
 async function loadData(){
 
     console.log(
-        "Jyoti V35: Loading Google Sheet..."
+        "Jyoti V36: Loading Google Sheets..."
     );
 
 
-    const results =
+    const result =
         await Promise.allSettled([
 
             fetchCSV(categoryURL),
@@ -292,17 +308,17 @@ async function loadData(){
     ===================================================== */
 
     if(
-        results[0].status === "fulfilled"
+        result[0].status === "fulfilled"
     ){
 
         categoryRows =
             csvToArray(
-                results[0].value
+                result[0].value
             );
 
 
         console.log(
-            "Categories:",
+            "CATEGORY DATA:",
             categoryRows
         );
 
@@ -311,12 +327,7 @@ async function loadData(){
 
         console.error(
             "CATEGORY ERROR:",
-            results[0].reason
-        );
-
-
-        throw new Error(
-            "Category Sheet could not be loaded"
+            result[0].reason
         );
 
     }
@@ -327,28 +338,27 @@ async function loadData(){
     ===================================================== */
 
     if(
-        results[1].status === "fulfilled"
+        result[1].status === "fulfilled"
     ){
 
         subCategoryRows =
             csvToArray(
-                results[1].value
+                result[1].value
             );
 
 
         console.log(
-            "Sub Categories:",
+            "SUB CATEGORY DATA:",
             subCategoryRows
         );
 
     }
     else{
 
-        console.warn(
+        console.error(
             "SUB CATEGORY ERROR:",
-            results[1].reason
+            result[1].reason
         );
-
 
         subCategoryRows = [];
 
@@ -360,12 +370,12 @@ async function loadData(){
     ===================================================== */
 
     if(
-        results[2].status === "fulfilled"
+        result[2].status === "fulfilled"
     ){
 
         productRows =
             csvToArray(
-                results[2].value
+                result[2].value
             );
 
 
@@ -374,33 +384,37 @@ async function loadData(){
 
         productRows
             .slice(1)
-            .forEach(row => {
+            .forEach(
+                row => {
 
-                if(row && row[0]){
+                    if(
+                        row &&
+                        row[0]
+                    ){
 
-                    productMap.set(
-                        clean(row[0]),
-                        row
-                    );
+                        productMap.set(
+                            clean(row[0]),
+                            row
+                        );
+
+                    }
 
                 }
-
-            });
+            );
 
 
         console.log(
-            "Products:",
-            productRows.length
+            "PRODUCT DATA:",
+            productRows
         );
 
     }
     else{
 
-        console.warn(
+        console.error(
             "PRODUCT ERROR:",
-            results[2].reason
+            result[2].reason
         );
-
 
         productRows = [];
 
@@ -410,7 +424,7 @@ async function loadData(){
 
 
     console.log(
-        "Jyoti V35: Data Loaded Successfully"
+        "Jyoti V36: DATA READY"
     );
 
 }
@@ -447,64 +461,72 @@ function loadCategories(){
 
     categoryRows
         .slice(1)
-        .forEach(row => {
+        .forEach(
+            row => {
 
-            const id =
-                clean(row[0]);
+                const id =
+                    clean(row[0]);
 
-            const name =
-                clean(row[1]);
+                const name =
+                    clean(row[1]);
 
-            const status =
-                clean(row[2]);
+                const status =
+                    clean(row[2]);
 
-            const image =
-                clean(row[3]) ||
-                "placeholder.webp";
-
-
-            if(!id || !name)
-                return;
+                const image =
+                    clean(row[3]) ||
+                    "placeholder.webp";
 
 
-            if(!isActive(status))
-                return;
+                if(!id)
+                    return;
 
 
-            html.push(`
+                if(!name)
+                    return;
 
-                <div
-                    class="category-card"
-                    onclick="
-                        openCategory('${escapeHTML(id)}')
-                    "
-                >
 
-                    <img
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(name)}"
-                        loading="lazy"
-                        decoding="async"
-                        onerror="
-                            this.src='placeholder.webp'
+                if(
+                    !active(status)
+                )
+                    return;
+
+
+                html.push(`
+
+                    <div
+                        class="category-card"
+                        onclick="
+                            openCategory('${id}')
                         "
                     >
 
-                    <h3>
-                        ${escapeHTML(name)}
-                    </h3>
+                        <img
+                            src="${image}"
+                            alt="${name}"
+                            loading="lazy"
+                            decoding="async"
+                            onerror="
+                                this.src='placeholder.webp'
+                            "
+                        >
 
-                </div>
+                        <h3>
+                            ${name}
+                        </h3>
 
-            `);
+                    </div>
 
-        });
+                `);
+
+            }
+        );
 
 
-    if(html.length === 0){
-
-        list.innerHTML = `
-
+    list.innerHTML =
+        html.length
+        ? html.join("")
+        : `
             <div
                 style="
                     grid-column:1/-1;
@@ -512,51 +534,61 @@ function loadCategories(){
                     padding:30px;
                 "
             >
-
                 <h3>
                     No Categories Found
                 </h3>
-
             </div>
-
         `;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        html.join("");
 
 }
 
 
 /* =========================================================
-   CHECK ACTIVE SUB CATEGORY
+   FIND SUB CATEGORIES
 ========================================================= */
 
-function hasActiveSub(categoryId){
+function getSubCategories(
+    categoryId
+){
+
+    categoryId =
+        clean(categoryId);
+
 
     return subCategoryRows
         .slice(1)
-        .some(row => {
+        .filter(
+            row => {
 
-            const parentId =
-                clean(row[1]);
-
-            const status =
-                clean(row[3]);
+                if(!row)
+                    return false;
 
 
-            return (
-                parentId ===
-                clean(categoryId)
-                &&
-                isActive(status)
-            );
+                /*
+                   SUB CATEGORY SHEET
 
-        });
+                   A = ID
+                   B = Category ID
+                   C = Sub Category
+                   D = Status
+                   E = Images
+                */
+
+
+                const parentId =
+                    clean(row[1]);
+
+                const status =
+                    clean(row[3]);
+
+
+                return (
+                    parentId === categoryId &&
+                    active(status)
+                );
+
+            }
+        );
 
 }
 
@@ -565,20 +597,34 @@ function hasActiveSub(categoryId){
    CATEGORY CLICK
 ========================================================= */
 
-function openCategory(id){
+function openCategory(
+    categoryId
+){
 
-    id =
-        clean(id);
+    categoryId =
+        clean(categoryId);
+
+
+    const subs =
+        getSubCategories(
+            categoryId
+        );
 
 
     console.log(
-        "Category clicked:",
-        id
+        "CATEGORY CLICK:",
+        categoryId
+    );
+
+
+    console.log(
+        "ACTIVE SUB CATEGORIES:",
+        subs
     );
 
 
     if(
-        hasActiveSub(id)
+        subs.length > 0
     ){
 
         /*
@@ -587,19 +633,24 @@ function openCategory(id){
 
         window.location.href =
             "category.html?id=" +
-            encodeURIComponent(id);
+            encodeURIComponent(
+                categoryId
+            );
 
     }
     else{
 
         /*
            No Sub Category
+
            Direct Products
         */
 
         window.location.href =
             "products.html?category=" +
-            encodeURIComponent(id);
+            encodeURIComponent(
+                categoryId
+            );
 
     }
 
@@ -607,7 +658,7 @@ function openCategory(id){
 
 
 /* =========================================================
-   SUB CATEGORY LIST
+   SUB CATEGORY PAGE
 ========================================================= */
 
 function loadSubCategories(){
@@ -624,66 +675,65 @@ function loadSubCategories(){
 
     const categoryId =
         clean(
-            getParam("id")
+            param("id")
         );
+
+
+    const subs =
+        getSubCategories(
+            categoryId
+        );
+
+
+    console.log(
+        "SUB CATEGORY PAGE:",
+        categoryId
+    );
+
+
+    console.log(
+        "SUB CATEGORIES FOUND:",
+        subs.length
+    );
+
+
+    /*
+       Safety:
+       If no active sub-category,
+       direct products.
+    */
+
+    if(
+        subs.length === 0
+    ){
+
+        window.location.replace(
+            "products.html?category=" +
+            encodeURIComponent(
+                categoryId
+            )
+        );
+
+        return;
+
+    }
 
 
     const html = [];
 
 
-    console.log(
-        "Loading Sub Categories for:",
-        categoryId
-    );
-
-
-    /*
-       SUB CATEGORY SHEET
-
-       A = ID
-       B = Category ID
-       C = Sub Category
-       D = Status
-       E = Images
-    */
-
-
-    subCategoryRows
-        .slice(1)
-        .forEach(row => {
+    subs.forEach(
+        row => {
 
             const id =
                 clean(row[0]);
 
-            const parentId =
-                clean(row[1]);
-
             const name =
                 clean(row[2]);
-
-            const status =
-                clean(row[3]);
 
             const image =
                 clean(row[4]) ||
                 "placeholder.webp";
-
-
-            if(!id || !name)
-                return;
-
-
-            if(
-                parentId !==
-                categoryId
-            )
-                return;
-
-
-            if(
-                !isActive(status)
-            )
-                return;
 
 
             html.push(`
@@ -691,14 +741,13 @@ function loadSubCategories(){
                 <div
                     class="category-card"
                     onclick="
-                        window.location.href=
-                        'products.html?sub=${encodeURIComponent(id)}'
+                        openSubCategory('${id}')
                     "
                 >
 
                     <img
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(name)}"
+                        src="${image}"
+                        alt="${name}"
                         loading="lazy"
                         decoding="async"
                         onerror="
@@ -707,32 +756,15 @@ function loadSubCategories(){
                     >
 
                     <h3>
-                        ${escapeHTML(name)}
+                        ${name}
                     </h3>
 
                 </div>
 
             `);
 
-        });
-
-
-    /*
-       Safety:
-       If no active sub category,
-       direct products.
-    */
-
-    if(html.length === 0){
-
-        window.location.replace(
-            "products.html?category=" +
-            encodeURIComponent(categoryId)
-        );
-
-        return;
-
-    }
+        }
+    );
 
 
     list.innerHTML =
@@ -742,25 +774,63 @@ function loadSubCategories(){
 
 
 /* =========================================================
-   GET PRODUCT
+   SUB CATEGORY CLICK
 ========================================================= */
 
-function getProduct(id){
+function openSubCategory(
+    subCategoryId
+){
 
-    return (
-        productMap.get(
-            clean(id)
-        ) || null
+    subCategoryId =
+        clean(
+            subCategoryId
+        );
+
+
+    console.log(
+        "SUB CATEGORY CLICK:",
+        subCategoryId
     );
+
+
+    window.location.href =
+        "products.html?sub=" +
+        encodeURIComponent(
+            subCategoryId
+        );
 
 }
 
 
 /* =========================================================
-   PRODUCT CARD
+   PRODUCT FILTER
 ========================================================= */
 
-function createProductCard(row){
+function getFilteredProducts(){
+
+    const subId =
+        clean(
+            param("sub")
+        );
+
+
+    const categoryId =
+        clean(
+            param("category")
+        );
+
+
+    console.log(
+        "PRODUCT FILTER:",
+        {
+            categoryId,
+            subId
+        }
+    );
+
+
+    const products = [];
+
 
     /*
        PRODUCTS SHEET
@@ -775,6 +845,103 @@ function createProductCard(row){
        H = Images
     */
 
+
+    productRows
+        .slice(1)
+        .forEach(
+            row => {
+
+                if(
+                    !row ||
+                    !row[0]
+                )
+                    return;
+
+
+                const id =
+                    clean(row[0]);
+
+                const rowCategory =
+                    clean(row[1]);
+
+                const rowSub =
+                    clean(row[2]);
+
+                const status =
+                    clean(row[6]);
+
+
+                if(
+                    !active(status)
+                )
+                    return;
+
+
+                /*
+                   IMPORTANT
+
+                   If Sub Category selected,
+                   ONLY SubCategoryID is matched.
+                */
+
+                if(subId){
+
+                    if(
+                        rowSub !== subId
+                    ){
+
+                        return;
+
+                    }
+
+                }
+
+
+                /*
+                   Direct Category
+
+                   Used only when there
+                   is no sub parameter.
+                */
+
+                else if(categoryId){
+
+                    if(
+                        rowCategory !==
+                        categoryId
+                    ){
+
+                        return;
+
+                    }
+
+                }
+
+
+                products.push(row);
+
+            }
+        );
+
+
+    console.log(
+        "MATCHING PRODUCTS:",
+        products.length
+    );
+
+
+    return products;
+
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+function createProductCard(
+    row
+){
 
     const id =
         clean(row[0]);
@@ -806,7 +973,7 @@ function createProductCard(row){
         : 0;
 
 
-    let action;
+    let action = "";
 
 
     if(qty > 0){
@@ -820,7 +987,7 @@ function createProductCard(row){
                 <button
                     class="premium-qty-btn"
                     onclick="
-                        changeQty('${escapeHTML(id)}',-1)
+                        changeQty('${id}',-1)
                     "
                 >
                     −
@@ -835,7 +1002,7 @@ function createProductCard(row){
                 <button
                     class="premium-qty-btn"
                     onclick="
-                        changeQty('${escapeHTML(id)}',1)
+                        changeQty('${id}',1)
                     "
                 >
                     +
@@ -853,7 +1020,7 @@ function createProductCard(row){
             <button
                 class="premium-add-btn"
                 onclick="
-                    addToCart('${escapeHTML(id)}')
+                    addToCart('${id}')
                 "
             >
 
@@ -884,12 +1051,12 @@ function createProductCard(row){
 
                 <img
                     class="group-product-image"
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(product)}"
+                    src="${image}"
+                    alt="${product}"
                     loading="lazy"
                     decoding="async"
                     onclick="
-                        openImage('${escapeHTML(image)}')
+                        openImage('${image}')
                     "
                     onerror="
                         this.src='placeholder.webp'
@@ -913,7 +1080,7 @@ function createProductCard(row){
                 <h3
                     class="grouped-product-name"
                 >
-                    ${escapeHTML(product)}
+                    ${product}
                 </h3>
 
 
@@ -924,7 +1091,7 @@ function createProductCard(row){
                     <span
                         class="product-weight"
                     >
-                        ${escapeHTML(weight)}
+                        ${weight}
                     </span>
 
 
@@ -946,7 +1113,7 @@ function createProductCard(row){
 
                 <div
                     class="product-action"
-                    id="cart-${escapeHTML(id)}"
+                    id="cart-${id}"
                 >
 
                     ${action}
@@ -980,153 +1147,58 @@ function loadProducts(
         return;
 
 
-    const subId =
-        clean(
-            getParam("sub")
-        );
-
-
-    const categoryId =
-        clean(
-            getParam("category")
-        );
-
-
     const search =
         clean(
             searchText ||
-            getParam("search")
+            param("search")
         )
         .toLowerCase();
 
 
-    const html = [];
+    let products =
+        getFilteredProducts();
 
 
     /*
-       PRODUCTS SHEET
-
-       B = Category ID
-       C = Sub Category ID
-       G = Status
+       SEARCH
     */
 
+    if(search){
 
-    productRows
-        .slice(1)
-        .forEach(row => {
+        products =
+            products.filter(
+                row => {
 
-            if(
-                !row ||
-                !row[0]
-            )
-                return;
+                    const name =
+                        clean(row[3])
+                        .toLowerCase();
 
-
-            const rowCategory =
-                clean(row[1]);
-
-
-            const rowSubCategory =
-                clean(row[2]);
+                    const weight =
+                        clean(row[4])
+                        .toLowerCase();
 
 
-            const product =
-                clean(row[3]);
-
-
-            const weight =
-                clean(row[4]);
-
-
-            const status =
-                clean(row[6]);
-
-
-            if(
-                !isActive(status)
-            )
-                return;
-
-
-            /*
-               Sub Category filter
-            */
-
-            if(subId){
-
-                if(
-                    rowSubCategory !==
-                    subId
-                ){
-
-                    return;
+                    return (
+                        name.includes(search) ||
+                        weight.includes(search)
+                    );
 
                 }
-
-            }
-
-
-            /*
-               Direct Category filter
-            */
-
-            else if(categoryId){
-
-                if(
-                    rowCategory !==
-                    categoryId
-                ){
-
-                    return;
-
-                }
-
-            }
-
-
-            /*
-               Search filter
-            */
-
-            if(search){
-
-                const text =
-                    (
-                        product +
-                        " " +
-                        weight
-                    )
-                    .toLowerCase();
-
-
-                if(
-                    !text.includes(search)
-                ){
-
-                    return;
-
-                }
-
-            }
-
-
-            html.push(
-                createProductCard(row)
             );
 
-        });
-
-
-    if(html.length){
-
-        list.innerHTML =
-            html.join("");
-
     }
-    else{
 
-        list.innerHTML = `
+
+    const html =
+        products.map(
+            createProductCard
+        );
+
+
+    list.innerHTML =
+        html.length
+        ? html.join("")
+        : `
 
             <div
                 class="empty-search"
@@ -1150,8 +1222,6 @@ function loadProducts(
 
         `;
 
-    }
-
 
     const heading =
         document.querySelector(
@@ -1161,17 +1231,13 @@ function loadProducts(
 
     if(heading){
 
-        heading.innerHTML = `
-
-            🛍️ All Products
-
-            <span
+        heading.innerHTML =
+            `🛍️ All Products
+             <span
                 class="product-count"
-            >
-                ${html.length}
-            </span>
-
-        `;
+             >
+                ${products.length}
+             </span>`;
 
     }
 
@@ -1244,7 +1310,7 @@ function initSearch(){
 
 
 /* =========================================================
-   CART BUTTON
+   CART
 ========================================================= */
 
 function updateCartButton(){
@@ -1261,15 +1327,23 @@ function updateCartButton(){
         );
 
 
-    if(!button || !count)
+    if(
+        !button ||
+        !count
+    )
         return;
 
 
     const total =
         cart.reduce(
-            (sum,item) =>
+            (
+                sum,
+                item
+            ) =>
                 sum +
-                Number(item.qty || 0),
+                Number(
+                    item.qty || 0
+                ),
             0
         );
 
@@ -1287,7 +1361,7 @@ function updateCartButton(){
 
 
 /* =========================================================
-   ADD CART
+   ADD TO CART
 ========================================================= */
 
 function addToCart(id){
@@ -1332,7 +1406,7 @@ function addToCart(id){
 
 
 /* =========================================================
-   UPDATE PRODUCT BUTTON
+   UPDATE PRODUCT ACTION
 ========================================================= */
 
 function updateProductAction(id){
@@ -1371,18 +1445,15 @@ function updateProductAction(id){
             <button
                 class="premium-add-btn"
                 onclick="
-                    addToCart('${escapeHTML(id)}')
+                    addToCart('${id}')
                 "
             >
-
                 <span
                     class="add-symbol"
                 >
                     +
                 </span>
-
                 Add
-
             </button>
 
         `;
@@ -1401,12 +1472,11 @@ function updateProductAction(id){
             <button
                 class="premium-qty-btn"
                 onclick="
-                    changeQty('${escapeHTML(id)}',-1)
+                    changeQty('${id}',-1)
                 "
             >
                 −
             </button>
-
 
             <span
                 class="premium-qty-number"
@@ -1414,11 +1484,10 @@ function updateProductAction(id){
                 ${qty}
             </span>
 
-
             <button
                 class="premium-qty-btn"
                 onclick="
-                    changeQty('${escapeHTML(id)}',1)
+                    changeQty('${id}',1)
                 "
             >
                 +
@@ -1471,7 +1540,7 @@ function changeQty(
     else{
 
         item.qty =
-            Number(item.qty || 0) +
+            Number(item.qty) +
             Number(change);
 
 
@@ -1502,36 +1571,17 @@ function changeQty(
 
 
 /* =========================================================
-   REMOVE CART
+   CART PAGE
 ========================================================= */
 
-function removeCartItem(id){
+function getProduct(id){
 
-    id =
-        clean(id);
-
-
-    cart =
-        cart.filter(
-            p =>
-            clean(p.id) !== id
-        );
-
-
-    saveCart();
-
-    updateCartButton();
-
-    loadProducts();
-
-    loadCart();
+    return productMap.get(
+        clean(id)
+    ) || null;
 
 }
 
-
-/* =========================================================
-   CART PAGE
-========================================================= */
 
 function loadCart(){
 
@@ -1565,10 +1615,6 @@ function loadCart(){
                     Your Cart is Empty
                 </h2>
 
-                <p>
-                    Add your favourite products to continue.
-                </p>
-
             </div>
 
         `;
@@ -1589,7 +1635,9 @@ function loadCart(){
         item => {
 
             const row =
-                getProduct(item.id);
+                getProduct(
+                    item.id
+                );
 
 
             if(!row)
@@ -1616,8 +1664,7 @@ function loadCart(){
                 price * qty;
 
 
-            total +=
-                itemTotal;
+            total += itemTotal;
 
 
             html.push(`
@@ -1627,8 +1674,8 @@ function loadCart(){
                 >
 
                     <img
-                        src="${escapeHTML(image)}"
-                        alt="${escapeHTML(product)}"
+                        src="${image}"
+                        alt="${product}"
                         onerror="
                             this.src='placeholder.webp'
                         "
@@ -1640,11 +1687,11 @@ function loadCart(){
                     >
 
                         <h3>
-                            ${escapeHTML(product)}
+                            ${product}
                         </h3>
 
                         <p>
-                            ${escapeHTML(weight)}
+                            ${weight}
                         </p>
 
                         <div
@@ -1666,7 +1713,7 @@ function loadCart(){
                                 class="qty-btn"
                                 onclick="
                                     changeQty(
-                                        '${escapeHTML(item.id)}',
+                                        '${item.id}',
                                         -1
                                     )
                                 "
@@ -1686,7 +1733,7 @@ function loadCart(){
                                 class="qty-btn"
                                 onclick="
                                     changeQty(
-                                        '${escapeHTML(item.id)}',
+                                        '${item.id}',
                                         1
                                     )
                                 "
@@ -1695,18 +1742,6 @@ function loadCart(){
                             </button>
 
                         </div>
-
-
-                        <button
-                            class="remove-btn"
-                            onclick="
-                                removeCartItem(
-                                    '${escapeHTML(item.id)}'
-                                )
-                            "
-                        >
-                            🗑 Remove
-                        </button>
 
                     </div>
 
@@ -1728,13 +1763,11 @@ function loadCart(){
                 Grand Total
             </h2>
 
-
             <div
                 class="total-price"
             >
                 ₹${total}
             </div>
-
 
             <button
                 class="whatsapp-btn"
@@ -1765,10 +1798,9 @@ function loadCart(){
 
 async function orderWhatsApp(){
 
-    await loadData();
-
-
-    if(!cart.length)
+    if(
+        cart.length === 0
+    )
         return;
 
 
@@ -1787,7 +1819,9 @@ async function orderWhatsApp(){
         item => {
 
             const row =
-                getProduct(item.id);
+                getProduct(
+                    item.id
+                );
 
 
             if(!row)
@@ -1811,8 +1845,7 @@ async function orderWhatsApp(){
                 price * qty;
 
 
-            total +=
-                itemTotal;
+            total += itemTotal;
 
 
             message +=
@@ -1832,15 +1865,11 @@ async function orderWhatsApp(){
 🙏 આભાર`;
 
 
-    const url =
+    window.open(
         "https://wa.me/919712149344?text=" +
         encodeURIComponent(
             message
-        );
-
-
-    window.open(
-        url,
+        ),
         "_blank"
     );
 
@@ -1859,7 +1888,7 @@ async function orderWhatsApp(){
 
 
 /* =========================================================
-   IMAGE ZOOM
+   IMAGE
 ========================================================= */
 
 function openImage(src){
@@ -1869,14 +1898,16 @@ function openImage(src){
             "imageModal"
         );
 
-
     const image =
         document.getElementById(
             "zoomImage"
         );
 
 
-    if(!modal || !image)
+    if(
+        !modal ||
+        !image
+    )
         return;
 
 
@@ -1910,22 +1941,6 @@ function closeImage(){
 }
 
 
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Escape"
-        ){
-
-            closeImage();
-
-        }
-
-    }
-);
-
-
 /* =========================================================
    INITIALIZE
 ========================================================= */
@@ -1933,7 +1948,7 @@ document.addEventListener(
 async function initializePage(){
 
     console.log(
-        "Jyoti Gruh Udhyog V35 starting..."
+        "Jyoti Gruh Udhyog V36 START"
     );
 
 
@@ -1956,80 +1971,16 @@ async function initializePage(){
 
 
         console.log(
-            "Jyoti V35 READY"
+            "Jyoti V36 READY"
         );
 
     }
     catch(error){
 
         console.error(
-            "Jyoti V35 ERROR:",
+            "Jyoti V36 ERROR:",
             error
         );
-
-
-        const categoryList =
-            document.getElementById(
-                "categoryList"
-            );
-
-
-        if(categoryList){
-
-            categoryList.innerHTML = `
-
-                <div
-                    style="
-                        grid-column:1/-1;
-                        text-align:center;
-                        padding:30px;
-                    "
-                >
-
-                    <div
-                        style="font-size:45px;"
-                    >
-                        ⚠️
-                    </div>
-
-                    <h3>
-                        Categories Could Not Be Loaded
-                    </h3>
-
-                    <p>
-                        Google Sheet connection failed.
-                    </p>
-
-                </div>
-
-            `;
-
-        }
-
-
-        const productList =
-            document.getElementById(
-                "productList"
-            );
-
-
-        if(productList){
-
-            productList.innerHTML = `
-
-                <div
-                    class="empty-search"
-                >
-
-                    <h3>
-                        Products Could Not Be Loaded
-                    </h3>
-
-                </div>
-
-            `;
-
-        }
 
     }
 
@@ -2056,47 +2007,3 @@ else{
     initializePage();
 
 }
-
-
-/* =========================================================
-   PAGE SHOW
-========================================================= */
-
-window.addEventListener(
-    "pageshow",
-    function(){
-
-        cart =
-            JSON.parse(
-                localStorage.getItem(
-                    "cart"
-                ) || "[]"
-            );
-
-
-        updateCartButton();
-
-
-        if(
-            document.getElementById(
-                "productList"
-            )
-        ){
-
-            loadProducts();
-
-        }
-
-
-        if(
-            document.getElementById(
-                "cartList"
-            )
-        ){
-
-            loadCart();
-
-        }
-
-    }
-);
