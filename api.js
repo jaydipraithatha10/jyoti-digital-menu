@@ -23,7 +23,7 @@ let dataLoaded = false;
 let cacheTime = 0;
 
 const CACHE_DURATION = 5 * 60 * 1000;
-const STORAGE_KEY = "jyoti_data_cache_v23";
+const STORAGE_KEY = "jyoti_data_cache_v24";
 
 /* =========================================================
    GOOGLE SHEET
@@ -33,13 +33,16 @@ const SHEET =
 "2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU";
 
 const categoryURL =
-`https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=2013716827&single=true&output=csv`;
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/pub?gid=2013716827&single=true&output=csv";
 
 const subCategoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=35788410&single=true&output=csv`;
 
 const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
+
+const categoryGvizURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/gviz/tq?tqx=out:csv&gid=2013716827";
 
 /* =========================================================
    HELPERS
@@ -292,7 +295,19 @@ async function loadData(){
     /* CATEGORY - REQUIRED */
     try{
 
-        const catCSV = await fetchCSV(categoryURL);
+        let catCSV;
+
+        try {
+            catCSV = await fetchCSV(categoryURL);
+        }
+        catch(firstError) {
+            console.warn(
+                "Published CSV endpoint failed. Trying Google gviz fallback...",
+                firstError
+            );
+
+            catCSV = await fetchCSV(categoryGvizURL);
+        }
 
         categoryRows = csvToArray(catCSV);
 
@@ -301,6 +316,10 @@ async function loadData(){
             categoryRows.length,
             categoryRows
         );
+
+        if(categoryRows.length < 2){
+            throw new Error("Category CSV contains no category rows");
+        }
 
     }
     catch(error){
@@ -1226,13 +1245,24 @@ document.addEventListener(
 );
 
 /* =========================================================
+   V24 CACHE RESET
+========================================================= */
+
+try {
+    localStorage.removeItem("jyoti_data_cache_v23");
+    localStorage.removeItem("jyoti_data_cache_v22");
+} catch(error) {
+    console.warn("Old cache cleanup failed:", error);
+}
+
+/* =========================================================
    INITIALIZE
 ========================================================= */
 
 async function initializePage(){
 
     console.log(
-        "Jyoti Gruh Udhyog API V23 starting..."
+        "Jyoti Gruh Udhyog API V24 starting..."
     );
 
     try{
@@ -1252,14 +1282,14 @@ async function initializePage(){
         initSearch();
 
         console.log(
-            "Jyoti Gruh Udhyog API V23 READY"
+            "Jyoti Gruh Udhyog API V24 READY"
         );
 
     }
     catch(error){
 
         console.error(
-            "Jyoti Gruh Udhyog V23 ERROR:",
+            "Jyoti Gruh Udhyog V24 ERROR:",
             error
         );
 
