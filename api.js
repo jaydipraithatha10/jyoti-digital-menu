@@ -1,29 +1,17 @@
 /* =========================================================
    JYOTI GRUH UDHYOG
-   API.JS V23
-   CATEGORY + SUB CATEGORY + PRODUCT + CART
+   API.JS V35
+   CATEGORY → SUB CATEGORY → PRODUCTS
 ========================================================= */
 
 let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-function saveCart(){
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-/* =========================================================
-   DATA
-========================================================= */
-
 let categoryRows = [];
 let subCategoryRows = [];
 let productRows = [];
+
 let productMap = new Map();
 
-let dataLoaded = false;
-let cacheTime = 0;
-
-const CACHE_DURATION = 5 * 60 * 1000;
-const STORAGE_KEY = "jyoti_data_cache_v24";
 
 /* =========================================================
    GOOGLE SHEET
@@ -32,32 +20,39 @@ const STORAGE_KEY = "jyoti_data_cache_v24";
 const SHEET =
 "2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU";
 
+
 const categoryURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/pub?gid=2013716827&single=true&output=csv";
+`https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=2013716827&single=true&output=csv`;
+
 
 const subCategoryURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=35788410&single=true&output=csv`;
 
+
 const productURL =
 `https://docs.google.com/spreadsheets/d/e/${SHEET}/pub?gid=0&single=true&output=csv`;
 
-const categoryGvizURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vStfoYZJzDES0lAav3gzVi4hHMrr-g-vu6oHbAecwVN7-j5ZfyZCE4wy5qE8oaH0fSw14Y97pHMmUrU/gviz/tq?tqx=out:csv&gid=2013716827";
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
-function cleanValue(value){
+function clean(value){
+
     return String(value ?? "")
         .replace(/^\uFEFF/, "")
         .trim();
+
 }
 
-function isActive(value){
-    const status = cleanValue(value).toLowerCase();
 
-    if(status === "") return true;
+function isActive(value){
+
+    const status =
+        clean(value).toLowerCase();
+
+    if(status === "")
+        return true;
 
     return [
         "active",
@@ -69,83 +64,153 @@ function isActive(value){
         "show",
         "visible"
     ].includes(status);
+
 }
+
 
 function escapeHTML(value){
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+    return clean(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
 }
 
+
 function getParam(name){
-    return new URLSearchParams(window.location.search).get(name);
+
+    return new URLSearchParams(
+        window.location.search
+    ).get(name) || "";
+
 }
+
 
 /* =========================================================
    CSV PARSER
-   Handles commas inside quoted cells
 ========================================================= */
 
 function csvToArray(csv){
 
-    const rows = [];
+    const result = [];
+
     let row = [];
     let cell = "";
     let quoted = false;
 
+
     for(let i = 0; i < csv.length; i++){
 
-        const ch = csv[i];
+        const char = csv[i];
         const next = csv[i + 1];
 
-        if(ch === '"' && quoted && next === '"'){
+
+        if(
+            char === '"' &&
+            quoted &&
+            next === '"'
+        ){
+
             cell += '"';
             i++;
             continue;
+
         }
 
-        if(ch === '"'){
+
+        if(char === '"'){
+
             quoted = !quoted;
             continue;
+
         }
 
-        if(ch === "," && !quoted){
+
+        if(
+            char === "," &&
+            !quoted
+        ){
+
             row.push(cell.trim());
             cell = "";
             continue;
+
         }
 
-        if((ch === "\n" || ch === "\r") && !quoted){
 
-            if(ch === "\r" && next === "\n") i++;
+        if(
+            (
+                char === "\n" ||
+                char === "\r"
+            ) &&
+            !quoted
+        ){
+
+            if(
+                char === "\r" &&
+                next === "\n"
+            ){
+
+                i++;
+
+            }
+
 
             row.push(cell.trim());
 
-            if(row.some(v => v !== "")){
-                rows.push(row);
+
+            if(
+                row.some(
+                    value => value !== ""
+                )
+            ){
+
+                result.push(row);
+
             }
+
 
             row = [];
             cell = "";
+
             continue;
+
         }
 
-        cell += ch;
+
+        cell += char;
+
     }
 
-    if(cell !== "" || row.length){
+
+    if(
+        cell !== "" ||
+        row.length
+    ){
+
         row.push(cell.trim());
 
-        if(row.some(v => v !== "")){
-            rows.push(row);
+
+        if(
+            row.some(
+                value => value !== ""
+            )
+        ){
+
+            result.push(row);
+
         }
+
     }
 
-    return rows;
+
+    return result;
+
 }
+
 
 /* =========================================================
    FETCH CSV
@@ -153,421 +218,543 @@ function csvToArray(csv){
 
 async function fetchCSV(url){
 
-    const separator = url.includes("?") ? "&" : "?";
+    const separator =
+        url.includes("?")
+        ? "&"
+        : "?";
 
-    const response = await fetch(
-        url + separator + "_=" + Date.now(),
-        {
-            cache: "no-store",
-            credentials: "omit"
-        }
-    );
+
+    const response =
+        await fetch(
+            url +
+            separator +
+            "_=" +
+            Date.now(),
+            {
+                cache:"no-store"
+            }
+        );
+
 
     if(!response.ok){
+
         throw new Error(
-            "CSV request failed: " +
-            response.status +
-            " " +
-            response.statusText
+            "CSV Error " +
+            response.status
         );
+
     }
 
-    const text = await response.text();
 
-    if(!text || text.trim().length < 2){
-        throw new Error("CSV returned empty data");
+    const text =
+        await response.text();
+
+
+    if(!text.trim()){
+
+        throw new Error(
+            "CSV is empty"
+        );
+
     }
+
 
     return text;
+
 }
+
 
 /* =========================================================
-   CACHE
-========================================================= */
-
-function saveCache(){
-
-    try{
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify({
-                categoryRows,
-                subCategoryRows,
-                productRows,
-                time: Date.now()
-            })
-        );
-    }
-    catch(error){
-        console.warn("Cache save error:", error);
-    }
-}
-
-function loadCache(){
-
-    try{
-
-        const raw = localStorage.getItem(STORAGE_KEY);
-
-        if(!raw) return false;
-
-        const data = JSON.parse(raw);
-
-        if(
-            !data.time ||
-            Date.now() - data.time > CACHE_DURATION
-        ){
-            return false;
-        }
-
-        categoryRows = Array.isArray(data.categoryRows)
-            ? data.categoryRows : [];
-
-        subCategoryRows = Array.isArray(data.subCategoryRows)
-            ? data.subCategoryRows : [];
-
-        productRows = Array.isArray(data.productRows)
-            ? data.productRows : [];
-
-        buildProductMap();
-
-        dataLoaded = true;
-        cacheTime = data.time;
-
-        return true;
-    }
-    catch(error){
-        console.warn("Cache read error:", error);
-        localStorage.removeItem(STORAGE_KEY);
-        return false;
-    }
-}
-
-/* =========================================================
-   PRODUCT MAP
-========================================================= */
-
-function buildProductMap(){
-
-    productMap.clear();
-
-    productRows.slice(1).forEach(row => {
-
-        if(row && row[0]){
-            productMap.set(
-                cleanValue(row[0]),
-                row
-            );
-        }
-
-    });
-}
-
-function getProduct(id){
-
-    if(id === undefined || id === null) return null;
-
-    return productMap.get(cleanValue(id)) || null;
-}
-
-/* =========================================================
-   LOAD DATA
-   Category is loaded independently so product/subcategory
-   errors cannot hide the category list.
+   LOAD ALL DATA
 ========================================================= */
 
 async function loadData(){
 
+    console.log(
+        "Jyoti V35: Loading Google Sheet..."
+    );
+
+
+    const results =
+        await Promise.allSettled([
+
+            fetchCSV(categoryURL),
+
+            fetchCSV(subCategoryURL),
+
+            fetchCSV(productURL)
+
+        ]);
+
+
+    /* =====================================================
+       CATEGORY
+    ===================================================== */
+
     if(
-        dataLoaded &&
-        Date.now() - cacheTime < CACHE_DURATION
+        results[0].status === "fulfilled"
     ){
-        return;
-    }
 
-    /* Use fresh V23 cache only if available */
-    if(loadCache()){
-        return;
-    }
-
-    console.log("Jyoti V23: Loading Google Sheet data...");
-
-    /* CATEGORY - REQUIRED */
-    try{
-
-        let catCSV;
-
-        try {
-            catCSV = await fetchCSV(categoryURL);
-        }
-        catch(firstError) {
-            console.warn(
-                "Published CSV endpoint failed. Trying Google gviz fallback...",
-                firstError
+        categoryRows =
+            csvToArray(
+                results[0].value
             );
 
-            catCSV = await fetchCSV(categoryGvizURL);
-        }
-
-        categoryRows = csvToArray(catCSV);
 
         console.log(
-            "Category rows loaded:",
-            categoryRows.length,
+            "Categories:",
             categoryRows
         );
 
-        if(categoryRows.length < 2){
-            throw new Error("Category CSV contains no category rows");
-        }
-
     }
-    catch(error){
+    else{
 
         console.error(
-            "CATEGORY SHEET ERROR:",
-            error
+            "CATEGORY ERROR:",
+            results[0].reason
         );
 
-        categoryRows = [];
 
         throw new Error(
             "Category Sheet could not be loaded"
         );
+
     }
 
-    /* SUB CATEGORY - OPTIONAL */
-    try{
 
-        const subCSV = await fetchCSV(subCategoryURL);
+    /* =====================================================
+       SUB CATEGORY
+    ===================================================== */
 
-        subCategoryRows = csvToArray(subCSV);
+    if(
+        results[1].status === "fulfilled"
+    ){
+
+        subCategoryRows =
+            csvToArray(
+                results[1].value
+            );
+
 
         console.log(
-            "Sub-category rows loaded:",
-            subCategoryRows.length
+            "Sub Categories:",
+            subCategoryRows
         );
 
     }
-    catch(error){
+    else{
 
         console.warn(
-            "Sub-category Sheet error:",
-            error
+            "SUB CATEGORY ERROR:",
+            results[1].reason
         );
 
+
         subCategoryRows = [];
+
     }
 
-    /* PRODUCT - OPTIONAL ON HOME PAGE */
-    try{
 
-        const proCSV = await fetchCSV(productURL);
+    /* =====================================================
+       PRODUCTS
+    ===================================================== */
 
-        productRows = csvToArray(proCSV);
+    if(
+        results[2].status === "fulfilled"
+    ){
 
-        buildProductMap();
+        productRows =
+            csvToArray(
+                results[2].value
+            );
+
+
+        productMap.clear();
+
+
+        productRows
+            .slice(1)
+            .forEach(row => {
+
+                if(row && row[0]){
+
+                    productMap.set(
+                        clean(row[0]),
+                        row
+                    );
+
+                }
+
+            });
+
 
         console.log(
-            "Product rows loaded:",
+            "Products:",
             productRows.length
         );
 
     }
-    catch(error){
+    else{
 
         console.warn(
-            "Product Sheet error:",
-            error
+            "PRODUCT ERROR:",
+            results[2].reason
         );
 
+
         productRows = [];
+
         productMap.clear();
+
     }
 
-    dataLoaded = true;
-    cacheTime = Date.now();
 
-    saveCache();
+    console.log(
+        "Jyoti V35: Data Loaded Successfully"
+    );
 
-    console.log("Jyoti V23: Data ready.");
 }
+
 
 /* =========================================================
    CATEGORY LIST
 ========================================================= */
 
-async function loadCategories(){
+function loadCategories(){
 
-    const list = document.getElementById("categoryList");
+    const list =
+        document.getElementById(
+            "categoryList"
+        );
 
-    if(!list) return;
+
+    if(!list)
+        return;
+
 
     const html = [];
 
-    categoryRows.slice(1).forEach(row => {
 
-        if(!row || !row[0]) return;
+    /*
+       CATEGORY SHEET
 
-        const id = cleanValue(row[0]);
-        const name = cleanValue(row[1]);
-        const status = cleanValue(row[2]);
-        const image = cleanValue(row[3]) || "placeholder.webp";
+       A = ID
+       B = Category
+       C = Status
+       D = Images
+    */
 
-        if(!id || !name) return;
 
-        if(!isActive(status)) return;
+    categoryRows
+        .slice(1)
+        .forEach(row => {
 
-        html.push(`
-            <div
-                class="category-card"
-                onclick="openCategory('${escapeHTML(id)}')"
-            >
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(name)}"
-                    loading="lazy"
-                    decoding="async"
-                    onerror="this.src='placeholder.webp'"
+            const id =
+                clean(row[0]);
+
+            const name =
+                clean(row[1]);
+
+            const status =
+                clean(row[2]);
+
+            const image =
+                clean(row[3]) ||
+                "placeholder.webp";
+
+
+            if(!id || !name)
+                return;
+
+
+            if(!isActive(status))
+                return;
+
+
+            html.push(`
+
+                <div
+                    class="category-card"
+                    onclick="
+                        openCategory('${escapeHTML(id)}')
+                    "
                 >
 
-                <h3>${escapeHTML(name)}</h3>
-            </div>
-        `);
-    });
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                        decoding="async"
+                        onerror="
+                            this.src='placeholder.webp'
+                        "
+                    >
+
+                    <h3>
+                        ${escapeHTML(name)}
+                    </h3>
+
+                </div>
+
+            `);
+
+        });
+
 
     if(html.length === 0){
 
         list.innerHTML = `
+
             <div
-                class="empty-search"
-                style="grid-column:1/-1;text-align:center;padding:30px;"
+                style="
+                    grid-column:1/-1;
+                    text-align:center;
+                    padding:30px;
+                "
             >
-                <div class="empty-search-icon">📂</div>
-                <h3>Categories Not Found</h3>
-                <p>Please check your Google Sheet category data.</p>
+
+                <h3>
+                    No Categories Found
+                </h3>
+
             </div>
+
         `;
 
         return;
+
     }
 
-    list.innerHTML = html.join("");
 
-    console.log(
-        "Active categories displayed:",
-        html.length
-    );
+    list.innerHTML =
+        html.join("");
+
 }
 
+
 /* =========================================================
-   OPEN CATEGORY
+   CHECK ACTIVE SUB CATEGORY
+========================================================= */
+
+function hasActiveSub(categoryId){
+
+    return subCategoryRows
+        .slice(1)
+        .some(row => {
+
+            const parentId =
+                clean(row[1]);
+
+            const status =
+                clean(row[3]);
+
+
+            return (
+                parentId ===
+                clean(categoryId)
+                &&
+                isActive(status)
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   CATEGORY CLICK
 ========================================================= */
 
 function openCategory(id){
 
-    const categoryId = cleanValue(id);
+    id =
+        clean(id);
 
-    if(!categoryId) return;
 
-    const hasSubCategory =
-        subCategoryRows.slice(1).some(row => {
+    console.log(
+        "Category clicked:",
+        id
+    );
 
-            if(!row || !row[0]) return false;
 
-            const subId = cleanValue(row[0]);
-            const parentId = cleanValue(row[1]);
-            const status = cleanValue(row[3]);
+    if(
+        hasActiveSub(id)
+    ){
 
-            return (
-                subId &&
-                parentId === categoryId &&
-                isActive(status)
-            );
-        });
+        /*
+           Sub Category exists
+        */
 
-    if(hasSubCategory){
-
-        location.href =
+        window.location.href =
             "category.html?id=" +
-            encodeURIComponent(categoryId);
+            encodeURIComponent(id);
 
     }
     else{
 
-        location.href =
+        /*
+           No Sub Category
+           Direct Products
+        */
+
+        window.location.href =
             "products.html?category=" +
-            encodeURIComponent(categoryId);
+            encodeURIComponent(id);
+
     }
+
 }
+
 
 /* =========================================================
    SUB CATEGORY LIST
 ========================================================= */
 
-async function loadSubCategories(){
+function loadSubCategories(){
 
     const list =
-        document.getElementById("subCategoryList");
+        document.getElementById(
+            "subCategoryList"
+        );
 
-    if(!list) return;
+
+    if(!list)
+        return;
+
 
     const categoryId =
-        cleanValue(getParam("id"));
+        clean(
+            getParam("id")
+        );
+
 
     const html = [];
 
-    subCategoryRows.slice(1).forEach(row => {
 
-        if(!row || !row[0]) return;
+    console.log(
+        "Loading Sub Categories for:",
+        categoryId
+    );
 
-        const id = cleanValue(row[0]);
-        const parentId = cleanValue(row[1]);
-        const name = cleanValue(row[2]);
-        const status = cleanValue(row[3]);
-        const image = cleanValue(row[4]) || "placeholder.webp";
 
-        if(!id || !name) return;
+    /*
+       SUB CATEGORY SHEET
 
-        if(parentId !== categoryId) return;
+       A = ID
+       B = Category ID
+       C = Sub Category
+       D = Status
+       E = Images
+    */
 
-        if(!isActive(status)) return;
 
-        html.push(`
-            <div
-                class="category-card"
-                onclick="location.href='products.html?sub=${encodeURIComponent(id)}'"
-            >
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(name)}"
-                    loading="lazy"
-                    decoding="async"
-                    onerror="this.src='placeholder.webp'"
+    subCategoryRows
+        .slice(1)
+        .forEach(row => {
+
+            const id =
+                clean(row[0]);
+
+            const parentId =
+                clean(row[1]);
+
+            const name =
+                clean(row[2]);
+
+            const status =
+                clean(row[3]);
+
+            const image =
+                clean(row[4]) ||
+                "placeholder.webp";
+
+
+            if(!id || !name)
+                return;
+
+
+            if(
+                parentId !==
+                categoryId
+            )
+                return;
+
+
+            if(
+                !isActive(status)
+            )
+                return;
+
+
+            html.push(`
+
+                <div
+                    class="category-card"
+                    onclick="
+                        window.location.href=
+                        'products.html?sub=${encodeURIComponent(id)}'
+                    "
                 >
 
-                <h3>${escapeHTML(name)}</h3>
-            </div>
-        `);
-    });
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                        decoding="async"
+                        onerror="
+                            this.src='placeholder.webp'
+                        "
+                    >
+
+                    <h3>
+                        ${escapeHTML(name)}
+                    </h3>
+
+                </div>
+
+            `);
+
+        });
+
+
+    /*
+       Safety:
+       If no active sub category,
+       direct products.
+    */
 
     if(html.length === 0){
 
-        list.innerHTML = `
-            <div
-                class="empty-search"
-                style="grid-column:1/-1;text-align:center;padding:30px;"
-            >
-                <div class="empty-search-icon">📂</div>
-                <h3>No Sub Categories Found</h3>
-            </div>
-        `;
+        window.location.replace(
+            "products.html?category=" +
+            encodeURIComponent(categoryId)
+        );
 
         return;
+
     }
 
-    list.innerHTML = html.join("");
+
+    list.innerHTML =
+        html.join("");
+
 }
+
+
+/* =========================================================
+   GET PRODUCT
+========================================================= */
+
+function getProduct(id){
+
+    return (
+        productMap.get(
+            clean(id)
+        ) || null
+    );
+
+}
+
 
 /* =========================================================
    PRODUCT CARD
@@ -575,57 +762,125 @@ async function loadSubCategories(){
 
 function createProductCard(row){
 
-    const id = cleanValue(row[0]);
-    const product = cleanValue(row[3]);
-    const weight = cleanValue(row[4]);
-    const price = Number(cleanValue(row[5])) || 0;
-    const image = cleanValue(row[7]) || "placeholder.webp";
+    /*
+       PRODUCTS SHEET
 
-    const cartItem =
-        cart.find(item => cleanValue(item.id) === id);
+       A = ID
+       B = CategoryID
+       C = SubCategoryID
+       D = Product
+       E = Weight
+       F = Price
+       G = Status
+       H = Images
+    */
+
+
+    const id =
+        clean(row[0]);
+
+    const product =
+        clean(row[3]);
+
+    const weight =
+        clean(row[4]);
+
+    const price =
+        Number(row[5]) || 0;
+
+    const image =
+        clean(row[7]) ||
+        "placeholder.webp";
+
+
+    const item =
+        cart.find(
+            x =>
+            clean(x.id) === id
+        );
+
 
     const qty =
-        cartItem ? Number(cartItem.qty) : 0;
+        item
+        ? Number(item.qty)
+        : 0;
 
-    const actionHTML =
-        qty <= 0
-        ? `
-            <button
-                class="premium-add-btn"
-                onclick="addToCart('${escapeHTML(id)}')"
+
+    let action;
+
+
+    if(qty > 0){
+
+        action = `
+
+            <div
+                class="premium-quantity"
             >
-                <span class="add-symbol">+</span>
-                Add
-            </button>
-        `
-        : `
-            <div class="premium-quantity">
 
                 <button
                     class="premium-qty-btn"
-                    onclick="changeQty('${escapeHTML(id)}',-1)"
+                    onclick="
+                        changeQty('${escapeHTML(id)}',-1)
+                    "
                 >
                     −
                 </button>
 
-                <span class="premium-qty-number">
+                <span
+                    class="premium-qty-number"
+                >
                     ${qty}
                 </span>
 
                 <button
                     class="premium-qty-btn"
-                    onclick="changeQty('${escapeHTML(id)}',1)"
+                    onclick="
+                        changeQty('${escapeHTML(id)}',1)
+                    "
                 >
                     +
                 </button>
 
             </div>
+
         `;
 
-    return `
-        <article class="product-card premium-product-card">
+    }
+    else{
 
-            <div class="product-image-wrap">
+        action = `
+
+            <button
+                class="premium-add-btn"
+                onclick="
+                    addToCart('${escapeHTML(id)}')
+                "
+            >
+
+                <span
+                    class="add-symbol"
+                >
+                    +
+                </span>
+
+                Add
+
+            </button>
+
+        `;
+
+    }
+
+
+    return `
+
+        <article
+            class="product-card premium-product-card"
+        >
+
+            <div
+                class="product-image-wrap"
+            >
 
                 <img
                     class="group-product-image"
@@ -633,142 +888,295 @@ function createProductCard(row){
                     alt="${escapeHTML(product)}"
                     loading="lazy"
                     decoding="async"
-                    onclick="openImage('${escapeHTML(image)}')"
-                    onerror="this.src='placeholder.webp'"
+                    onclick="
+                        openImage('${escapeHTML(image)}')
+                    "
+                    onerror="
+                        this.src='placeholder.webp'
+                    "
                 >
 
             </div>
 
-            <div class="product-info">
 
-                <div class="product-category-label">
+            <div
+                class="product-info"
+            >
+
+                <div
+                    class="product-category-label"
+                >
                     JYOTI GRUH UDHYOG
                 </div>
 
-                <h3 class="grouped-product-name">
+
+                <h3
+                    class="grouped-product-name"
+                >
                     ${escapeHTML(product)}
                 </h3>
 
-                <div class="product-meta">
 
-                    <span class="product-weight">
+                <div
+                    class="product-meta"
+                >
+
+                    <span
+                        class="product-weight"
+                    >
                         ${escapeHTML(weight)}
                     </span>
 
-                    <span class="product-dot">•</span>
 
-                    <span class="product-price">
+                    <span
+                        class="product-dot"
+                    >
+                        •
+                    </span>
+
+
+                    <span
+                        class="product-price"
+                    >
                         ₹${price}
                     </span>
 
                 </div>
 
+
                 <div
                     class="product-action"
                     id="cart-${escapeHTML(id)}"
                 >
-                    ${actionHTML}
+
+                    ${action}
+
                 </div>
 
             </div>
 
         </article>
+
     `;
+
 }
 
+
 /* =========================================================
-   PRODUCTS
+   LOAD PRODUCTS
 ========================================================= */
 
-async function loadProducts(searchText = ""){
+function loadProducts(
+    searchText = ""
+){
 
     const list =
-        document.getElementById("productList");
+        document.getElementById(
+            "productList"
+        );
 
-    if(!list) return;
 
-    const subId = getParam("sub");
-    const categoryId = getParam("category");
-    const urlSearch = getParam("search");
+    if(!list)
+        return;
+
+
+    const subId =
+        clean(
+            getParam("sub")
+        );
+
+
+    const categoryId =
+        clean(
+            getParam("category")
+        );
+
 
     const search =
-        String(
-            searchText || urlSearch || ""
-        ).trim().toLowerCase();
+        clean(
+            searchText ||
+            getParam("search")
+        )
+        .toLowerCase();
+
 
     const html = [];
-    let totalProducts = 0;
 
-    productRows.slice(1).forEach(row => {
 
-        if(!row || !row[0]) return;
+    /*
+       PRODUCTS SHEET
 
-        const id = cleanValue(row[0]);
-        const categoryIdRow = cleanValue(row[1]);
-        const subCategoryIdRow = cleanValue(row[2]);
-        const product = cleanValue(row[3]);
-        const weight = cleanValue(row[4]);
-        const status = cleanValue(row[6]);
+       B = Category ID
+       C = Sub Category ID
+       G = Status
+    */
 
-        if(!isActive(status)) return;
 
-        if(
-            subId &&
-            subCategoryIdRow !== cleanValue(subId)
-        ){
-            return;
-        }
+    productRows
+        .slice(1)
+        .forEach(row => {
 
-        if(
-            categoryId &&
-            !subId &&
-            categoryIdRow !== cleanValue(categoryId)
-        ){
-            return;
-        }
-
-        if(search){
-
-            const searchable =
-                (product + " " + weight)
-                .toLowerCase();
-
-            if(!searchable.includes(search)){
+            if(
+                !row ||
+                !row[0]
+            )
                 return;
+
+
+            const rowCategory =
+                clean(row[1]);
+
+
+            const rowSubCategory =
+                clean(row[2]);
+
+
+            const product =
+                clean(row[3]);
+
+
+            const weight =
+                clean(row[4]);
+
+
+            const status =
+                clean(row[6]);
+
+
+            if(
+                !isActive(status)
+            )
+                return;
+
+
+            /*
+               Sub Category filter
+            */
+
+            if(subId){
+
+                if(
+                    rowSubCategory !==
+                    subId
+                ){
+
+                    return;
+
+                }
+
             }
-        }
 
-        totalProducts++;
 
-        html.push(
-            createProductCard(row)
-        );
-    });
+            /*
+               Direct Category filter
+            */
 
-    list.innerHTML =
-        html.length
-        ? html.join("")
-        : `
-            <div class="empty-search">
-                <div class="empty-search-icon">🔍</div>
-                <h3>No Products Found</h3>
-                <p>Try another product name.</p>
+            else if(categoryId){
+
+                if(
+                    rowCategory !==
+                    categoryId
+                ){
+
+                    return;
+
+                }
+
+            }
+
+
+            /*
+               Search filter
+            */
+
+            if(search){
+
+                const text =
+                    (
+                        product +
+                        " " +
+                        weight
+                    )
+                    .toLowerCase();
+
+
+                if(
+                    !text.includes(search)
+                ){
+
+                    return;
+
+                }
+
+            }
+
+
+            html.push(
+                createProductCard(row)
+            );
+
+        });
+
+
+    if(html.length){
+
+        list.innerHTML =
+            html.join("");
+
+    }
+    else{
+
+        list.innerHTML = `
+
+            <div
+                class="empty-search"
+            >
+
+                <div
+                    class="empty-search-icon"
+                >
+                    🔍
+                </div>
+
+                <h3>
+                    No Products Found
+                </h3>
+
+                <p>
+                    No products available.
+                </p>
+
             </div>
+
         `;
 
+    }
+
+
     const heading =
-        document.querySelector(".section-title");
+        document.querySelector(
+            ".section-title"
+        );
+
 
     if(heading){
 
         heading.innerHTML = `
+
             🛍️ All Products
-            <span class="product-count">
-                ${totalProducts}
+
+            <span
+                class="product-count"
+            >
+                ${html.length}
             </span>
+
         `;
+
     }
+
 }
+
 
 /* =========================================================
    SEARCH
@@ -777,153 +1185,286 @@ async function loadProducts(searchText = ""){
 function initSearch(){
 
     const searchBox =
-        document.getElementById("searchBox");
+        document.getElementById(
+            "searchBox"
+        );
 
-    if(!searchBox) return;
+
+    if(!searchBox)
+        return;
+
 
     let timer;
+
 
     searchBox.addEventListener(
         "input",
         function(){
 
-            const text =
-                this.value.trim();
-
             clearTimeout(timer);
 
-            timer = setTimeout(() => {
 
-                const productList =
-                    document.getElementById("productList");
+            timer =
+                setTimeout(
+                    () => {
 
-                const categoryList =
-                    document.getElementById("categoryList");
+                        if(
+                            document.getElementById(
+                                "productList"
+                            )
+                        ){
 
-                if(productList){
+                            loadProducts(
+                                searchBox.value
+                            );
 
-                    loadProducts(text);
+                        }
+                        else if(
+                            searchBox.value
+                                .trim()
+                                .length >= 2
+                        ){
 
-                }
-                else if(
-                    categoryList &&
-                    text.length >= 2
-                ){
+                            window.location.href =
+                                "products.html?search=" +
+                                encodeURIComponent(
+                                    searchBox.value.trim()
+                                );
 
-                    location.href =
-                        "products.html?search=" +
-                        encodeURIComponent(text);
-                }
+                        }
 
-            }, 200);
+                    },
+                    200
+                );
+
         }
     );
+
 }
 
+
 /* =========================================================
-   CART
+   CART BUTTON
+========================================================= */
+
+function updateCartButton(){
+
+    const button =
+        document.getElementById(
+            "viewCartBtn"
+        );
+
+
+    const count =
+        document.getElementById(
+            "cartCount"
+        );
+
+
+    if(!button || !count)
+        return;
+
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+                sum +
+                Number(item.qty || 0),
+            0
+        );
+
+
+    button.style.display =
+        total > 0
+        ? "flex"
+        : "none";
+
+
+    count.textContent =
+        total;
+
+}
+
+
+/* =========================================================
+   ADD CART
 ========================================================= */
 
 function addToCart(id){
 
-    const cleanId = cleanValue(id);
+    id =
+        clean(id);
+
 
     const item =
         cart.find(
-            p => cleanValue(p.id) === cleanId
+            p =>
+            clean(p.id) === id
         );
 
+
     if(item){
-        item.qty = Number(item.qty || 0) + 1;
+
+        item.qty =
+            Number(item.qty || 0) + 1;
+
     }
     else{
+
         cart.push({
-            id: cleanId,
-            qty: 1
+
+            id:id,
+
+            qty:1
+
         });
+
     }
 
+
     saveCart();
+
     updateCartButton();
-    updateProductAction(cleanId);
+
+    updateProductAction(id);
+
 }
+
+
+/* =========================================================
+   UPDATE PRODUCT BUTTON
+========================================================= */
 
 function updateProductAction(id){
 
-    const cleanId = cleanValue(id);
+    id =
+        clean(id);
 
-    const container =
+
+    const box =
         document.getElementById(
-            `cart-${cleanId}`
+            "cart-" + id
         );
 
-    if(!container) return;
+
+    if(!box)
+        return;
+
 
     const item =
         cart.find(
-            p => cleanValue(p.id) === cleanId
+            p =>
+            clean(p.id) === id
         );
 
+
     const qty =
-        item ? Number(item.qty) : 0;
+        item
+        ? Number(item.qty)
+        : 0;
+
 
     if(qty <= 0){
 
-        container.innerHTML = `
+        box.innerHTML = `
+
             <button
                 class="premium-add-btn"
-                onclick="addToCart('${escapeHTML(cleanId)}')"
+                onclick="
+                    addToCart('${escapeHTML(id)}')
+                "
             >
-                <span class="add-symbol">+</span>
+
+                <span
+                    class="add-symbol"
+                >
+                    +
+                </span>
+
                 Add
+
             </button>
+
         `;
 
         return;
+
     }
 
-    container.innerHTML = `
-        <div class="premium-quantity">
+
+    box.innerHTML = `
+
+        <div
+            class="premium-quantity"
+        >
 
             <button
                 class="premium-qty-btn"
-                onclick="changeQty('${escapeHTML(cleanId)}',-1)"
+                onclick="
+                    changeQty('${escapeHTML(id)}',-1)
+                "
             >
                 −
             </button>
 
-            <span class="premium-qty-number">
+
+            <span
+                class="premium-qty-number"
+            >
                 ${qty}
             </span>
 
+
             <button
                 class="premium-qty-btn"
-                onclick="changeQty('${escapeHTML(cleanId)}',1)"
+                onclick="
+                    changeQty('${escapeHTML(id)}',1)
+                "
             >
                 +
             </button>
 
         </div>
+
     `;
+
 }
 
-function changeQty(id, change){
 
-    const cleanId = cleanValue(id);
+/* =========================================================
+   CHANGE QTY
+========================================================= */
+
+function changeQty(
+    id,
+    change
+){
+
+    id =
+        clean(id);
+
 
     const item =
         cart.find(
-            p => cleanValue(p.id) === cleanId
+            p =>
+            clean(p.id) === id
         );
+
 
     if(!item){
 
-        if(Number(change) > 0){
+        if(
+            Number(change) > 0
+        ){
 
             cart.push({
-                id: cleanId,
-                qty: 1
+
+                id:id,
+
+                qty:1
+
             });
+
         }
 
     }
@@ -933,91 +1474,90 @@ function changeQty(id, change){
             Number(item.qty || 0) +
             Number(change);
 
-        if(item.qty <= 0){
+
+        if(
+            item.qty <= 0
+        ){
 
             cart =
                 cart.filter(
                     p =>
-                    cleanValue(p.id) !== cleanId
+                    clean(p.id) !== id
                 );
+
         }
+
     }
 
+
     saveCart();
+
     updateCartButton();
-    updateProductAction(cleanId);
+
+    updateProductAction(id);
+
     loadCart();
+
 }
+
+
+/* =========================================================
+   REMOVE CART
+========================================================= */
 
 function removeCartItem(id){
 
-    const cleanId = cleanValue(id);
+    id =
+        clean(id);
+
 
     cart =
         cart.filter(
-            item =>
-            cleanValue(item.id) !== cleanId
+            p =>
+            clean(p.id) !== id
         );
 
+
     saveCart();
+
     updateCartButton();
 
     loadProducts();
+
     loadCart();
+
 }
 
-/* =========================================================
-   FLOATING CART
-========================================================= */
-
-function updateCartButton(){
-
-    const button =
-        document.getElementById("viewCartBtn");
-
-    const count =
-        document.getElementById("cartCount");
-
-    if(!button || !count) return;
-
-    const total =
-        cart.reduce(
-            (sum, item) =>
-                sum + Number(item.qty || 0),
-            0
-        );
-
-    if(total <= 0){
-
-        button.style.display = "none";
-        count.textContent = "0";
-
-    }
-    else{
-
-        button.style.display = "flex";
-        count.textContent = total;
-
-    }
-}
 
 /* =========================================================
    CART PAGE
 ========================================================= */
 
-async function loadCart(){
+function loadCart(){
 
     const list =
-        document.getElementById("cartList");
+        document.getElementById(
+            "cartList"
+        );
 
-    if(!list) return;
 
-    if(cart.length === 0){
+    if(!list)
+        return;
+
+
+    if(
+        cart.length === 0
+    ){
 
         list.innerHTML = `
-            <div class="empty-cart">
 
-                <div class="empty-cart-icon">
+            <div
+                class="empty-cart"
+            >
+
+                <div
+                    class="empty-cart-icon"
+                >
                     🛒
                 </div>
 
@@ -1030,127 +1570,210 @@ async function loadCart(){
                 </p>
 
             </div>
+
         `;
 
         updateCartButton();
+
         return;
+
     }
 
-    let html = [];
-    let grandTotal = 0;
 
-    cart.forEach(item => {
+    let total = 0;
 
-        const row =
-            getProduct(item.id);
+    const html = [];
 
-        if(!row) return;
 
-        const product = cleanValue(row[3]);
-        const weight = cleanValue(row[4]);
-        const price = Number(cleanValue(row[5])) || 0;
-        const image = cleanValue(row[7]) || "placeholder.webp";
-        const qty = Number(item.qty) || 0;
+    cart.forEach(
+        item => {
 
-        const total = price * qty;
+            const row =
+                getProduct(item.id);
 
-        grandTotal += total;
 
-        html.push(`
-            <div class="cart-item">
+            if(!row)
+                return;
 
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="${escapeHTML(product)}"
-                    loading="lazy"
-                    onerror="this.src='placeholder.webp'"
+
+            const product =
+                clean(row[3]);
+
+            const weight =
+                clean(row[4]);
+
+            const price =
+                Number(row[5]) || 0;
+
+            const image =
+                clean(row[7]) ||
+                "placeholder.webp";
+
+            const qty =
+                Number(item.qty) || 0;
+
+            const itemTotal =
+                price * qty;
+
+
+            total +=
+                itemTotal;
+
+
+            html.push(`
+
+                <div
+                    class="cart-item"
                 >
 
-                <div class="cart-info">
-
-                    <h3>
-                        ${escapeHTML(product)}
-                    </h3>
-
-                    <p>
-                        ${escapeHTML(weight)}
-                    </p>
-
-                    <div class="cart-price">
-                        ₹${price} × ${qty} = ₹${total}
-                    </div>
-
-                    <div class="qty-box">
-
-                        <button
-                            class="qty-btn"
-                            onclick="changeQty('${escapeHTML(item.id)}',-1)"
-                        >
-                            −
-                        </button>
-
-                        <span class="qty-number">
-                            ${qty}
-                        </span>
-
-                        <button
-                            class="qty-btn"
-                            onclick="changeQty('${escapeHTML(item.id)}',1)"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                    <button
-                        class="remove-btn"
-                        onclick="removeCartItem('${escapeHTML(item.id)}')"
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(product)}"
+                        onerror="
+                            this.src='placeholder.webp'
+                        "
                     >
-                        🗑 Remove
-                    </button>
+
+
+                    <div
+                        class="cart-info"
+                    >
+
+                        <h3>
+                            ${escapeHTML(product)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(weight)}
+                        </p>
+
+                        <div
+                            class="cart-price"
+                        >
+                            ₹${price}
+                            ×
+                            ${qty}
+                            =
+                            ₹${itemTotal}
+                        </div>
+
+
+                        <div
+                            class="qty-box"
+                        >
+
+                            <button
+                                class="qty-btn"
+                                onclick="
+                                    changeQty(
+                                        '${escapeHTML(item.id)}',
+                                        -1
+                                    )
+                                "
+                            >
+                                −
+                            </button>
+
+
+                            <span
+                                class="qty-number"
+                            >
+                                ${qty}
+                            </span>
+
+
+                            <button
+                                class="qty-btn"
+                                onclick="
+                                    changeQty(
+                                        '${escapeHTML(item.id)}',
+                                        1
+                                    )
+                                "
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            class="remove-btn"
+                            onclick="
+                                removeCartItem(
+                                    '${escapeHTML(item.id)}'
+                                )
+                            "
+                        >
+                            🗑 Remove
+                        </button>
+
+                    </div>
 
                 </div>
-            </div>
-        `);
-    });
+
+            `);
+
+        }
+    );
+
 
     html.push(`
-        <div class="cart-total">
+
+        <div
+            class="cart-total"
+        >
 
             <h2>
                 Grand Total
             </h2>
 
-            <div class="total-price">
-                ₹${grandTotal}
+
+            <div
+                class="total-price"
+            >
+                ₹${total}
             </div>
+
 
             <button
                 class="whatsapp-btn"
-                onclick="orderWhatsApp()"
+                onclick="
+                    orderWhatsApp()
+                "
             >
                 📲 Order on WhatsApp
             </button>
 
         </div>
+
     `);
 
-    list.innerHTML = html.join("");
+
+    list.innerHTML =
+        html.join("");
+
 
     updateCartButton();
+
 }
 
+
 /* =========================================================
-   WHATSAPP ORDER
+   WHATSAPP
 ========================================================= */
 
 async function orderWhatsApp(){
 
     await loadData();
 
-    if(cart.length === 0) return;
 
-    let grandTotal = 0;
+    if(!cart.length)
+        return;
+
+
+    let total = 0;
+
 
     let message =
 `🛒 *Jyoti Gruh Udhyog*
@@ -1159,50 +1782,81 @@ async function orderWhatsApp(){
 
 `;
 
-    cart.forEach(item => {
 
-        const row =
-            getProduct(item.id);
+    cart.forEach(
+        item => {
 
-        if(!row) return;
+            const row =
+                getProduct(item.id);
 
-        const product = cleanValue(row[3]);
-        const weight = cleanValue(row[4]);
-        const price = Number(cleanValue(row[5])) || 0;
-        const qty = Number(item.qty) || 0;
-        const total = price * qty;
 
-        grandTotal += total;
+            if(!row)
+                return;
 
-        message +=
+
+            const product =
+                clean(row[3]);
+
+            const weight =
+                clean(row[4]);
+
+            const price =
+                Number(row[5]) || 0;
+
+            const qty =
+                Number(item.qty) || 0;
+
+
+            const itemTotal =
+                price * qty;
+
+
+            total +=
+                itemTotal;
+
+
+            message +=
 `📦 ${product}
 ⚖️ ${weight}
-💰 ₹${price} × ${qty} = ₹${total}
+💰 ₹${price} × ${qty} = ₹${itemTotal}
 
 `;
-    });
+
+        }
+    );
+
 
     message +=
-`💵 *Total: ₹${grandTotal}*
+`💵 *Total: ₹${total}*
 
 🙏 આભાર`;
 
-    const whatsappURL =
-        `https://wa.me/919712149344?text=` +
-        encodeURIComponent(message);
+
+    const url =
+        "https://wa.me/919712149344?text=" +
+        encodeURIComponent(
+            message
+        );
+
 
     window.open(
-        whatsappURL,
+        url,
         "_blank"
     );
+
 
     cart = [];
 
     saveCart();
+
     updateCartButton();
+
     loadCart();
+
     loadProducts();
+
 }
+
 
 /* =========================================================
    IMAGE ZOOM
@@ -1211,49 +1865,66 @@ async function orderWhatsApp(){
 function openImage(src){
 
     const modal =
-        document.getElementById("imageModal");
+        document.getElementById(
+            "imageModal"
+        );
+
 
     const image =
-        document.getElementById("zoomImage");
+        document.getElementById(
+            "zoomImage"
+        );
 
-    if(!modal || !image) return;
 
-    image.src = src;
+    if(!modal || !image)
+        return;
 
-    modal.classList.add("show");
+
+    image.src =
+        src;
+
+
+    modal.classList.add(
+        "show"
+    );
+
 }
+
 
 function closeImage(){
 
     const modal =
-        document.getElementById("imageModal");
+        document.getElementById(
+            "imageModal"
+        );
 
-    if(!modal) return;
 
-    modal.classList.remove("show");
+    if(modal){
+
+        modal.classList.remove(
+            "show"
+        );
+
+    }
+
 }
+
 
 document.addEventListener(
     "keydown",
-    event => {
+    function(event){
 
-        if(event.key === "Escape"){
+        if(
+            event.key === "Escape"
+        ){
+
             closeImage();
+
         }
 
     }
 );
 
-/* =========================================================
-   V24 CACHE RESET
-========================================================= */
-
-try {
-    localStorage.removeItem("jyoti_data_cache_v23");
-    localStorage.removeItem("jyoti_data_cache_v22");
-} catch(error) {
-    console.warn("Old cache cleanup failed:", error);
-}
 
 /* =========================================================
    INITIALIZE
@@ -1262,43 +1933,51 @@ try {
 async function initializePage(){
 
     console.log(
-        "Jyoti Gruh Udhyog API V24 starting..."
+        "Jyoti Gruh Udhyog V35 starting..."
     );
+
 
     try{
 
         await loadData();
 
-        /* Category is always rendered if categoryList exists */
-        await loadCategories();
 
-        /* These functions safely do nothing on pages
-           where their containers do not exist */
-        await loadSubCategories();
-        await loadProducts();
-        await loadCart();
+        loadCategories();
+
+        loadSubCategories();
+
+        loadProducts();
+
+        loadCart();
 
         updateCartButton();
+
         initSearch();
 
+
         console.log(
-            "Jyoti Gruh Udhyog API V24 READY"
+            "Jyoti V35 READY"
         );
 
     }
     catch(error){
 
         console.error(
-            "Jyoti Gruh Udhyog V24 ERROR:",
+            "Jyoti V35 ERROR:",
             error
         );
 
+
         const categoryList =
-            document.getElementById("categoryList");
+            document.getElementById(
+                "categoryList"
+            );
+
 
         if(categoryList){
 
             categoryList.innerHTML = `
+
                 <div
                     style="
                         grid-column:1/-1;
@@ -1322,40 +2001,49 @@ async function initializePage(){
                     </p>
 
                 </div>
+
             `;
+
         }
 
+
         const productList =
-            document.getElementById("productList");
+            document.getElementById(
+                "productList"
+            );
+
 
         if(productList){
 
             productList.innerHTML = `
-                <div class="empty-search">
 
-                    <div class="empty-search-icon">
-                        ⚠️
-                    </div>
+                <div
+                    class="empty-search"
+                >
 
                     <h3>
                         Products Could Not Be Loaded
                     </h3>
 
-                    <p>
-                        Please refresh the page.
-                    </p>
-
                 </div>
+
             `;
+
         }
+
     }
+
 }
+
 
 /* =========================================================
    DOM READY
 ========================================================= */
 
-if(document.readyState === "loading"){
+if(
+    document.readyState ===
+    "loading"
+){
 
     document.addEventListener(
         "DOMContentLoaded",
@@ -1369,31 +2057,45 @@ else{
 
 }
 
+
 /* =========================================================
    PAGE SHOW
 ========================================================= */
 
 window.addEventListener(
     "pageshow",
-    () => {
+    function(){
 
         cart =
             JSON.parse(
-                localStorage.getItem("cart") || "[]"
+                localStorage.getItem(
+                    "cart"
+                ) || "[]"
             );
+
 
         updateCartButton();
 
-        if(
-            document.getElementById("productList")
-        ){
-            loadProducts();
-        }
 
         if(
-            document.getElementById("cartList")
+            document.getElementById(
+                "productList"
+            )
         ){
+
+            loadProducts();
+
+        }
+
+
+        if(
+            document.getElementById(
+                "cartList"
+            )
+        ){
+
             loadCart();
+
         }
 
     }
